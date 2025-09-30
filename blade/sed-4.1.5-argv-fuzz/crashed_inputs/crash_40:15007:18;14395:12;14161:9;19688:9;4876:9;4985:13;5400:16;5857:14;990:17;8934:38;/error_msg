@@ -1,0 +1,28 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==874904==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b040001ed30 (pc 0x556121e22c3a bp 0x7fff378ceae0 sp 0x7fff378cea20 T874904)
+==874904==The signal is caused by a READ memory access.
+    #0 create_cd_newstate /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8934:38 (reduced.tsan.out+0xd5c3a) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #1 re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8706:15 (reduced.tsan.out+0xd596f) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #2 build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18602:26 (reduced.tsan.out+0xd50fd) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #3 transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15 (reduced.tsan.out+0xd4e82) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #4 check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17 (reduced.tsan.out+0xd494b) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #5 re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18 (reduced.tsan.out+0xd3f24) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #6 re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12 (reduced.tsan.out+0xd0bde) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #7 re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9 (reduced.tsan.out+0xd0a10) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #8 match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9 (reduced.tsan.out+0xd0f68) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #9 match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9 (reduced.tsan.out+0xd37a4) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #10 match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4985:13 (reduced.tsan.out+0xd2f2d) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #11 execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16 (reduced.tsan.out+0xcf827) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #12 process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14 (reduced.tsan.out+0xcf528) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #13 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17 (reduced.tsan.out+0xcdd94) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #14 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #15 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #16 _start <null> (reduced.tsan.out+0x21404) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8934:38 in create_cd_newstate
+==874904==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 874903 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

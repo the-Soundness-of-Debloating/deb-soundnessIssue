@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+sed: invalid option -- 'ó'
+sed-4.1.5.c.reduced.c:3773:31: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:3773:31 in 
+sed-4.1.5.c.reduced.c:3773:21: runtime error: load of null pointer of type 'const char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:3773:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3789144==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x557bbbb47edc bp 0x7ffff9114b30 sp 0x7ffff9114af0 T3789144)
+==3789144==The signal is caused by a READ memory access.
+==3789144==Hint: address points to the zero page.
+    #0 0x557bbbb47edc in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7
+    #1 0x557bbbb4773c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #2 0x7f6bdcf08d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f6bdcf08e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x557bbbb1f584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x27584) (BuildId: a45f247bf51f8303cc4c24c618c67dc4dcba60f3)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7 in compile_file
+==3789144==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3789141 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

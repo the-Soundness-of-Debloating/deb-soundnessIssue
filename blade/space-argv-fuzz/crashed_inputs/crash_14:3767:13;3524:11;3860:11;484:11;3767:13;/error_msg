@@ -1,0 +1,36 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2086368==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x558646a2aba5 bp 0x7ffd28d7c530 sp 0x7ffd28d7c340 T2086368)
+==2086368==The signal is caused by a WRITE memory access.
+==2086368==Hint: address points to the zero page.
+    #0 griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13 (reduced.tsan.out+0xd0ba5) (BuildId: 149f14fb5c8fae79d1af95ccd60ec6e0bc4dd727)
+    #1 greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3524:11 (reduced.tsan.out+0xd027c) (BuildId: 149f14fb5c8fae79d1af95ccd60ec6e0bc4dd727)
+    #2 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3860:11 (reduced.tsan.out+0xd0dfd) (BuildId: 149f14fb5c8fae79d1af95ccd60ec6e0bc4dd727)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:484:11 (reduced.tsan.out+0xcca7c) (BuildId: 149f14fb5c8fae79d1af95ccd60ec6e0bc4dd727)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x203b4) (BuildId: 149f14fb5c8fae79d1af95ccd60ec6e0bc4dd727)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13 in griddef1
+==2086368==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2086367 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2120420==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56278f276261 bp 0x7ffec0f67410 sp 0x7ffec0f672d0 T0)
+==2120420==The signal is caused by a WRITE memory access.
+==2120420==Hint: address points to the zero page.
+    #0 0x56278f276261 in griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13
+    #1 0x56278f275cfe in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3524:11
+    #2 0x56278f27637a in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #3 0x56278f273e92 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:484:11
+    #4 0x7f8007d1dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f8007d1de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x56278f246484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.lsan.out+0x6484) (BuildId: c2ef1b20e2741ee9a440bcc75a7c2a829cde01b9)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13 in griddef1
+==2120420==ABORTING

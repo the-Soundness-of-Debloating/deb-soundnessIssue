@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.ubsan.out
+space.c.reduced.c:3767:3: runtime error: store to null pointer of type 'struct Grid *'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3767:3 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2014280==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5644a5ad72c0 bp 0x7fffbe4cbca0 sp 0x7fffbe4cbac0 T2014280)
+==2014280==The signal is caused by a WRITE memory access.
+==2014280==Hint: address points to the zero page.
+    #0 0x5644a5ad72c0 in griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13
+    #1 0x5644a5ad6031 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3524:11
+    #2 0x5644a5ad76fa in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #3 0x5644a5acd64e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:484:11
+    #4 0x7fe0856e9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fe0856e9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5644a5aa5474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.ubsan.out+0x12474) (BuildId: 6f468d92af6576f459726316dcfd2e27555f7ef9)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:3767:13 in griddef1
+==2014280==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2014279 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

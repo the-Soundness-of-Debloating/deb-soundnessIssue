@@ -1,0 +1,72 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==862817==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fd77a7a4ebc bp 0x7ffd2949b5d0 sp 0x7ffd2949ad88 T0)
+==862817==The signal is caused by a READ memory access.
+==862817==Hint: address points to the zero page.
+    #0 0x7fd77a7a4ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55953b6fa429 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x37429) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+    #2 0x55953b7a32a4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:894:15
+    #3 0x7fd77a61cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fd77a61ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55953b6e33b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==862817==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 862816 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==866284==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fa9d7105ebc bp 0x7fffe9310080 sp 0x7fffe930ffb8 T866284)
+==866284==The signal is caused by a READ memory access.
+==866284==Hint: address points to the zero page.
+    #0 0x7fa9d7105ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x556435dc2723 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:894:15
+    #2 0x7fa9d6f7dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fa9d6f7de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x556435d9a544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x11544) (BuildId: 39ffc9a9be654c06c45d2f049631e09a3527027f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==866284==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 866283 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==870392==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f83c22c0ebc bp 0x7ffe54b0c0c0 sp 0x7ffe54b0c088 T870392)
+==870392==The signal is caused by a READ memory access.
+==870392==Hint: address points to the zero page.
+    #0 0x7f83c22c0ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5592662564a2 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x544a2) (BuildId: 26d93ddfe8d0166df273c1d282e796f99a66948c)
+    #2 0x5592662a824e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:894:15
+    #3 0x7f83c2138d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f83c2138e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x559266221374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f374) (BuildId: 26d93ddfe8d0166df273c1d282e796f99a66948c)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==870392==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 870387 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==873903==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f67905ffebc bp 0x7ffdd7142d40 sp 0x7ffdd7142c18 T873903)
+==873903==The signal is caused by a READ memory access.
+==873903==Hint: address points to the zero page.
+    #0 <null> <null> (libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 strlen <null> (reduced.tsan.out+0x56832) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:894:15 (reduced.tsan.out+0xcdb60) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x21404) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==873903==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 873902 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

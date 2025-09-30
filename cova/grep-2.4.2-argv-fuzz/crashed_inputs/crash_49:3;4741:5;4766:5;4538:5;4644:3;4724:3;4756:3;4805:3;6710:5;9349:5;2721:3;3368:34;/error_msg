@@ -1,0 +1,66 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1157393==ERROR: AddressSanitizer: global-buffer-overflow on address 0x564ee9c62c20 at pc 0x564ee9282a24 bp 0x7ffe027f2070 sp 0x7ffe027f2068
+READ of size 1 at 0x564ee9c62c20 thread T0
+    #0 0x564ee9282a23 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34
+    #1 0x564ee92b75b4 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13
+    #2 0x564ee92b736c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #3 0x564ee92b7348 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #4 0x564ee9285bb9 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4766:5
+    #5 0x564ee92b7748 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4538:5
+    #6 0x564ee92b736c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #7 0x564ee92b72f8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4724:3
+    #8 0x564ee9285b8f in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #9 0x564ee92b7748 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4538:5
+    #10 0x564ee92b736c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #11 0x564ee92b7348 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #12 0x564ee9285bb9 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4766:5
+    #13 0x564ee92b7748 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4538:5
+    #14 0x564ee92b736c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #15 0x564ee92b72f8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4724:3
+    #16 0x564ee9285b8f in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #17 0x564ee92826f4 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #18 0x564ee9295c06 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6710:5
+    #19 0x564ee92a1492 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #20 0x564ee9281aa6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #21 0x7f1adbf31d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #22 0x7f1adbf31e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #23 0x564ee91c03f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x223f4) (BuildId: 50072aebbebd9db6462b305f603287d161ab2ba8)
+
+0x564ee9c62c20 is located 0 bytes to the right of global variable 'afl_init_argv.in_buf' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./argv-fuzz-inl.h:50' (0x564ee9c4a580) of size 100000
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34 in lex
+Shadow bytes around the buggy address:
+  0x0aca5d384530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca5d384540: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca5d384550: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca5d384560: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca5d384570: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0aca5d384580: 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aca5d384590: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aca5d3845a0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aca5d3845b0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aca5d3845c0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aca5d3845d0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1157393==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1157392 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

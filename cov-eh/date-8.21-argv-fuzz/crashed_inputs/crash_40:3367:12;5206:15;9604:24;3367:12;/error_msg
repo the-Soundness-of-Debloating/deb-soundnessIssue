@@ -1,0 +1,47 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.msan.out
+==3261347==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56297c470c03 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12
+    #1 0x56297c47ced4 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15
+    #2 0x56297c48bd18 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24
+    #3 0x7fd2476aad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fd2476aae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x56297c3e33c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 1fdf53c252335693bfcb5f09b9e7aa516f1580f8)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12 in yyparse
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3261345 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2693054==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000002 (pc 0x559036c9e718 bp 0x7fffc8709400 sp 0x7fffc8708770 T2693054)
+==2693054==The signal is caused by a WRITE memory access.
+==2693054==Hint: address points to the zero page.
+    #0 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12 (reduced.tsan.out+0xd0718) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #1 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15 (reduced.tsan.out+0xd3c51) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24 (reduced.tsan.out+0xd74dc) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x22474) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12 in yyparse
+==2693054==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2693053 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1134074==ERROR: LeakSanitizer: SEGV on unknown address 0x7fb4d89ca602 (pc 0x564fc27fbec3 bp 0x7ffc1072ced0 sp 0x7ffc1072c580 T0)
+==1134074==The signal is caused by a WRITE memory access.
+    #0 0x564fc27fbec3 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12
+    #1 0x564fc27fe0d9 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15
+    #2 0x564fc2800bfd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24
+    #3 0x7fb4d8918d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fb4d8918e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x564fc27cd624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x6624) (BuildId: 2ac7f6bc8e5632558d21d28dd8d684b12a59b7c9)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3367:12 in yyparse
+==1134074==ABORTING

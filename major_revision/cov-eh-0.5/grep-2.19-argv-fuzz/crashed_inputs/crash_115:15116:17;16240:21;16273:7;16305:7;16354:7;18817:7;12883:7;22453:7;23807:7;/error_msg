@@ -1,0 +1,20 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out
+==1348168==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55b63fddcb77 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17
+    #1 0x55b63fe0e3f9 in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16240:21
+    #2 0x55b63fe0dc0c in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #3 0x55b63fdde65c in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #4 0x55b63fddb15b in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #5 0x55b63fdd5897 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #6 0x55b63fdd51ac in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #7 0x55b63fe14808 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #8 0x55b63fdfbd72 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #9 0x7f447a36cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f447a36ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x55b63fd11474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: 798e4f55d42e9c42788ca5619c4fadd9cd45e90a)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17 in lex
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1348166 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

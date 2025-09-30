@@ -1,0 +1,40 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.ubsan.out '^[AEIOU]' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_383
+grep-2.19.c.reduced.c:20646:24: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:20646:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3063656==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7f039061c597 bp 0x7ffd636e8140 sp 0x7ffd636e7f38 T3063656)
+==3063656==The signal is caused by a READ memory access.
+    #0 0x7f039061c597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x560c4d84fd1c in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x560c4d84e453 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x560c4d84ddc6 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x560c4d83f316 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x560c4d83ee0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7f0390496d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f0390496e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x560c4d7c57b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.ubsan.out+0x417b4) (BuildId: a9d7f273dfb66219f647bafb3d52b2f75c72dc48)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==3063656==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 3063655 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.ubsan.out ^[AEIOU] /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_383
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.lsan.out -o '[r][a][n][d]*' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+LeakSanitizer:DEADLYSIGNAL
+==183320==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7efe699bc597 bp 0x7ffdbed46f90 sp 0x7ffdbed46ef8 T0)
+==183320==The signal is caused by a READ memory access.
+    #0 0x7efe699bc597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x56492a607ace in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x56492a60724e in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x56492a606f36 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x56492a60359d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x56492a60335b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7efe69836d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7efe69836e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x56492a5c6774 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.lsan.out+0x7774) (BuildId: 865cc855e04701efa4849b2f06631b0c3d7804d0)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==183320==ABORTING

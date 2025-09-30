@@ -1,0 +1,16 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_400
+ThreadSanitizer:DEADLYSIGNAL
+==2820969==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x557ead48d304 bp 0x7ffc9a250a08 sp 0x7ffc9a250960 T2820969)
+==2820969==The signal is caused by a READ memory access.
+==2820969==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 __tsan::ScopedReportBase::AddThread(__tsan::ThreadContext const*, bool) <null> (reduced.tsan.out+0xc3304) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #1 __tsan::ReportRace(__tsan::ThreadState*, __tsan::RawShadow*, __tsan::Shadow, __tsan::Shadow, unsigned long) <null> (reduced.tsan.out+0xc6043) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 <null> <null> ([stack]+0x1eaef)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xc3304) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan::ScopedReportBase::AddThread(__tsan::ThreadContext const*, bool)
+==2820969==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2820968 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_400

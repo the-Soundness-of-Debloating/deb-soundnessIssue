@@ -1,0 +1,83 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+mkdir: cannot create directory 'bdir': No such file or directory
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile: di$: command not found
+=================================================================
+==1264462==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f534e81ac5c at pc 0x5588b313c62a bp 0x7ffd6c731690 sp 0x7ffd6c731688
+READ of size 1 at 0x7f534e81ac5c thread T0
+    #0 0x5588b313c629 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11
+    #1 0x5588b31497c0 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #2 0x5588b311e7cf in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #3 0x5588b311e5f9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #4 0x5588b30fe801 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #5 0x5588b30fdb24 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #6 0x5588b314f6bd in parse_and_execute /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/builtins/evalstring.c:255
+    #7 0x5588b311bfe5 in command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37471:17
+    #8 0x5588b313e8b3 in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40659:11
+    #9 0x5588b313aac9 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #10 0x5588b31497c0 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #11 0x5588b311e7cf in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #12 0x5588b311e5f9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #13 0x5588b30fe801 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #14 0x5588b30fdb24 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #15 0x5588b3103612 in execute_connection /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:17001:19
+    #16 0x5588b30fdd5f in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16149:17
+    #17 0x5588b30ed716 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #18 0x5588b30ec02b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #19 0x5588b30e87d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #20 0x7f5350336d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #21 0x7f5350336e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #22 0x5588b3027704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0x38704) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+
+Address 0x7f534e81ac5c is located in stack of thread T0 at offset 92 in frame
+    #0 0x5588b3139a0f in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40817
+
+  This frame has 9 object(s):
+    [32, 36) 'istring_size' (line 40821)
+    [48, 52) 'istring_index' (line 40822)
+    [64, 68) 'sindex' (line 40826)
+    [80, 84) 'quoted_dollar_at' (line 40827)
+    [96, 100) 'had_quoted_null' (line 40829) <== Memory access at offset 92 underflows this variable
+    [112, 116) 'has_dollar_at' (line 40830)
+    [128, 132) 't_index' (line 40833)
+    [144, 400) 'ifscmap' (line 40834)
+    [464, 466) 'twochars' (line 40835)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11 in expand_word_internal
+Shadow bytes around the buggy address:
+  0x0feae9cfb530: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0feae9cfb540: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0feae9cfb550: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0feae9cfb560: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0feae9cfb570: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0feae9cfb580: f1 f1 f1 f1 04 f2 04 f2 04 f2 04[f2]04 f2 04 f2
+  0x0feae9cfb590: 04 f2 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae9cfb5a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae9cfb5b0: 00 00 f2 f2 f2 f2 f2 f2 f2 f2 02 f3 00 00 00 00
+  0x0feae9cfb5c0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0feae9cfb5d0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1264462==ABORTING

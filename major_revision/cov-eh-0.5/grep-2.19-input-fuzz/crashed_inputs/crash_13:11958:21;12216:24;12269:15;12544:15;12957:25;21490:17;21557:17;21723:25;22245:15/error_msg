@@ -1,0 +1,25 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.lsan.out -i Si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_142
+LeakSanitizer:DEADLYSIGNAL
+==2592517==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x560257b696d4 bp 0x7fff11160030 sp 0x7fff1115ffd0 T0)
+==2592517==The signal is caused by a READ memory access.
+==2592517==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x560257b696d4 in bm_delta2_search /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:11958:21
+    #1 0x560257b693a5 in bmexec_trans /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12216:24
+    #2 0x560257b61ca6 in bmexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12269:15
+    #3 0x560257b61667 in kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12544:15
+    #4 0x560257b625b4 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12957:25
+    #5 0x560257b6d540 in do_execute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21490:17
+    #6 0x560257b6d1c4 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21557:17
+    #7 0x560257b6cc43 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21723:25
+    #8 0x560257b6c2b3 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #9 0x560257b6bf96 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #10 0x560257b685ad in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #11 0x560257b6835b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #12 0x7f096faabd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #13 0x7f096faabe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #14 0x560257b2b774 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.lsan.out+0x7774) (BuildId: 9ccd2a72f8b853dbd92976a776c153ea21bff760)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:11958:21 in bm_delta2_search
+==2592517==ABORTING

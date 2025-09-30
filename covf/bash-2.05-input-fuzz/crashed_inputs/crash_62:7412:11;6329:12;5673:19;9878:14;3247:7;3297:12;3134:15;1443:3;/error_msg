@@ -1,0 +1,23 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2547221==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x564735a8d083 (pc 0x5646c602a86b bp 0x5646c73fb000 sp 0x7fff1e87f3e0 T2547221)
+==2547221==The signal is caused by a READ memory access.
+    #0 0x5646c602a86b in free /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/lib/malloc/malloc.c:721
+    #1 0x5646c5fe6b75 in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7412:11
+    #2 0x5646c5fad007 in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #3 0x5646c5fad52e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #4 0x5646c5fa4e11 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #5 0x5646c5fa4c45 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #6 0x5646c5fa34fa in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #7 0x5646c5fa2653 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #8 0x5646c5fa105f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #9 0x7f336cdd1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f336cdd1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x5646c5f78ad4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/lib/malloc/malloc.c:721 in free
+==2547221==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2547218 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile

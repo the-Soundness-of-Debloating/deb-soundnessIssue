@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out
+flex-2.5.4.c.reduced.c:1163:21: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:1163:21 in 
+flex-2.5.4.c.reduced.c:1163:15: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:1163:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1284502==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5578b245954e bp 0x7ffd79dfa5d0 sp 0x7ffd79dfa1d0 T1284502)
+==1284502==The signal is caused by a READ memory access.
+==1284502==Hint: address points to the zero page.
+    #0 0x5578b245954e in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9
+    #1 0x5578b2458716 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #2 0x7f5399b5dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f5399b5de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5578b24304b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out+0x274b4) (BuildId: 43050c440cd7438a55fda004c0c7ccb9dc24ce0a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9 in flexinit
+==1284502==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1284501 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

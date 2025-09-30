@@ -1,0 +1,19 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_0
+ThreadSanitizer:DEADLYSIGNAL
+==1413225==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x559dbb28e219 bp 0x7ffd6cac2490 sp 0x7ffd6cac2310 T1413225)
+==1413225==The signal is caused by a WRITE memory access.
+==1413225==Hint: address points to the zero page.
+    #0 adddef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:538:13 (reduced.tsan.out+0xce219) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #1 grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3571:11 (reduced.tsan.out+0xd2d68) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3831:11 (reduced.tsan.out+0xcd337) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11 (reduced.tsan.out+0xcca1d) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x203b4) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:538:13 in adddef
+==1413225==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 1413224 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_0

@@ -1,0 +1,106 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3372647==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x7f1ed0078f67 bp 0x6672747fffffff74 sp 0x7ffc58c288f0 T3372647)
+==3372647==The signal is caused by a READ memory access.
+==3372647==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 fwrite <null> (libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 __interceptor_fwrite <null> (reduced.tsan.out+0x5a655) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #2 ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6669:15 (reduced.tsan.out+0xcf305) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #3 dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4358:7 (reduced.tsan.out+0xd0ed5) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #4 read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4658:5 (reduced.tsan.out+0xce9f7) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #5 process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11 (reduced.tsan.out+0xcdd8e) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17 (reduced.tsan.out+0xcda87) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #7 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 _start <null> (reduced.tsan.out+0x21364) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite
+==3372647==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3372646 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3375421==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x7f44bb810f67 bp 0x66695f6e69617274 sp 0x7ffccd4eb030 T0)
+==3375421==The signal is caused by a READ memory access.
+==3375421==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f44bb810f67 in fwrite (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55f1d8636bfc in ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6669:15
+    #2 0x55f1d8637ab6 in dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4358:7
+    #3 0x55f1d86367a9 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4658:5
+    #4 0x55f1d8636052 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11
+    #5 0x55f1d8635e59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #6 0x7f44bb7bad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f44bb7bae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55f1d8608444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5444) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite
+==3375421==ABORTING
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+sed-4.1.5.c.reduced.c:4358:36: runtime error: member access within misaligned address 0x55abaabcbf49 for type 'struct append_queue', which requires 8 byte alignment
+0x55abaabcbf49: note: pointer points here
+ 64 00 64  00 74 6e 00 64 00 64 00  74 6e 66 00 74 72 61 69  6e 5f 69 6e 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4358:36 in 
+sed-4.1.5.c.reduced.c:4358:36: runtime error: load of misaligned address 0x55abaabcbf51 for type 'char *', which requires 8 byte alignment
+0x55abaabcbf51: note: pointer points here
+ 00 64 00  74 6e 66 00 74 72 61 69  6e 5f 69 6e 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4358:36 in 
+sed-4.1.5.c.reduced.c:4358:57: runtime error: member access within misaligned address 0x55abaabcbf49 for type 'struct append_queue', which requires 8 byte alignment
+0x55abaabcbf49: note: pointer points here
+ 64 00 64  00 74 6e 00 64 00 64 00  74 6e 66 00 74 72 61 69  6e 5f 69 6e 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4358:57 in 
+sed-4.1.5.c.reduced.c:4358:57: runtime error: load of misaligned address 0x55abaabcbf59 for type 'size_t' (aka 'unsigned long'), which requires 8 byte alignment
+0x55abaabcbf59: note: pointer points here
+ 72 61 69  6e 5f 69 6e 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4358:57 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3384038==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000008 (pc 0x7f5e3344df67 bp 0x0000006e695f sp 0x7ffea2237120 T3384038)
+==3384038==The signal is caused by a READ memory access.
+==3384038==Hint: address points to the zero page.
+    #0 0x7f5e3344df67 in fwrite (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55abaa25727c in ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6669:15
+    #2 0x55abaa25a5ae in dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4358:7
+    #3 0x55abaa2557bc in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4658:5
+    #4 0x55abaa253bd2 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11
+    #5 0x55abaa25363b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #6 0x7f5e333f7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f5e333f7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55abaa22b474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x12474) (BuildId: a5391999d90b66ba89ca6623db339b78476b2332)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite
+==3384038==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3384037 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==3387144==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000008 (pc 0x7f6115ea8f67 bp 0x0000006e695f sp 0x7fffa87417f0 T3387144)
+==3387144==The signal is caused by a READ memory access.
+==3387144==Hint: address points to the zero page.
+    #0 0x7f6115ea8f67 in fwrite (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55fb27a9a70f in __interceptor_fwrite (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x5770f) (BuildId: c9f1864479179bd23e2b7a5321a96d36afd22571)
+    #2 0x55fb27aedaf6 in ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6669:15
+    #3 0x55fb27af414d in dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4358:7
+    #4 0x55fb27aebaea in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4658:5
+    #5 0x55fb27ae884c in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11
+    #6 0x55fb27ae7ecb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #7 0x7f6115e52d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f6115e52e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55fb27a612e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1e2e4) (BuildId: c9f1864479179bd23e2b7a5321a96d36afd22571)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite
+==3387144==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3387143 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

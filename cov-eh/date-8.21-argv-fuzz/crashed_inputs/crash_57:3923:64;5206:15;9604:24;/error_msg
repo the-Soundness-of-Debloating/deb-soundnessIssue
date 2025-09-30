@@ -1,0 +1,19 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2514405==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x55c96ddb4370 bp 0x7ffcb9080bb0 sp 0x7ffcb907ff18 T2514405)
+==2514405==The signal is caused by a READ memory access.
+==2514405==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read2 <null> (reduced.tsan.out+0xba370) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3923:64 (reduced.tsan.out+0xd216b) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #2 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15 (reduced.tsan.out+0xd3c51) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24 (reduced.tsan.out+0xd74dc) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x22474) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.tsan.out+0xba370) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2) in __tsan_read2
+==2514405==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2514404 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,70 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+files/makefile-1a:39: warning: overriding commands for target `.c.o'
+files/makefile-1a:39: warning: ignoring old commands for target `.c.o'
+files/makefile-1a:43: warning: overriding commands for target `install'
+files/makefile-1a:43: warning: ignoring old commands for target `install'
+make-3.79.c.reduced.c:17326:39: runtime error: member access within misaligned address 0x55c0adb3a68b for type 'struct dep', which requires 8 byte alignment
+0x55c0adb3a68b: note: pointer points here
+ 64  69 72 73 3a 00 61 6c 6c  64 69 72 73 20 68 65 6c  6c 6f 20 68 65 6c 6c 6f  2e 69 6e 66 6f 00 61
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17326:39: runtime error: load of misaligned address 0x55c0adb3a68b for type 'struct dep *', which requires 8 byte alignment
+0x55c0adb3a68b: note: pointer points here
+ 64  69 72 73 3a 00 61 6c 6c  64 69 72 73 20 68 65 6c  6c 6f 20 68 65 6c 6c 6f  2e 69 6e 66 6f 00 61
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17329:20: runtime error: member access within misaligned address 0x55c0adb3a68b for type 'struct dep', which requires 8 byte alignment
+0x55c0adb3a68b: note: pointer points here
+ 64  69 72 73 3a 00 61 6c 6c  64 69 72 73 20 68 65 6c  6c 6f 20 68 65 6c 6c 6f  2e 69 6e 66 6f 00 61
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+make-3.79.c.reduced.c:17329:20: runtime error: load of misaligned address 0x55c0adb3a68b for type 'struct dep *', which requires 8 byte alignment
+0x55c0adb3a68b: note: pointer points here
+ 64  69 72 73 3a 00 61 6c 6c  64 69 72 73 20 68 65 6c  6c 6f 20 68 65 6c 6c 6f  2e 69 6e 66 6f 00 61
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1443478==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55c0ac46aaec bp 0x7ffe44712ae0 sp 0x7ffe44712670 T1443478)
+==1443478==The signal is caused by a READ memory access.
+==1443478==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55c0ac46aaec in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39
+    #1 0x55c0ac455c37 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15877:15
+    #2 0x55c0ac44cb03 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55c0ac442d60 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7ff17334ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7ff17334ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55c0ac3fc764 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x31764) (BuildId: cfce733ddfd749e5441328b6b041b97f04e9049e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==1443478==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1443475 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.tsan.out
+files/makefile-1a:39: warning: overriding commands for target `.c.o'
+files/makefile-1a:39: warning: ignoring old commands for target `.c.o'
+files/makefile-1a:43: warning: overriding commands for target `install'
+files/makefile-1a:43: warning: ignoring old commands for target `install'
+ThreadSanitizer:DEADLYSIGNAL
+==625127==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x55bc7ec6b890 bp 0x7ffcf93f7290 sp 0x7ffcf93f6f18 T625127)
+==625127==The signal is caused by a READ memory access.
+==625127==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read8 <null> (reduced.tsan.out+0xbb890) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #1 record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39 (reduced.tsan.out+0xed9cd) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #2 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15877:15 (reduced.tsan.out+0xe501a) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #3 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17 (reduced.tsan.out+0xe081f) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24 (reduced.tsan.out+0xdc485) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x23494) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.tsan.out+0xbb890) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2) in __tsan_read8
+==625127==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 625124 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

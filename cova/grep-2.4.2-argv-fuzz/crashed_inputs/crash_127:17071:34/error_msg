@@ -1,0 +1,25 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:17071:34: runtime error: index 22057 out of bounds for type 'const size_t[17]' (aka 'const unsigned long[17]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:17071:34 in 
+grep-2.4.2.c.reduced.c:17071:32: runtime error: index 227633275980 out of bounds for type 'const char[369]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:17071:32 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==4070929==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x565ee0f2e7cc (pc 0x7f287af9aebc bp 0x7f287b003780 sp 0x7fff2434f988 T4070929)
+==4070929==The signal is caused by a READ memory access.
+    #0 0x7f287af9aebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7f287ae5fd30  (/lib/x86_64-linux-gnu/libc.so.6+0x76d30) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7f287ae496c9 in fprintf (/lib/x86_64-linux-gnu/libc.so.6+0x606c9) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x5629e0ead670 in error /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:580:5
+    #4 0x5629e0ead60a in fatal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:595:3
+    #5 0x5629e0eec1a5 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9213:5
+    #6 0x5629e0eaedfe in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f287ae12d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f287ae12e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x5629e0e855d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x525d4) (BuildId: 03026e2889579dbe8c4e764c808327b698821bad)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==4070929==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4070928 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

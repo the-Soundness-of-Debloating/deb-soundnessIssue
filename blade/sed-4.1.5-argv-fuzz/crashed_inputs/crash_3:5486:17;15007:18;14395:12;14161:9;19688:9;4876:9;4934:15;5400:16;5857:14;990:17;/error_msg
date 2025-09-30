@@ -1,0 +1,268 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==745017==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000003d1 at pc 0x5636cd3bd5f2 bp 0x7ffdb857ebb0 sp 0x7ffdb857e380
+WRITE of size 4 at 0x6020000003d1 thread T0
+    #0 0x5636cd3bd5f1 in __asan_memmove (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0xa55f1) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+    #1 0x5636cd4035e1 in re_node_set_init_copy /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7903:5
+    #2 0x5636cd403169 in create_cd_newstate /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8915:9
+    #3 0x5636cd402f25 in re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8706:15
+    #4 0x5636cd402128 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18602:26
+    #5 0x5636cd401beb in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #6 0x5636cd40132d in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #7 0x5636cd400235 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #8 0x5636cd3fc10a in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #9 0x5636cd3fbf1b in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #10 0x5636cd3fc4cf in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #11 0x5636cd3ff61f in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #12 0x5636cd3fec15 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #13 0x5636cd3faa2e in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #14 0x5636cd3fa64b in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #15 0x5636cd3f84e5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #16 0x7f71edbabd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #17 0x7f71edbabe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #18 0x5636cd3383b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+
+0x6020000003d1 is located 0 bytes to the right of 1-byte region [0x6020000003d0,0x6020000003d1)
+allocated by thread T0 here:
+    #0 0x5636cd3bddde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0xa5dde) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+    #1 0x5636cd4034d1 in re_node_set_init_copy /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7891:11
+    #2 0x5636cd403169 in create_cd_newstate /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8915:9
+    #3 0x5636cd402f25 in re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8706:15
+    #4 0x5636cd402128 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18602:26
+    #5 0x5636cd401beb in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #6 0x5636cd40132d in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #7 0x5636cd400235 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #8 0x5636cd3fc10a in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #9 0x5636cd3fbf1b in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #10 0x5636cd3fc4cf in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #11 0x5636cd3ff61f in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #12 0x5636cd3fec15 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #13 0x5636cd3faa2e in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #14 0x5636cd3fa64b in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #15 0x5636cd3f84e5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #16 0x7f71edbabd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0xa55f1) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47) in __asan_memmove
+Shadow bytes around the buggy address:
+  0x0c047fff8020: fa fa 04 fa fa fa 04 fa fa fa 00 00 fa fa 05 fa
+  0x0c047fff8030: fa fa 00 04 fa fa fd fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff8040: fa fa 04 fa fa fa 04 fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff8050: fa fa fd fa fa fa 04 fa fa fa 04 fa fa fa 00 00
+  0x0c047fff8060: fa fa fd fa fa fa fd fa fa fa fd fa fa fa 00 fa
+=>0x0c047fff8070: fa fa 04 fa fa fa 00 fa fa fa[01]fa fa fa fa fa
+  0x0c047fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==745017==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 745016 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==769483==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55c75c3d0e10 (pc 0x55c75a5347c3 bp 0x7ffdf4279860 sp 0x7ffdf4279780 T769483)
+==769483==The signal is caused by a READ memory access.
+    #0 0x55c75a5347c3 in create_cd_newstate /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8934:40
+    #1 0x55c75a534178 in re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8706:15
+    #2 0x55c75a532716 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18602:26
+    #3 0x55c75a531f7f in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #4 0x55c75a531251 in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #5 0x55c75a52f600 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #6 0x55c75a527817 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #7 0x55c75a5275fb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #8 0x55c75a527e53 in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #9 0x55c75a52e2d9 in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #10 0x55c75a52ce68 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #11 0x55c75a524f79 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #12 0x55c75a5248ae in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #13 0x55c75a5218ae in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #14 0x7ff1b7faed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #15 0x7ff1b7faee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #16 0x55c75a4f9544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x11544) (BuildId: 39ffc9a9be654c06c45d2f049631e09a3527027f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8934:40 in create_cd_newstate
+==769483==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 769482 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+
+=================================================================
+==841198==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 12288 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x306f2) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f343dec in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18480:15
+    #2 0x56132f343dbf in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #3 0x56132f343bad in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #4 0x56132f3436d8 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #5 0x56132f341c10 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #6 0x56132f341aeb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #7 0x56132f341e3f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #8 0x56132f34322a in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #9 0x56132f342db5 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #10 0x56132f341107 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #11 0x56132f340f7c in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #12 0x56132f3400b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #13 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341901 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7195:9
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f3420e7 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2534:13
+    #5 0x56132f34079c in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2736:15
+    #6 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #7 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #8 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341901 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7195:9
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f340af5 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3240:13
+    #5 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #6 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #7 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341901 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7195:9
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f340b24 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3248:10
+    #5 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #6 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #7 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341901 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7195:9
+    #3 0x56132f34234c in read_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1564:11
+    #4 0x56132f3427ee in get_openfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1606:11
+    #5 0x56132f3425b5 in mark_subst_opts /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2038:17
+    #6 0x56132f340c4f in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3280:13
+    #7 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #8 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #9 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x306f2) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f343e57 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18529:15
+    #2 0x56132f343dbf in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #3 0x56132f343bad in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #4 0x56132f3436d8 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #5 0x56132f341c10 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #6 0x56132f341aeb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #7 0x56132f341e3f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #8 0x56132f34322a in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #9 0x56132f342db5 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #10 0x56132f341107 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #11 0x56132f340f7c in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #12 0x56132f3400b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #13 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 8 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x306f2) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f344216 in re_node_set_alloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7812:9
+    #2 0x56132f343e44 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18516:9
+    #3 0x56132f343dbf in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #4 0x56132f343bad in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #5 0x56132f3436d8 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #6 0x56132f341c10 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #7 0x56132f341aeb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #8 0x56132f341e3f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #9 0x56132f34322a in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #10 0x56132f342db5 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #11 0x56132f341107 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #12 0x56132f340f7c in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #13 0x56132f3400b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #14 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341917 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7197:13
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f340b24 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3248:10
+    #5 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #6 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #7 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341917 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7197:13
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f340af5 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3240:13
+    #5 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #6 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #7 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341917 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7197:13
+    #3 0x56132f34234c in read_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1564:11
+    #4 0x56132f3427ee in get_openfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1606:11
+    #5 0x56132f3425b5 in mark_subst_opts /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2038:17
+    #6 0x56132f340c4f in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3280:13
+    #7 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #8 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #9 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d95c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3095c) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f340361 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x56132f341917 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7197:13
+    #3 0x56132f3423c7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1838:11
+    #4 0x56132f3420e7 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2534:13
+    #5 0x56132f34079c in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2736:15
+    #6 0x56132f3402cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #7 0x56132f33ffe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #8 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x56132f33d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x306f2) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+    #1 0x56132f3443d8 in re_node_set_init_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7833:9
+    #2 0x56132f3441c3 in group_nodes_into_DFAstates /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19071:13
+    #3 0x56132f343e32 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18496:12
+    #4 0x56132f343dbf in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:17125:15
+    #5 0x56132f343bad in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15486:17
+    #6 0x56132f3436d8 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15007:18
+    #7 0x56132f341c10 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #8 0x56132f341aeb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #9 0x56132f341e3f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #10 0x56132f34322a in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #11 0x56132f342db5 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4934:15
+    #12 0x56132f341107 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #13 0x56132f340f7c in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #14 0x56132f3400b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #15 0x7f5e4860fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 12620 byte(s) leaked in 12 allocation(s).

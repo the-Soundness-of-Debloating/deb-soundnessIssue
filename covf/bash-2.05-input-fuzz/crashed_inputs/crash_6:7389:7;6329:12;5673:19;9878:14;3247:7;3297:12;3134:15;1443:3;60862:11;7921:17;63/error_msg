@@ -1,0 +1,72 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+ln: failed to create hard link '/root/tmp/ghi': File exists
+=================================================================
+==1217665==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x631000510df0 at pc 0x558595abe195 bp 0x7fff61cd9370 sp 0x7fff61cd8b38
+WRITE of size 1011 at 0x631000510df0 thread T0
+    #0 0x558595abe194 in strcpy (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0xa6194) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+    #1 0x558595b3acf8 in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7389:7
+    #2 0x558595b14cbd in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #3 0x558595b14f6e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #4 0x558595b1119c in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #5 0x558595b11035 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #6 0x558595b104ca in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #7 0x558595b0fd7b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #8 0x558595b0ecdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #9 0x7f207bc0bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f207bc0be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x558595a4e6a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0x366a4) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+
+0x631000510df0 is located 0 bytes to the right of 67056-byte region [0x631000500800,0x631000510df0)
+allocated by thread T0 here:
+    #0 0x558595ad44f6 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbc4f6) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+    #1 0x558595b19817 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60862:11
+    #2 0x558595b3bc46 in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7921:17
+    #3 0x558595b14cbd in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #4 0x558595b14f6e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #5 0x558595b1119c in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #6 0x558595b11035 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #7 0x558595b104ca in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #8 0x558595b0fd7b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #9 0x558595b0ecdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #10 0x7f207bc0bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0xa6194) (BuildId: c0283963003c8a41c55ca6094710469169825340) in strcpy
+Shadow bytes around the buggy address:
+  0x0c628009a160: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c628009a170: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c628009a180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c628009a190: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c628009a1a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c628009a1b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[fa]fa
+  0x0c628009a1c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c628009a1d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c628009a1e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c628009a1f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c628009a200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1217665==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1217664 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile

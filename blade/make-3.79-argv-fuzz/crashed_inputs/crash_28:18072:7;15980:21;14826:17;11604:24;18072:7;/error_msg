@@ -1,0 +1,18 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3619272==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b3400010000 (pc 0x55776d9fd2cb bp 0x7fff8f2f8f80 sp 0x7fff8f2f8e40 T3619272)
+==3619272==The signal is caused by a READ memory access.
+    #0 get_next_mword /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18072:7 (reduced.tsan.out+0xed2cb) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15980:21 (reduced.tsan.out+0xe69e7) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14826:17 (reduced.tsan.out+0xe41b1) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24 (reduced.tsan.out+0xe0937) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23444) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18072:7 in get_next_mword
+==3619272==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3619270 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

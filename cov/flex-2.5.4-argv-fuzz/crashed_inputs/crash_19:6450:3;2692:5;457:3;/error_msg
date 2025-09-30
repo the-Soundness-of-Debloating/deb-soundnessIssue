@@ -1,0 +1,97 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==2161837==ERROR: AddressSanitizer: stack-use-after-return on address 0x7f9811900000 at pc 0x5631d8fe73a1 bp 0x7ffe762ee920 sp 0x7ffe762ee0a8
+READ of size 5 at 0x7f9811900000 thread T0
+    #0 0x5631d8fe73a0 in printf_common(void*, char const*, __va_list_tag*) asan_interceptors.cpp.o
+    #1 0x5631d8fe87a9 in printf (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0x617a9) (BuildId: 8ac3866a4234ed35f72b76c112a7ff2a436d2078)
+    #2 0x5631d908f6a4 in out_str_dec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6450:3
+    #3 0x5631d9085e03 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2692:5
+    #4 0x5631d90841ef in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:457:3
+    #5 0x7f9813010d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f9813010e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5631d8fc4334 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0x3d334) (BuildId: 8ac3866a4234ed35f72b76c112a7ff2a436d2078)
+
+Address 0x7f9811900000 is located in stack of thread T0 at offset 0 in frame
+    #0 0x5631d908905f in line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6012
+
+  This frame has 2 object(s):
+    [32, 2080) 'directive' (line 6013)
+    [2208, 4256) 'filename' (line 6014)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-use-after-return asan_interceptors.cpp.o in printf_common(void*, char const*, __va_list_tag*)
+Shadow bytes around the buggy address:
+  0x0ff382317fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff382317fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff382317fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff382317fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff382317ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ff382318000:[f5]f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff382318010: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff382318020: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff382318030: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff382318040: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff382318050: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2161837==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2161835 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3932818==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7f4019c60ebc bp 0x7f4019cc9780 sp 0x7ffffd2ffe78 T3932818)
+==3932818==The signal is caused by a READ memory access.
+==3932818==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f4019c60ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7f4019b25d30  (/lib/x86_64-linux-gnu/libc.so.6+0x76d30) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7f4019b0f79e in printf (/lib/x86_64-linux-gnu/libc.so.6+0x6079e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x559ac3167264 in out_str_dec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6450:3
+    #4 0x559ac3157ee4 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2692:5
+    #5 0x559ac3155720 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:457:3
+    #6 0x7f4019ad8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f4019ad8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x559ac312d4b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out+0x264b4) (BuildId: 94a16a2c741d43047286fe006e50ccfd05708ea3)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3932818==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3932817 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3347031==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000020 (pc 0x7fd5743aaebc bp 0x7fd574413780 sp 0x7fff9ce529c8 T0)
+==3347031==The signal is caused by a READ memory access.
+==3347031==Hint: address points to the zero page.
+    #0 0x7fd5743aaebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7fd57426fd30  (/lib/x86_64-linux-gnu/libc.so.6+0x76d30) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7fd57425979e in printf (/lib/x86_64-linux-gnu/libc.so.6+0x6079e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x5579d7737a34 in out_str_dec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6450:3
+    #4 0x5579d7733c9b in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2692:5
+    #5 0x5579d7732eba in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:457:3
+    #6 0x7fd574222d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fd574222e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5579d77054a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out+0x114a4) (BuildId: aebf06c0b2ba8895e772bc93124d24e9ce5edef6)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3347031==ABORTING

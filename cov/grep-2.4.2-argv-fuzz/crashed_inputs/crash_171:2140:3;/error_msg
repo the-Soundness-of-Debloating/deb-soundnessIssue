@@ -1,0 +1,18 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==793211==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x5637baa87000 (pc 0x5637ba0bb110 bp 0x7ffeeb827610 sp 0x7ffeeb827530 T793211)
+==793211==The signal is caused by a WRITE memory access.
+    #0 0x5637ba0bb110 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x5637ba0ba6c1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2140:3
+    #2 0x7f0f83808d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f0f83808e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5637ba092594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x2c594) (BuildId: e77d6e034d33690b8a0f57f454128d58760b4d22)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==793211==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 793209 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

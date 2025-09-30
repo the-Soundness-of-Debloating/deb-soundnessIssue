@@ -1,0 +1,94 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+sed: invalid option -- 'ó'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==745792==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f98ca10c580 bp 0x7ffe57bf0af0 sp 0x7ffe57bf0250 T0)
+==745792==The signal is caused by a READ memory access.
+==745792==Hint: address points to the zero page.
+    #0 0x7f98ca10c580  (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5650ec8069ec in atoi (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x909ec) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+    #2 0x5650ec85644a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:930:15
+    #3 0x7f98ca0eed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f98ca0eee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x5650ec7963b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==745792==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 745791 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+sed: invalid option -- 'ó'
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==770154==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f953e20c580 bp 0x7fff34319430 sp 0x7fff34319300 T770154)
+==770154==The signal is caused by a READ memory access.
+==770154==Hint: address points to the zero page.
+    #0 0x7f953e20c580  (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7f953e208653 in atoi (/lib/x86_64-linux-gnu/libc.so.6+0x43653) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x56353f7247f3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:930:15
+    #3 0x7f953e1eed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f953e1eee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x56353f6fc544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x11544) (BuildId: 39ffc9a9be654c06c45d2f049631e09a3527027f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==770154==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 770153 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+sed: invalid option -- 'ó'
+MemorySanitizer:DEADLYSIGNAL
+==793993==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fcfa4297580 bp 0x7ffde2a026f0 sp 0x7ffde2a02510 T793993)
+==793993==The signal is caused by a READ memory access.
+==793993==Hint: address points to the zero page.
+    #0 0x7fcfa4297580  (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7fcfa4293653 in atoi (/lib/x86_64-linux-gnu/libc.so.6+0x43653) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x5589516b3603 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:930:15
+    #3 0x7fcfa4279d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fcfa4279e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55895162c374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f374) (BuildId: 26d93ddfe8d0166df273c1d282e796f99a66948c)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==793993==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 793992 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+sed: invalid option -- 'ó'
+ThreadSanitizer:DEADLYSIGNAL
+==816986==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f2baeafe580 bp 0x7fff2f6535b0 sp 0x7fff2f653460 T816986)
+==816986==The signal is caused by a READ memory access.
+==816986==Hint: address points to the zero page.
+    #0 <null> <null> (libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 atoi <null> (libc.so.6+0x43653) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:930:15 (reduced.tsan.out+0xcdcfa) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x21404) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==816986==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 816985 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+sed: invalid option -- 'ó'
+LeakSanitizer:DEADLYSIGNAL
+==841878==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fa803309580 bp 0x7ffe2333f630 sp 0x7ffe2333f540 T0)
+==841878==The signal is caused by a READ memory access.
+==841878==Hint: address points to the zero page.
+    #0 0x7fa803309580  (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7fa803305653 in atoi (/lib/x86_64-linux-gnu/libc.so.6+0x43653) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x560c1af51076 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:930:15
+    #3 0x7fa8032ebd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fa8032ebe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x560c1af23514 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5514) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x47580) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==841878==ABORTING

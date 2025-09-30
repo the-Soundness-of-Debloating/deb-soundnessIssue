@@ -1,0 +1,36 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==847140==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000028 (pc 0x55737435dc69 bp 0x7ffe88e7c250 sp 0x7ffe88e7bc00 T847140)
+==847140==The signal is caused by a WRITE memory access.
+==847140==Hint: address points to the zero page.
+    #0 0x55737435dc69 in kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37
+    #1 0x55737435b1e5 in Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10831:11
+    #2 0x5573743925e2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #3 0x7f841b6c9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f841b6c9e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x5573742a3494 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20494) (BuildId: 2673ececfed5484166b85b5ab28376ea2a044565)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37 in kwsincr
+==847140==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 847139 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==859251==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000028 (pc 0x5629c1e68913 bp 0x7ffcc440e030 sp 0x7ffcc440db70 T859251)
+==859251==The signal is caused by a WRITE memory access.
+==859251==Hint: address points to the zero page.
+    #0 kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37 (reduced.tsan.out+0xdb913) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10831:11 (reduced.tsan.out+0xdad00) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #3 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 _start <null> (reduced.tsan.out+0x22524) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37 in kwsincr
+==859251==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 859250 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

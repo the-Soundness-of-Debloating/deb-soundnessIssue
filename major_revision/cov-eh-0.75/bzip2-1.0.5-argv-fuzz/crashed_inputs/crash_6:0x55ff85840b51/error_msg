@@ -1,0 +1,19 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/bins/origin.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1017993==ERROR: MemorySanitizer: SEGV on unknown address 0x55ff87214000 (pc 0x55ff85840b51 bp 0x7ffe2699c660 sp 0x7ffe2699c570 T1017993)
+==1017993==The signal is caused by a WRITE memory access.
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/bins/origin.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1151042==ERROR: MemorySanitizer: SEGV on unknown address 0x55598b658000 (pc 0x555989c84b51 bp 0x7ffce4085350 sp 0x7ffce4085260 T1151042)
+==1151042==The signal is caused by a WRITE memory access.
+    #0 0x555989c84b51 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x555989c7dd27 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.origin.c:9728:3
+    #2 0x7f619de84d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f619de84e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x555989b80374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/bins/origin.msan.out+0x1f374) (BuildId: d04d73870913da0ae18cd00b869b8f25f61dd05f)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1151042==ABORTING

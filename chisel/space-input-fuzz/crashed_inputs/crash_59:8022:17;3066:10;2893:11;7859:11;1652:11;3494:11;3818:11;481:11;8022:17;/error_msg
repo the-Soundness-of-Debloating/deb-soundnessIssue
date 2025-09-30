@@ -1,0 +1,44 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3277.adl_fuzzed/gr3277.adl_475
+ThreadSanitizer:DEADLYSIGNAL
+==1904703==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5572a407878e bp 0x7ffd7bad3a40 sp 0x7ffd7bad39f0 T1904703)
+==1904703==The signal is caused by a READ memory access.
+==1904703==Hint: address points to the zero page.
+    #0 TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 (reduced.tsan.out+0xd178e) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #1 GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10 (reduced.tsan.out+0xce695) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 geomspec /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:2893:11 (reduced.tsan.out+0xd12ea) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #3 sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7859:11 (reduced.tsan.out+0xd06fe) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #4 elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1652:11 (reduced.tsan.out+0xd0566) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #5 greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3494:11 (reduced.tsan.out+0xd2290) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #6 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3818:11 (reduced.tsan.out+0xcd2f4) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11 (reduced.tsan.out+0xcca1d) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #8 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 _start <null> (reduced.tsan.out+0x203b4) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 in TapeGet
+==1904703==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 1904702 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3277.adl_fuzzed/gr3277.adl_475
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3277.adl_fuzzed/gr3277.adl_475
+LeakSanitizer:DEADLYSIGNAL
+==3780275==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55ee573d049f bp 0x7ffdb75d2c20 sp 0x7ffdb75d2c20 T0)
+==3780275==The signal is caused by a READ memory access.
+==3780275==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55ee573d049f in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17
+    #1 0x55ee573cec7d in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10
+    #2 0x55ee573d0261 in geomspec /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:2893:11
+    #3 0x55ee573cfca7 in sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7859:11
+    #4 0x55ee573cfb8e in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1652:11
+    #5 0x55ee573d0b25 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3494:11
+    #6 0x55ee573ce32d in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3818:11
+    #7 0x55ee573cde41 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #8 0x7f653e514d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7f653e514e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x55ee573a0464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x5464) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 in TapeGet
+==3780275==ABORTING

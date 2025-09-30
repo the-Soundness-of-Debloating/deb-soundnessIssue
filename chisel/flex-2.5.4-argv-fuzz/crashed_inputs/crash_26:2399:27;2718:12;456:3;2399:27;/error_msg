@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==200106==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b7ffffe5c9c (pc 0x558ea34f93ae bp 0x7fffbaa29a60 sp 0x7fffbaa297a0 T200106)
+==200106==The signal is caused by a READ memory access.
+    #0 epsclosure /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2399:27 (reduced.tsan.out+0xdb3ae) (BuildId: d7a4db789b9f10ba5a41c986e77c88a399d199f1)
+    #1 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2718:12 (reduced.tsan.out+0xd68dd) (BuildId: d7a4db789b9f10ba5a41c986e77c88a399d199f1)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:456:3 (reduced.tsan.out+0xd59d7) (BuildId: d7a4db789b9f10ba5a41c986e77c88a399d199f1)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x29334) (BuildId: d7a4db789b9f10ba5a41c986e77c88a399d199f1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2399:27 in epsclosure
+==200106==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 200105 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

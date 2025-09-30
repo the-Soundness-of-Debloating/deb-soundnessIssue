@@ -1,0 +1,88 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2982043==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x562936c8f0c0 bp 0x7ffc03dac560 sp 0x7ffc03dabd10 T0)
+==2982043==The signal is caused by a READ memory access.
+==2982043==Hint: address points to the zero page.
+    #0 0x562936c8f0c0 in strcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x3c0c0) (BuildId: 4e35c3292d2c821e8e996a94f5b26d5671d7cc29)
+    #1 0x562936d6c1d0 in find_pred /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13854:17
+    #2 0x562936d6adc4 in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14324:58
+    #3 0x562936d56c9c in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21
+    #4 0x562936d56ed3 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16315:17
+    #5 0x562936d6c63c in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35
+    #6 0x562936d6c28c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #7 0x562936d6c218 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #8 0x562936d56eb8 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #9 0x562936d55eaa in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #10 0x562936d53ca9 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #11 0x562936d53a6f in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #12 0x562936d6e911 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #13 0x562936d65545 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #14 0x7f323ad3bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #15 0x7f323ad3be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #16 0x562936c77504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x24504) (BuildId: 4e35c3292d2c821e8e996a94f5b26d5671d7cc29)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x3c0c0) (BuildId: 4e35c3292d2c821e8e996a94f5b26d5671d7cc29) in strcmp
+==2982043==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2982042 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==3010626==ERROR: MemorySanitizer: SEGV on unknown address 0x00000000007c (pc 0x5596ca356080 bp 0x7ffed976b5a0 sp 0x7ffed976b560 T3010626)
+==3010626==The signal is caused by a READ memory access.
+==3010626==Hint: address points to the zero page.
+    #0 0x5596ca356080 in strcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x56080) (BuildId: fdc6d6ddcf3c7d0ba63b2c0bfe0574698d0b735d)
+    #1 0x5596ca41c91c in find_pred /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13854:17
+    #2 0x5596ca41879e in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14324:58
+    #3 0x5596ca3ed0e2 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21
+    #4 0x5596ca3ed61d in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16315:17
+    #5 0x5596ca41dc9a in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35
+    #6 0x5596ca41cbfc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #7 0x5596ca41ca1c in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #8 0x5596ca3ed58c in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #9 0x5596ca3ea0ab in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #10 0x5596ca3e47e7 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #11 0x5596ca3e4102 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #12 0x5596ca423618 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #13 0x5596ca40aca2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #14 0x7feb629fdd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #15 0x7feb629fde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #16 0x5596ca320474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: fdc6d6ddcf3c7d0ba63b2c0bfe0574698d0b735d)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x56080) (BuildId: fdc6d6ddcf3c7d0ba63b2c0bfe0574698d0b735d) in strcmp
+==3010626==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3010625 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3023140==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55fdbb87c105 bp 0x000000000000 sp 0x7ffd1ae9d010 T3023140)
+==3023140==The signal is caused by a READ memory access.
+==3023140==Hint: address points to the zero page.
+    #0 strcmp <null> (reduced.tsan.out+0x58105) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #1 find_pred /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13854:17 (reduced.tsan.out+0xeeb45) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #2 parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14324:58 (reduced.tsan.out+0xed876) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #3 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21 (reduced.tsan.out+0xe0d9d) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16315:17 (reduced.tsan.out+0xe0f9c) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #5 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xef1fd) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #6 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeec45) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #7 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeeba1) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #8 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f75) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #9 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdffc1) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #10 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xde6d0) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #11 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xde46f) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #12 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0caa) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #13 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f75) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+    #14 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #15 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #16 _start <null> (reduced.tsan.out+0x22504) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.tsan.out+0x58105) (BuildId: 0136bc4c29eb3086f82be8b0332f8ebb31c23fc0) in strcmp
+==3023140==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3023139 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

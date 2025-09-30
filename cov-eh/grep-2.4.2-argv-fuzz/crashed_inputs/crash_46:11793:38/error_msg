@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:11793:38: runtime error: pointer index expression with base 0x55cebcb8e8f0 overflowed to 0x8c8defe5beb904ff
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:11793:38 in 
+grep-2.4.2.c.reduced.c:11797:34: runtime error: pointer index expression with base 0x55cebcb8e8f0 overflowed to 0xff6ecb442145768a
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:11797:34 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==622692==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55cebcb8dfff (pc 0x55cebb0c7341 bp 0x7ffe818df570 sp 0x7ffe818df4e0 T622692)
+==622692==The signal is caused by a READ memory access.
+    #0 0x55cebb0c7341 in insert_op1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:13239:12
+    #1 0x55cebb0bd123 in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11922:5
+    #2 0x55cebb0b7b1a in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:17065:9
+    #3 0x55cebb0b786b in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9298:9
+    #4 0x55cebb085fcb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #5 0x7f12c9aa6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f12c9aa6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55cebb05d5e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x2e5e4) (BuildId: c596296324c806a74fee30cd546cda4f03499544)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:13239:12 in insert_op1
+==622692==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 622691 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

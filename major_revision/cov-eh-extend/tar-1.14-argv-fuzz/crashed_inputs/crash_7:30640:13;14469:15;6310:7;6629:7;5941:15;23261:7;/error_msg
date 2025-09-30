@@ -1,0 +1,67 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1604273==ERROR: AddressSanitizer: SEGV on unknown address 0x0000000003e8 (pc 0x7f04dab4e0bc bp 0x7ffec4dc2b30 sp 0x7ffec4dc22e8 T0)
+==1604273==The signal is caused by a READ memory access.
+==1604273==Hint: address points to the zero page.
+    #0 0x7f04dab4e0bc  string/../sysdeps/x86_64/multiarch/strlen-evex.S:77
+    #1 0x56239cdd8649 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.asan.out+0x40649) (BuildId: d65037f8f4ec59461b56060662c366056281b8b3)
+    #2 0x56239ce9c954 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30640:13
+    #3 0x56239ce873e1 in assign_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:14469:15
+    #4 0x56239ce8e77a in dump_file0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6310:7
+    #5 0x56239ce8e0f7 in dump_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6629:7
+    #6 0x56239ce8d9e3 in create_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5941:15
+    #7 0x56239cea24f9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23261:7
+    #8 0x7f04da9c5d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #9 0x7f04da9c5e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #10 0x56239cdc15d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.asan.out+0x295d4) (BuildId: d65037f8f4ec59461b56060662c366056281b8b3)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==1604273==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 1604272 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_139
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==837342==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000003e8 (pc 0x7f3aa822b0bc bp 0x7ffcb3835970 sp 0x7ffcb38358f8 T837342)
+==837342==The signal is caused by a READ memory access.
+==837342==Hint: address points to the zero page.
+    #0 <null> string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 (libc.so.6+0x1b20bc) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 strlen <null> (reduced.tsan.out+0x579d2) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #2 xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30640:13 (reduced.tsan.out+0xe42c5) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #3 assign_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:14469:15 (reduced.tsan.out+0xd4010) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #4 dump_file0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6310:7 (reduced.tsan.out+0xda28d) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #5 dump_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6629:7 (reduced.tsan.out+0xd9c59) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #6 create_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5941:15 (reduced.tsan.out+0xd96d3) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23261:7 (reduced.tsan.out+0xe8559) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #8 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #9 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #10 _start <null> (reduced.tsan.out+0x225a4) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==837342==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 837341 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_139
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1653622==ERROR: LeakSanitizer: SEGV on unknown address 0x0000000003e8 (pc 0x7f8bf87830bc bp 0x7ffc25f41540 sp 0x7ffc25f41518 T0)
+==1653622==The signal is caused by a READ memory access.
+==1653622==Hint: address points to the zero page.
+    #0 0x7f8bf87830bc  string/../sysdeps/x86_64/multiarch/strlen-evex.S:77
+    #1 0x56495f64ee74 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30640:13
+    #2 0x56495f6445ad in assign_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:14469:15
+    #3 0x56495f6485f2 in dump_file0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6310:7
+    #4 0x56495f648228 in dump_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6629:7
+    #5 0x56495f647e2b in create_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5941:15
+    #6 0x56495f6518c1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23261:7
+    #7 0x7f8bf85fad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f8bf85fae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x56495f6138d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0xb8d4) (BuildId: 5dcd19460d3df0e9a7a802662d8f518e5648bfec)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==1653622==ABORTING

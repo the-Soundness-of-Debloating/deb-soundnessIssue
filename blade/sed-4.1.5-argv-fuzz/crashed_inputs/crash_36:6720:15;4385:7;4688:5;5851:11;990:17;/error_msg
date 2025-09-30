@@ -1,0 +1,22 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==870980==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x7f5a49c6cf67 bp 0x6961727420006e79 sp 0x7fff77171c70 T870980)
+==870980==The signal is caused by a READ memory access.
+==870980==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f5a49c6cf67 in fwrite (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5558e3b0579f in __interceptor_fwrite (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x5879f) (BuildId: 26d93ddfe8d0166df273c1d282e796f99a66948c)
+    #2 0x5558e3b5be16 in ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6720:15
+    #3 0x5558e3b65566 in dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4385:7
+    #4 0x5558e3b594ca in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4688:5
+    #5 0x5558e3b59051 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #6 0x5558e3b53709 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #7 0x7f5a49c16d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f5a49c16e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x5558e3acc374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f374) (BuildId: 26d93ddfe8d0166df273c1d282e796f99a66948c)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7ff67) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite
+==870980==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 870979 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

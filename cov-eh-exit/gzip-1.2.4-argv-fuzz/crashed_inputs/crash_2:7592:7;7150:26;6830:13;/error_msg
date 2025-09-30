@@ -1,0 +1,53 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2498362==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55fb0c92a000 (pc 0x7f396c468c08 bp 0x7ffc17634b30 sp 0x7ffc17634ae8 T2498362)
+==2498362==The signal is caused by a WRITE memory access.
+    #0 0x7f396c468c08  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55fb0bf552db in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7592:7
+    #2 0x55fb0bf4e55e in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26
+    #3 0x55fb0bf4d9bb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13
+    #4 0x7f396c2e0d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f396c2e0e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55fb0bf0d534 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out+0x19534) (BuildId: f4060fbf1e23f075f843cee4e36d746c478ee665)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2498362==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2498359 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000001*
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2517394==ERROR: ThreadSanitizer: SEGV on unknown address 0x55f281ebb000 (pc 0x7f72508a4c08 bp 0x7ffc8d8e9000 sp 0x7ffc8d8e8f78 T2517394)
+==2517394==The signal is caused by a WRITE memory access.
+    #0 <null> <null> (libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 strcpy <null> (reduced.tsan.out+0x4dd54) (BuildId: ea87c94863f80ebc29431b0b2d0a76ee7a73c6f1)
+    #2 make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7592:7 (reduced.tsan.out+0xda843) (BuildId: ea87c94863f80ebc29431b0b2d0a76ee7a73c6f1)
+    #3 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26 (reduced.tsan.out+0xd7bd6) (BuildId: ea87c94863f80ebc29431b0b2d0a76ee7a73c6f1)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13 (reduced.tsan.out+0xd755a) (BuildId: ea87c94863f80ebc29431b0b2d0a76ee7a73c6f1)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x213b4) (BuildId: ea87c94863f80ebc29431b0b2d0a76ee7a73c6f1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2517394==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2517392 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/result/afl_result/reduced/result_1/tsan/crashes/id:000000* > sample1.gz
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2523304==ERROR: LeakSanitizer: SEGV on unknown address 0x5571846f8000 (pc 0x7fe3956ccc08 bp 0x7fff06bd72d0 sp 0x7fff06bd7298 T0)
+==2523304==The signal is caused by a WRITE memory access.
+    #0 0x7fe3956ccc08  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x557183d2d94a in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7592:7
+    #2 0x557183d2bf33 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26
+    #3 0x557183d2bb30 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13
+    #4 0x7fe395544d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fe395544e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x557183cf8524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-argv-fuzz/bins/reduced.lsan.out+0x6524) (BuildId: 6585e7e68882ef07dc77b36306f04a0db260fa23)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1c08) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2523304==ABORTING

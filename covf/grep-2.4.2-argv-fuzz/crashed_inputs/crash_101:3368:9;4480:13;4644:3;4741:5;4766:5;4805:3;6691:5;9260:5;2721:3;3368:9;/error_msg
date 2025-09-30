@@ -1,0 +1,22 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: unrecognized option '--vi'
+LeakSanitizer:DEADLYSIGNAL
+==2764345==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x555c23f78d63 bp 0x7ffffcd6fa10 sp 0x7ffffcd6f790 T0)
+==2764345==The signal is caused by a READ memory access.
+    #0 0x555c23f78d63 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:9
+    #1 0x555c23f83ec4 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13
+    #2 0x555c23f83d3c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #3 0x555c23f83d18 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #4 0x555c23f79879 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4766:5
+    #5 0x555c23f78c94 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #6 0x555c23f7d099 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5
+    #7 0x555c23f7fc63 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #8 0x555c23f785ea in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #9 0x7f69d20ebd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f69d20ebe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x555c23f4a564 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x5564) (BuildId: 7929ca194896a2b146ec8fe721c64b4c90447ad1)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:9 in lex
+==2764345==ABORTING

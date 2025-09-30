@@ -1,0 +1,108 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d
+
+reduced.asan.out: stdin: invalid compressed data--format violated
+
+=================================================================
+==3551561==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 8208 byte(s) in 1 object(s) allocated from:
+    #0 0x55c7c708ddde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55c7c70cba69 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55c7c70ce8f6 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3369:15
+    #3 0x55c7c70ced82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55c7c70ceeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55c7c70cf116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55c7c70d6aed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x55c7c70d6179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7f8aa1fa9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 4112 byte(s) in 1 object(s) allocated from:
+    #0 0x55c7c708ddde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55c7c70cba69 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55c7c70ce997 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x55c7c70ced82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55c7c70ceeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55c7c70cf116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55c7c70d6aed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x55c7c70d6179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7f8aa1fa9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 62496 byte(s) in 120 object(s) allocated from:
+    #0 0x55c7c708ddde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55c7c70cba69 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55c7c70ce997 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x55c7c70ced82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55c7c70ceeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55c7c70cf116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55c7c70d6aed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x55c7c70d6179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7f8aa1fa9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 3792 byte(s) in 57 object(s) allocated from:
+    #0 0x55c7c708ddde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55c7c70cba69 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55c7c70ce8f6 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3369:15
+    #3 0x55c7c70ced82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55c7c70ceeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55c7c70cf116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55c7c70d6aed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x55c7c70d6179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7f8aa1fa9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 78608 byte(s) leaked in 179 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3551560 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_47 > sample1.tst
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out -d
+
+reduced.lsan.out: stdin: invalid compressed data--format violated
+
+=================================================================
+==3797878==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 8208 byte(s) in 1 object(s) allocated from:
+    #0 0x5596a221d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x316f2) (BuildId: dedd4f58c975b6b4b612cdb2170324ef72f6f21b)
+    #1 0x5596a2221d7c in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x5596a22230fb in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3369:15
+    #3 0x5596a22232bc in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x5596a2223310 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x5596a22233fc in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x5596a22269cc in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x5596a22262c9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7fa36b51ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 4112 byte(s) in 1 object(s) allocated from:
+    #0 0x5596a221d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x316f2) (BuildId: dedd4f58c975b6b4b612cdb2170324ef72f6f21b)
+    #1 0x5596a2221d7c in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x5596a222313c in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x5596a22232bc in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x5596a2223310 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x5596a22233fc in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x5596a22269cc in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x5596a22262c9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7fa36b51ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 62496 byte(s) in 120 object(s) allocated from:
+    #0 0x5596a221d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x316f2) (BuildId: dedd4f58c975b6b4b612cdb2170324ef72f6f21b)
+    #1 0x5596a2221d7c in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x5596a222313c in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x5596a22232bc in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x5596a2223310 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x5596a22233fc in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x5596a22269cc in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x5596a22262c9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7fa36b51ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 3792 byte(s) in 57 object(s) allocated from:
+    #0 0x5596a221d6f2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x316f2) (BuildId: dedd4f58c975b6b4b612cdb2170324ef72f6f21b)
+    #1 0x5596a2221d7c in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x5596a22230fb in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3369:15
+    #3 0x5596a22232bc in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x5596a2223310 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x5596a22233fc in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x5596a22269cc in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #7 0x5596a22262c9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #8 0x7fa36b51ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: LeakSanitizer: 78608 byte(s) leaked in 179 allocation(s).

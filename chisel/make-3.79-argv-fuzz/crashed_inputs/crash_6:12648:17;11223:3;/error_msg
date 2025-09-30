@@ -1,0 +1,19 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make-3.79.c.reduced.c:11172:15: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:11172:15 in 
+make: invalid option -- 'X'
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3776240==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x5596bca7e010 (pc 0x5596bc0eb78d bp 0x7ffe57605170 sp 0x7ffe57605010 T3776240)
+==3776240==The signal is caused by a READ memory access.
+    #0 0x5596bc0eb78d in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17
+    #1 0x5596bc0e9d00 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7f28cf072d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f28cf072e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5596bc0b45c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x165c4) (BuildId: 37a82cc5b4e843d12e1696b73a4a747832f52480)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17 in decode_switches
+==3776240==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3776239 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

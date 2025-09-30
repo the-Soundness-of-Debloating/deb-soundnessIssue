@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out
+flex-2.5.4.c.reduced.c:8200:7: runtime error: index -1 out of bounds for type 'int[257]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:8200:7 in 
+flex-2.5.4.c.reduced.c:8489:9: runtime error: applying non-zero offset 8 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:8489:9 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1316100==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000008 (pc 0x55ed88be4638 bp 0x7ffd41c8b540 sp 0x7ffd41c8b480 T1316100)
+==1316100==The signal is caused by a WRITE memory access.
+==1316100==Hint: address points to the zero page.
+    #0 0x55ed88be4638 in mk1tbl /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:8489:22
+    #1 0x55ed88bd71f2 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:2982:7
+    #2 0x55ed88bd3657 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:456:3
+    #3 0x7f8d2c766d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f8d2c766e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55ed88bab464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out+0x1d464) (BuildId: 55a0a5c33b4e04e1e2b7cb5e3ad2a69fcee3a00e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:8489:22 in mk1tbl
+==1316100==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1316099 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

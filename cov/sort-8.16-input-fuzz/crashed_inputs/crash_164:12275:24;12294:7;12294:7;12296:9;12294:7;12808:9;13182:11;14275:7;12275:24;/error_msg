@@ -1,0 +1,20 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.lsan.out -z /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file23_fuzzed/file23_70
+LeakSanitizer:DEADLYSIGNAL
+==817381==ERROR: LeakSanitizer: SEGV on unknown address 0x61bfffffffe0 (pc 0x55f1ef9e0df5 bp 0x7fffc0807830 sp 0x7fffc08077d0 T0)
+==817381==The signal is caused by a WRITE memory access.
+    #0 0x55f1ef9e0df5 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12275:24
+    #1 0x55f1ef9e0f55 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12294:7
+    #2 0x55f1ef9e0f55 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12294:7
+    #3 0x55f1ef9e0f80 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12296:9
+    #4 0x55f1ef9e0f55 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12294:7
+    #5 0x55f1ef9e06f4 in sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12808:9
+    #6 0x55f1ef9dfc92 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13182:11
+    #7 0x55f1ef9df5f4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7
+    #8 0x7f4c2f5bdd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #9 0x7f4c2f5bde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #10 0x55f1ef9b05d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.lsan.out+0x65d4) (BuildId: f92059cfc371b8bbc91551db8249a4467d1509ba)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12275:24 in sequential_sort
+==817381==ABORTING

@@ -1,0 +1,43 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_32
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140242777327424) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140242777327424) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140242777327424) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140242777327424, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f8cd0f11476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f8cd0ef77f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f8cd0f58676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f8cd10aab77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007f8cd0f6fcfc in malloc_printerr (str=str@entry=0x7f8cd10a87ec "malloc(): corrupted top size") at ./malloc/malloc.c:5664
+#7  0x00007f8cd0f736f2 in _int_malloc (av=av@entry=0x7f8cd10e9c80 <main_arena>, bytes=bytes@entry=4096) at ./malloc/malloc.c:4373
+#8  0x00007f8cd0f74262 in __GI___libc_malloc (bytes=bytes@entry=4096) at ./malloc/malloc.c:3321
+#9  0x00007f8cd0f4dba4 in __GI__IO_file_doallocate (fp=0x7f8cd10ea780 <_IO_2_1_stdout_>) at ./libio/filedoalloc.c:101
+#10 0x00007f8cd0f5cce0 in __GI__IO_doallocbuf (fp=fp@entry=0x7f8cd10ea780 <_IO_2_1_stdout_>) at ./libio/libioP.h:947
+#11 0x00007f8cd0f5bf60 in _IO_new_file_overflow (f=0x7f8cd10ea780 <_IO_2_1_stdout_>, ch=-1) at ./libio/fileops.c:744
+#12 0x00007f8cd0f5a6d5 in _IO_new_file_xsputn (n=2, data=<optimized out>, f=<optimized out>) at ./libio/libioP.h:947
+#13 _IO_new_file_xsputn (f=0x7f8cd10ea780 <_IO_2_1_stdout_>, data=<optimized out>, n=2) at ./libio/fileops.c:1196
+#14 0x00007f8cd0f4600c in outstring_func (done=0, length=2, string=0x55e336b5813d "# ", s=0x7f8cd10ea780 <_IO_2_1_stdout_>) at ../libio/libioP.h:947
+#15 __vfprintf_internal (s=0x7f8cd10ea780 <_IO_2_1_stdout_>, format=0x55e336b59378 "%sGNU Make version %s", ap=ap@entry=0x7ffe5edc60f0, mode_flags=mode_flags@entry=0)
+    at ./stdio-common/vfprintf-internal.c:1517
+#16 0x00007f8cd0f2f79f in __printf (format=<optimized out>) at ./stdio-common/printf.c:33
+#17 0x000055e336b5035b in print_version () at ./make-3.79.c.reduced.c:13642
+#18 0x000055e336b4ebcc in main (argc=27, argv=0x55e336b7a360 <afl_init_argv[ret]>, envp=0x7ffe5edc7658) at ./make-3.79.c.reduced.c:11308

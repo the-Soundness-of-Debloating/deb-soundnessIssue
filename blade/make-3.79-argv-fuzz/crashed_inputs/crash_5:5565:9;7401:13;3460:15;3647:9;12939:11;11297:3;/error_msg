@@ -1,0 +1,52 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==3717118==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow on address 0x7fff74ce3fed at pc 0x55a6b728a5e6 bp 0x7fff74ce38f0 sp 0x7fff74ce30b8
+READ of size 13 at 0x7fff74ce3fed thread T0
+    #0 0x55a6b728a5e5 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x435e5) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a)
+    #1 0x55a6b7341acb in lookup_function /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:5565:9
+    #2 0x55a6b733b585 in handle_function /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:7401:13
+    #3 0x55a6b733a6e3 in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3460:15
+    #4 0x55a6b733cc7f in variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3647:9
+    #5 0x55a6b734f17c in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12939:11
+    #6 0x55a6b734c3de in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #7 0x7ffb61e53d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7ffb61e53e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55a6b7273424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c424) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a)
+
+Address 0x7fff74ce3fed is located in stack of thread T0
+SUMMARY: AddressSanitizer: dynamic-stack-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x435e5) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a) in strlen
+Shadow bytes around the buggy address:
+  0x10006e9947a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e9947b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e9947c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e9947d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e9947e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x10006e9947f0: 00 00 00 00 00 00 00 00 ca ca ca ca 00[05]cb cb
+  0x10006e994800: cb cb cb cb 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e994810: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e994820: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e994830: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10006e994840: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3717118==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3717116 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

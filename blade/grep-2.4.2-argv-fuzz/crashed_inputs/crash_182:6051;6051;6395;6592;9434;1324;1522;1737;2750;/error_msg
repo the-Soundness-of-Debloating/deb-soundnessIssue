@@ -1,0 +1,33 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_9_fuzzed/input_9_6
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000558efc192e23 in dfastate (s=0, d=0x558efc1b3890 <dfa_1>, trans___0=0x558efdf3d1a0) at ./grep-2.4.2.c.reduced.c:6051
+6051	      if ((((d->states + 0)->elems.elems + i)->constraint & 12U) >> 2 != (((d->states + 0)->elems.elems + i)->constraint & 3U)) {
+#0  0x0000558efc192e23 in dfastate (s=0, d=0x558efc1b3890 <dfa_1>, trans___0=0x558efdf3d1a0) at ./grep-2.4.2.c.reduced.c:6051
+#1  0x0000558efc193465 in build_state (s=0, d=0x558efc1b3890 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6395
+#2  0x0000558efc19337a in dfaexec (d=0x558efc1b3890 <dfa_1>, begin=0x558efdf2ee0b "\n\n\216U", end=0x558efdf2ee0c "\n\216U", newline___0=0, count=0x0, backref=0x7ffe364edec8)
+    at ./grep-2.4.2.c.reduced.c:6592
+#3  0x0000558efc194673 in EGexecute (buf=0x558efdf2ee0b "\n\n\216U", size=1, endp=0x7ffe364edf18) at ./grep-2.4.2.c.reduced.c:9434
+#4  0x0000558efc194c04 in grepbuf (beg=0x558efdf2ee0b "\n\n\216U", lim=0x558efdf2ee0c "\n\216U") at ./grep-2.4.2.c.reduced.c:1324
+#5  0x0000558efc1949e8 in grep (fd=-1, file=0x558efc19926d <afl_init_argv.in_buf+77> "train_inpXtud)'", stats=0x558efc1991c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1522
+#6  0x0000558efc1918fb in grepfile (file=0x558efc19926d <afl_init_argv.in_buf+77> "train_inpXtud)'", stats=0x558efc1991c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#7  0x0000558efc191619 in main (argc=5, argv=0x558efc1b18c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

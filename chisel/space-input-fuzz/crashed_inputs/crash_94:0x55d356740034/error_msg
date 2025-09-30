@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_108
+ThreadSanitizer:DEADLYSIGNAL
+==2828053==ERROR: ThreadSanitizer: BUS on unknown address (pc 0x55d356740034 bp 0x39327fff49e94cf0 sp 0x7fff49e94c50 T2828053)
+==2828053==The signal is caused by a READ memory access.
+==2828053==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan::FiberSwitch(__tsan::ThreadState*, unsigned long, __tsan::ThreadState*, unsigned int) <null> (reduced.tsan.out+0xc8034) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: BUS (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xc8034) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan::FiberSwitch(__tsan::ThreadState*, unsigned long, __tsan::ThreadState*, unsigned int)
+==2828053==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2828052 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_108
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_308
+LeakSanitizer:DEADLYSIGNAL
+==3230529==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000078 (pc 0x5610ad5b0034 bp 0x39327ffe9361e530 sp 0x7ffe9361e4f0 T0)
+==3230529==The signal is caused by a READ memory access.
+==3230529==Hint: address points to the zero page.
+LeakSanitizer:DEADLYSIGNAL
+LeakSanitizer: nested bug in the same thread, aborting.

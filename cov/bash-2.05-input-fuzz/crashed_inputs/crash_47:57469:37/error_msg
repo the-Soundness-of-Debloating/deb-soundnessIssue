@@ -1,0 +1,37 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+bash-2.05.c.reduced.c:57469:26: runtime error: member access within misaligned address 0xcfcfcfcf55555555 for type 'REDIRECT' (aka 'struct redirect'), which requires 8 byte alignment
+0xcfcfcfcf55555555: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:57469:26 in 
+bash-2.05.c.reduced.c:57469:26: runtime error: member access within misaligned address 0xcfcfcfcf5555556d for type 'REDIRECTEE' (aka 'union __anonunion_REDIRECTEE_53'), which requires 8 byte alignment
+0xcfcfcfcf5555556d: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:57469:26 in 
+bash-2.05.c.reduced.c:57469:37: runtime error: load of misaligned address 0xcfcfcfcf5555556d for type 'WORD_DESC *' (aka 'struct word_desc *'), which requires 8 byte alignment
+0xcfcfcfcf5555556d: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:57469:37 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2368422==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x557f26f44ca8 bp 0x7ffc8e41b8d0 sp 0x7ffc8e41b820 T2368422)
+==2368422==The signal is caused by a READ memory access.
+==2368422==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x557f26f44ca8 in do_redirection_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:57469:37
+    #1 0x557f26f16f9e in do_redirections /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:56961:13
+    #2 0x557f26f15fed in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15880:13
+    #3 0x557f26f03566 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #4 0x557f26f02708 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #5 0x557f26f0105f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #6 0x7fdc9d61cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fdc9d61ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x557f26ed8ad4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 75bb360d74acb15cd10cdbdf3a47060e5832b9b7)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:57469:37 in do_redirection_internal
+==2368422==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2368420 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile

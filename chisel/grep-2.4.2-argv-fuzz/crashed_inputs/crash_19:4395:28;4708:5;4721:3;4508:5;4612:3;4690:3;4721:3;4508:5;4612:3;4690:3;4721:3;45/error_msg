@@ -1,0 +1,35 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2269451==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x5606556a7e9c bp 0x7ffe2f315f30 sp 0x7ffe2f315f10 T0)
+==2269451==The signal is caused by a WRITE memory access.
+    #0 0x5606556a7e9c in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4395:28
+    #1 0x5606556aa9dd in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4708:5
+    #2 0x5606556a7dcf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4721:3
+    #3 0x5606556aab61 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4508:5
+    #4 0x5606556aa9fc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4612:3
+    #5 0x5606556aa988 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4690:3
+    #6 0x5606556a7dcf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4721:3
+    #7 0x5606556aab61 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4508:5
+    #8 0x5606556aa9fc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4612:3
+    #9 0x5606556aa988 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4690:3
+    #10 0x5606556a7dcf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4721:3
+    #11 0x5606556aab61 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4508:5
+    #12 0x5606556aa9fc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4612:3
+    #13 0x5606556aa9d3 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4707:5
+    #14 0x5606556a7df4 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4731:5
+    #15 0x5606556aab61 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4508:5
+    #16 0x5606556aa9fc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4612:3
+    #17 0x5606556aa988 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4690:3
+    #18 0x5606556a7dcf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4721:3
+    #19 0x5606556a7498 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4771:3
+    #20 0x5606556a9520 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6676:5
+    #21 0x5606556aa0c7 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9294:5
+    #22 0x5606556a70ed in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2710:3
+    #23 0x7ff5b3488d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #24 0x7ff5b3488e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #25 0x560655679474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x5474) (BuildId: b395f683bf32c4f7d55c339ab0779b98cd8c53f5)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4395:28 in addtok
+==2269451==ABORTING

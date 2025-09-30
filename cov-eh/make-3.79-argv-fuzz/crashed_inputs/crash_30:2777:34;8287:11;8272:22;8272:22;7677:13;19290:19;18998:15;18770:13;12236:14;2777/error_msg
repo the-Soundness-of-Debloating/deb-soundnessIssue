@@ -1,0 +1,24 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==741624==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000018 (pc 0x55cf83c71ff2 bp 0x7ffd110257e0 sp 0x7ffd110256e0 T741624)
+==741624==The signal is caused by a READ memory access.
+==741624==Hint: address points to the zero page.
+    #0 file_impossible /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2777:34 (reduced.tsan.out+0xd2ff2) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #1 pattern_search /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:8287:11 (reduced.tsan.out+0xd9241) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #2 pattern_search /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:8272:22 (reduced.tsan.out+0xd922f) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #3 pattern_search /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:8272:22 (reduced.tsan.out+0xd922f) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #4 try_implicit_rule /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:7677:13 (reduced.tsan.out+0xd7860) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #5 update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19290:19 (reduced.tsan.out+0xee65c) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #6 update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18998:15 (reduced.tsan.out+0xe654c) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #7 update_goal_chain /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18770:13 (reduced.tsan.out+0xe24a7) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12236:14 (reduced.tsan.out+0xdd1d7) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #9 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 _start <null> (reduced.tsan.out+0x23494) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2777:34 in file_impossible
+==741624==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 741621 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

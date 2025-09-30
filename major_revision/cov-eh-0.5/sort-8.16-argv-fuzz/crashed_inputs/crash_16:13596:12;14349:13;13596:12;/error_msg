@@ -1,0 +1,114 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.msan.out
+sort: invalid option -- '-'
+sort: invalid option -- 'p'
+sort: invalid option -- '}'
+sort: invalid option -- '/'
+sort: invalid option -- '-'
+sort: invalid option -- '-'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- 'G'
+sort: invalid option -- '9'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- 'Ÿ'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- '9'
+sort: invalid option -- 'G'
+sort: invalid option -- '9'
+MemorySanitizer:DEADLYSIGNAL
+==1898373==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x559a377c2f93 bp 0x7ffda0ad1600 sp 0x7ffda0ad15a0 T1898373)
+==1898373==The signal is caused by a READ memory access.
+==1898373==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x559a377c2f93 in insertkey /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12
+    #1 0x559a377bff85 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14349:13
+    #2 0x7f39548bdd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f39548bde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x559a377294a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.msan.out+0x1f4a4) (BuildId: 41780a43ab66b65360908d8f52e7e7dda36dfff3)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12 in insertkey
+==1898373==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1898372 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.tsan.out
+sort: invalid option -- 'p'
+sort: invalid option -- 'a'
+sort: invalid option -- 'K'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '6'
+sort: invalid option -- '@'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+sort: invalid option -- '0'
+ThreadSanitizer:DEADLYSIGNAL
+==1914486==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000070 (pc 0x55b3f6315733 bp 0x7fffa1a977e0 sp 0x7fffa1a97790 T1914486)
+==1914486==The signal is caused by a READ memory access.
+==1914486==Hint: address points to the zero page.
+    #0 insertkey /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12 (reduced.tsan.out+0xd2733) (BuildId: 2368ad69ce37962a6208f1d6578727bc69c70fda)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14349:13 (reduced.tsan.out+0xd19ea) (BuildId: 2368ad69ce37962a6208f1d6578727bc69c70fda)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x214e4) (BuildId: 2368ad69ce37962a6208f1d6578727bc69c70fda)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12 in insertkey
+==1914486==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1914485 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.lsan.out
+sort: invalid option -- 'á'
+sort: invalid option -- 'ø'
+sort: invalid option -- '-'
+sort: invalid option -- 'Œ'
+sort: invalid option -- 'ø'
+sort: invalid option -- ''
+sort: invalid option -- 'á'
+sort: invalid option -- 'ø'
+sort: invalid option -- '-'
+LeakSanitizer:DEADLYSIGNAL
+==1945599==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55950e9d3365 bp 0x7ffd50b22500 sp 0x7ffd50b224e0 T0)
+==1945599==The signal is caused by a READ memory access.
+==1945599==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55950e9d3365 in insertkey /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12
+    #1 0x55950e9d2adc in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14349:13
+    #2 0x7efe4b9d5d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7efe4b9d5e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55950e9a2724 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.lsan.out+0x7724) (BuildId: 41bda7085b53aece9e5bdad08971504898508b9b)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12 in insertkey
+==1945599==ABORTING

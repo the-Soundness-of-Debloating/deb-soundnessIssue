@@ -1,0 +1,25 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==865282==ERROR: AddressSanitizer: SEGV on unknown address 0x00000000001e (pc 0x55a7e7b1bdb0 bp 0x7ffc56878210 sp 0x7ffc56877f60 T0)
+==865282==The signal is caused by a READ memory access.
+==865282==Hint: address points to the zero page.
+    #0 0x55a7e7b1bdb0 in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14745:70
+    #1 0x55a7e7b1810a in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #2 0x55a7e7b17f1b in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #3 0x55a7e7b184cf in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #4 0x55a7e7b1b61f in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #5 0x55a7e7b1ac64 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4985:13
+    #6 0x55a7e7b16a2e in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #7 0x55a7e7b1664b in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #8 0x55a7e7b144e5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #9 0x7f3875a7ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f3875a7ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55a7e7a543b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: d89dfb85c54434e1560240519516c9bba20cfb47)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14745:70 in re_search_internal
+==865282==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 865281 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

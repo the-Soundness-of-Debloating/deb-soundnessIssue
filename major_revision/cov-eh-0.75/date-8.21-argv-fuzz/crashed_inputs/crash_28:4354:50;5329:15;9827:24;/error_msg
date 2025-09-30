@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:4268:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4268:32 in 
+date-8.21.c.reduced.c:4274:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4274:26 in 
+date-8.21.c.reduced.c:4354:43: runtime error: index -29776 out of bounds for type 'const yytype_uint8[114]' (aka 'const unsigned char[114]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4354:43 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2883298==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7ffd5014affe (pc 0x56495775e756 bp 0x7ffd50948c30 sp 0x7ffd509473a0 T2883298)
+==2883298==The signal is caused by a READ memory access.
+    #0 0x56495775e756 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4354:50
+    #1 0x56495776436e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #2 0x56495776c220 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7fb7b5ec2d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7fb7b5ec2e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x56495772d634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x14634) (BuildId: 3e6e225a123f721fb6cd72485c8c47002f262fa5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4354:50 in yyparse
+==2883298==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2883297 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

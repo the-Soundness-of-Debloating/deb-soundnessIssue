@@ -1,0 +1,21 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out
+==469701==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x563b4280f35e in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17
+    #1 0x563b4283d96f in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16041:37
+    #2 0x563b4283ca2c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #3 0x563b4283c84c in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #4 0x563b42810e3c in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #5 0x563b4280d95b in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #6 0x563b42808097 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #7 0x563b428079b2 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #8 0x563b42843448 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #9 0x563b4282c9e3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #10 0x7fcca1b3cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #11 0x7fcca1b3ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #12 0x563b4274f444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x1f444) (BuildId: 9bbdbd0bffef5adfcbf1bd2c872e93c69af9d3bd)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17 in lex
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 469700 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

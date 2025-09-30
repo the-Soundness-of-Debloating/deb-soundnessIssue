@@ -1,0 +1,62 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0
+=================================================================
+==284283==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60b0000000a4 at pc 0x562981f1c248 bp 0x7fffdfa59930 sp 0x7fffdfa59928
+WRITE of size 4 at 0x60b0000000a4 thread T0
+    #0 0x562981f1c247 in yy_push_state /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16260:31
+    #1 0x562981f10b67 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:13927:5
+    #2 0x562981f1ba25 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15
+    #3 0x562981f01731 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14
+    #4 0x562981efc24a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #5 0x562981efaf56 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #6 0x7fefc705ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fefc705ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x562981e3b334 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out+0x3d334) (BuildId: dd2b0547d6f637d9a2b2cea0be5f5a8004b729e8)
+
+0x60b0000000a4 is located 0 bytes to the right of 100-byte region [0x60b000000040,0x60b0000000a4)
+allocated by thread T0 here:
+    #0 0x562981ec0d5e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out+0xc2d5e) (BuildId: dd2b0547d6f637d9a2b2cea0be5f5a8004b729e8)
+    #1 0x562981f1d6c4 in yy_flex_alloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16297:9
+    #2 0x562981f1c19f in yy_push_state /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16243:13
+    #3 0x562981f10b67 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:13927:5
+    #4 0x562981f1ba25 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15
+    #5 0x562981f01731 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14
+    #6 0x562981efc24a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #7 0x562981efaf56 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #8 0x7fefc705ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16260:31 in yy_push_state
+Shadow bytes around the buggy address:
+  0x0c167fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c167fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c167fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c167fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c167fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+=>0x0c167fff8010: 00 00 00 00[04]fa fa fa fa fa fa fa fa fa fa fa
+  0x0c167fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c167fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c167fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c167fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c167fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==284283==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 284282 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0

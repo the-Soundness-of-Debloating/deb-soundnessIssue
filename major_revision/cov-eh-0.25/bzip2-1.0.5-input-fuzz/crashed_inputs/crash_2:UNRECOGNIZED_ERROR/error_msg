@@ -1,0 +1,16 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_31
+=================================================================
+==804199==ERROR: AddressSanitizer: requested allocation size 0xffffffffffedb080 (0xffffffffffedc080 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d
+==1025808==ERROR: MemorySanitizer: requested allocation size 0xffffffffffedb080 exceeds maximum supported size of 0x200000000
+    <empty stack>
+
+==1025808==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: MemorySanitizer: allocation-size-too-big
+timeout: the monitored command dumped core
+./verify.sh: line 170: 1025807 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_31 > sample1.tst
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/bins/reduced.tsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_31
+==1267159==ERROR: ThreadSanitizer: requested allocation size 0xffffffffffedb080 exceeds maximum supported size of 0x10000000000

@@ -1,0 +1,44 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_267
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140594219566912) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140594219566912) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140594219566912) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140594219566912, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007fdea4881476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007fdea48677f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007fdea48c8676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7fdea4a1ab77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007fdea48dfcfc in malloc_printerr (str=str@entry=0x7fdea4a1dbc0 "malloc(): invalid size (unsorted)") at ./malloc/malloc.c:5664
+#7  0x00007fdea48e30dc in _int_malloc (av=av@entry=0x7fdea4a59c80 <main_arena>, bytes=bytes@entry=4096) at ./malloc/malloc.c:4002
+#8  0x00007fdea48e4262 in __GI___libc_malloc (bytes=bytes@entry=4096) at ./malloc/malloc.c:3321
+#9  0x00007fdea48bdba4 in __GI__IO_file_doallocate (fp=0x7fdea4a5a780 <_IO_2_1_stdout_>) at ./libio/filedoalloc.c:101
+#10 0x00007fdea48ccce0 in __GI__IO_doallocbuf (fp=fp@entry=0x7fdea4a5a780 <_IO_2_1_stdout_>) at ./libio/libioP.h:947
+#11 0x00007fdea48cbf60 in _IO_new_file_overflow (f=0x7fdea4a5a780 <_IO_2_1_stdout_>, ch=-1) at ./libio/fileops.c:744
+#12 0x00007fdea48ca6d5 in _IO_new_file_xsputn (n=7, data=<optimized out>, f=<optimized out>) at ./libio/libioP.h:947
+#13 _IO_new_file_xsputn (f=0x7fdea4a5a780 <_IO_2_1_stdout_>, data=<optimized out>, n=7) at ./libio/fileops.c:1196
+#14 0x00007fdea48b600c in outstring_func (done=0, length=7, string=0x55926f5e5015 "target5", s=0x7fdea4a5a780 <_IO_2_1_stdout_>) at ../libio/libioP.h:947
+#15 __vfprintf_internal (s=0x7fdea4a5a780 <_IO_2_1_stdout_>, format=0x55926f5e51c1 "%s: %s: %s\n", ap=ap@entry=0x7ffc45286a40, mode_flags=mode_flags@entry=0)
+    at ./stdio-common/vfprintf-internal.c:1517
+#16 0x00007fdea489f6ca in __fprintf (stream=<optimized out>, format=<optimized out>) at ./stdio-common/fprintf.c:32
+#17 0x000055926f5d943c in error (mesg=0x55926f5e9cb4 <afl_init_argv.in_buf+132> '\212' <repeats 12 times>, errnum=2) at ./grep-2.4.2.c.reduced.c:575
+#18 0x000055926f5da0b5 in grepfile (file=0x55926f5e9cb4 <afl_init_argv.in_buf+132> '\212' <repeats 12 times>, stats=0x55926f5e96d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1729
+#19 0x000055926f5d9a8f in main (argc=3, argv=0x55926f6022d0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

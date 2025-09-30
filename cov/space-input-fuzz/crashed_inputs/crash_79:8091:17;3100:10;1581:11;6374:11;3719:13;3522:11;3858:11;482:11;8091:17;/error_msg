@@ -1,0 +1,45 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.msan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_187
+MemorySanitizer:DEADLYSIGNAL
+==1119581==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x5559e99e6c93 bp 0x7fffe5548c30 sp 0x7fffe5548bc0 T1119581)
+==1119581==The signal is caused by a READ memory access.
+==1119581==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5559e99e6c93 in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17
+    #1 0x5559e99c7394 in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3100:10
+    #2 0x5559e99d898f in doubstep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:1581:11
+    #3 0x5559e99f2eac in recgrdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:6374:11
+    #4 0x5559e99ec90f in griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3719:13
+    #5 0x5559e99eba6d in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3522:11
+    #6 0x5559e99c0e0c in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3858:11
+    #7 0x5559e99bdf87 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:482:11
+    #8 0x7f39da5cbd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7f39da5cbe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x5559e9937324 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.msan.out+0x1e324) (BuildId: 143c07c5eaf56879518f270658fd422d3dd9b003)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17 in TapeGet
+==1119581==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 150: 1119580 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.msan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_187
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_32
+ThreadSanitizer:DEADLYSIGNAL
+==1309049==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000190000 (pc 0x5566eef0cd01 bp 0x7ffc307033b0 sp 0x7ffc30703350 T1309049)
+==1309049==The signal is caused by a READ memory access.
+    #0 TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17 (reduced.tsan.out+0xd7d01) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #1 GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3100:10 (reduced.tsan.out+0xcf30c) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #2 doubstep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:1581:11 (reduced.tsan.out+0xd37ee) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #3 recgrdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:6374:11 (reduced.tsan.out+0xdb2a6) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #4 griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3719:13 (reduced.tsan.out+0xd962c) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #5 greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3522:11 (reduced.tsan.out+0xd9379) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #6 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3858:11 (reduced.tsan.out+0xcd659) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:482:11 (reduced.tsan.out+0xcca89) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #8 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 _start <null> (reduced.tsan.out+0x203b4) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17 in TapeGet
+==1309049==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 150: 1309048 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_32

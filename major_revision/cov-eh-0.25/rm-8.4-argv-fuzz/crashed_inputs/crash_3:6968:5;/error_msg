@@ -1,0 +1,18 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1444349==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55d7992e4000 (pc 0x55d798964620 bp 0x7ffd803a34a0 sp 0x7ffd803a3370 T1444349)
+==1444349==The signal is caused by a WRITE memory access.
+    #0 0x55d798964620 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x55d798963861 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6968:5
+    #2 0x7fd966166d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7fd966166e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55d79892d604 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out+0xf604) (BuildId: 3484208738378ef9527931b17dc75c52a8e5f005)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1444349==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 1444348 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input3_fuzzed/input3_469

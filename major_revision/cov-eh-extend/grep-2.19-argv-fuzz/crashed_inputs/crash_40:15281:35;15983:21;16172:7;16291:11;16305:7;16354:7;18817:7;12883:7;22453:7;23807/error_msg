@@ -1,0 +1,91 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==815780==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000003f at pc 0x55e68856fd1a bp 0x7ffccd280e50 sp 0x7ffccd280e48
+READ of size 1 at 0x60200000003f thread T0
+    #0 0x55e68856fd19 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35
+    #1 0x55e688586e13 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21
+    #2 0x55e688586bdc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #3 0x55e688586bb6 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #4 0x55e688570438 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #5 0x55e68856f41a in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #6 0x55e68856cdd9 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #7 0x55e68856cb9d in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #8 0x55e68858bf51 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #9 0x55e68857fd95 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #10 0x7f89258ebd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #11 0x7f89258ebe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #12 0x55e68848f524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x24524) (BuildId: 22d78eeded22df3e3afcf5eafca3eda537ac236e)
+
+0x60200000003f is located 0 bytes to the right of 15-byte region [0x602000000030,0x60200000003f)
+allocated by thread T0 here:
+    #0 0x55e688514f4e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.asan.out+0xa9f4e) (BuildId: 22d78eeded22df3e3afcf5eafca3eda537ac236e)
+    #1 0x55e688550a64 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:1053:13
+    #2 0x55e688550d28 in xmemdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:1137:13
+    #3 0x55e68857fd2f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23765:26
+    #4 0x7f89258ebd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 in lex
+Shadow bytes around the buggy address:
+  0x0c047fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c047fff8000: fa fa 05 fa fa fa 00[07]fa fa fd fa fa fa 04 fa
+  0x0c047fff8010: fa fa 04 fa fa fa 04 fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff8020: fa fa 04 fa fa fa 04 fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff8030: fa fa 04 fa fa fa 04 fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff8040: fa fa 04 fa fa fa 04 fa fa fa fd fa fa fa 04 fa
+  0x0c047fff8050: fa fa 04 fa fa fa 00 00 fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==815780==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 815779 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=865164)
+  Read of size 1 at 0x7b1400000050 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 (reduced.tsan.out+0xe138d) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21 (reduced.tsan.out+0xf05f8) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xf02e5) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xf02b3) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe1b25) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xe0b71) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xdf190) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #7 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xdef2d) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #8 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf3c9a) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+  Previous write of size 8 at 0x7b1400000050 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4eb84) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 free_charset posix/regcomp.c:3804:3 (libc.so.6+0x10351f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 parse_bracket_exp posix/regcomp.c:3385:7 (libc.so.6+0x10351f)
+    #3 parse_expression posix/regcomp.c:2286:14 (libc.so.6+0x10351f)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf3c9a) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 in lex
+==================
+grep: Invalid content of \{\}
+timeout: the monitored command dumped core
+./verify.sh: line 110: 865163 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,94 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+
+=================================================================
+==3055582==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 30600 byte(s) in 120 object(s) allocated from:
+    #0 0x55f4e6be5622 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x30622) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8c30 in getline_local /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6767:17
+    #2 0x55f4e6be8d04 in ck_getline /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6856:11
+    #3 0x55f4e6be9b46 in read_file_line /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4208:9
+    #4 0x55f4e6be87d1 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4670:15
+    #5 0x55f4e6be8052 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11
+    #6 0x55f4e6be7e59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #7 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 4720 byte(s) in 118 object(s) allocated from:
+    #0 0x55f4e6be588c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3088c) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8d56 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7035:13
+    #2 0x55f4e6be9c71 in next_append_slot /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4289:9
+    #3 0x55f4e6be8974 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5473:13
+    #4 0x55f4e6be8073 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5824:14
+    #5 0x55f4e6be7e59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #6 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 1904 byte(s) in 238 object(s) allocated from:
+    #0 0x55f4e6be5622 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x30622) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be912b in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14257:13
+    #2 0x55f4e6be90cb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14036:9
+    #3 0x55f4e6be931f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19515:9
+    #4 0x55f4e6be9ed5 in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4844:9
+    #5 0x55f4e6be9c36 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4902:15
+    #6 0x55f4e6be8897 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5367:16
+    #7 0x55f4e6be8073 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5824:14
+    #8 0x55f4e6be7e59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #9 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x55f4e6be588c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3088c) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8d56 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7035:13
+    #2 0x55f4e6be8e71 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7134:9
+    #3 0x55f4e6be96d7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1828:11
+    #4 0x55f4e6be9410 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2523:13
+    #5 0x55f4e6be8206 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2725:15
+    #6 0x55f4e6be7fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #7 0x55f4e6be7e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #8 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x55f4e6be588c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3088c) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8d56 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7035:13
+    #2 0x55f4e6be8e71 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7134:9
+    #3 0x55f4e6be967c in read_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1555:11
+    #4 0x55f4e6be83c5 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3208:13
+    #5 0x55f4e6be7fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #6 0x55f4e6be7e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #7 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x55f4e6be5622 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x30622) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6beb1da in re_node_set_init_copy /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7814:11
+    #2 0x55f4e6bea21c in create_initial_state /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9839:9
+    #3 0x55f4e6be906e in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9611:9
+    #4 0x55f4e6be8f7b in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9116:9
+    #5 0x55f4e6be92ba in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19425:11
+    #6 0x55f4e6be927a in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19477:3
+    #7 0x55f4e6be9432 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2553:26
+    #8 0x55f4e6be8206 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2725:15
+    #9 0x55f4e6be7fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #10 0x55f4e6be7e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #11 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x55f4e6be588c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3088c) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8d56 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7035:13
+    #2 0x55f4e6be8e87 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7136:13
+    #3 0x55f4e6be967c in read_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1555:11
+    #4 0x55f4e6be83c5 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3208:13
+    #5 0x55f4e6be7fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #6 0x55f4e6be7e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #7 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 50 byte(s) in 1 object(s) allocated from:
+    #0 0x55f4e6be588c in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x3088c) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x55f4e6be8d56 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7035:13
+    #2 0x55f4e6be8e87 in init_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7136:13
+    #3 0x55f4e6be96d7 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1828:11
+    #4 0x55f4e6be9410 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2523:13
+    #5 0x55f4e6be8206 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2725:15
+    #6 0x55f4e6be7fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #7 0x55f4e6be7e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #8 0x7f795cf5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 37376 byte(s) leaked in 481 allocation(s).

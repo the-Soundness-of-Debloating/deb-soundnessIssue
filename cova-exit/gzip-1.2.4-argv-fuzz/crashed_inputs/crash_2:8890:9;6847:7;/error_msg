@@ -1,0 +1,18 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2714824==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7ffba5d6a3fe bp 0x7ffdd725d250 sp 0x7ffdd725d210 T2714824)
+==2714824==The signal is caused by a READ memory access.
+==2714824==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7ffba5d6a3fe in __libc_free (/lib/x86_64-linux-gnu/libc.so.6+0xa53fe) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55599364d104 in do_exit /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:8890:9
+    #2 0x55599364c967 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6847:7
+    #3 0x7ffba5ceed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7ffba5ceee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55599360b584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out+0x19584) (BuildId: 0f643670251976f90549dc7240423465ea9ed3c6)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xa53fe) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __libc_free
+==2714824==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2714822 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-argv-fuzz/result/afl_result/reduced/result_1/ubsan/crashes/id:000002* > sample1.gz

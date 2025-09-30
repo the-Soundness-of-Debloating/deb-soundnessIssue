@@ -1,0 +1,62 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000086,sig:06,src:000549+000814,time:4588513,execs:402345,op:splice,rep:1
+=================================================================
+==1608766==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f6e9e4052b4 at pc 0x56547b406adf bp 0x7ffed8270570 sp 0x7ffed8270568
+WRITE of size 1 at 0x7f6e9e4052b4 thread T0
+    #0 0x56547b406ade in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24
+    #1 0x56547b412306 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #2 0x56547b411bd2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f6e9fcbfd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f6e9fcbfe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x56547b33a4b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.asan.out+0x244b4) (BuildId: f0ac3300cfc0e9edcc39665d33d49e132f90c830)
+
+Address 0x7f6e9e4052b4 is located in stack of thread T0 at offset 692 in frame
+    #0 0x56547b40616f in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5004
+
+  This frame has 9 object(s):
+    [32, 88) 'tm' (line 5008)
+    [128, 184) 'tm0' (line 5009)
+    [224, 496) 'pc' (line 5010)
+    [560, 576) 'gettime_buffer' (line 5011)
+    [592, 692) 'tz0buf' (line 5015) <== Memory access at offset 692 overflows this variable
+    [736, 836) 'tz1buf' (line 5023)
+    [880, 936) '__constr_expr_40' (line 5030)
+    [976, 984) 'probe' (line 5032)
+    [1008, 1038) 'tz1buf___0' (line 5043)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 in parse_datetime
+Shadow bytes around the buggy address:
+  0x0fee53c78a00: f1 f1 f1 f1 00 00 00 00 00 00 00 f2 f2 f2 f2 f2
+  0x0fee53c78a10: 00 00 00 00 00 00 00 f2 f2 f2 f2 f2 00 00 00 00
+  0x0fee53c78a20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee53c78a30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f2 f2
+  0x0fee53c78a40: f2 f2 f2 f2 f2 f2 00 00 f2 f2 00 00 00 00 00 00
+=>0x0fee53c78a50: 00 00 00 00 00 00[04]f2 f2 f2 f2 f2 00 00 00 00
+  0x0fee53c78a60: 00 00 00 00 00 00 00 00 04 f2 f2 f2 f2 f2 00 00
+  0x0fee53c78a70: 00 00 00 00 00 f2 f2 f2 f2 f2 00 f2 f2 f2 00 00
+  0x0fee53c78a80: 00 06 f3 f3 f3 f3 f3 f3 00 00 00 00 00 00 00 00
+  0x0fee53c78a90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee53c78aa0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1608766==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1608765 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

@@ -1,0 +1,128 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==891189==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56288d743760 bp 0x7ffeb6854de0 sp 0x7ffeb6854590 T0)
+==891189==The signal is caused by a READ memory access.
+==891189==Hint: address points to the zero page.
+    #0 0x56288d743760 in strcasecmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x38760) (BuildId: 9a2f47a5245158610930338ebe44b4f7ff9957ef)
+    #1 0x56288d7fee26 in init_dfa /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9805:13
+    #2 0x56288d7f5e75 in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9657:9
+    #3 0x56288d7f57f9 in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9205:9
+    #4 0x56288d7f7d67 in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19599:11
+    #5 0x56288d7f79c1 in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19651:3
+    #6 0x56288d7f89e4 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2564:26
+    #7 0x56288d7eeb7e in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2758:19
+    #8 0x56288d7ebf06 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #9 0x56288d7eb49c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #10 0x7fcc223dad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7fcc223dae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x56288d72b3e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203e4) (BuildId: 9a2f47a5245158610930338ebe44b4f7ff9957ef)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x38760) (BuildId: 9a2f47a5245158610930338ebe44b4f7ff9957ef) in strcasecmp
+==891189==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 891188 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+sed-4.1.5.c.reduced.c:9805:24: runtime error: null pointer passed as argument 1, which is declared to never be null
+sed-4.1.5.c.reduced.c:728:59: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:9805:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==896888==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7feec2dd6f89 bp 0x7ffef383fe00 sp 0x7ffef383fc98 T896888)
+==896888==The signal is caused by a READ memory access.
+==896888==Hint: address points to the zero page.
+    #0 0x7feec2dd6f89  (/lib/x86_64-linux-gnu/libc.so.6+0x199f89) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5631231c1bfd in init_dfa /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9805:13
+    #2 0x5631231ad791 in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9657:9
+    #3 0x5631231ad06b in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9205:9
+    #4 0x5631231b3400 in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19599:11
+    #5 0x5631231b07d4 in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19651:3
+    #6 0x5631231b4e38 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2564:26
+    #7 0x56312319c833 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2758:19
+    #8 0x563123198606 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #9 0x563123197924 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #10 0x7feec2c66d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7feec2c66e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x56312316f5e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x475e4) (BuildId: f4b0d09166004dac6d7a5ab269caa692df6fbf36)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x199f89) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==896888==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 896887 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+sed: invalid option -- 'Ò'
+MemorySanitizer:DEADLYSIGNAL
+==902510==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x55f059aef560 bp 0x7ffc935d8770 sp 0x7ffc935d8740 T902510)
+==902510==The signal is caused by a READ memory access.
+==902510==Hint: address points to the zero page.
+    #0 0x55f059aef560 in strcasecmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x55560) (BuildId: 77ebc03f0ab4ec8511436688c08458d585c151ba)
+    #1 0x55f059b75172 in init_dfa /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9805:13
+    #2 0x55f059b5c154 in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9657:9
+    #3 0x55f059b5b21c in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9205:9
+    #4 0x55f059b61fce in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19599:11
+    #5 0x55f059b616ee in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19651:3
+    #6 0x55f059b64ac8 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2564:26
+    #7 0x55f059b4914b in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2758:19
+    #8 0x55f059b41f46 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #9 0x55f059b40883 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #10 0x7f8e56cf2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f8e56cf2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x55f059ab93a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f3a4) (BuildId: 77ebc03f0ab4ec8511436688c08458d585c151ba)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x55560) (BuildId: 77ebc03f0ab4ec8511436688c08458d585c151ba) in strcasecmp
+==902510==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 902509 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==904604==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55c85ef114d0 bp 0x000000000000 sp 0x7fff56fda1e0 T904604)
+==904604==The signal is caused by a READ memory access.
+==904604==Hint: address points to the zero page.
+    #0 strcasecmp <null> (reduced.tsan.out+0x574d0) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #1 init_dfa /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9805:13 (reduced.tsan.out+0xdc0cd) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #2 re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9657:9 (reduced.tsan.out+0xd5990) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #3 re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9205:9 (reduced.tsan.out+0xd5622) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #4 compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19599:11 (reduced.tsan.out+0xd6e9d) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #5 compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19651:3 (reduced.tsan.out+0xd6cbb) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #6 compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2564:26 (reduced.tsan.out+0xd78fa) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #7 compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2758:19 (reduced.tsan.out+0xd00e1) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #8 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9 (reduced.tsan.out+0xce59c) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19 (reduced.tsan.out+0xcdd1a) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+    #10 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 _start <null> (reduced.tsan.out+0x21434) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out+0x574d0) (BuildId: 19852cdb9b68e62221ff15f0efe6dbbff396d7ec) in strcasecmp
+==904604==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 904603 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==909404==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f66a6412017 bp 0x7fff5c81d4d0 sp 0x7fff5c81d468 T0)
+==909404==The signal is caused by a READ memory access.
+==909404==Hint: address points to the zero page.
+    #0 0x7f66a6412017  (/lib/x86_64-linux-gnu/libc.so.6+0x19a017) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5581f9800c97 in init_dfa /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9805:13
+    #2 0x5581f97fd5e5 in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9657:9
+    #3 0x5581f97fd46f in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9205:9
+    #4 0x5581f97fe2e6 in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19599:11
+    #5 0x5581f97fe1c1 in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19651:3
+    #6 0x5581f97fe8a3 in compile_address /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2564:26
+    #7 0x5581f97fa69f in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2758:19
+    #8 0x5581f97f95ed in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #9 0x5581f97f9134 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #10 0x7f66a62a1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f66a62a1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x5581f97cb5a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x65a4) (BuildId: a14815e68cb808f97ef2b3e01bffe78985124407)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x19a017) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==909404==ABORTING

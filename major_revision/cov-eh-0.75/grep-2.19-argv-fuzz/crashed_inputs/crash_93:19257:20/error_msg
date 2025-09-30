@@ -1,0 +1,36 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep: invalid option -- ' '
+grep: invalid option -- ' '
+grep: invalid option -- 'p'
+grep: invalid option -- 'p'
+grep: invalid option -- ''
+grep-2.19.c.reduced.c:16091:27: runtime error: addition of unsigned offset to 0x55f041cd5160 overflowed to 0x55f041cd5158
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:16091:27 in 
+grep-2.19.c.reduced.c:16100:27: runtime error: addition of unsigned offset to 0x55f041cd5160 overflowed to 0x55f041cd5158
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:16100:27 in 
+grep-2.19.c.reduced.c:16103:27: runtime error: addition of unsigned offset to 0x55f041cd5160 overflowed to 0x55f041cd5158
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:16103:27 in 
+grep-2.19.c.reduced.c:19257:20: runtime error: member access within null pointer of type 'must' (aka 'struct must')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19257:20 in 
+grep-2.19.c.reduced.c:19257:20: runtime error: load of null pointer of type 'char **'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19257:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==429305==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55f03f7a66a7 bp 0x7fffde2ea1f0 sp 0x7fffde2ea100 T429305)
+==429305==The signal is caused by a READ memory access.
+==429305==Hint: address points to the zero page.
+    #0 0x55f03f7a66a7 in resetmust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19257:20
+    #1 0x55f03f79412b in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19419:9
+    #2 0x55f03f779672 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #3 0x55f03f7792bc in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #4 0x55f03f7a9cb0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #5 0x55f03f79b33a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #6 0x7ff9cb560d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7ff9cb560e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55f03f729734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x3c734) (BuildId: ac39b4c09d29105563097ba948cba8dedcd8b52a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19257:20 in resetmust
+==429305==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 429304 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

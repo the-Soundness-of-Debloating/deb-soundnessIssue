@@ -1,0 +1,62 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d
+=================================================================
+==3851195==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f8189703e94 at pc 0x558c1c73e44f bp 0x7ffc792a0d10 sp 0x7ffc792a0d08
+WRITE of size 4 at 0x7f8189703e94 thread T0
+    #0 0x558c1c73e44e in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2260:14
+    #1 0x558c1c741997 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #2 0x558c1c741d82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #3 0x558c1c741eaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #4 0x558c1c742116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #5 0x558c1c749aed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #6 0x558c1c749179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #7 0x7f818b1fad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f818b1fae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x558c1c67b3b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+
+Address 0x7f8189703e94 is located in stack of thread T0 at offset 1684 in frame
+    #0 0x558c1c73dabf in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2128
+
+  This frame has 5 object(s):
+    [32, 100) 'c' (line 2130)
+    [144, 160) 'r' (line 2140)
+    [176, 304) 'u' (line 2141)
+    [336, 1488) 'v' (line 2142)
+    [1616, 1684) 'x' (line 2144) <== Memory access at offset 1684 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2260:14 in huft_build
+Shadow bytes around the buggy address:
+  0x0ff0b12d8780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d8790: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d87a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d87b0: 00 00 00 00 00 00 00 00 00 00 f2 f2 f2 f2 f2 f2
+  0x0ff0b12d87c0: f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 00 00 00 00 00 00
+=>0x0ff0b12d87d0: 00 00[04]f3 f3 f3 f3 f3 00 00 00 00 00 00 00 00
+  0x0ff0b12d87e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d87f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d8800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d8810: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff0b12d8820: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3851195==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3851194 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000013* > sample1.tst

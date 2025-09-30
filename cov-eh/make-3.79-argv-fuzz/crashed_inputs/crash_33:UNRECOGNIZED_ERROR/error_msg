@@ -1,0 +1,13 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- 'ú'
+make: *** /usr/local/include: Is a directory.  Stop.
+
+=================================================================
+==1987129==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 2 byte(s) in 1 object(s) allocated from:
+    #0 0x561e1094a912 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x35912) (BuildId: 269c8f844acb89125d8202adb0b3475ec3de23e7)
+    #1 0x7f5046f1958e in strdup (/lib/x86_64-linux-gnu/libc.so.6+0xa858e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 2 byte(s) leaked in 1 allocation(s).

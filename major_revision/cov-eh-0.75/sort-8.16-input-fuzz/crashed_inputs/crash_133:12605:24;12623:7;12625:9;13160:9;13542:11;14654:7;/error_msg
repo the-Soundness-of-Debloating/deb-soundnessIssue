@@ -1,0 +1,40 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_5
+ThreadSanitizer:DEADLYSIGNAL
+==1367910==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b57ffffffe0 (pc 0x7f6474b56893 bp 0x7ffec4f060e0 sp 0x7ffec4f06018 T1367910)
+==1367910==The signal is caused by a WRITE memory access.
+    #0 memcpy string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 (libc.so.6+0xc4893) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x58e5c) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12605:24 (reduced.tsan.out+0xd637f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12625:9 (reduced.tsan.out+0xd648b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13160:9 (reduced.tsan.out+0xd5912) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11 (reduced.tsan.out+0xd1b7f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #8 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #9 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #10 _start <null> (reduced.tsan.out+0x214d4) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 in memcpy
+==1367910==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 1367909 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_5
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_5
+LeakSanitizer:DEADLYSIGNAL
+==1499673==ERROR: LeakSanitizer: SEGV on unknown address 0x615fffffffe0 (pc 0x5620ea625b5f bp 0x7fff644291d0 sp 0x7fff64429170 T0)
+==1499673==The signal is caused by a WRITE memory access.
+    #0 0x5620ea625b5f in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12605:24
+    #1 0x5620ea625c85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #2 0x5620ea625cb0 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12625:9
+    #3 0x5620ea6254c4 in sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13160:9
+    #4 0x5620ea622df2 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11
+    #5 0x5620ea622309 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7
+    #6 0x7f7b81e6ed8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f7b81e6ee3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x5620ea5f26e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out+0x76e4) (BuildId: 8de955c844ebdd1a1870f90245353780e062cd0f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12605:24 in sequential_sort
+==1499673==ABORTING

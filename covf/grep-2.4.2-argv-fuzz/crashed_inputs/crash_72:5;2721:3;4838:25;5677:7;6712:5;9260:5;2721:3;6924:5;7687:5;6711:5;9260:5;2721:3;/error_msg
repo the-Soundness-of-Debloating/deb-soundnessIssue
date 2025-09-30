@@ -1,0 +1,64 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2750785)
+  Write of size 8 at 0x7b0400000c50 by main thread:
+    #0 memcpy <null> (reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 copy /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25 (reduced.tsan.out+0xd2750) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5677:7 (reduced.tsan.out+0xd1e9c) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7ba9) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+  Previous write of size 8 at 0x7b0400000c50 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da34) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 freelist /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6946:5 (reduced.tsan.out+0xe5ccf) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7509:5 (reduced.tsan.out+0xd8808) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6711:5 (reduced.tsan.out+0xd7b9d) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c) in __interceptor_memcpy
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2750785)
+  Write of size 8 at 0x7b0400000c60 by main thread:
+    #0 memcpy <null> (reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 copy /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25 (reduced.tsan.out+0xd2750) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5677:7 (reduced.tsan.out+0xd1e9c) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7ba9) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+  Previous write of size 8 at 0x7b0400000c60 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da34) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7510:5 (reduced.tsan.out+0xd8827) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6711:5 (reduced.tsan.out+0xd7b9d) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c) in __interceptor_memcpy
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2750785)
+  Write of size 8 at 0x7b0400000c70 by main thread:
+    #0 memcpy <null> (reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 copy /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25 (reduced.tsan.out+0xd2750) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5677:7 (reduced.tsan.out+0xd1e9c) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7ba9) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+  Previous write of size 8 at 0x7b0400000c70 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da34) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 ifree /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6924:5 (reduced.tsan.out+0xe6413) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7687:5 (reduced.tsan.out+0xd95fc) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6711:5 (reduced.tsan.out+0xd7b9d) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out+0x58cfe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c) in __interceptor_memcpy
+==================
+ThreadSanitizer: reported 3 warnings
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2750784 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

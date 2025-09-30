@@ -1,0 +1,69 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+=================================================================
+==1121103==ERROR: AddressSanitizer: heap-use-after-free on address 0x603000002200 at pc 0x5651baaf37ea bp 0x7ffe91ae0070 sp 0x7ffe91ae0068
+READ of size 8 at 0x603000002200 thread T0
+    #0 0x5651baaf37e9 in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17327:39
+    #1 0x5651baae757c in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15878:15
+    #2 0x5651baae1602 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14826:17
+    #3 0x5651baadbbaa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #4 0x7f24ac87ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f24ac87ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5651baa0a444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c444) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+
+0x603000002200 is located 0 bytes inside of 32-byte region [0x603000002200,0x603000002220)
+freed by thread T0 here:
+    #0 0x5651baa8fbc2 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb1bc2) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+    #1 0x5651baae972a in multi_glob /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18630:5
+    #2 0x5651baae851c in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:16182:22
+    #3 0x5651baae1602 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14826:17
+    #4 0x5651baadbbaa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #5 0x7f24ac87ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+previously allocated by thread T0 here:
+    #0 0x5651baa8fe6e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb1e6e) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+    #1 0x5651baaca994 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14256:9
+    #2 0x5651baae9005 in parse_file_seq /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17741:15
+    #3 0x5651baae8504 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:16180:22
+    #4 0x5651baae1602 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14826:17
+    #5 0x5651baadbbaa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #6 0x7f24ac87ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17327:39 in record_files
+Shadow bytes around the buggy address:
+  0x0c067fff83f0: fa fa 00 00 00 00 fa fa fd fd fd fd fa fa fd fd
+  0x0c067fff8400: fd fd fa fa 00 00 00 00 fa fa 00 00 00 00 fa fa
+  0x0c067fff8410: fd fd fd fd fa fa 00 00 00 00 fa fa fd fd fd fd
+  0x0c067fff8420: fa fa 00 00 00 00 fa fa fd fd fd fd fa fa fd fd
+  0x0c067fff8430: fd fd fa fa 00 00 00 00 fa fa 00 00 00 00 fa fa
+=>0x0c067fff8440:[fd]fd fd fd fa fa fd fd fd fd fa fa fd fd fd fd
+  0x0c067fff8450: fa fa 00 00 00 00 fa fa 00 00 00 00 fa fa 00 00
+  0x0c067fff8460: 00 00 fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8470: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8480: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8490: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1121103==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1121099 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

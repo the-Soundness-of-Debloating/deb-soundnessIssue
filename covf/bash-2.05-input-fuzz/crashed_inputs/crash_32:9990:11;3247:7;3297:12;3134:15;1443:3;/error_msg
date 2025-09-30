@@ -1,0 +1,69 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+bash-2.05.c.reduced.c:11142:15: runtime error: index -1 out of bounds for type 'const short[35]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:11142:15 in 
+bash-2.05.c.reduced.c:11159:21: runtime error: index -1 out of bounds for type 'const short[35]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:11159:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2008191==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x56195ef92ff0 (pc 0x56195dbab744 bp 0x7ffcb38bc110 sp 0x7ffcb38bb770 T2008191)
+==2008191==The signal is caused by a READ memory access.
+    #0 0x56195dbab744 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9990:11
+    #1 0x56195dbaac45 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #2 0x56195dba94fa in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #3 0x56195dba8653 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #4 0x56195dba705f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #5 0x7f72eebb8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f72eebb8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56195db7ead4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9990:11 in yyparse
+==2008191==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2008190 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+rm: cannot remove '/root/tmp/glob-test': Directory not empty
+mkdir: cannot create directory 'a*b': File exists
+mkdir: cannot create directory 'man': File exists
+mkdir: cannot create directory 'man/man1': File exists
+ln: failed to create hard link '/root/tmp/ghi': File exists
+ThreadSanitizer:DEADLYSIGNAL
+==715689==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b7bfffffff0 (pc 0x7f0c379b0881 bp 0x7ffc30a13fb0 sp 0x7ffc30a13a28 T715689)
+==715689==The signal is caused by a READ memory access.
+    #0 memcpy <null> (libc.so.6+0xc4881) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x67ffc) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #2 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9990:11 (reduced.tsan.out+0xdf89e) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #3 parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7 (reduced.tsan.out+0xdf4a6) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #4 read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12 (reduced.tsan.out+0xded6b) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #5 reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15 (reduced.tsan.out+0xde4f5) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3 (reduced.tsan.out+0xdd3c0) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #7 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 _start <null> (reduced.tsan.out+0x30674) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xc4881) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in memcpy
+==715689==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 715686 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+chmod: cannot access '/root/tmp/conftest1': No such file or directory
+ln: failed to create hard link '/root/tmp/ghi': File exists
+LeakSanitizer:DEADLYSIGNAL
+==2026544==ERROR: LeakSanitizer: SEGV on unknown address 0x61effffffff0 (pc 0x559dab5dcd65 bp 0x7ffd44790140 sp 0x7ffd44790120 T0)
+==2026544==The signal is caused by a READ memory access.
+    #0 0x559dab5dcd65 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9990:11
+    #1 0x559dab5dcaf5 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #2 0x559dab5dc75a in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #3 0x559dab5dc286 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #4 0x559dab5db7b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #5 0x7fa966c64d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fa966c64e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559dab5ada94 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x26a94) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9990:11 in yyparse
+==2026544==ABORTING

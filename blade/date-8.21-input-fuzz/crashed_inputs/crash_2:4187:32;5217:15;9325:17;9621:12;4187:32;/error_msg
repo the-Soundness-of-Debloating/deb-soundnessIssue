@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000000,sig:06,src:000036,time:275,execs:324,op:havoc,rep:8
+=================================================================
+==2266995==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55e15c9a2da4 at pc 0x55e15c98416c bp 0x7ffd6c98d110 sp 0x7ffd6c98d108
+READ of size 1 at 0x55e15c9a2da4 thread T0
+    #0 0x55e15c98416b in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:32
+    #1 0x55e15c987d27 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #2 0x55e15c98e752 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x55e15c98e335 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f8b0b2fad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f8b0b2fae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55e15c8bd3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out+0x213c4) (BuildId: 654e66d17594b2ea92f356da33ff3e6dc2b63909)
+
+0x55e15c9a2da4 is located 28 bytes to the left of global variable 'yypgoto' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3157' (0x55e15c9a2dc0) of size 26
+0x55e15c9a2da4 is located 8 bytes to the right of global variable 'yyr1' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3005' (0x55e15c9a2d40) of size 92
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:32 in yyparse
+Shadow bytes around the buggy address:
+  0x0abcab92c560: 00 00 00 00 00 00 00 00 00 00 01 f9 f9 f9 f9 f9
+  0x0abcab92c570: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 f9
+  0x0abcab92c580: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abcab92c590: 00 00 02 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0abcab92c5a0: 00 00 00 04 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+=>0x0abcab92c5b0: 00 00 00 04[f9]f9 f9 f9 00 00 00 02 f9 f9 f9 f9
+  0x0abcab92c5c0: 00 00 00 02 f9 f9 f9 f9 00 00 00 06 f9 f9 f9 f9
+  0x0abcab92c5d0: 03 f9 f9 f9 02 f9 f9 f9 00 00 00 00 f9 f9 f9 f9
+  0x0abcab92c5e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abcab92c5f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abcab92c600: f9 f9 f9 f9 f9 f9 f9 f9 00 06 f9 f9 00 03 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2266995==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2266994 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

@@ -1,0 +1,60 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_65 -k -p -w
+/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out: hello.o: Unknown error -1651359019
+
+=================================================================
+==2624918==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 6400 byte(s) in 32 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x563f9d908db4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x563f9d914f0c in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15272:18
+    #3 0x563f9d913a4a in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #4 0x563f9d911c0f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #5 0x7f523db9ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 4000 byte(s) in 20 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x563f9d908db4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x563f9d90b47d in initialize_variable_output /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3259:11
+    #3 0x563f9d90acfa in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3396:12
+    #4 0x563f9d90bebf in variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3647:9
+    #5 0x563f9d90bef6 in variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3688:11
+    #6 0x563f9d90acab in allocated_variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3770:11
+    #7 0x563f9d91691b in try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23485:19
+    #8 0x563f9d9152b2 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15841:18
+    #9 0x563f9d913a4a in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #10 0x563f9d911c0f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #11 0x7f523db9ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x563f9d908db4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x563f9d91878a in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17110:11
+    #3 0x563f9d915334 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15877:15
+    #4 0x563f9d913a4a in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #5 0x563f9d911c0f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #6 0x7f523db9ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x563f9d908db4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x563f9d912ec4 in construct_include_path /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18280:9
+    #3 0x563f9d911a3b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11489:3
+    #4 0x7f523db9ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 11 byte(s) in 2 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x7f523dc1d58e in strdup (/lib/x86_64-linux-gnu/libc.so.6+0xa858e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 32810 byte(s) in 1 object(s) allocated from:
+    #0 0x563f9d9058b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0x358b2) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+    #1 0x563f9d908db4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x563f9d9080c9 in savestring /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14320:9
+    #3 0x563f9d9187bd in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17114:22
+    #4 0x563f9d915334 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15877:15
+    #5 0x563f9d913a4a in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #6 0x563f9d911c0f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #7 0x7f523db9ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 43317 byte(s) leaked in 57 allocation(s).

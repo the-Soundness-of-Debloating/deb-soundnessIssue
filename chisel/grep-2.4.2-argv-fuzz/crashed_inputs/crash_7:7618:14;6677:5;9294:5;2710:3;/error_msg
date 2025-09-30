@@ -1,0 +1,25 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- 'ó'
+target5: invalid option -- ' '
+grep-2.4.2.c.reduced.c:7618:21: runtime error: null pointer passed as argument 1, which is declared to never be null
+grep-2.4.2.c.reduced.c:462:62: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:7618:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1490364==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fca8e2d4ebc bp 0x7ffc2c0a0f40 sp 0x7ffc2c0a0ba8 T1490364)
+==1490364==The signal is caused by a READ memory access.
+==1490364==Hint: address points to the zero page.
+    #0 0x7fca8e2d4ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55797d37bc67 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7618:14
+    #2 0x55797d37ad39 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6677:5
+    #3 0x55797d37ff11 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9294:5
+    #4 0x55797d36ca6e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2710:3
+    #5 0x7fca8e14cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fca8e14ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55797d344484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x14484) (BuildId: 383714eab8385c135d5335a5cfbe6d9ce0194020)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1490364==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1490363 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

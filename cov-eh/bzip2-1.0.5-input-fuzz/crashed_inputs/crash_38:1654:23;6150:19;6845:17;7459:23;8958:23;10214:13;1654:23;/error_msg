@@ -1,0 +1,57 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -d
+=================================================================
+==2158513==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f23a9d00066 at pc 0x55ee4e8b4be5 bp 0x7ffcfade5050 sp 0x7ffcfade5048
+WRITE of size 1 at 0x7f23a9d00066 thread T0
+    #0 0x55ee4e8b4be4 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1654:23
+    #1 0x55ee4e8d5088 in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6150:19
+    #2 0x55ee4e8d8bac in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6845:17
+    #3 0x55ee4e8e56a6 in uncompressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7459:23
+    #4 0x55ee4e8dcebb in uncompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:8958:23
+    #5 0x55ee4e8db72e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10214:13
+    #6 0x7f23abb43d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f23abb43e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55ee4e7e83a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out+0x203a4) (BuildId: 0aeb912b99fc5559c64f324a39e349c9fb1c2907)
+
+Address 0x7f23a9d00066 is located in stack of thread T0 at offset 38 in frame
+    #0 0x55ee4e8aa8bf in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:690
+
+  This frame has 1 object(s):
+    [32, 38) 'pos' (line 743) <== Memory access at offset 38 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1654:23 in BZ2_decompress
+Shadow bytes around the buggy address:
+  0x0fe4f5397fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5397fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5397fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5397fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5397ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0fe4f5398000: f1 f1 f1 f1 00 f3 f3 f3 f1 f1 f1 f1[06]f3 f3 f3
+  0x0fe4f5398010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5398020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5398030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5398040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe4f5398050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2158513==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 170: 2158511 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000000* > sample1.tst

@@ -1,0 +1,36 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==815234==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b1000010000 (pc 0x55b90f19f8d0 bp 0x7ffc898f4e10 sp 0x7ffc898f4d70 T815234)
+==815234==The signal is caused by a WRITE memory access.
+    #0 add1_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13 (reduced.tsan.out+0xd08d0) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #1 match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1899:5 (reduced.tsan.out+0xd1aea) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #2 compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3288:13 (reduced.tsan.out+0xcf0fe) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #3 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9 (reduced.tsan.out+0xce0f2) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19 (reduced.tsan.out+0xcdc06) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x21404) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13 in add1_buffer
+==815234==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 815233 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==840336==ERROR: LeakSanitizer: SEGV on unknown address 0x604000010000 (pc 0x555f10cda9fc bp 0x7ffea2401530 sp 0x7ffea2401500 T0)
+==840336==The signal is caused by a WRITE memory access.
+    #0 0x555f10cda9fc in add1_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13
+    #1 0x555f10cdb435 in match_slash /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1899:5
+    #2 0x555f10cd9ca3 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3288:13
+    #3 0x555f10cd92cb in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #4 0x555f10cd8fe6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #5 0x7f545990fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f545990fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x555f10cab514 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5514) (BuildId: 12c0730e3ce143cd7bcee30ad9535145d6388215)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13 in add1_buffer
+==840336==ABORTING

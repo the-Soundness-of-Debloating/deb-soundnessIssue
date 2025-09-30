@@ -1,0 +1,31 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=702558)
+  Read of size 1 at 0x7b0400000020 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3721:35 (reduced.tsan.out+0xcf663) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #1 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4709:13 (reduced.tsan.out+0xe1ae1) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #2 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5 (reduced.tsan.out+0xe1910) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #3 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xcfffe) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #4 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xcf18b) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #5 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd70e6) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #6 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xdca7e) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce325) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+
+  Previous write of size 8 at 0x7b0400000020 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4d793) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #1 xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9 (reduced.tsan.out+0xd23f5) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #2 addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4419:11 (reduced.tsan.out+0xd01f6) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #3 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4708:7 (reduced.tsan.out+0xe1adc) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #4 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4724:3 (reduced.tsan.out+0xe18a1) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #5 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xcfffe) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #6 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xcf18b) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #7 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd70e6) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #8 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xdca7e) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce325) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3721:35 in lex
+==================
+ThreadSanitizer: reported 1 warnings
+timeout: the monitored command dumped core
+./verify.sh: line 110: 702557 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

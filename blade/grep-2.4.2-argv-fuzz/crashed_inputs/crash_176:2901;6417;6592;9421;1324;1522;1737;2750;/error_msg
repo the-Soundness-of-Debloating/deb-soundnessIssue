@@ -1,0 +1,40 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_6_fuzzed/input_6_228
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=139797141702464) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=139797141702464) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=139797141702464) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=139797141702464, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f250efd1476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f250efb77f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f250f018676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f250f16ab77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007f250f02fcfc in malloc_printerr (str=str@entry=0x7f250f16883e "realloc(): invalid next size") at ./malloc/malloc.c:5664
+#7  0x00007f250f033c7c in _int_realloc (av=av@entry=0x7f250f1a9c80 <main_arena>, oldp=oldp@entry=0x55a39d0a45e0, oldsize=oldsize@entry=2592, nb=nb@entry=32) at ./malloc/malloc.c:4842
+#8  0x00007f250f034909 in __GI___libc_realloc (oldmem=0x55a39d0a45f0, bytes=16) at ./malloc/malloc.c:3485
+#9  0x000055a39c3c1f2d in xrealloc_1 (p=0x55a39d0a45f0, n=16) at ./grep-2.4.2.c.reduced.c:2901
+#10 0x000055a39c3c04d0 in build_state (s=0, d=0x55a39c3e0890 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6417
+#11 0x000055a39c3c037a in dfaexec (d=0x55a39c3e0890 <dfa_1>, begin=0x55a39d09c000 "", end=0x55a39d0a45e9 "\n", newline___0=0, count=0x0, backref=0x7ffe91c2f2a8) at ./grep-2.4.2.c.reduced.c:6592
+#12 0x000055a39c3c163b in EGexecute (buf=0x55a39d09c000 "", size=18446744073709533169, endp=0x7ffe91c2f2f8) at ./grep-2.4.2.c.reduced.c:9421
+#13 0x000055a39c3c1c04 in grepbuf (beg=0x55a39d09c000 "", lim=0x55a39d0977f1 "") at ./grep-2.4.2.c.reduced.c:1324
+#14 0x000055a39c3c19e8 in grep (fd=-1, file=0x55a39c3c6248 <afl_init_argv.in_buf+40> "train_inputrain_input/grainnputp1.dat", stats=0x55a39c3c61c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1522
+#15 0x000055a39c3be8fb in grepfile (file=0x55a39c3c6248 <afl_init_argv.in_buf+40> "train_inputrain_input/grainnputp1.dat", stats=0x55a39c3c61c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#16 0x000055a39c3be619 in main (argc=3, argv=0x55a39c3de8c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

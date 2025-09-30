@@ -1,0 +1,83 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make: invalid option -- '/'
+make: invalid option -- '%'
+make: invalid option -- '\'
+make: invalid option -- '$'
+make: invalid option -- '('
+make: invalid option -- 'x'
+make: invalid option -- 'c'
+make: invalid option -- 'a'
+make-3.79.c.reduced.c:2675:20: runtime error: null pointer passed as argument 1, which is declared to never be null
+make-3.79.c.reduced.c:1004:61: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:2675:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1161628==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f2cbf92bdda bp 0x7fff4bce74e0 sp 0x7fff4bce7438 T1161628)
+==1161628==The signal is caused by a READ memory access.
+==1161628==Hint: address points to the zero page.
+    #0 0x7f2cbf92bdda  (/lib/x86_64-linux-gnu/libc.so.6+0x1b3dda) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5647d388d665 in file_exists_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2675:12
+    #2 0x5647d38b3daa in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14862:19
+    #3 0x5647d38ac192 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #4 0x7f2cbf7a1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f2cbf7a1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5647d385d704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x2b704) (BuildId: 925938e7cdec72653396af51b69ce3bfe8f1584a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b3dda) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1161628==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1161627 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.tsan.out
+make: invalid option -- '/'
+make: invalid option -- '%'
+make: invalid option -- '\'
+make: invalid option -- '$'
+make: invalid option -- '('
+make: invalid option -- 'x'
+make: invalid option -- 'c'
+make: invalid option -- 'a'
+ThreadSanitizer:DEADLYSIGNAL
+==3628585==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55eba275be00 bp 0x7fcf7e5d77c0 sp 0x7fff5c52b058 T3628585)
+==3628585==The signal is caused by a READ memory access.
+==3628585==Hint: address points to the zero page.
+    #0 __sanitizer::internal_strlen(char const*) <null> (reduced.tsan.out+0x2be00) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #1 __interceptor_strrchr <null> (reduced.tsan.out+0x5a4d8) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #2 file_exists_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2675:12 (reduced.tsan.out+0xd2e45) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #3 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14862:19 (reduced.tsan.out+0xe41fc) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24 (reduced.tsan.out+0xe0937) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x23444) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.tsan.out+0x2be00) (BuildId: 93e3f4f581cf2ced8ab289d6e990da71f67526e5) in __sanitizer::internal_strlen(char const*)
+==3628585==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3628583 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- '/'
+make: invalid option -- '%'
+make: invalid option -- '\'
+make: invalid option -- '$'
+make: invalid option -- '('
+make: invalid option -- 'x'
+make: invalid option -- 'c'
+make: invalid option -- 'a'
+LeakSanitizer:DEADLYSIGNAL
+==207633==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f2ce8c60dda bp 0x7fff37fb5800 sp 0x7fff37fb57a8 T0)
+==207633==The signal is caused by a READ memory access.
+==207633==Hint: address points to the zero page.
+    #0 0x7f2ce8c60dda  (/lib/x86_64-linux-gnu/libc.so.6+0x1b3dda) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55f2b3c51f64 in file_exists_p /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2675:12
+    #2 0x55f2b3c5bc18 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14862:19
+    #3 0x55f2b3c59c40 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #4 0x7f2ce8ad6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f2ce8ad6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55f2b3c226d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.lsan.out+0xa6d4) (BuildId: f396ca3d89b0f85b0d8f26bad24b767b65a0f6a9)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b3dda) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==207633==ABORTING

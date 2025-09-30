@@ -1,0 +1,24 @@
+asan:
+spawn /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/bins/vim-5.8 -u /root/.vimrc /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/vim/inputs/copy1
+=================================================================
+[1m[31m==921433==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7fc105500590 in thread T0
+[1m[0m    #0 0x560e1495cd62 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/bins/vim-5.8+0xd4d62) (BuildId: 07209f9b46fe5577d3c57a591a251b75c00ff935)
+    #1 0x560e1499f1b2 in vim_free /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:76079:5
+    #2 0x560e149c636d in do_cmdline /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:28744:7
+    #3 0x560e149de194 in do_source /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:35148:3
+    #4 0x560e149f70ea in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:55917:18
+    #5 0x7fc1072d7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fc1072d7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x560e148d75e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/bins/vim-5.8+0x4f5e4) (BuildId: 07209f9b46fe5577d3c57a591a251b75c00ff935)
+
+[1m[32mAddress 0x7fc105500590 is located in stack of thread T0 at offset 400 in frame[1m[0m
+[1m[0m    #0 0x560e149c5a8f in do_cmdline /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:28590
+
+  This frame has 3 object(s):
+    [32, 40) 'cmdline_copy' (line 28592)
+    [64, 328) 'cstack' (line 28598)
+    [400, 424) 'lines_ga' (line 28599)[1m[32m <== Memory access at offset 400 is inside this variable[1m[0m
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/vim-5.8-input-fuzz/bins/vim-5.8+0xd4d62) (BuildId: 07209f9b46fe5577d3c57a591a251b75c00ff935) in free
+==921433==ABORTING

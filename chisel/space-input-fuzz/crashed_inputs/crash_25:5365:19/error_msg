@@ -1,0 +1,48 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_5
+space.c.reduced.c:1370:3: runtime error: store to misaligned address 0x7ffcf0dbe05c for type 'struct charac *', which requires 8 byte alignment
+0x7ffcf0dbe05c: note: pointer points here
+  70 e1 db f0 fc 7f 00 00  68 e0 db f0 fc 7f 00 00  70 e1 db f0 fc 7f 00 00  7c e0 db f0 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1370:3 in 
+space.c.reduced.c:3037:15: runtime error: load of misaligned address 0x7ffcf0dbe05c for type 'struct charac *', which requires 8 byte alignment
+0x7ffcf0dbe05c: note: pointer points here
+  70 e1 db f0 50 ef 5e f1  32 56 00 00 fc 7f 00 00  70 e1 db f0 fc 7f 00 00  7c e0 db f0 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3037:15 in 
+space.c.reduced.c:3076:5: runtime error: store to misaligned address 0x7ffcf0dbe05c for type 'struct charac *', which requires 8 byte alignment
+0x7ffcf0dbe05c: note: pointer points here
+  70 e1 db f0 50 ef 5e f1  32 56 00 00 fc 7f 00 00  70 e1 db f0 fc 7f 00 00  7c e0 db f0 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3076:5 in 
+space.c.reduced.c:1394:10: runtime error: load of misaligned address 0x7ffcf0dbe05c for type 'struct charac *', which requires 8 byte alignment
+0x7ffcf0dbe05c: note: pointer points here
+  70 e1 db f0 70 f0 5e f1  32 56 00 00 fc 7f 00 00  70 e1 db f0 fc 7f 00 00  7c e0 db f0 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1394:10 in 
+space.c.reduced.c:5878:3: runtime error: store to misaligned address 0x7ffcf0dbe04c for type 'struct charac *', which requires 8 byte alignment
+0x7ffcf0dbe04c: note: pointer points here
+  40 ea 5e f1 32 56 00 00  5c e0 db f0 fc 7f 00 00  70 e1 db f0 70 f0 5e f1  32 56 00 00 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5878:3 in 
+space.c.reduced.c:5365:19: runtime error: member access within null pointer of type 'struct charac'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5365:19 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3289499==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000004 (pc 0x5632efa426ff bp 0x7ffcf0dbdf90 sp 0x7ffcf0dbde90 T3289499)
+==3289499==The signal is caused by a READ memory access.
+==3289499==Hint: address points to the zero page.
+    #0 0x5632efa426ff in parserro /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:5365:19
+    #1 0x5632efa436ab in serotpha /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7010:5
+    #2 0x5632efa41dae in grphaexc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:4021:11
+    #3 0x5632efa4160b in grexcdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3541:11
+    #4 0x5632efa338f3 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3840:11
+    #5 0x5632efa325b0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #6 0x7fa50c5d6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fa50c5d6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5632efa0a454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out+0x11454) (BuildId: b40c8b1e995522a49e1e4906d827c1a2a8b210b5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:5365:19 in parserro
+==3289499==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 3289498 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_5

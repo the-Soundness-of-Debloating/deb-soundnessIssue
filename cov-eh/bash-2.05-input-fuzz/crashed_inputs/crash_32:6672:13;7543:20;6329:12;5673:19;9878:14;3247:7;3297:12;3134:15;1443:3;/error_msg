@@ -1,0 +1,24 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+=================================================================
+==3473216==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7fff1689dd00 in thread T0
+    #0 0x55d73012de42 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbfe42) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e)
+    #1 0x55d7301abd41 in parse_matched_pair /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6672:13
+    #2 0x55d7301a9d8f in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7543:20
+    #3 0x55d73017095d in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #4 0x55d730170c5e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #5 0x55d73016c6e0 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #6 0x55d73016c565 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #7 0x55d73016b98a in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #8 0x55d73016b12b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #9 0x55d730168ff9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #10 0x7f6a5ceb0d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f6a5ceb0e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x55d7300a86c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0x3a6c4) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e)
+
+Address 0x7fff1689dd00 is located in stack of thread T0
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbfe42) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e) in free
+==3473216==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 3473215 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile

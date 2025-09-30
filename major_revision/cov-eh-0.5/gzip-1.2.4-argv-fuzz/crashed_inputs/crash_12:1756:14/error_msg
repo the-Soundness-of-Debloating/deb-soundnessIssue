@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out
+tr›ain_input/trainc/sample1.ref.gz: No such file or directory
+gzip-1.2.4.c.reduced.c:1756:14: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:1756:14 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==405253==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55fd218aa03d bp 0x7ffd3f6dd870 sp 0x7ffd3f6dd7f0 T405253)
+==405253==The signal is caused by a READ memory access.
+==405253==Hint: address points to the zero page.
+    #0 0x55fd218aa03d in strlwr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1756:14
+    #1 0x55fd218c73e6 in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7633:9
+    #2 0x55fd218c104a in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7152:26
+    #3 0x55fd218c05d2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6832:13
+    #4 0x7fe6d21b4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fe6d21b4e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55fd21881534 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out+0x18534) (BuildId: 894fec28c074a316c8d68f9979bc24202d7063e5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1756:14 in strlwr
+==405253==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 405252 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_163 > sample1.gz

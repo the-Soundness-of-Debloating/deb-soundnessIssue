@@ -1,0 +1,18 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1942296==ERROR: ThreadSanitizer: SEGV on unknown address 0x55e910233000 (pc 0x55e90ee61582 bp 0x7ffde6bf6d20 sp 0x7ffde6bf6bb0 T1942296)
+==1942296==The signal is caused by a READ memory access.
+    #0 try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:13 (reduced.tsan.out+0xe9582) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #1 handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12414:7 (reduced.tsan.out+0xecb4c) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #2 decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12710:7 (reduced.tsan.out+0xde2fb) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3 (reduced.tsan.out+0xdbf3a) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23494) (BuildId: 2b09c0b622fa3c840ab2356307184998e76fd0b2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:13 in try_variable_definition
+==1942296==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1942295 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

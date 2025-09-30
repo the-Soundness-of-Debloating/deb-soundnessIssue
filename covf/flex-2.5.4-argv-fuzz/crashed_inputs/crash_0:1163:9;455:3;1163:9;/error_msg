@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2900684==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55b9d4f89b62 bp 0x7ffd77f83350 sp 0x7ffd77f83110 T0)
+==2900684==The signal is caused by a READ memory access.
+==2900684==Hint: address points to the zero page.
+    #0 0x55b9d4f89b62 in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9
+    #1 0x55b9d4f891f5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #2 0x7f14111f9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f14111f9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55b9d4ec9344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0x3d344) (BuildId: 74102c62be6095568d23d72e2c1fd523bc6a5ba9)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9 in flexinit
+==2900684==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2900683 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3420860==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x555900649538 bp 0x7ffefd4051b0 sp 0x7ffefd404e90 T3420860)
+==3420860==The signal is caused by a READ memory access.
+==3420860==Hint: address points to the zero page.
+    #0 flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9 (reduced.tsan.out+0xd6538) (BuildId: aa4a4d0961c33ac3a976b5450f7b994257f0f01f)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3 (reduced.tsan.out+0xd5a40) (BuildId: aa4a4d0961c33ac3a976b5450f7b994257f0f01f)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x29364) (BuildId: aa4a4d0961c33ac3a976b5450f7b994257f0f01f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9 in flexinit
+==3420860==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3420858 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3719137==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55f8602eb360 bp 0x7ffe61463360 sp 0x7ffe61463310 T0)
+==3719137==The signal is caused by a READ memory access.
+==3719137==Hint: address points to the zero page.
+    #0 0x55f8602eb360 in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9
+    #1 0x55f8602eaed0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #2 0x7fc75a929d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fc75a929e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55f8602bd4c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out+0x114c4) (BuildId: 5afbd9250b375a3d42ca1538a502646117f05c09)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1163:9 in flexinit
+==3719137==ABORTING

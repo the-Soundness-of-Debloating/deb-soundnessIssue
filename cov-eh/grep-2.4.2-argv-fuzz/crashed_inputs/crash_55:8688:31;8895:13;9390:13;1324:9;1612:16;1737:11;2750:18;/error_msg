@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==631879==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x0000000077fc (pc 0x55ae1a32904a bp 0x7ffec4769030 sp 0x7ffec4768bd0 T631879)
+==631879==The signal is caused by a READ memory access.
+    #0 0x55ae1a32904a in cwexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8688:31
+    #1 0x55ae1a3266f4 in kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8895:13
+    #2 0x55ae1a32bb64 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9390:13
+    #3 0x55ae1a3381c3 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #4 0x55ae1a33755b in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1612:16
+    #5 0x55ae1a2fd191 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #6 0x55ae1a2fc1a9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #7 0x7f99e0cced8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f99e0ccee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55ae1a2d35e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x2e5e4) (BuildId: c596296324c806a74fee30cd546cda4f03499544)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8688:31 in cwexec
+==631879==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 631878 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

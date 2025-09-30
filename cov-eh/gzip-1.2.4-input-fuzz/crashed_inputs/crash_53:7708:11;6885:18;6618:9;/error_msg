@@ -1,0 +1,16 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out -d
+Uninitialized bytes in MemcmpInterceptorCommon at offset 1 inside [0x7fffff762065, 2)
+==3427300==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x560c9c9b44dd in memcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out+0x574dd) (BuildId: 6079568a4f5d28c09d83fea3b29313160caa9586)
+    #1 0x560c9ca25445 in get_method /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7708:11
+    #2 0x560c9ca2129f in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6885:18
+    #3 0x560c9ca1f459 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6618:9
+    #4 0x7ff41ab57d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7ff41ab57e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x560c9c97c344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out+0x1f344) (BuildId: 6079568a4f5d28c09d83fea3b29313160caa9586)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out+0x574dd) (BuildId: 6079568a4f5d28c09d83fea3b29313160caa9586) in memcmp
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3427299 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/msan/crashes/id:000021* > sample1.tst

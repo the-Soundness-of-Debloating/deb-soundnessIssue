@@ -1,0 +1,55 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==3804041==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f4d3e8010a0 at pc 0x55b7051cc2f3 bp 0x7ffeefe214b0 sp 0x7ffeefe214a8
+WRITE of size 1 at 0x7f4d3e8010a0 thread T0
+    #0 0x55b7051cc2f2 in line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14
+    #1 0x55b7051c7f25 in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1548:3
+    #2 0x55b7051c7140 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:456:3
+    #3 0x7f4d3ff81d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f4d3ff81e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55b705107314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0x3e314) (BuildId: a29ee48ff7ce1f1d0d35e8a802d84e566428bb71)
+
+Address 0x7f4d3e8010a0 is located in stack of thread T0 at offset 4256 in frame
+    #0 0x55b7051cc03f in line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6012
+
+  This frame has 2 object(s):
+    [32, 2080) 'directive' (line 6013)
+    [2208, 4256) 'filename' (line 6014) <== Memory access at offset 4256 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14 in line_directive_out
+Shadow bytes around the buggy address:
+  0x0fea27cf81c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf81d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf81e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf81f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf8200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0fea27cf8210: 00 00 00 00[f3]f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3
+  0x0fea27cf8220: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf8230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf8240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf8250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fea27cf8260: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3804041==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3804040 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

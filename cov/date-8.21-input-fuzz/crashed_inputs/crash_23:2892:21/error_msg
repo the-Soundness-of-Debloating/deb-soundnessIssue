@@ -1,0 +1,29 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000106,sig:04,src:000154+000405,time:2281401,execs:457354,op:splice,rep:2
+date-8.21.c.reduced.c:2892:21: runtime error: signed integer overflow: -4975028105085891584 + -4975028105085891584 cannot be represented in type 'long'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:2892:21 in 
+date-8.21.c.reduced.c:4187:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4187:32 in 
+date-8.21.c.reduced.c:4193:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4193:26 in 
+date-8.21.c.reduced.c:4196:24: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4196:24 in 
+date-8.21.c.reduced.c:4199:22: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4199:22 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1352628==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7fff599f3f20 (pc 0x7fb95334cbcd bp 0x7fff5a1f0950 sp 0x7fff5a1ef0b8 T1352628)
+==1352628==The signal is caused by a READ memory access.
+    #0 0x7fb95334cbcd  (/lib/x86_64-linux-gnu/libc.so.6+0x1aebcd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55cbcbaf704c in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3475:13
+    #2 0x55cbcbb04025 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #3 0x55cbcbb0b3e3 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x55cbcbb0b00c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7fb9531c7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fb9531c7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55cbcbacd5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x145d4) (BuildId: 7a9692a2a122b7afeed1f0fdcc93dc1c77fa9841)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aebcd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1352628==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1352627 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

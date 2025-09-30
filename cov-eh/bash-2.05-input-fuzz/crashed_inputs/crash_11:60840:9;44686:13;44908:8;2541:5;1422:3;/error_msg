@@ -1,0 +1,17 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile
+=================================================================
+==2859076==ERROR: AddressSanitizer: requested allocation size 0x7ffdcdfe36e0 (0x7ffdcdfe46e0 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x55bf491650ee in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0xc00ee) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e)
+    #1 0x55bf491a28e4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55bf491ce4f7 in fd_to_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44686:13
+    #3 0x55bf491cf428 in with_input_from_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44908:8
+    #4 0x55bf491a20a6 in set_bash_input /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2541:5
+    #5 0x55bf4919ff0d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1422:3
+    #6 0x7f8b451afd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+==2859076==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0xc00ee) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e) in __interceptor_malloc
+==2859076==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2859075 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile

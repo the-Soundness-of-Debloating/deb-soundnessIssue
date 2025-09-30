@@ -1,0 +1,33 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '{'
+target5: invalid option -- '}'
+target5: invalid option -- 'o'
+target5: invalid option -- '*'
+target5: invalid option -- '*'
+target5: invalid option -- '*'
+grep-2.4.2.c.reduced.c:5334:64: runtime error: member access within misaligned address 0x00af0000000e for type 'position' (aka 'struct __anonstruct_position_35'), which requires 4 byte alignment
+0x00af0000000e: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:5334:64 in 
+grep-2.4.2.c.reduced.c:5334:64: runtime error: load of misaligned address 0x00af0000000e for type 'unsigned int', which requires 4 byte alignment
+0x00af0000000e: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:5334:64 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2733365==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00af0000000e (pc 0x560e08f90026 bp 0x7ffc08460130 sp 0x7ffc0845fdd0 T2733365)
+==2733365==The signal is caused by a READ memory access.
+    #0 0x560e08f90026 in epsclosure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5334:64
+    #1 0x560e08f8cbe1 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5702:3
+    #2 0x560e08fa205c in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #3 0x560e08fb8ae0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #4 0x560e08f81fdb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #5 0x7fe7c2f1bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fe7c2f1be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x560e08f59594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x38594) (BuildId: 1bf274f7014ea001a67902eef7ffdb226afc2c8e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5334:64 in epsclosure
+==2733365==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2733364 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

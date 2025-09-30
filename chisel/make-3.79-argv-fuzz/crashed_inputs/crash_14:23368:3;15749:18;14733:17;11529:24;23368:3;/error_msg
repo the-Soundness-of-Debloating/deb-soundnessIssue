@@ -1,0 +1,16 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==259196==ERROR: ThreadSanitizer: stack-overflow on address 0x7f4394d9adc8 (pc 0x56512f2f85e5 bp 0x7ffc816ae3d0 sp 0x7f4394d9add0 T259196)
+    #0 try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23368:3 (reduced.tsan.out+0xda5e5) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15749:18 (reduced.tsan.out+0xd8776) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14733:17 (reduced.tsan.out+0xd6d9d) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11529:24 (reduced.tsan.out+0xd543e) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23394) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+
+SUMMARY: ThreadSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23368:3 in try_variable_definition
+==259196==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 259193 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

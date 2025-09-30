@@ -1,0 +1,83 @@
+ubsan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out
+rm: invalid option -- 'j'
+rm-8.4.c.reduced.c:4454:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+rm-8.4.c.reduced.c:1177:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior rm-8.4.c.reduced.c:4454:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2608030==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f292d52c10c bp 0x7fff3338c560 sp 0x7fff3338c478 T2608030)
+==2608030==The signal is caused by a WRITE memory access.
+==2608030==Hint: address points to the zero page.
+    #0 0x7f292d52c10c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x564a29625ed4 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x564a29623c74 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4856:9
+    #3 0x564a296263f7 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6730:15
+    #4 0x564a29627b7b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #5 0x7f292d3a6d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f292d3a6e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x564a295f55c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out+0xd5c4) (BuildId: a54767c023f5fb8ba4799c00cb091af10b6b4a35)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==2608030==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2608028 Done                    echo "Y"
+     2608029 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_393
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2669395==ERROR: MemorySanitizer: SEGV on unknown address 0x710000010000 (pc 0x7fc86d77310c bp 0x7ffe55660a50 sp 0x7ffe55660208 T2669395)
+==2669395==The signal is caused by a WRITE memory access.
+    #0 0x7fc86d77310c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x556666f12cbe in __msan_memmove (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x4ccbe) (BuildId: 26f77d0095fd2690e268522407c4ce07169a896a)
+    #2 0x556666f79e4c in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #3 0x556666f76b42 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4856:9
+    #4 0x556666f7a8a9 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6730:15
+    #5 0x556666f7db0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #6 0x7fc86d5edd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fc86d5ede3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x556666ee53c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 26f77d0095fd2690e268522407c4ce07169a896a)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==2669395==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2669394 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_383
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2863995==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b4000010000 (pc 0x7fd8af37310c bp 0x7ffcd5fb9c30 sp 0x7ffcd5fb9b58 T2863995)
+==2863995==The signal is caused by a WRITE memory access.
+    #0 <null> string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 (libc.so.6+0x1af10c) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memmove <null> (reduced.tsan.out+0x58c2c) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #2 fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5 (reduced.tsan.out+0xd148c) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #3 fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4856:9 (reduced.tsan.out+0xd08a7) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #4 rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6730:15 (reduced.tsan.out+0xd16c9) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15 (reduced.tsan.out+0xd2187) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #6 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 _start <null> (reduced.tsan.out+0x21424) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==2863995==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2863994 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_383
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3018566==ERROR: LeakSanitizer: SEGV on unknown address 0x610000010000 (pc 0x7f66b90e110c bp 0x7ffec91c9710 sp 0x7ffec91c96d8 T0)
+==3018566==The signal is caused by a WRITE memory access.
+    #0 0x7f66b90e110c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x5559277de18f in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x5559277ddadf in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4856:9
+    #3 0x5559277de2e0 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6730:15
+    #4 0x5559277dea62 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #5 0x7f66b8f5bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f66b8f5be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x5559277ae594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.lsan.out+0x6594) (BuildId: 48a08e9f4ccf768f2257f636bd12d83e5c67f3c0)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==3018566==ABORTING

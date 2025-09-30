@@ -1,0 +1,37 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input19_fuzzed/input19_89
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=139684284061504) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=139684284061504) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=139684284061504) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=139684284061504, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f0ac8262476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f0ac82487f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f0ac82a9676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f0ac83fbb77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007f0ac82c0cfc in malloc_printerr (str=str@entry=0x7f0ac83f983e "realloc(): invalid next size") at ./malloc/malloc.c:5664
+#7  0x00007f0ac82c4c7c in _int_realloc (av=av@entry=0x7f0ac843ac80 <main_arena>, oldp=oldp@entry=0x5570fddf5660, oldsize=oldsize@entry=80, nb=nb@entry=288) at ./malloc/malloc.c:4842
+#8  0x00007f0ac82c5909 in __GI___libc_realloc (oldmem=0x5570fddf5670, bytes=269) at ./malloc/malloc.c:3485
+#9  0x00005570fbeac008 in xnrealloc_inline (p=0x5570fddf5670, n=269, s=1) at ./tar-1.14.c.reduced.c:30548
+#10 0x00005570fbe9ec92 in xrealloc (p=0x5570fddf5670, n=269) at ./tar-1.14.c.reduced.c:30562
+#11 0x00005570fbeaaf0f in add_exclude_file (add_func=0x5570fbeaace0 <add_exclude>, ex=0x5570fddf43d0, filename=0x5570fbeb87ed <afl_init_argv.in_buf+13> "ff", options=268435464, line_end=10 '\n') at ./tar-1.14.c.reduced.c:24642
+#12 0x00005570fbea929c in decode_options (argc=7, argv=0x5570fddf43f0) at ./tar-1.14.c.reduced.c:22484
+#13 0x00005570fbea7c91 in main (argc=6, argv=0x5570fbed0e80 <afl_init_argv[ret]>) at ./tar-1.14.c.reduced.c:23204

@@ -1,0 +1,24 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out: ThreadSanitizer:DEADLYSIGNAL
+==1543035==ERROR: ThreadSanitizer: SEGV on unknown address 0x55723c369000 (pc 0x7fde44bc6170 bp 0x7ffda74263a0 sp 0x7ffda7425e08 T1543035)
+==1543035==The signal is caused by a READ memory access.
+    #0 <null> string/../sysdeps/x86_64/multiarch/strlen-evex.S:243 (libc.so.6+0x1b2170) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __vfprintf_internal stdio-common/vfprintf-internal.c:1517:4 (libc.so.6+0x76d30) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 buffered_vfprintf stdio-common/vfprintf-internal.c:2261:12 (libc.so.6+0x77664) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 locked_vfxprintf stdio-common/fxprintf.c:30:12 (libc.so.6+0x7e697) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 __vfxprintf stdio-common/fxprintf.c:71:13 (libc.so.6+0x7e774) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 error_tail misc/error.c:207:13 (libc.so.6+0x1211e0) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 __error_internal misc/error.c:261:3 (libc.so.6+0x1212d7) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 error misc/error.c:274:3 (libc.so.6+0x1213c5) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22492:15 (reduced.tsan.out+0xea561) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7 (reduced.tsan.out+0xe83e0) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #10 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #11 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #12 _start <null> (reduced.tsan.out+0x225a4) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:243 
+==1543035==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 1543034 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input19_fuzzed/input19_95

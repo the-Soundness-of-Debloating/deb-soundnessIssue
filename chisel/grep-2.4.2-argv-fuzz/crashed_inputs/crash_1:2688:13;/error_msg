@@ -1,0 +1,105 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1255402==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f5b33420ebc bp 0x7fff54ab8d90 sp 0x7fff54ab8548 T0)
+==1255402==The signal is caused by a READ memory access.
+==1255402==Hint: address points to the zero page.
+    #0 0x7f5b33420ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55d539f223c9 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x373c9) (BuildId: b04e74947253d9ff46e5fea17117b5f6051fa821)
+    #2 0x55d539fcb4f8 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13
+    #3 0x7f5b33298d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f5b33298e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55d539f0b354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x20354) (BuildId: b04e74947253d9ff46e5fea17117b5f6051fa821)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1255402==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1255401 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+grep-2.4.2.c.reduced.c:2688:20: runtime error: null pointer passed as argument 1, which is declared to never be null
+grep-2.4.2.c.reduced.c:462:62: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2688:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1489109==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7febab4adebc bp 0x7ffe09d1c160 sp 0x7ffe09d1bf58 T1489109)
+==1489109==The signal is caused by a READ memory access.
+==1489109==Hint: address points to the zero page.
+    #0 0x7febab4adebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55ecc3b50a47 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13
+    #2 0x7febab325d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7febab325e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55ecc3b28484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x14484) (BuildId: 383714eab8385c135d5335a5cfbe6d9ce0194020)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1489109==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1489108 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+MemorySanitizer:DEADLYSIGNAL
+==1671881==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fc0881efebc bp 0x7fff01833d60 sp 0x7fff01833d28 T1671881)
+==1671881==The signal is caused by a READ memory access.
+==1671881==Hint: address points to the zero page.
+    #0 0x7fc0881efebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5622ba12f432 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x54432) (BuildId: d6d50905690bdb2bfdc7f50fb34ba2e4dc34ed24)
+    #2 0x5622ba181f58 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13
+    #3 0x7fc088067d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fc088067e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x5622ba0fa304 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f304) (BuildId: d6d50905690bdb2bfdc7f50fb34ba2e4dc34ed24)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1671881==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1671880 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+ThreadSanitizer:DEADLYSIGNAL
+==1898880==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fc0acbceebc bp 0x7ffdf086bd60 sp 0x7ffdf086bb38 T1898880)
+==1898880==The signal is caused by a READ memory access.
+==1898880==Hint: address points to the zero page.
+    #0 <null> <null> (libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 strlen <null> (reduced.tsan.out+0x567a2) (BuildId: ead40ced6decebc55c488ee1e4adcd378ccdca22)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13 (reduced.tsan.out+0xcdde2) (BuildId: ead40ced6decebc55c488ee1e4adcd378ccdca22)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x21374) (BuildId: ead40ced6decebc55c488ee1e4adcd378ccdca22)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1898880==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1898879 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+LeakSanitizer:DEADLYSIGNAL
+==2131723==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f0fd1a52ebc bp 0x7ffd2b5bd8d0 sp 0x7ffd2b5bd768 T0)
+==2131723==The signal is caused by a READ memory access.
+==2131723==Hint: address points to the zero page.
+    #0 0x7f0fd1a52ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5603dd3db0c6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13
+    #2 0x7f0fd18cad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f0fd18cae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5603dd3ad474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x5474) (BuildId: b395f683bf32c4f7d55c339ab0779b98cd8c53f5)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2131723==ABORTING

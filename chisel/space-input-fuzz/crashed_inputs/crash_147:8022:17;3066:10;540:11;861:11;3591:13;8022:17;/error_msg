@@ -1,0 +1,16 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_227
+LeakSanitizer:DEADLYSIGNAL
+==3408910==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x561a0633949f bp 0x7ffc811d1400 sp 0x7ffc811d1400 T0)
+==3408910==The signal is caused by a READ memory access.
+==3408910==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x561a0633949f in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17
+    #1 0x561a06337c7d in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10
+    #2 0x561a06337a9d in adddef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:540:11
+    #3 0x561a063385f2 in adremdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:861:11
+    #4 0x561a0633a212 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3591:13
+    #5 0x602000000f5f  (<unknown module>)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 in TapeGet
+==3408910==ABORTING

@@ -1,0 +1,14 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3291.adl_fuzzed/gr3291.adl_82
+LeakSanitizer:DEADLYSIGNAL
+==3983425==ERROR: LeakSanitizer: SEGV on unknown address 0x00000000000a (pc 0x555b93baee20 bp 0x38327ffcea1d8300 sp 0x7ffcea1d82a8 T0)
+==3983425==The signal is caused by a READ memory access.
+==3983425==Hint: address points to the zero page.
+    #0 0x555b93baee20 in __sanitizer::internal_strlen(char const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0xde20) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #1 0x555b93bab4e8 in __sanitizer::RawWrite(char const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0xa4e8) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #2 0x555b93bd003c in __sanitizer::LargeMmapAllocator<__sanitizer::NoOpMapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Allocate(__sanitizer::AllocatorStats*, unsigned long, unsigned long) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x2f03c) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #3 0x602000000c5f  (<unknown module>)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0xde20) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __sanitizer::internal_strlen(char const*)
+==3983425==ABORTING

@@ -1,0 +1,15 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_105
+LeakSanitizer:DEADLYSIGNAL
+==3567513==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffff8d (pc 0x557b41c10037 bp 0x393237ffb3a0fb40 sp 0x7fffb3a0fb00 T0)
+==3567513==The signal is caused by a WRITE memory access.
+    #0 0x557b41c10037 in __sanitizer::SymbolizerProcess::ReadFromSymbolizer() (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x25037) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #1 0x557b41c1edf9 in blockdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1286:11
+    #2 0x557b41c1eb1e in adddef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:575:11
+    #3 0x557b41c1f5f2 in adremdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:861:11
+    #4 0x557b41c21212 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3591:13
+    #5 0x602000000d7f  (<unknown module>)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x25037) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __sanitizer::SymbolizerProcess::ReadFromSymbolizer()
+==3567513==ABORTING

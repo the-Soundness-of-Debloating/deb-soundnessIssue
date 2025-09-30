@@ -1,0 +1,18 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==714184==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55f60f17e6d2 bp 0x7ffd96457df0 sp 0x7ffd96457df0 T0)
+==714184==The signal is caused by a WRITE memory access.
+==714184==Hint: address points to the zero page.
+    #0 0x55f60f17e6d2 in copy /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25
+    #1 0x55f60f17dd01 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5516:7
+    #2 0x55f60f180c3c in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5
+    #3 0x55f60f18331e in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #4 0x55f60f17c52f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #5 0x7f4c2734ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f4c2734ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55f60f14e5a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x55a4) (BuildId: 58739bbfb32216a04f23642b6b1b2517e8c2d907)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25 in copy
+==714184==ABORTING

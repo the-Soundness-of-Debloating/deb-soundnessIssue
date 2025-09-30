@@ -1,0 +1,16 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000025,sig:06,src:000168,time:562864,execs:15698,op:havoc,rep:1
+==1774634==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56310e9c8d36 in imaxtostr /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5791:9
+    #1 0x56310e9db19f in timetostr /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9094:11
+    #2 0x56310e9d3b4e in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9690:13
+    #3 0x56310e9d37ff in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9328:19
+    #4 0x56310e9d2a4b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f626f8b2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f626f8b2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56310e92d3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.msan.out+0x203c4) (BuildId: a8851fd3c5b5a81db6d454d3bd67bc511f908ffb)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5791:9 in imaxtostr
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1774633 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

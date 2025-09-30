@@ -1,0 +1,62 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+=================================================================
+==3100153==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7ffcb1e02560 in thread T0
+    #0 0x56342d123e82 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbde82) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+    #1 0x56342d1a27af in xfree /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60888:5
+    #2 0x56342d198d8c in unwind_frame_run_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:45221:7
+    #3 0x56342d198886 in without_interrupts /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44942:3
+    #4 0x56342d198b5d in run_unwind_frame /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44979:5
+    #5 0x56342d1c654d in parse_and_execute /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/builtins/evalstring.c:275
+    #6 0x56342d192fe5 in command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37471:17
+    #7 0x56342d1b58b3 in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40659:11
+    #8 0x56342d1b1ac9 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #9 0x56342d1c07c0 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #10 0x56342d1957cf in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #11 0x56342d1955f9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #12 0x56342d175801 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #13 0x56342d174b24 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #14 0x56342d17a452 in execute_connection /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16990:17
+    #15 0x56342d174d5f in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16149:17
+    #16 0x56342d164716 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #17 0x56342d16302b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #18 0x56342d15f7d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #19 0x7fbd57863d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #20 0x7fbd57863e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #21 0x56342d09e704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0x38704) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+
+Address 0x7ffcb1e02560 is located in stack of thread T0 at offset 224 in frame
+    #0 0x56342d19298f in command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37283
+
+  This frame has 1 object(s):
+    [32, 40) 'fildes' (line 37289) <== Memory access at offset 224 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbde82) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be) in free
+==3100153==ABORTING
+=================================================================
+==3100149==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x7ffcb1e02560 in thread T0
+    #0 0x56342d123e82 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbde82) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+    #1 0x56342d1b58d9 in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40666:7
+    #2 0x56342d1b1ac9 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #3 0x56342d1c07c0 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #4 0x56342d1957cf in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #5 0x56342d1955f9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #6 0x56342d175801 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #7 0x56342d174b24 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #8 0x56342d17a452 in execute_connection /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16990:17
+    #9 0x56342d174d5f in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16149:17
+    #10 0x56342d164716 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #11 0x56342d16302b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #12 0x56342d15f7d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #13 0x7fbd57863d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #14 0x7fbd57863e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #15 0x56342d09e704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0x38704) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+
+Address 0x7ffcb1e02560 is located in stack of thread T0
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbde82) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be) in free
+==3100149==ABORTING

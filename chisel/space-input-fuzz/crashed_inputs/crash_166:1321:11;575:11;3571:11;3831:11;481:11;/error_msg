@@ -1,0 +1,18 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_400
+LeakSanitizer:DEADLYSIGNAL
+==3596317==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffff8d (pc 0x5558b96e0036 bp 0x39327ffd8fbe6aa0 sp 0x7ffd8fbe6a60 T0)
+==3596317==The signal is caused by a WRITE memory access.
+    #0 0x5558b96e0036 in __sanitizer::SymbolizerProcess::ReadFromSymbolizer() (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x25036) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #1 0x5558b96eee4e in blockdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1321:11
+    #2 0x5558b96eeb1e in adddef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:575:11
+    #3 0x5558b96f11c2 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3571:11
+    #4 0x5558b96ee35d in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3831:11
+    #5 0x5558b96ede41 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #6 0x7f7b36732d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f7b36732e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5558b96c0464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x5464) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x25036) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __sanitizer::SymbolizerProcess::ReadFromSymbolizer()
+==3596317==ABORTING

@@ -1,0 +1,26 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==169256==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5611a1857394 bp 0x7ffe5e444ed0 sp 0x7ffe5e444c70 T169256)
+==169256==The signal is caused by a READ memory access.
+==169256==Hint: address points to the zero page.
+    #0 yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4830:34 (reduced.tsan.out+0xd2394) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3504:16 (reduced.tsan.out+0xd076c) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4830:34 in yylex
+==169256==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 169255 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==643490==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5593d28fe2cc bp 0x7ffeb75ed980 sp 0x7ffeb75ed8c0 T0)
+==643490==The signal is caused by a READ memory access.
+==643490==Hint: address points to the zero page.
+    #0 0x5593d28fe2cc in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4830:34
+    #1 0x5593d28fcf17 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3504:16
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4830:34 in yylex
+==643490==ABORTING

@@ -1,0 +1,33 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1485463==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56268ca42f55 bp 0x7ffce44317f0 sp 0x7ffce4431760 T0)
+==1485463==The signal is caused by a READ memory access.
+==1485463==Hint: address points to the zero page.
+    #0 0x56268ca42f55 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4708:11
+    #1 0x56268ca3fce5 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #2 0x56268ca3f345 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #3 0x7f7c49287d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f7c49287e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x56268c97f3b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: 249d10224bdf6d5c0f25d6cbd264a9ebaf5a9bee)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4708:11 in read_pattern_space
+==1485463==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1485462 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+==1513896==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55fd06a1b792 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4708:11
+    #1 0x55fd06a1298e in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #2 0x55fd06a113d6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #3 0x7f3bb5e04d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f3bb5e04e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55fd0698a364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f364) (BuildId: 037612c943aaac902ba9aed4e92573cd00f0c608)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4708:11 in read_pattern_space
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1513895 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

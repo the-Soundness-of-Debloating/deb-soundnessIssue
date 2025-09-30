@@ -1,0 +1,21 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_22
+
+gzip: stdin: invalid compressed data--crc error
+
+gzip: stdin: invalid compressed data--length error
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/bins/reduced.msan.out: This does not look like a tar archive
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/bins/reduced.msan.out: Skipping to next header
+==28189==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56257feef45f in from_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13067:62
+    #1 0x56257feea262 in read_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12581:24
+    #2 0x56257fee6605 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12159:20
+    #3 0x56257ff0522c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #4 0x7f8275814d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f8275814e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x56257fe24504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/bins/reduced.msan.out+0x20504) (BuildId: 2c1e2cde2b7548b927b8b64a38dd4d074e6b5808)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13067:62 in from_header
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 360: 28188 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_22

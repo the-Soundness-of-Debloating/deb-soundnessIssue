@@ -1,0 +1,18 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1989266==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x566e582f53b8 (pc 0x56465676f261 bp 0x7ffd3de6f600 sp 0x7ffd3de6dee0 T1989266)
+==1989266==The signal is caused by a READ memory access.
+    #0 0x56465676f261 in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11791:74
+    #1 0x564656769c5a in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:17065:9
+    #2 0x564656767af8 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9209:9
+    #3 0x564656733fad in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7fa19a754d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fa19a754e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x56465670b594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x34594) (BuildId: 7722db87e8e7ac352905c2ebb734116afefb2f4d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11791:74 in regex_compile
+==1989266==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1989265 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

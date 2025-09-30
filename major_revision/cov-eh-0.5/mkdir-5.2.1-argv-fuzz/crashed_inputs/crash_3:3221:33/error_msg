@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/bins/reduced.ubsan.out
+mkdir-5.2.1.c.reduced.c:3221:33: runtime error: member access within misaligned address 0x000000000001 for type 'const struct mode_change', which requires 8 byte alignment
+0x000000000001: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior mkdir-5.2.1.c.reduced.c:3221:33 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==381127==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000002 (pc 0x564c6a348458 bp 0x7ffcbf57c290 sp 0x7ffcbf57c220 T381127)
+==381127==The signal is caused by a READ memory access.
+==381127==Hint: address points to the zero page.
+    #0 0x564c6a348458 in mode_adjust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13
+    #1 0x564c6a349828 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4981:19
+    #2 0x7f0460236d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f0460236e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x564c6a31c544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/bins/reduced.ubsan.out+0x8544) (BuildId: 74ff257f1a9c4c104a8491492442dfcb2d1f6c5f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13 in mode_adjust
+==381127==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 381126 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

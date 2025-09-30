@@ -1,0 +1,52 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_116
+=================================================================
+==3042552==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60c000000178 at pc 0x56209c04b56b bp 0x7ffe1ce2cd90 sp 0x7ffe1ce2cd88
+READ of size 1 at 0x60c000000178 thread T0
+    #0 0x56209c04b56a in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5097:14
+    #1 0x56209c04f2be in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #2 0x56209c04ee7f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f4b62c93d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f4b62c93e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x56209bf85394 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.asan.out+0x20394) (BuildId: 1240b59b47f714ba4151461146d16cbe17141ef3)
+
+0x60c000000178 is located 0 bytes to the right of 120-byte region [0x60c000000100,0x60c000000178)
+allocated by thread T0 here:
+    #0 0x56209c00adbe in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.asan.out+0xa5dbe) (BuildId: 1240b59b47f714ba4151461146d16cbe17141ef3)
+    #1 0x7f4b62cea122 in __getdelim (/lib/x86_64-linux-gnu/libc.so.6+0x80122) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5097:14 in parse_datetime
+Shadow bytes around the buggy address:
+  0x0c187fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c187fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x0c187fff8010: 00 00 00 00 00 00 00 05 fa fa fa fa fa fa fa fa
+=>0x0c187fff8020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[fa]
+  0x0c187fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c187fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3042552==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3042551 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

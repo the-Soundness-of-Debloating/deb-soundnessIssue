@@ -1,0 +1,33 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3005659==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x562ba9576e9f bp 0x7ffe94a321f0 sp 0x7ffe94a31ec0 T3005659)
+==3005659==The signal is caused by a READ memory access.
+==3005659==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x562ba9576e9f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28
+    #1 0x7fb78327ed8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7fb78327ee3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x562ba9533674 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x17674) (BuildId: a3de010e9147085ac3382577691b4704265fc1fe)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28 in main
+==3005659==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3005658 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==4147389==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x55a669738600 bp 0x7ffec58eeb40 sp 0x7ffec58ee8f8 T4147389)
+==4147389==The signal is caused by a READ memory access.
+==4147389==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read4 <null> (reduced.tsan.out+0xba600) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28 (reduced.tsan.out+0xd7f75) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x22484) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.tsan.out+0xba600) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48) in __tsan_read4
+==4147389==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4147388 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

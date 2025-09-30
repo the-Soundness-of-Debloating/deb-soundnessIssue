@@ -1,0 +1,59 @@
+asan+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.asan+ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_381 -k -p -w
+=================================================================
+==2674219==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000000108 at pc 0x55879a2bda79 bp 0x7fff370caf30 sp 0x7fff370caf28
+READ of size 1 at 0x611000000108 thread T0
+    #0 0x55879a2bda78 in get_next_mword /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18239:9
+    #1 0x55879a29867a in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:16053:19
+    #2 0x55879a285be0 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55879a26c2cd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f80b148bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f80b148be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55879a16a4b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.asan+ubsan.out+0x704b4) (BuildId: 59a3c31478c7815ce079a8d8f625a6e59c620f87)
+
+0x611000000108 is located 0 bytes to the right of 200-byte region [0x611000000040,0x611000000108)
+allocated by thread T0 here:
+    #0 0x55879a1efede in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.asan+ubsan.out+0xf5ede) (BuildId: 59a3c31478c7815ce079a8d8f625a6e59c620f87)
+    #1 0x55879a22b8c4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55879a24108d in initialize_variable_output /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3259:11
+    #3 0x55879a23ece2 in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3396:12
+    #4 0x55879a243bbf in variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3647:9
+    #5 0x55879a275252 in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:12938:11
+    #6 0x55879a268fb5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11296:3
+    #7 0x7f80b148bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18239:9 in get_next_mword
+Shadow bytes around the buggy address:
+  0x0c227fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x0c227fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c227fff8020: 00[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8030: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c227fff8040: fd fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa
+  0x0c227fff8050: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
+  0x0c227fff8060: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c227fff8070: fd fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2674219==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2674217 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.asan+ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_381 -k -p -w

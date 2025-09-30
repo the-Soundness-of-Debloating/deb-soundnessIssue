@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:4268:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4268:32 in 
+date-8.21.c.reduced.c:4274:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4274:26 in 
+date-8.21.c.reduced.c:3556:21: runtime error: applying non-zero offset 18446744073709551560 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3556:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2940113==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffc8 (pc 0x7f537006edcd bp 0x7fffdecd8780 sp 0x7fffdecd6e58 T2940113)
+==2940113==The signal is caused by a READ memory access.
+    #0 0x7f537006edcd  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317
+    #1 0x55fb3b60a711 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3556:13
+    #2 0x55fb3b618203 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #3 0x55fb3b620a2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7f536fee9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f536fee9e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55fb3b5dc674 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x17674) (BuildId: a3de010e9147085ac3382577691b4704265fc1fe)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317 
+==2940113==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2940112 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,56 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out: You must specify one of the `-Acdtrux' options
+Try `tar --help' for more information.
+
+=================================================================
+==2320729==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x560c5cb0efae in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out+0xaefae) (BuildId: 3597cc36fc2b1011562f9af0c363aced83e2dda9)
+    #1 0x560c5cb6ffd4 in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30516:13
+    #2 0x560c5cb54699 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30530:13
+    #3 0x560c5cb694fa in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:21841:21
+    #4 0x560c5cb6860d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #5 0x7efc5178bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 9 byte(s) in 3 object(s) allocated from:
+    #0 0x560c5cb0efae in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out+0xaefae) (BuildId: 3597cc36fc2b1011562f9af0c363aced83e2dda9)
+    #1 0x560c5cb6ffd4 in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30516:13
+    #2 0x560c5cb54699 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30530:13
+    #3 0x560c5cb70178 in xclone /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30626:13
+    #4 0x560c5cb63049 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30641:17
+    #5 0x560c5cb697b2 in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:21864:26
+    #6 0x560c5cb6860d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #7 0x7efc5178bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 65 byte(s) leaked in 4 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2320728 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input17_fuzzed/input17_28
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out: foo.tarxf: Cannot open: No such file or directory
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out: Error is not recoverable: exiting now
+
+=================================================================
+==1671041==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 64 byte(s) in 1 object(s) allocated from:
+    #0 0x562284110a12 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0x36a12) (BuildId: 5f61b36fd78da75f753cb7f5bb6909770f2b308c)
+    #1 0x562284126b9f in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30516:13
+    #2 0x5622841196b9 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30530:13
+    #3 0x562284122f08 in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:21841:21
+    #4 0x562284122990 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #5 0x7f3057786d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Indirect leak of 6 byte(s) in 2 object(s) allocated from:
+    #0 0x562284110a12 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0x36a12) (BuildId: 5f61b36fd78da75f753cb7f5bb6909770f2b308c)
+    #1 0x562284126b9f in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30516:13
+    #2 0x5622841196b9 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30530:13
+    #3 0x562284126cf8 in xclone /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30626:13
+    #4 0x562284120339 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30641:17
+    #5 0x562284122fcc in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:21864:26
+    #6 0x562284122990 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #7 0x7f3057786d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: LeakSanitizer: 70 byte(s) leaked in 3 allocation(s).

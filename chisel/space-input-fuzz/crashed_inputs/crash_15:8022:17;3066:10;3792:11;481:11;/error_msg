@@ -1,0 +1,23 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_44
+space.c.reduced.c:8022:17: runtime error: member access within null pointer of type 'struct charac'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8022:17 in 
+space.c.reduced.c:8022:17: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8022:17 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2658839==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5635ec7f16ab bp 0x7fff6ecb5580 sp 0x7fff6ecb5530 T2658839)
+==2658839==The signal is caused by a READ memory access.
+==2658839==Hint: address points to the zero page.
+    #0 0x5635ec7f16ab in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17
+    #1 0x5635ec7e9b73 in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10
+    #2 0x5635ec7e6749 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3792:11
+    #3 0x5635ec7e55b0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #4 0x7ff539502d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7ff539502e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5635ec7bd454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out+0x11454) (BuildId: b40c8b1e995522a49e1e4906d827c1a2a8b210b5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 in TapeGet
+==2658839==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2658838 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_44

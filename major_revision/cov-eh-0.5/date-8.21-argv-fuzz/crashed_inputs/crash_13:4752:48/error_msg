@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:4752:48: runtime error: null pointer passed as argument 2, which is declared to never be null
+date-8.21.c.reduced.c:808:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4752:48 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2801527==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f65e547280c bp 0x7ffdf6126f90 sp 0x7ffdf6126d48 T2801527)
+==2801527==The signal is caused by a READ memory access.
+==2801527==Hint: address points to the zero page.
+    #0 0x7f65e547280c  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139
+    #1 0x5630b8c68667 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4752:17
+    #2 0x5630b8c597d2 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5025:14
+    #3 0x5630b8c506ba in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3504:16
+    #4 0x5630b8c5dd5e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #5 0x5630b8c65d55 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #6 0x7f65e52ead8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f65e52eae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x5630b8c24634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x15634) (BuildId: a4f13436fa48e093ecc0cf18174dbfc4d7fb07dc)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139 
+==2801527==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2801525 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

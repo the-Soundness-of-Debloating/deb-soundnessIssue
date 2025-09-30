@@ -1,0 +1,21 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=866886)
+  Write of size 4 at 0x7b8000002000 by main thread:
+    #0 kwsprep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11871:37 (reduced.tsan.out+0xdd00a) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12722:7 (reduced.tsan.out+0xdf5d8) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #2 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12884:7 (reduced.tsan.out+0xdef32) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #3 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xf3cea) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+  Previous write of size 8 at 0x7b8000002000 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4e8e3) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 re_dfa_add_node posix/regex_internal.c:1433:19 (libc.so.6+0xf5b7b) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xf3cea) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11871:37 in kwsprep
+==================
+timeout: the monitored command dumped core
+./verify.sh: line 110: 866885 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

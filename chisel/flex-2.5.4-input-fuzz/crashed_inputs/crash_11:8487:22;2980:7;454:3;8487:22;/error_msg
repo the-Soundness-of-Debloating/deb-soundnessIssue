@@ -1,0 +1,34 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_1
+ThreadSanitizer:DEADLYSIGNAL
+==527233==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000004 (pc 0x55d5309e7847 bp 0x7ffdeb18a300 sp 0x7ffdeb18a260 T527233)
+==527233==The signal is caused by a WRITE memory access.
+==527233==Hint: address points to the zero page.
+    #0 mk1tbl /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22 (reduced.tsan.out+0xdd847) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #1 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2980:7 (reduced.tsan.out+0xd6f54) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:454:3 (reduced.tsan.out+0xd5965) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x29324) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22 in mk1tbl
+==527233==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 527232 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_1
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.lsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0
+LeakSanitizer:DEADLYSIGNAL
+==933463==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000004 (pc 0x563add35fcbb bp 0x7ffd7da740b0 sp 0x7ffd7da740b0 T0)
+==933463==The signal is caused by a WRITE memory access.
+==933463==Hint: address points to the zero page.
+    #0 0x563add35fcbb in mk1tbl /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22
+    #1 0x563add35ca17 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2980:7
+    #2 0x563add35be0d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:454:3
+    #3 0x7f45ec025d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f45ec025e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x563add32e444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.lsan.out+0x10444) (BuildId: 59354624a557a167bd5fcc069d7572020bbd3a97)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22 in mk1tbl
+==933463==ABORTING

@@ -1,0 +1,33 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out -i Si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_142
+=================================================================
+==2747423==ERROR: AddressSanitizer: negative-size-param: (size=-5)
+    #0 0x561801afb299 in memrchr (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x40299) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+    #1 0x561801bbc5b3 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12967:35
+    #2 0x561801bd9007 in do_execute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21490:17
+    #3 0x561801bd8b7c in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21557:17
+    #4 0x561801bd83c1 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21723:25
+    #5 0x561801bd6cf5 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #6 0x561801bd6576 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #7 0x561801bcdb4d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #8 0x561801bcd64f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #9 0x7f749cc54d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f749cc54e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x561801adf504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x24504) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+
+0x62d000001084 is located 3204 bytes inside of 36865-byte region [0x62d000000400,0x62d000009401)
+allocated by thread T0 here:
+    #0 0x561801b64f2e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0xa9f2e) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+    #1 0x561801ba0a44 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:1052:13
+    #2 0x561801bd8762 in reset /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:20512:26
+    #3 0x561801bd7fe6 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21643:13
+    #4 0x561801bd6cf5 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #5 0x561801bd6576 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #6 0x561801bcdb4d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #7 0x561801bcd64f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #8 0x7f749cc54d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: negative-size-param (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x40299) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5) in memrchr
+==2747423==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 2747420 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out -i Si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_142

@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.msan.out
+==2629045==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55b26283dd67 in flush_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:2081:17
+    #1 0x55b26282b005 in flush_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:2275:7
+    #2 0x55b26282ab50 in find_next_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:962:9
+    #3 0x55b26282fa8a in open_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:1530:7
+    #4 0x55b26286665a in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:12151:7
+    #5 0x55b262887337 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23285:7
+    #6 0x7efc70506d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7efc70506e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55b26279f574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.msan.out+0x20574) (BuildId: cf20fd908908137e04352dce4d51e174d30761d0)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:2081:17 in flush_read
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2629044 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000024*

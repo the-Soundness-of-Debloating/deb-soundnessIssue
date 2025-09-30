@@ -1,0 +1,19 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.lsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_107
+LeakSanitizer:DEADLYSIGNAL
+==1741214==ERROR: LeakSanitizer: SEGV on unknown address 0x55948fdb3130 (pc 0x55948f42675c bp 0x7fff15d6e5b0 sp 0x7fff15d6e5b0 T0)
+==1741214==The signal is caused by a WRITE memory access.
+    #0 0x55948f42675c in mkechar /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3602:27
+    #1 0x55948f42baf6 in mkstate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7283:9
+    #2 0x55948f42bd1c in dupmachine /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6835:13
+    #3 0x55948f42c4e3 in mkrep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7200:14
+    #4 0x55948f423fd2 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10342:13
+    #5 0x55948f4207da in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #6 0x55948f41fe64 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #7 0x7f1176341d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f1176341e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55948f3f2484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.lsan.out+0x11484) (BuildId: 0356cf09cfd140dba5f4461416b89438e3f932e3)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3602:27 in mkechar
+==1741214==ABORTING

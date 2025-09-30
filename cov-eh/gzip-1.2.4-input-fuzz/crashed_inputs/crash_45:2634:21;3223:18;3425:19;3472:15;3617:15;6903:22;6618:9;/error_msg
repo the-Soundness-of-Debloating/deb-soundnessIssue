@@ -1,0 +1,33 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d
+gzip-1.2.4.c.reduced.c:2628:47: runtime error: shift exponent 64 is too large for 64-bit type 'ulg' (aka 'unsigned long')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:2628:47 in 
+gzip-1.2.4.c.reduced.c:2633:63: runtime error: index 154 out of bounds for type 'ush[17]' (aka 'unsigned short[17]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:2633:63 in 
+gzip-1.2.4.c.reduced.c:2634:38: runtime error: member access within misaligned address 0x55aa19a1a64a for type 'struct huft', which requires 8 byte alignment
+0x55aa19a1a64a: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:2634:38 in 
+gzip-1.2.4.c.reduced.c:2634:38: runtime error: load of misaligned address 0x55aa19a1a64a for type 'uch' (aka 'unsigned char'), which requires 8 byte alignment
+0x55aa19a1a64a: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:2634:38 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3422976==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55aa19a1a64a (pc 0x55aa1779e95f bp 0x7ffff5e9e5c0 sp 0x7ffff5e9e110 T3422976)
+==3422976==The signal is caused by a READ memory access.
+    #0 0x55aa1779e95f in inflate_codes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2634:21
+    #1 0x55aa177a0988 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3223:18
+    #2 0x55aa177a0c27 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3425:19
+    #3 0x55aa177a0c80 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3472:15
+    #4 0x55aa177a0d4f in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3617:15
+    #5 0x55aa177b088b in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6903:22
+    #6 0x55aa177b0087 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6618:9
+    #7 0x7fc9c5924d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fc9c5924e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55aa17771524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x17524) (BuildId: e129558d5b46f370cf80a6ffdee03ccdc06eb3fb)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2634:21 in inflate_codes
+==3422976==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3422975 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/ubsan/crashes/id:000058* > sample1.tst

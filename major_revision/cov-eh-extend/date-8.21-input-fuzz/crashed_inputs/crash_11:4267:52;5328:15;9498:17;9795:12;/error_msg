@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_1
+date-8.21.c.reduced.c:4267:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4267:32 in 
+date-8.21.c.reduced.c:4273:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4273:26 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2774364==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7ffd00228450 (pc 0x563742327885 bp 0x7ffdc6de84e0 sp 0x7ffdc6de6bc0 T2774364)
+==2774364==The signal is caused by a READ memory access.
+    #0 0x563742327885 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4267:52
+    #1 0x56374232e1f3 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #2 0x563742336caa in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #3 0x563742336681 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #4 0x7f434f361d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f434f361e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x5637422f2664 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x17664) (BuildId: e1a26e58b6ebde2b054bc079fd03078bd3a0a58e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4267:52 in yyparse
+==2774364==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2774363 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

@@ -1,0 +1,17 @@
+msan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out
+rm: remove regular empty file `file'? ==2729235==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55d0362ca532 in prompt /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6370:13
+    #1 0x55d0362c4674 in rm_fts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6668:16
+    #2 0x55d0362c2b9a in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6741:19
+    #3 0x55d0362c5b0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #4 0x7f0930c6dd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f0930c6de3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55d03622d3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 26f77d0095fd2690e268522407c4ce07169a896a)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6370:13 in prompt
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2729233 Done                    echo "Y"
+     2729234 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_5

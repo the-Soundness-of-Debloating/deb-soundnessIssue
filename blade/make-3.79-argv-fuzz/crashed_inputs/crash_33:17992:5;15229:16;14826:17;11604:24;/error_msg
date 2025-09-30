@@ -1,0 +1,14 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==228371==ERROR: LeakSanitizer: stack-overflow on address 0x7ffec3caf330 (pc 0x7ffec3caf330 bp 0x7ffec3caf290 sp 0x7ffec3caf298 T0)
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x7ffec3caf330  ([stack]+0x1e330)
+    #1 0x56182f2108bb in readline /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17992:5
+    #2 0x56182f20cfe2 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15229:16
+    #3 0x56182f20bbda in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14826:17
+    #4 0x56182f209c40 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #5 0x7fe797d87d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: stack-overflow ([stack]+0x1e330) 
+==228371==ABORTING

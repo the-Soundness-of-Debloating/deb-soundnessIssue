@@ -1,0 +1,16 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_71
+LeakSanitizer:DEADLYSIGNAL
+==2957170==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffffff (pc 0x55d7874b29bb bp 0x7fffb9e64680 sp 0x7fffb9e63d30 T0)
+==2957170==The signal is caused by a READ memory access.
+    #0 0x55d7874b29bb in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52
+    #1 0x55d7874b3900 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #2 0x55d7874b5d77 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x55d7874b5b35 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7fbd7f42cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fbd7f42ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55d7874835d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out+0x65d4) (BuildId: c9e299db05868f94060fe886feb5d664d488690b)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52 in yyparse
+==2957170==ABORTING

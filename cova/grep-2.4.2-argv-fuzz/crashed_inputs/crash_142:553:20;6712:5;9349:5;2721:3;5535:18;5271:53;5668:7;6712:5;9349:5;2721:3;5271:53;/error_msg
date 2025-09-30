@@ -1,0 +1,37 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=524970)
+  Read of size 4 at 0x7b0400000a10 by main thread:
+    #0 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5535:18 (reduced.tsan.out+0xd3cd7) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #1 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xdb173) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xe1cfd) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xcee74) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+
+  Previous write of size 8 at 0x7b0400000a10 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4d7b3) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #1 xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9 (reduced.tsan.out+0xd53f5) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5553:20 (reduced.tsan.out+0xd401f) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xdb173) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #4 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xe1cfd) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xcee74) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5535:18 in dfaanalyze
+==================
+ThreadSanitizer:DEADLYSIGNAL
+==524970==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b400001d1d4 (pc 0x55df8f5406ca bp 0x7fff935cc670 sp 0x7fff935cc450 T524970)
+==524970==The signal is caused by a READ memory access.
+    #0 epsclosure /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5271:53 (reduced.tsan.out+0xd56ca) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #1 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5668:7 (reduced.tsan.out+0xd4a8c) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xdb173) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #3 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xe1cfd) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xcee74) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x213f4) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5271:53 in epsclosure
+==524970==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 524969 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

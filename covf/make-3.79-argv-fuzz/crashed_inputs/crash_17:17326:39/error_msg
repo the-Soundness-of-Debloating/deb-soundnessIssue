@@ -1,0 +1,42 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make-3.79.c.reduced.c:17326:39: runtime error: member access within misaligned address 0x5588d3ae969c for type 'struct dep', which requires 8 byte alignment
+0x5588d3ae969c: note: pointer points here
+  67 65 74 6f 70 74 2e 6f  20 67 65 74 6f 70 74 31  2e 6f 3a 20 67 65 74 6f  70 74 2e 68 00 00 61 6e
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17326:39: runtime error: load of misaligned address 0x5588d3ae969c for type 'struct dep *', which requires 8 byte alignment
+0x5588d3ae969c: note: pointer points here
+  67 65 74 6f 70 74 2e 6f  20 67 65 74 6f 70 74 31  2e 6f 3a 20 67 65 74 6f  70 74 2e 68 00 00 61 6e
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17329:20: runtime error: member access within misaligned address 0x5588d3ae969c for type 'struct dep', which requires 8 byte alignment
+0x5588d3ae969c: note: pointer points here
+  67 65 74 6f 70 74 2e 6f  20 67 65 74 6f 70 74 31  2e 6f 3a 20 67 65 74 6f  70 74 2e 68 00 00 61 6e
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+make-3.79.c.reduced.c:17329:20: runtime error: load of misaligned address 0x5588d3ae969c for type 'struct dep *', which requires 8 byte alignment
+0x5588d3ae969c: note: pointer points here
+  67 65 74 6f 70 74 2e 6f  20 67 65 74 6f 70 74 31  2e 6f 3a 20 67 65 74 6f  70 74 2e 68 00 00 61 6e
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2503785==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x5588d23cdc9b bp 0x7ffca8cd8d10 sp 0x7ffca8cd8980 T2503785)
+==2503785==The signal is caused by a READ memory access.
+==2503785==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5588d23cdc9b in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39
+    #1 0x5588d23bb162 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15877:15
+    #2 0x5588d23b2c23 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x5588d23aa568 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7fd53b4cbd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fd53b4cbe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5588d2365724 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x2d724) (BuildId: 9310c5acffc05c1cff015fdec49fbe07fcb90502)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==2503785==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2503784 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

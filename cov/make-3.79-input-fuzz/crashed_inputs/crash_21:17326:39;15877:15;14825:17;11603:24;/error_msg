@@ -1,0 +1,56 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_105 -k -p -w
+make-3.79.c.reduced.c:17326:39: runtime error: member access within misaligned address 0x555cc042b76d for type 'struct dep', which requires 8 byte alignment
+0x555cc042b76d: note: pointer points here
+ 74 75 73 00 73 74 61  74 75 73 00 00 00 61 6e  67 65 4c 6f 67 20 4e 45  57 53 20 4d 61 6b 65 66  69
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17326:39: runtime error: load of misaligned address 0x555cc042b76d for type 'struct dep *', which requires 8 byte alignment
+0x555cc042b76d: note: pointer points here
+ 74 75 73 00 73 74 61  74 75 73 00 00 00 61 6e  67 65 4c 6f 67 20 4e 45  57 53 20 4d 61 6b 65 66  69
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17326:39 in 
+make-3.79.c.reduced.c:17329:20: runtime error: member access within misaligned address 0x555cc042b76d for type 'struct dep', which requires 8 byte alignment
+0x555cc042b76d: note: pointer points here
+ 74 75 73 00 73 74 61  74 75 73 00 00 00 61 6e  67 65 4c 6f 67 20 4e 45  57 53 20 4d 61 6b 65 66  69
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+make-3.79.c.reduced.c:17329:20: runtime error: load of misaligned address 0x555cc042b76d for type 'struct dep *', which requires 8 byte alignment
+0x555cc042b76d: note: pointer points here
+ 74 75 73 00 73 74 61  74 75 73 00 00 00 61 6e  67 65 4c 6f 67 20 4e 45  57 53 20 4d 61 6b 65 66  69
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:17329:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==449893==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x737574617473 (pc 0x555cbe9b729b bp 0x7ffe8b0e0250 sp 0x7ffe8b0dfec0 T449893)
+==449893==The signal is caused by a READ memory access.
+    #0 0x555cbe9b729b in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17326:39
+    #1 0x555cbe9a4762 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15877:15
+    #2 0x555cbe99c1f3 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x555cbe9941c0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7fd2e74c4d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fd2e74c4e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x555cbe94f704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out+0x2d704) (BuildId: a372ba9bfd508861707996a31990acfe3e988146)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==449893==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 449891 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_105 -k -p -w
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_6 -k -p -w
+ThreadSanitizer:DEADLYSIGNAL
+==1352714==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000fbad2488 (pc 0x559822946802 bp 0x7ffffee64aa0 sp 0x7ffffee647d0 T1352714)
+==1352714==The signal is caused by a READ memory access.
+    #0 record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17326:39 (reduced.tsan.out+0xea802) (BuildId: d1683cb23c405bd38bf74a42a0ba6d96dde7b090)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15877:15 (reduced.tsan.out+0xe2e84) (BuildId: d1683cb23c405bd38bf74a42a0ba6d96dde7b090)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17 (reduced.tsan.out+0xdee3f) (BuildId: d1683cb23c405bd38bf74a42a0ba6d96dde7b090)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24 (reduced.tsan.out+0xdb641) (BuildId: d1683cb23c405bd38bf74a42a0ba6d96dde7b090)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23464) (BuildId: d1683cb23c405bd38bf74a42a0ba6d96dde7b090)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==1352714==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 1352712 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_6 -k -p -w

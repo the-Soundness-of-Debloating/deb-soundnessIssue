@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out
+flex-2.5.4.c.reduced.c:10795:25: runtime error: index -32768 out of bounds for type 'const short[111]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:10795:25 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1408879==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fa5448a5b52 bp 0x7ffd54e36ec0 sp 0x7ffd54e36dd0 T1408879)
+==1408879==The signal is caused by a READ memory access.
+==1408879==Hint: address points to the zero page.
+    #0 0x7fa5448a5b52 in _IO_fread (/lib/x86_64-linux-gnu/libc.so.6+0x7fb52) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55c42f39451f in yy_get_next_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:15639:17
+    #2 0x55c42f38d917 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:15444:18
+    #3 0x55c42f393d1c in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:8732:15
+    #4 0x55c42f37891f in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:9499:14
+    #5 0x55c42f37377a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1545:9
+    #6 0x55c42f372652 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #7 0x7fa54484fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fa54484fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55c42f34a464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-argv-fuzz/bins/reduced.ubsan.out+0x1d464) (BuildId: 55a0a5c33b4e04e1e2b7cb5e3ad2a69fcee3a00e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7fb52) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_fread
+==1408879==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1408878 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

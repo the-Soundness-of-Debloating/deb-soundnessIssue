@@ -1,0 +1,86 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+target5: invalid option -- '!'
+=================================================================
+==1834741==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f4936600ec0 at pc 0x55e2feafb5cc bp 0x7ffe9d3dd000 sp 0x7ffe9d3dcff8
+READ of size 4 at 0x7f4936600ec0 thread T0
+    #0 0x55e2feafb5cb in equal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3011:9
+    #1 0x55e2feafb1b5 in charclass_index /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3037:11
+    #2 0x55e2feadb7d0 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4380:20
+    #3 0x55e2feafb8d4 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13
+    #4 0x55e2feafb6dc in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #5 0x55e2feafb6b8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #6 0x55e2feadb8df in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #7 0x55e2feada724 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #8 0x55e2feaea05b in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6704:5
+    #9 0x55e2feaf4932 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #10 0x55e2fead9b8f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #11 0x7f49382e9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x7f49382e9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x55e2fea193d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x213d4) (BuildId: cd84ff4f1f3eeff71764c16c67a9f0e48dfee132)
+
+Address 0x7f4936600ec0 is located in stack of thread T0 at offset 64 in frame
+    #0 0x55e2feada84f in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3264
+
+  This frame has 1 object(s):
+    [32, 64) 'ccl' (line 3270) <== Memory access at offset 64 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3011:9 in equal
+Shadow bytes around the buggy address:
+  0x0fe9a6cb8180: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe9a6cb8190: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe9a6cb81a0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe9a6cb81b0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe9a6cb81c0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0fe9a6cb81d0: f1 f1 f1 f1 00 00 00 00[f3]f3 f3 f3 00 00 00 00
+  0x0fe9a6cb81e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe9a6cb81f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe9a6cb8200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe9a6cb8210: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe9a6cb8220: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1834741==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1834740 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+target5: invalid option -- '!'
+==1897113==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55a7287af7fe in equal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3011:9
+    #1 0x55a7287aedd9 in charclass_index /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3037:11
+    #2 0x55a72876c3fa in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4380:20
+    #3 0x55a7287b016d in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13
+    #4 0x55a7287afa8c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #5 0x55a7287af9f8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #6 0x55a72876c5d8 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #7 0x55a728767cea in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #8 0x55a728785a52 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6704:5
+    #9 0x55a72879b6a8 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #10 0x55a7287656eb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #11 0x7f4ae9920d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x7f4ae9920e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x55a7286dc364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f364) (BuildId: 0d4b7baa7febbce4d079ca6e315faa7a5fcbb558)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3011:9 in equal
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1897112 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

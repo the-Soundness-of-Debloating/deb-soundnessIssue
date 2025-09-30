@@ -1,0 +1,13 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+==1671813==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55d18244ab48 in install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1978:52
+    #1 0x55d182449fad in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2697:14
+    #2 0x7f5d1ff54d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f5d1ff54e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55d1823c2304 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f304) (BuildId: d6d50905690bdb2bfdc7f50fb34ba2e4dc34ed24)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1978:52 in install_matcher
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1671812 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

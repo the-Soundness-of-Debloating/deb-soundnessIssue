@@ -1,0 +1,50 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep: invalid option -- ''
+grep: invalid option -- '['
+grep: invalid option -- ']'
+grep: invalid option -- '['
+grep: invalid option -- '$'
+grep: invalid option -- '%'
+grep: invalid option -- 'p'
+grep: invalid option -- '`'
+grep: invalid option -- '`'
+grep: invalid option -- '%'
+grep: invalid option -- '''
+grep: invalid option -- '$'
+grep: invalid option -- '$'
+grep: invalid option -- '\'
+grep: invalid option -- ''
+grep: invalid option -- '['
+grep: invalid option -- ']'
+grep: invalid option -- '['
+grep: invalid option -- '$'
+grep: invalid option -- '%'
+grep: invalid option -- 'p'
+grep: invalid option -- '`'
+grep: invalid option -- '`'
+grep: invalid option -- '%'
+grep: invalid option -- '''
+grep: invalid option -- '$'
+grep: invalid option -- '$'
+grep: invalid option -- '\'
+grep-2.19.c.reduced.c:12848:47: runtime error: null pointer passed as argument 2, which is declared to never be null
+grep-2.19.c.reduced.c:5023:59: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:12848:47 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2632504==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f4460e0aec5 bp 0x7ffeb2a36260 sp 0x7ffeb2a360e8 T2632504)
+==2632504==The signal is caused by a READ memory access.
+==2632504==Hint: address points to the zero page.
+    #0 0x7f4460e0aec5  string/../sysdeps/x86_64/multiarch/strcpy-evex.S:308
+    #1 0x558bb9611f56 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12848:11
+    #2 0x558bb9642cb0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #3 0x558bb963433a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #4 0x7f4460c82d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f4460c82e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x558bb95c2734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x3c734) (BuildId: ac39b4c09d29105563097ba948cba8dedcd8b52a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcpy-evex.S:308 
+==2632504==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2632503 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

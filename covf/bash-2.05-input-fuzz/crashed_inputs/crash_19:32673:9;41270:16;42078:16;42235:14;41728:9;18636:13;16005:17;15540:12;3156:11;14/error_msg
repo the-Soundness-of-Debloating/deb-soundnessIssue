@@ -1,0 +1,144 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+=================================================================
+==192470==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60300002eeb1 at pc 0x55cf3da3eb3e bp 0x7ffd6b23a030 sp 0x7ffd6b23a028
+READ of size 1 at 0x60300002eeb1 thread T0
+    #0 0x55cf3da3eb3d in string_extract_single_quoted /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9
+    #1 0x55cf3da513e1 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41270:16
+    #2 0x55cf3da58a9d in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #3 0x55cf3da3f04f in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #4 0x55cf3da3ee79 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #5 0x55cf3da27f0d in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #6 0x55cf3da27524 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #7 0x55cf3da1c536 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #8 0x55cf3da1be03 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #9 0x55cf3da1acdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #10 0x7f05ca44cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f05ca44ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x55cf3d95a6a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0x366a4) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+
+0x60300002eeb1 is located 0 bytes to the right of 17-byte region [0x60300002eea0,0x60300002eeb1)
+allocated by thread T0 here:
+    #0 0x55cf3d9e00ce in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbc0ce) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+    #1 0x55cf3da1c454 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55cf3da34057 in copy_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:25142:13
+    #3 0x55cf3da3418d in copy_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:25170:22
+    #4 0x55cf3da3eec9 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42174:14
+    #5 0x55cf3da3ee79 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #6 0x55cf3da27f0d in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #7 0x55cf3da27524 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #8 0x55cf3da1c536 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #9 0x55cf3da1be03 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #10 0x55cf3da1acdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #11 0x7f05ca44cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9 in string_extract_single_quoted
+Shadow bytes around the buggy address:
+  0x0c067fffdd80: fd fd fd fa fa fa fd fd fd fa fa fa fd fd fd fa
+  0x0c067fffdd90: fa fa fd fd fd fa fa fa fd fd fd fa fa fa fd fd
+  0x0c067fffdda0: fd fa fa fa fd fd fd fd fa fa 00 00 00 00 fa fa
+  0x0c067fffddb0: 00 00 01 fa fa fa 00 00 00 00 fa fa 00 00 00 00
+  0x0c067fffddc0: fa fa 00 00 00 00 fa fa 00 00 00 fa fa fa 00 00
+=>0x0c067fffddd0: 00 fa fa fa 00 00[01]fa fa fa fa fa fa fa fa fa
+  0x0c067fffdde0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fffddf0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fffde00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fffde10: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fffde20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==192470==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 192469 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2080270==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x5572fb6ad000 (pc 0x5572fa4e16b6 bp 0x7ffe25d59c00 sp 0x7ffe25d59b60 T2080270)
+==2080270==The signal is caused by a READ memory access.
+    #0 0x5572fa4e16b6 in string_extract_single_quoted /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9
+    #1 0x5572fa4fce25 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41270:16
+    #2 0x5572fa504db2 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #3 0x5572fa4e1e36 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #4 0x5572fa4e1ba9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #5 0x5572fa4bf79f in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #6 0x5572fa4be768 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #7 0x5572fa4ab566 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #8 0x5572fa4aa708 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #9 0x5572fa4a905f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #10 0x7fcd77210d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7fcd77210e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x5572fa480ad4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9 in string_extract_single_quoted
+==2080270==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2080269 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+mkdir: cannot create directory 'bdir': No such file or directory
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+ThreadSanitizer:DEADLYSIGNAL
+==901313==ERROR: ThreadSanitizer: SEGV on unknown address 0x7ba400020000 (pc 0x565152fad272 bp 0x7fffacd2bd60 sp 0x7fffacd2bcd0 T901313)
+==901313==The signal is caused by a READ memory access.
+    #0 string_extract_single_quoted /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9 (reduced.tsan.out+0xf7272) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #1 expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41270:16 (reduced.tsan.out+0x104fe8) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #2 shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16 (reduced.tsan.out+0x1091cb) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #3 expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14 (reduced.tsan.out+0xf76c5) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #4 expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9 (reduced.tsan.out+0xf74aa) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #5 execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13 (reduced.tsan.out+0xe7c1f) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #6 execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17 (reduced.tsan.out+0xe731c) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #7 execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12 (reduced.tsan.out+0xdee03) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #8 reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11 (reduced.tsan.out+0xde5d7) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3 (reduced.tsan.out+0xdd3c0) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #10 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 _start <null> (reduced.tsan.out+0x30674) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9 in string_extract_single_quoted
+==901313==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 901312 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+LeakSanitizer:DEADLYSIGNAL
+==2150271==ERROR: LeakSanitizer: SEGV on unknown address 0x629000020000 (pc 0x55776eec9221 bp 0x7ffc6e7e0680 sp 0x7ffc6e7e0660 T0)
+==2150271==The signal is caused by a READ memory access.
+    #0 0x55776eec9221 in string_extract_single_quoted /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9
+    #1 0x55776eed158f in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41270:16
+    #2 0x55776eed3dad in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #3 0x55776eec94d3 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #4 0x55776eec9379 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #5 0x55776eec037b in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #6 0x55776eebfe61 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #7 0x55776eebb7c6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #8 0x55776eebb30e in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #9 0x55776eeba7b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #10 0x7f9cee118d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f9cee118e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x55776ee8ca94 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x26a94) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32673:9 in string_extract_single_quoted
+==2150271==ABORTING

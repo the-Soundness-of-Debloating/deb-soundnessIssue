@@ -1,0 +1,26 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==994714==ERROR: AddressSanitizer: SEGV on unknown address 0x00000000005e (pc 0x55f30b6728f1 bp 0x7fff831ee800 sp 0x7fff831ee620 T0)
+==994714==The signal is caused by a READ memory access.
+==994714==Hint: address points to the zero page.
+    #0 0x55f30b6728f1 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15340:17
+    #1 0x55f30b6884b3 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21
+    #2 0x55f30b68827c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #3 0x55f30b688208 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #4 0x55f30b672e88 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #5 0x55f30b671e7a in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #6 0x55f30b66fc79 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #7 0x55f30b66fa3d in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #8 0x55f30b68a931 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #9 0x55f30b681515 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #10 0x7f1976f89d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #11 0x7f1976f89e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #12 0x55f30b593504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x24504) (BuildId: f96211d38f0c376d73510ba6711702c6e213731f)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15340:17 in lex
+==994714==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 994712 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

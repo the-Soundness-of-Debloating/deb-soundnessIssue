@@ -1,0 +1,20 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2487258==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000028 (pc 0x55b6883bf2fc bp 0x7ffd1a19b030 sp 0x7ffd1a19a7b0 T2487258)
+==2487258==The signal is caused by a READ memory access.
+==2487258==Hint: address points to the zero page.
+    #0 0x55b6883bf2fc in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19500:20
+    #1 0x55b6883a28af in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x55b6883a21ac in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x55b6883e1808 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #4 0x55b6883c8d72 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f1e335ebd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f1e335ebe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55b6882de474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: 798e4f55d42e9c42788ca5619c4fadd9cd45e90a)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19500:20 in dfamust
+==2487258==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2487257 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,20 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out
+==3009316==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55f2a2c77aae in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17
+    #1 0x55f2a2ca9302 in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16258:21
+    #2 0x55f2a2ca8a1c in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7
+    #3 0x55f2a2c7958c in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #4 0x55f2a2c760ab in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #5 0x55f2a2c707e7 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #6 0x55f2a2c70102 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #7 0x55f2a2caf618 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #8 0x55f2a2c96ca2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #9 0x7f7627ac9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f7627ac9e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x55f2a2bac474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: fdc6d6ddcf3c7d0ba63b2c0bfe0574698d0b735d)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15116:17 in lex
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3009315 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

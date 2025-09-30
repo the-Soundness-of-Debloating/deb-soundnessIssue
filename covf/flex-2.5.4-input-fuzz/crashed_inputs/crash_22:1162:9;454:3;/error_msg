@@ -1,0 +1,21 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_0
+flex-2.5.4.c.reduced.c:1162:21: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:1162:21 in 
+flex-2.5.4.c.reduced.c:1162:15: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:1162:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1226953==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x562989208e1e bp 0x7fff5d460d10 sp 0x7fff5d460910 T1226953)
+==1226953==The signal is caused by a READ memory access.
+==1226953==Hint: address points to the zero page.
+    #0 0x562989208e1e in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1162:9
+    #1 0x562989208676 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:454:3
+    #2 0x7f0fa8461d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f0fa8461e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5629891e04b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out+0x274b4) (BuildId: bc04e47559dcd16767e694b2be677949fc5d7150)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1162:9 in flexinit
+==1226953==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1226952 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_0

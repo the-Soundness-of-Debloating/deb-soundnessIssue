@@ -1,0 +1,25 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_495
+ThreadSanitizer:DEADLYSIGNAL
+==2263151==ERROR: ThreadSanitizer: SEGV on unknown address 0xffffffffffffff8d (pc 0x55b330fa0035 bp 0x39327ffc4c6b9d80 sp 0x7ffc4c6b9ce0 T2263151)
+==2263151==The signal is caused by a READ memory access.
+    #0 __tsan::ReportRace(__tsan::ThreadState*, __tsan::RawShadow*, __tsan::Shadow, __tsan::Shadow, unsigned long) <null> (reduced.tsan.out+0xc6035) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #1 __tsan::MetaMap::AllocBlock(__tsan::ThreadState*, unsigned long, unsigned long, unsigned long) <null> (reduced.tsan.out+0xc906a) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 __tsan::user_alloc_internal(__tsan::ThreadState*, unsigned long, unsigned long, unsigned long, bool) <null> (reduced.tsan.out+0xa9fa1) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #3 <null> <null> (0x7f94bac187bf)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xc6035) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan::ReportRace(__tsan::ThreadState*, __tsan::RawShadow*, __tsan::Shadow, __tsan::Shadow, unsigned long)
+==2263151==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2263150 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_495
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_464
+LeakSanitizer:DEADLYSIGNAL
+==3236188==ERROR: LeakSanitizer: SEGV on unknown address 0x00000000a7f3 (pc 0x55f5dc420035 bp 0x393237fe0ac56210 sp 0x7ffe0ac561d0 T0)
+==3236188==The signal is caused by a READ memory access.
+    #0 0x55f5dc420035 in __lsan::DoRecoverableLeakCheck() lsan_common.cpp.o
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV lsan_common.cpp.o in __lsan::DoRecoverableLeakCheck()
+==3236188==ABORTING

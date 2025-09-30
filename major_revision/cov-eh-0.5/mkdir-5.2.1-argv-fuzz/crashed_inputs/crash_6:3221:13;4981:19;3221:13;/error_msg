@@ -1,0 +1,32 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==546120==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000002 (pc 0x55f92a681b56 bp 0x7ffc60b59a10 sp 0x7ffc60b599b0 T546120)
+==546120==The signal is caused by a READ memory access.
+==546120==Hint: address points to the zero page.
+    #0 mode_adjust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13 (reduced.tsan.out+0xcfb56) (BuildId: 705e872ba8f668a10e69ece75da72750bfb381f0)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4981:19 (reduced.tsan.out+0xd0aba) (BuildId: 705e872ba8f668a10e69ece75da72750bfb381f0)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x21414) (BuildId: 705e872ba8f668a10e69ece75da72750bfb381f0)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13 in mode_adjust
+==546120==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 546119 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==629135==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000002 (pc 0x55984d97a25a bp 0x7ffe1e7e7ca0 sp 0x7ffe1e7e7ca0 T0)
+==629135==The signal is caused by a READ memory access.
+==629135==Hint: address points to the zero page.
+    #0 0x55984d97a25a in mode_adjust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13
+    #1 0x55984d97adf5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4981:19
+    #2 0x7f8b5787bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f8b5787be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55984d94b544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/bins/reduced.lsan.out+0x5544) (BuildId: 185bc0120a3cab57268cbfa737c5f5c05d18c305)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3221:13 in mode_adjust
+==629135==ABORTING

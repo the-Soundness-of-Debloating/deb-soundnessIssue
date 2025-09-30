@@ -1,0 +1,64 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile
+=================================================================
+==3106671==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55899011b0f0 at pc 0x55898f6f7d13 bp 0x7ffcf2e57f10 sp 0x7ffcf2e57f08
+READ of size 8 at 0x55899011b0f0 thread T0
+    #0 0x55898f6f7d12 in list_rest_of_args /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:34957:26
+    #1 0x55898f71cba5 in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40560:14
+    #2 0x55898f71a79d in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #3 0x55898f71b19b in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41145:20
+    #4 0x55898f72360d in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #5 0x55898f6fba5f in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #6 0x55898f6fb889 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #7 0x55898f6de4cd in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #8 0x55898f6ddab4 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #9 0x55898f6ddcbf in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16142:19
+    #10 0x55898f6e13d8 in execute_function /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:19315:14
+    #11 0x55898f7145f0 in execute_builtin_or_function /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:19495:14
+    #12 0x55898f6deaf8 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18926:16
+    #13 0x55898f6ddab4 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #14 0x55898f6d19f6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #15 0x55898f6d11b3 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #16 0x55898f6ceff9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #17 0x7f1ff6bb7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #18 0x7f1ff6bb7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #19 0x55898f60e6c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0x3a6c4) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e)
+
+0x55899011b0f0 is located 48 bytes to the left of global variable 'dollar_dollar_pid' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:20140' (0x55899011b120) of size 4
+  'dollar_dollar_pid' is ascii string 'og/'
+0x55899011b0f0 is located 0 bytes to the right of global variable 'dollar_vars' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:885' (0x55899011b0a0) of size 80
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:34957:26 in list_rest_of_args
+Shadow bytes around the buggy address:
+  0x0ab1b201b5c0: 04 f9 f9 f9 00 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9
+  0x0ab1b201b5d0: 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9 04 f9 f9 f9
+  0x0ab1b201b5e0: 04 f9 f9 f9 00 f9 f9 f9 04 f9 f9 f9 00 f9 f9 f9
+  0x0ab1b201b5f0: 04 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9
+  0x0ab1b201b600: 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9
+=>0x0ab1b201b610: 04 f9 f9 f9 00 00 00 00 00 00 00 00 00 00[f9]f9
+  0x0ab1b201b620: f9 f9 f9 f9 04 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9
+  0x0ab1b201b630: 04 f9 f9 f9 04 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0ab1b201b640: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab1b201b650: 00 f9 f9 f9 f9 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9
+  0x0ab1b201b660: 04 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3106671==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 3106670 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile

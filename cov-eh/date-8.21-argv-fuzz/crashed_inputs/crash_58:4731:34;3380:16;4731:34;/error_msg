@@ -1,0 +1,14 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3125715==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55d8ee9d8394 bp 0x7fff05538f00 sp 0x7fff05538ca0 T3125715)
+==3125715==The signal is caused by a READ memory access.
+==3125715==Hint: address points to the zero page.
+    #0 yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4731:34 (reduced.tsan.out+0xd2394) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3380:16 (reduced.tsan.out+0xd076c) (BuildId: 5dc561f7ad704ecb93c5102ae1625a79ade5f6a2)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4731:34 in yylex
+==3125715==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3125714 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

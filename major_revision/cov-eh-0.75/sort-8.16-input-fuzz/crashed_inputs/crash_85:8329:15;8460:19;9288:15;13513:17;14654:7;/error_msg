@@ -1,0 +1,62 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_189
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==90847==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00000000000f (pc 0x7f7057c2615d bp 0x7f7057ba6200 sp 0x7ffefc33ddd0 T90847)
+==90847==The signal is caused by a READ memory access.
+==90847==Hint: address points to the zero page.
+    #0 0x7f7057c2615d in fflush libio/iofflush.c:39:7
+    #1 0x555c37ed0c44 in rpl_fflush /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8329:15
+    #2 0x555c37ecc8a5 in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8460:19
+    #3 0x555c37eda9a4 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15
+    #4 0x555c37ed422c in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17
+    #5 0x555c37ed1ed5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7
+    #6 0x7f7057bd0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f7057bd0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x555c37ea4714 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xf714) (BuildId: 92f74ad919d026a679d1177e901c06802dd804ef)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV libio/iofflush.c:39:7 in fflush
+==90847==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 90846 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_189
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_160
+ThreadSanitizer:DEADLYSIGNAL
+==543987==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000024 (pc 0x7fcc9d8ad15d bp 0x7fcc9d829f00 sp 0x7ffef5b1f410 T543987)
+==543987==The signal is caused by a READ memory access.
+==543987==Hint: address points to the zero page.
+    #0 fflush libio/iofflush.c:39:7 (libc.so.6+0x7f15d) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 fflush <null> (reduced.tsan.out+0x79081) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 rpl_fflush /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8329:15 (reduced.tsan.out+0xd0005) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8460:19 (reduced.tsan.out+0xcdc26) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15 (reduced.tsan.out+0xd4f89) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17 (reduced.tsan.out+0xd1aa7) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #7 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #9 _start <null> (reduced.tsan.out+0x214d4) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV libio/iofflush.c:39:7 in fflush
+==543987==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 543986 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_160
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_160
+LeakSanitizer:DEADLYSIGNAL
+==639101==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000024 (pc 0x7fb503c0515d bp 0x7fb503b822c0 sp 0x7ffefec1c510 T0)
+==639101==The signal is caused by a READ memory access.
+==639101==Hint: address points to the zero page.
+    #0 0x7fb503c0515d in fflush libio/iofflush.c:39:7
+    #1 0x563e986f5b14 in rpl_fflush /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8329:15
+    #2 0x563e986f4195 in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8460:19
+    #3 0x563e986f8f20 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15
+    #4 0x563e986f6d1a in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17
+    #5 0x563e986f6309 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7
+    #6 0x7fb503bafd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fb503bafe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x563e986c66e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out+0x76e4) (BuildId: 8de955c844ebdd1a1870f90245353780e062cd0f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV libio/iofflush.c:39:7 in fflush
+==639101==ABORTING

@@ -1,0 +1,26 @@
+ubsan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out
+rm: invalid option -- 'j'
+rm-8.4.c.reduced.c:4454:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+rm-8.4.c.reduced.c:1177:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior rm-8.4.c.reduced.c:4454:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2608030==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f292d52c10c bp 0x7fff3338c560 sp 0x7fff3338c478 T2608030)
+==2608030==The signal is caused by a WRITE memory access.
+==2608030==Hint: address points to the zero page.
+    #0 0x7f292d52c10c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x564a29625ed4 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x564a29623c74 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4856:9
+    #3 0x564a296263f7 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6730:15
+    #4 0x564a29627b7b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #5 0x7f292d3a6d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f292d3a6e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x564a295f55c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out+0xd5c4) (BuildId: a54767c023f5fb8ba4799c00cb091af10b6b4a35)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==2608030==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2608028 Done                    echo "Y"
+     2608029 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_393

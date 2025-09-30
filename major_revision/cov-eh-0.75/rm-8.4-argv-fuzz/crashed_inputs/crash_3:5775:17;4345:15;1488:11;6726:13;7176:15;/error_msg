@@ -1,0 +1,53 @@
+asan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.asan.out
+rm: invalid option -- 'j'
+=================================================================
+==2404155==ERROR: AddressSanitizer: requested allocation size 0x7ffc2b9d41c0 (0x7ffc2b9d51c0 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x55672e5e4276 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.asan.out+0xa6276) (BuildId: 822085707d560fa7a619178353991f1b316850ef)
+    #1 0x55672e62156d in fts_palloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:5775:17
+    #2 0x55672e61f322 in fts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4345:15
+    #3 0x55672e61f0c8 in xfts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1488:11
+    #4 0x55672e623bd0 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6726:13
+    #5 0x55672e62520c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #6 0x7fe107effd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==2404155==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.asan.out+0xa6276) (BuildId: 822085707d560fa7a619178353991f1b316850ef) in __interceptor_realloc
+==2404155==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2404153 Done                    echo "Y"
+     2404154 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_393
+tsan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.tsan.out
+rm: invalid option -- 'j'
+==2942285==ERROR: ThreadSanitizer: out of memory: allocator is trying to allocate 0x3000000120 bytes
+    #0 __interceptor_realloc <null> (reduced.tsan.out+0x4d7e3) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #1 fts_palloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:5775:17 (reduced.tsan.out+0xcfd96) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #2 fts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4345:15 (reduced.tsan.out+0xce78c) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #3 xfts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1488:11 (reduced.tsan.out+0xce5c7) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #4 rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6726:13 (reduced.tsan.out+0xd16b4) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15 (reduced.tsan.out+0xd2187) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f)
+    #6 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+
+==2942285==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: ThreadSanitizer: out-of-memory (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.tsan.out+0x4d7e3) (BuildId: 02e10b12018c311b84b5cef6e51d68040cf1293f) in __interceptor_realloc
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2942281 Done                    echo "Y"
+     2942282 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_393
+lsan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.lsan.out
+rm: invalid option -- 'j'
+==3139814==ERROR: LeakSanitizer: requested allocation size 0x7f44bcc105ea exceeds maximum supported size of 0x200000000
+    #0 0x561cc3a2dbc4 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.lsan.out+0x31bc4) (BuildId: 48a08e9f4ccf768f2257f636bd12d83e5c67f3c0)
+    #1 0x561cc3a314c6 in fts_palloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:5775:17
+    #2 0x561cc3a3085c in fts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4345:15
+    #3 0x561cc3a30738 in xfts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1488:11
+    #4 0x561cc3a322cb in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6726:13
+    #5 0x561cc3a32a62 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7176:15
+    #6 0x7f44bca61d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==3139814==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: LeakSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/rm-8.4-argv-fuzz/bins/reduced.lsan.out+0x31bc4) (BuildId: 48a08e9f4ccf768f2257f636bd12d83e5c67f3c0) in __interceptor_realloc

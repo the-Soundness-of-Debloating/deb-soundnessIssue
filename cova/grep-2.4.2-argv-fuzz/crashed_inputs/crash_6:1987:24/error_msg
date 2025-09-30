@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:1987:24: runtime error: null pointer passed as argument 2, which is declared to never be null
+grep-2.4.2.c.reduced.c:451:59: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:1987:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==997781==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fc6ccb7e60c bp 0x7ffc1945cd10 sp 0x7ffc1945cc68 T997781)
+==997781==The signal is caused by a READ memory access.
+==997781==Hint: address points to the zero page.
+    #0 0x7fc6ccb7e60c  (/lib/x86_64-linux-gnu/libc.so.6+0x1b160c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55bc0a5c8911 in install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1987:11
+    #2 0x55bc0a5c7d9b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2708:14
+    #3 0x7fc6cc9f6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fc6cc9f6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55bc0a59e5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x525d4) (BuildId: 03026e2889579dbe8c4e764c808327b698821bad)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b160c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==997781==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 997780 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,65 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+target5: invalid option -- 'â'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==963606==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000002 (pc 0x55a92e191fb0 bp 0x7fff1fb9fde8 sp 0x7fff1fb9f598 T0)
+==963606==The signal is caused by a READ memory access.
+==963606==Hint: address points to the zero page.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x55a92e191fb0 in strcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x39fb0) (BuildId: 50072aebbebd9db6462b305f603287d161ab2ba8)
+    #1 0x55a92e23c3a7 in install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1987:11
+    #2 0x7fff1fba017f  ([stack]+0x1f17f)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x39fb0) (BuildId: 50072aebbebd9db6462b305f603287d161ab2ba8) in strcmp
+==963606==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 963605 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+target5: invalid option -- 'â'
+MemorySanitizer:DEADLYSIGNAL
+==1030037==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000002 (pc 0x55da3e70cf90 bp 0x7ffd559648f8 sp 0x7ffd559648b8 T1030037)
+==1030037==The signal is caused by a READ memory access.
+==1030037==Hint: address points to the zero page.
+    #0 0x55da3e70cf90 in strcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x54f90) (BuildId: e2561e71e428f9b639841fa8b51d84a3b11feea3)
+    #1 0x55da3e764219 in install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1987:11
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x54f90) (BuildId: e2561e71e428f9b639841fa8b51d84a3b11feea3) in strcmp
+==1030037==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1030036 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+target5: invalid option -- 'â'
+ThreadSanitizer:DEADLYSIGNAL
+==1064688==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000002 (pc 0x55cef208bff0 bp 0x000000000000 sp 0x7fff325cfd88 T1064688)
+==1064688==The signal is caused by a READ memory access.
+==1064688==Hint: address points to the zero page.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 strcmp <null> (reduced.tsan.out+0x56ff0) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #1 install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1987:11 (reduced.tsan.out+0xcf499) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 <null> <null> ([stack]+0x1f0bf)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out+0x56ff0) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a) in strcmp
+==1064688==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1064687 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: invalid option -- 'â'
+LeakSanitizer:DEADLYSIGNAL
+==1095992==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000002 (pc 0x7f1193e75600 bp 0x7ffcb4066d28 sp 0x7ffcb4066d00 T0)
+==1095992==The signal is caused by a READ memory access.
+==1095992==Hint: address points to the zero page.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x7f1193e75600  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55dc4d0af196 in install_matcher /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1987:11
+    #2 0x7ffcb4066e9f  ([stack]+0x1fe9f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1095992==ABORTING

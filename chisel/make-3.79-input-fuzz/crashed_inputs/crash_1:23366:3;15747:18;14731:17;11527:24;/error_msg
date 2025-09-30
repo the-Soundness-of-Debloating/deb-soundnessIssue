@@ -1,0 +1,36 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_11 -k -p -w
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2623550==ERROR: UndefinedBehaviorSanitizer: stack-overflow on address 0x7f2066ed86e8 (pc 0x55e40609c900 bp 0x7ffd38c5d270 sp 0x7f2066ed86f0 T2623550)
+    #0 0x55e40609c900 in try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23366:3
+    #1 0x55e406098830 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15747:18
+    #2 0x55e4060952e4 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14731:17
+    #3 0x55e406092104 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11527:24
+    #4 0x7f2077a81d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f2077a81e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55e40605c5b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.ubsan.out+0x165b4) (BuildId: 204c6a5b7d8f67ebf54ef51ba47e8d2ac85e4710)
+
+SUMMARY: UndefinedBehaviorSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23366:3 in try_variable_definition
+==2623550==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2623549 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_11 -k -p -w
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_17 -k -p -w
+ThreadSanitizer:DEADLYSIGNAL
+==2849838==ERROR: ThreadSanitizer: SEGV on unknown address 0x071b1aa1a00c (pc 0x55960049e3ba bp 0x7ffe1348eb20 sp 0x7f8d89f0c810 T2849838)
+==2849838==The signal is caused by a WRITE memory access.
+    #0 void __tsan::MemoryAccessRangeT<false>(__tsan::ThreadState*, unsigned long, unsigned long, unsigned long) <null> (reduced.tsan.out+0xb83ba) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #1 __interceptor_memmove <null> (reduced.tsan.out+0x5ab7c) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #2 try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23366:3 (reduced.tsan.out+0xda309) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #3 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15747:18 (reduced.tsan.out+0xd8496) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #4 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14731:17 (reduced.tsan.out+0xd6abd) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11527:24 (reduced.tsan.out+0xd53d6) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x23394) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out+0xb83ba) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9) in void __tsan::MemoryAccessRangeT<false>(__tsan::ThreadState*, unsigned long, unsigned long, unsigned long)
+==2849838==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2849837 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_17 -k -p -w

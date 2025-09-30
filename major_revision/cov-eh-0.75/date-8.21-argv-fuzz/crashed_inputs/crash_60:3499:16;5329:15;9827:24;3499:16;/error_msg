@@ -1,0 +1,27 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.msan.out
+date: invalid option -- 'ï'
+date: invalid option -- '»'
+date: invalid option -- '¾'
+date: invalid option -- 'â'
+date: invalid option -- '€'
+date: invalid option -- 'ï'
+date: invalid option -- '»'
+date: invalid option -- '¾'
+date: invalid option -- '‚'
+date: invalid option -- '-'
+MemorySanitizer:DEADLYSIGNAL
+==3573341==ERROR: MemorySanitizer: SEGV on unknown address 0x55c41a900b0f (pc 0x55c3def22814 bp 0x7ffeb589a520 sp 0x7ffeb5899670 T3573341)
+==3573341==The signal is caused by a READ memory access.
+    #0 0x55c3def22814 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:16
+    #1 0x55c3def2ea04 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #2 0x55c3def3d673 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7f0a81f95d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f0a81f95e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x55c3dee983c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: e8969fb56bd55e9dde4679bdee3455a0ba8d7256)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:16 in yyparse
+==3573341==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3573340 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

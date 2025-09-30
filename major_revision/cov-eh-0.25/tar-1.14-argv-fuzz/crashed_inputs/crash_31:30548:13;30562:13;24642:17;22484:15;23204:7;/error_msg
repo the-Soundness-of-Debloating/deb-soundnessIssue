@@ -1,0 +1,18 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out: You may not specify more than one `-Acdtrux' option
+Try `tar --help' for more information.
+
+=================================================================
+==2434308==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 10241 byte(s) in 1 object(s) allocated from:
+    #0 0x55b28bd39e64 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0x36e64) (BuildId: 5f61b36fd78da75f753cb7f5bb6909770f2b308c)
+    #1 0x55b28bd4fc17 in xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30548:13
+    #2 0x55b28bd427a1 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30562:13
+    #3 0x55b28bd4eb4b in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24642:17
+    #4 0x55b28bd4cf9b in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15
+    #5 0x55b28bd4b990 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #6 0x7fc70a679d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: LeakSanitizer: 10241 byte(s) leaked in 1 allocation(s).

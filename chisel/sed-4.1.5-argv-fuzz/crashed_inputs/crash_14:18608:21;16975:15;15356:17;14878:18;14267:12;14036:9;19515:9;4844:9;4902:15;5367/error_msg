@@ -1,0 +1,22 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3016501==ERROR: LeakSanitizer: stack-overflow on address 0x7ffc9c05d008 (pc 0x556b48059db0 bp 0x7ffc9c05b5b0 sp 0x7ffc9c058420 T0)
+    #0 0x556b48059db0 in build_trtable /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18608:21
+    #1 0x556b4805991f in transit_state /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:16975:15
+    #2 0x556b4805983e in check_matching /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:15356:17
+    #3 0x556b4805955b in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14878:18
+    #4 0x556b48057170 in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14267:12
+    #5 0x556b480570cb in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14036:9
+    #6 0x556b4805731f in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19515:9
+    #7 0x556b48057ed5 in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4844:9
+    #8 0x556b48057c36 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4902:15
+    #9 0x556b48056897 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5367:16
+    #10 0x556b48056073 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5824:14
+    #11 0x556b48055e59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #12 0x7fb9d182cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x7fb9d182ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #14 0x556b48028444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5444) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+
+SUMMARY: LeakSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:18608:21 in build_trtable
+==3016501==ABORTING

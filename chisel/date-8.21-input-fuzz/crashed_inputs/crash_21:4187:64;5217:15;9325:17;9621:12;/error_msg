@@ -1,0 +1,20 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_31
+ThreadSanitizer:DEADLYSIGNAL
+==3395216==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x558cf7fe42c0 bp 0x7ffec82cdac0 sp 0x7ffec82ccc08 T3395216)
+==3395216==The signal is caused by a READ memory access.
+==3395216==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read2 <null> (reduced.tsan.out+0xb92c0) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:64 (reduced.tsan.out+0xcf63d) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+    #2 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15 (reduced.tsan.out+0xd07e5) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+    #3 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17 (reduced.tsan.out+0xd1f42) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xd1d6f) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x213c4) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.tsan.out+0xb92c0) (BuildId: b1bd9d21c6c5606fb223c84ffe7f675e893a3359) in __tsan_read2
+==3395216==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3395213 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

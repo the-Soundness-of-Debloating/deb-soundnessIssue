@@ -1,0 +1,45 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_336
+space.c.reduced.c:1370:3: runtime error: store to misaligned address 0x7fffef29ff1c for type 'struct charac *', which requires 8 byte alignment
+0x7fffef29ff1c: note: pointer points here
+  30 00 2a ef ff 7f 00 00  28 ff 29 ef ff 7f 00 00  30 00 2a ef ff 7f 00 00  3c ff 29 ef ff 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1370:3 in 
+space.c.reduced.c:3037:15: runtime error: load of misaligned address 0x7fffef29ff1c for type 'struct charac *', which requires 8 byte alignment
+0x7fffef29ff1c: note: pointer points here
+  30 00 2a ef 50 8f 75 b9  dc 55 00 00 ff 7f 00 00  30 00 2a ef ff 7f 00 00  3c ff 29 ef ff 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3037:15 in 
+space.c.reduced.c:3076:5: runtime error: store to misaligned address 0x7fffef29ff1c for type 'struct charac *', which requires 8 byte alignment
+0x7fffef29ff1c: note: pointer points here
+  30 00 2a ef 50 8f 75 b9  dc 55 00 00 ff 7f 00 00  30 00 2a ef ff 7f 00 00  3c ff 29 ef ff 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3076:5 in 
+space.c.reduced.c:1394:10: runtime error: load of misaligned address 0x7fffef29ff1c for type 'struct charac *', which requires 8 byte alignment
+0x7fffef29ff1c: note: pointer points here
+  30 00 2a ef 70 90 75 b9  dc 55 00 00 ff 7f 00 00  30 00 2a ef ff 7f 00 00  3c ff 29 ef ff 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1394:10 in 
+space.c.reduced.c:5878:3: runtime error: store to misaligned address 0x7fffef29ff0c for type 'struct charac *', which requires 8 byte alignment
+0x7fffef29ff0c: note: pointer points here
+  40 8a 75 b9 dc 55 00 00  1c ff 29 ef ff 7f 00 00  30 00 2a ef 70 90 75 b9  dc 55 00 00 ff 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5878:3 in 
+space.c.reduced.c:3586:16: runtime error: load of null pointer of type 'struct AddRem *'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3586:16 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3320369==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55dcb8ad60d3 bp 0x7fffef2a01c0 sp 0x7fffef2a0100 T3320369)
+==3320369==The signal is caused by a READ memory access.
+==3320369==Hint: address points to the zero page.
+    #0 0x55dcb8ad60d3 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3586:16
+    #1 0x55dcb8ac782a in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3831:11
+    #2 0x55dcb8ac65b0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #3 0x7fa8cdbb2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fa8cdbb2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55dcb8a9e454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out+0x11454) (BuildId: b40c8b1e995522a49e1e4906d827c1a2a8b210b5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3586:16 in grgeodef
+==3320369==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 3320368 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_336

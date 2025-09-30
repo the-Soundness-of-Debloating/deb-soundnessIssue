@@ -1,0 +1,61 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d
+=================================================================
+==1821111==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f5335e02570 at pc 0x56042e2472ad bp 0x7fff9e289b30 sp 0x7fff9e289b28
+WRITE of size 4 at 0x7f5335e02570 thread T0
+    #0 0x56042e2472ac in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3227:24
+    #1 0x56042e2478f7 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #2 0x56042e247a1a in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #3 0x56042e247c56 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #4 0x56042e24f479 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #5 0x56042e24eb5a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #6 0x7f533791dd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f533791de3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x56042e1833b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: 07667cdc8cbded25b7a486269c39d889e3a3e4ae)
+
+Address 0x7f5335e02570 is located in stack of thread T0 at offset 1392 in frame
+    #0 0x56042e2465ef in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2996
+
+  This frame has 5 object(s):
+    [32, 40) 'tl' (line 3002)
+    [64, 72) 'td' (line 3003)
+    [96, 100) 'bl' (line 3004)
+    [112, 116) 'bd' (line 3005)
+    [128, 1392) 'll' (line 3009) <== Memory access at offset 1392 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3227:24 in inflate_dynamic
+Shadow bytes around the buggy address:
+  0x0feae6bb8450: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb8460: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb8470: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb8480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb8490: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0feae6bb84a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[f3]f3
+  0x0feae6bb84b0: f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3
+  0x0feae6bb84c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb84d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb84e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0feae6bb84f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1821111==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 1821110 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000004* > sample1.tst

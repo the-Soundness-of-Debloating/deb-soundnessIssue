@@ -1,0 +1,46 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '^'
+
+=================================================================
+==1520644==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x564d0a1d8e6e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb1e6e) (BuildId: d48357f6bdcbeb463f6adf2603111e4468a122d0)
+    #1 0x564d0a213994 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x564d0a2284fd in install_default_suffix_rules /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:24699:17
+    #3 0x564d0a224f1b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11591:3
+    #4 0x7f31c6253d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 8 byte(s) in 1 object(s) allocated from:
+    #0 0x564d0a1d8e6e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb1e6e) (BuildId: d48357f6bdcbeb463f6adf2603111e4468a122d0)
+    #1 0x564d0a213994 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x564d0a22694f in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12949:13
+    #3 0x564d0a224fc2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:3
+    #4 0x7f31c6253d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: 64 byte(s) leaked in 2 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1520642 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- '^'
+
+=================================================================
+==3421284==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x55f67f8488e2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x358e2) (BuildId: 3de32f5c6438875dd91170370f4cf10f80ee5fee)
+    #1 0x55f67f84b4a4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55f67f85341c in install_default_suffix_rules /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:24699:17
+    #3 0x55f67f852054 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11591:3
+    #4 0x7f76e876cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 8 byte(s) in 1 object(s) allocated from:
+    #0 0x55f67f8488e2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x358e2) (BuildId: 3de32f5c6438875dd91170370f4cf10f80ee5fee)
+    #1 0x55f67f84b4a4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55f67f852acd in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12949:13
+    #3 0x55f67f8520cd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:3
+    #4 0x7f76e876cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 64 byte(s) leaked in 2 allocation(s).

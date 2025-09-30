@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+files/makefile-1a:39: warning: overriding commands for target `.c.o'
+files/makefile-1a:39: warning: ignoring old commands for target `.c.o'
+files/makefile-1a:43: warning: overriding commands for target `install'
+files/makefile-1a:43: warning: ignoring old commands for target `install'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3521620==ERROR: AddressSanitizer: SEGV on unknown address 0x0000b39a36a5 (pc 0x55cb9cd6badb bp 0x7fffe7851fd0 sp 0x7fffe7851c90 T0)
+==3521620==The signal is caused by a READ memory access.
+    #0 0x55cb9cd6badb in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39
+    #1 0x55cb9cd5e23c in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15877:15
+    #2 0x55cb9cd57662 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55cb9cd50f12 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7fb559e2bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fb559e2be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55cb9cc7e474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2d474) (BuildId: f17361d7d5b214662fd461ed7f3b9fe688365893)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==3521620==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3521619 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+files/makefile-1a:39: warning: overriding commands for target `.c.o'
+files/makefile-1a:39: warning: ignoring old commands for target `.c.o'
+files/makefile-1a:43: warning: overriding commands for target `install'
+files/makefile-1a:43: warning: ignoring old commands for target `install'
+LeakSanitizer:DEADLYSIGNAL
+==2013277==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55dd41c4b648 bp 0x7ffeca6093a0 sp 0x7ffeca609280 T0)
+==2013277==The signal is caused by a READ memory access.
+==2013277==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55dd41c4b648 in record_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39
+    #1 0x55dd41c46764 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15877:15
+    #2 0x55dd41c43ce8 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55dd41c417db in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f13f0f94d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f13f0f94e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55dd41c0c734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out+0xa734) (BuildId: 269c8f844acb89125d8202adb0b3475ec3de23e7)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:17326:39 in record_files
+==2013277==ABORTING

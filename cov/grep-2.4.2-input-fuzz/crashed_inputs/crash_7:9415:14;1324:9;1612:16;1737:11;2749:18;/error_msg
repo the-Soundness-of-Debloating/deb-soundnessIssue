@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000001,sig:04,src:000001+000021,time:25635,execs:11456,op:splice,rep:1
+grep-2.4.2.c.reduced.c:9415:14: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:9415:14 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2208614==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56380a34990d bp 0x7ffc9801ea40 sp 0x7ffc9801e8b0 T2208614)
+==2208614==The signal is caused by a READ memory access.
+==2208614==Hint: address points to the zero page.
+    #0 0x56380a34990d in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9415:14
+    #1 0x56380a3572e8 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #2 0x56380a3567c9 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1612:16
+    #3 0x56380a3167ef in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #4 0x56380a3160eb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2749:18
+    #5 0x7f1d3c1f0d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f1d3c1f0e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56380a2ed584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out+0x33584) (BuildId: 9959e2bed9ebcfd8aba403a4b5a5b2d701799939)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9415:14 in EGexecute
+==2208614==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2208613 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000001*

@@ -1,0 +1,40 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.asan.out
+sort: invalid option -- ''
+=================================================================
+==4179451==ERROR: AddressSanitizer: requested allocation size 0x7fff925df2e0 (0x7fff925e02e0 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x560b884f1f4e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.asan.out+0xa6f4e) (BuildId: ddac94ea8731265ea0b47f67e0a481116fa902ca)
+    #1 0x560b8853536c in initbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:9979:30
+    #2 0x560b88531c73 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13490:9
+    #3 0x560b8852ff45 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7
+    #4 0x7f1b8a9c0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==4179451==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.asan.out+0xa6f4e) (BuildId: ddac94ea8731265ea0b47f67e0a481116fa902ca) in __interceptor_malloc
+==4179451==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4179450 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.tsan.out
+==850570==ERROR: ThreadSanitizer: requested allocation size 0x5598ecc70140 exceeds maximum supported size of 0x10000000000
+    #0 __interceptor_malloc <null> (reduced.tsan.out+0x4d541) (BuildId: 3ae98ea6b59bb38aea14ac86669188b12d6d10fb)
+    #1 initbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:9979:30 (reduced.tsan.out+0xd4688) (BuildId: 3ae98ea6b59bb38aea14ac86669188b12d6d10fb)
+    #2 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13490:9 (reduced.tsan.out+0xd1d08) (BuildId: 3ae98ea6b59bb38aea14ac86669188b12d6d10fb)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7 (reduced.tsan.out+0xd0ae5) (BuildId: 3ae98ea6b59bb38aea14ac86669188b12d6d10fb)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+
+==850570==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: ThreadSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.tsan.out+0x4d541) (BuildId: 3ae98ea6b59bb38aea14ac86669188b12d6d10fb) in __interceptor_malloc
+timeout: the monitored command dumped core
+./verify.sh: line 110: 850569 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.lsan.out
+==1184763==ERROR: LeakSanitizer: requested allocation size 0x564f9ded8ba0 exceeds maximum supported size of 0x200000000
+    #0 0x564f9ded48d2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.lsan.out+0x328d2) (BuildId: 8aab1d6ea4663a0154c15b233b766b7bfb105bcf)
+    #1 0x564f9dedb9f4 in initbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:9979:30
+    #2 0x564f9ded9e3d in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13490:9
+    #3 0x564f9ded934a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7
+    #4 0x7f36f5422d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==1184763==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: LeakSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-argv-fuzz/bins/reduced.lsan.out+0x328d2) (BuildId: 8aab1d6ea4663a0154c15b233b766b7bfb105bcf) in __interceptor_malloc

@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2142618==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000060 (pc 0x7fe7d88d7838 bp 0x559759eb35b0 sp 0x7ffc62e9e710 T2142618)
+==2142618==The signal is caused by a READ memory access.
+==2142618==Hint: address points to the zero page.
+    #0 0x7fe7d88d7838  (/lib/x86_64-linux-gnu/libc.so.6+0xa2838) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7fe7d88da452 in __libc_free (/lib/x86_64-linux-gnu/libc.so.6+0xa5452) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x559757be9083 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4719:7
+    #3 0x559757bef70f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6668:13
+    #4 0x559757bf1625 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6996:10
+    #5 0x7fe7d885ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fe7d885ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559757bb8694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: af11e17219ff26e2d951e8cbc95073273712bf8f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xa2838) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2142618==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2142614 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

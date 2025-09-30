@@ -1,0 +1,66 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_3
+=================================================================
+==369444==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6250000250fc at pc 0x55a0253fd691 bp 0x7fff3b09e9d0 sp 0x7fff3b09e9c8
+READ of size 4 at 0x6250000250fc thread T0
+    #0 0x55a0253fd690 in mkopt /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7045:21
+    #1 0x55a0253fd50d in mkclos /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7035:13
+    #2 0x55a0253e815c in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10299:11
+    #3 0x55a0253e124a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #4 0x55a0253dff56 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #5 0x7f802db31d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f802db31e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55a025320334 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out+0x3d334) (BuildId: dd2b0547d6f637d9a2b2cea0be5f5a8004b729e8)
+
+Address 0x6250000250fc is a wild pointer inside of access range of size 0x000000000004.
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7045:21 in mkopt
+Shadow bytes around the buggy address:
+  0x0c4a7fffc9c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffc9d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffc9e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffc9f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffca00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x0c4a7fffca10: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+  0x0c4a7fffca20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffca30: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffca40: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffca50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c4a7fffca60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==369444==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 369443 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_3
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.msan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_3
+==1546943==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56100fce2a53 in mkopt /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7045:21
+    #1 0x56100fce25ec in mkclos /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7035:13
+    #2 0x56100fcb0ef7 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10299:11
+    #3 0x56100fc9eeaa in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #4 0x56100fc9bd3b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #5 0x7f7db44ddd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f7db44dde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56100fc152e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.msan.out+0x272e4) (BuildId: 43617644a048f617c9b5281e6b2cba91259ece95)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7045:21 in mkopt
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1546942 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.msan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_3

@@ -1,0 +1,24 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_47
+gzip-1.2.4.c.reduced.c:2388:34: runtime error: applying non-zero offset 4 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:2388:34 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==4011198==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000004 (pc 0x562ebd5038d9 bp 0x7ffd899ea1c0 sp 0x7ffd899e95a0 T4011198)
+==4011198==The signal is caused by a READ memory access.
+==4011198==Hint: address points to the zero page.
+    #0 0x562ebd5038d9 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29
+    #1 0x562ebd5072a3 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3176:15
+    #2 0x562ebd507ef7 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #3 0x562ebd507f50 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #4 0x562ebd50801f in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #5 0x562ebd517b01 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #6 0x562ebd5174fd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #7 0x7f7ef73bfd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f7ef73bfe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x562ebd4d8574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x18574) (BuildId: a50a3ec66cbabaecdaa7f031e44b0096427a54a8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 in huft_build
+==4011198==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 4011197 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_47

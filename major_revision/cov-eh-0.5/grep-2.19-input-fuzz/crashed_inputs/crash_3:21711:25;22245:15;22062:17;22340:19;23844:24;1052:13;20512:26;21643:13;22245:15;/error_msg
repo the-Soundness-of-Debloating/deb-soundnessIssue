@@ -1,0 +1,30 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out -n si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+=================================================================
+==2381271==ERROR: AddressSanitizer: negative-size-param: (size=-14281611456873)
+    #0 0x55d2cd920299 in memrchr (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x40299) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+    #1 0x55d2cd9fd2d9 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55d2cd9fbcf5 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55d2cd9fb576 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55d2cd9f2b4d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x55d2cd9f264f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7f9444414d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f9444414e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55d2cd904504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x24504) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+
+0x62d000008fff is located 35839 bytes inside of 36865-byte region [0x62d000000400,0x62d000009401)
+allocated by thread T0 here:
+    #0 0x55d2cd989f2e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0xa9f2e) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5)
+    #1 0x55d2cd9c5a44 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:1052:13
+    #2 0x55d2cd9fd762 in reset /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:20512:26
+    #3 0x55d2cd9fcfe6 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21643:13
+    #4 0x55d2cd9fbcf5 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #5 0x55d2cd9fb576 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #6 0x55d2cd9f2b4d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #7 0x55d2cd9f264f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #8 0x7f9444414d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: negative-size-param (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out+0x40299) (BuildId: 44a2572649f1032d82b4c33e1995cf250ad5ddf5) in memrchr
+==2381271==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 2381270 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.asan.out -n si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129

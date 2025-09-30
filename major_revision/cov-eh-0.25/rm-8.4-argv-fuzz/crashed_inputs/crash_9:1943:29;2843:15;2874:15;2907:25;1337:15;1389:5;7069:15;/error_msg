@@ -1,0 +1,21 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1825527==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000a0000078f (pc 0x55862123d506 bp 0x7ffffb8c57c0 sp 0x7ffffb8c5590 T1825527)
+==1825527==The signal is caused by a WRITE memory access.
+    #0 0x55862123d506 in quotearg_buffer_restyled /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1943:29
+    #1 0x5586212342a1 in quotearg_n_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:2843:15
+    #2 0x55862122f551 in quotearg_n_style /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:2874:15
+    #3 0x55862122f4df in quote_n /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:2907:25
+    #4 0x55862122f489 in argmatch_invalid /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1337:15
+    #5 0x55862122fba9 in __xargmatch_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1389:5
+    #6 0x55862123bbe9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7069:15
+    #7 0x7fa901ebbd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7fa901ebbe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x558621205604 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out+0xf604) (BuildId: 3484208738378ef9527931b17dc75c52a8e5f005)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1943:29 in quotearg_buffer_restyled
+==1825527==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 1825526 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/rm-8.4-argv-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000017*

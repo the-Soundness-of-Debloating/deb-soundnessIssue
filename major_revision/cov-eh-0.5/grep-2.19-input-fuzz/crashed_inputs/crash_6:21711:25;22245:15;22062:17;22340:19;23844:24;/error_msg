@@ -1,0 +1,40 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.ubsan.out '.$' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+grep-2.19.c.reduced.c:20646:24: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:20646:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==71524==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7fae8e1eb597 bp 0x7ffc62dcd0d0 sp 0x7ffc62dccec8 T71524)
+==71524==The signal is caused by a READ memory access.
+    #0 0x7fae8e1eb597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x55ceade85273 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55ceade83718 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55ceade83086 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55ceade744e6 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x55ceade73fca in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7fae8e065d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fae8e065e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55ceaddfa7b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.ubsan.out+0x417b4) (BuildId: 1fe297c23cdcca21baf91ac5cb4561678a6c5d71)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==71524==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 71523 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.ubsan.out .$ /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.lsan.out a /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+LeakSanitizer:DEADLYSIGNAL
+==2355181==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7efc32d5e597 bp 0x7fffbce012f0 sp 0x7fffbce01258 T0)
+==2355181==The signal is caused by a READ memory access.
+    #0 0x7efc32d5e597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x55f4b4952bb5 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55f4b49522b3 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55f4b4951f96 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55f4b494e5ad in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x55f4b494e35b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7efc32bd8d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7efc32bd8e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55f4b4911774 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-input-fuzz/bins/reduced.lsan.out+0x7774) (BuildId: 9ccd2a72f8b853dbd92976a776c153ea21bff760)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==2355181==ABORTING

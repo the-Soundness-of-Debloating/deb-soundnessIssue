@@ -1,0 +1,46 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_153
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=139931091605312) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=139931091605312) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=139931091605312) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=139931091605312, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f443f066476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f443f04c7f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f443f0ad676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f443f1ffb77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007f443f0c4cfc in malloc_printerr (str=str@entry=0x7f443f2026f0 "free(): double free detected in tcache 2") at ./malloc/malloc.c:5664
+#7  0x00007f443f0c70ab in _int_free (av=0x7f443f23ec80 <main_arena>, p=0x56554df3c2c0, have_lock=1) at ./malloc/malloc.c:4473
+#8  0x00007f443f0c8bdb in _int_realloc (av=av@entry=0x7f443f23ec80 <main_arena>, oldp=oldp@entry=0x56554df3c2c0, oldsize=oldsize@entry=32, nb=nb@entry=48) at ./malloc/malloc.c:4900
+#9  0x00007f443f0c9909 in __GI___libc_realloc (oldmem=0x56554df3c2d0, bytes=32) at ./malloc/malloc.c:3485
+#10 0x000056554c689f2d in xrealloc_1 (p=0x56554df3c2d0, n=32) at ./grep-2.4.2.c.reduced.c:2901
+#11 0x000056554c686df9 in addtok (t=87) at ./grep-2.4.2.c.reduced.c:4419
+#12 0x000056554c68a07c in atom () at ./grep-2.4.2.c.reduced.c:4479
+#13 0x000056554c689fc9 in closure () at ./grep-2.4.2.c.reduced.c:4644
+#14 0x000056554c689fa4 in branch () at ./grep-2.4.2.c.reduced.c:4741
+#15 0x000056554c686d50 in regexp (toplevel=1) at ./grep-2.4.2.c.reduced.c:4756
+#16 0x000056554c6869a9 in dfaparse (
+    s=0x56554c68e220 <afl_init_argv.in_buf> ".W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W\300\212", len=180, d=0x56554c6a8890 <dfa_1>) at ./grep-2.4.2.c.reduced.c:4805
+#17 0x000056554c68879e in dfacomp (
+    s=0x56554c68e220 <afl_init_argv.in_buf> ".W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W\300\212", len=180, d=0x56554c6a8890 <dfa_1>, searchflag=1) at ./grep-2.4.2.c.reduced.c:6710
+#18 0x000056554c689516 in Gcompile (
+    pattern=0x56554c68e220 <afl_init_argv.in_buf> ".W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W.W\300\212", size=180) at ./grep-2.4.2.c.reduced.c:9260
+#19 0x000056554c686597 in main (argc=2, argv=0x56554c6a68c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2721

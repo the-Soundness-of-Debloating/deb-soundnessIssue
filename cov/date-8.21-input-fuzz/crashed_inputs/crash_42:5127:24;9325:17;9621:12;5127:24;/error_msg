@@ -1,0 +1,84 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000090,sig:06,src:000528,time:8706321,execs:272114,op:havoc,rep:2
+==1359088==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x558c8dd4ee81 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24
+    #1 0x558c8dd5cd4b in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #2 0x558c8dd5c225 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f4ea733ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f4ea733ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x558c8dcba3b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.msan.out+0x1f3b4) (BuildId: cb05b597d8c5f67c8670eab941227007fcf0639e)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 in parse_datetime
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1359087 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000095,sig:11,src:000161+000320,time:3905330,execs:240654,op:splice,rep:8
+LeakSanitizer:DEADLYSIGNAL
+==1364337==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55ec7398c58c bp 0x7ffc3081a690 sp 0x7ffc3081a280 T0)
+==1364337==The signal is caused by a WRITE memory access.
+==1364337==Hint: address points to the zero page.
+    #0 0x55ec7398c58c in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24
+    #1 0x55ec7398ed77 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #2 0x55ec7398eb35 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f3527463d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f3527463e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55ec7395c5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out+0x65d4) (BuildId: c9e299db05868f94060fe886feb5d664d488690b)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 in parse_datetime
+==1364337==ABORTING
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000097,sig:11,src:000358+000377,time:1851758,execs:157436,op:splice,rep:4
+=================================================================
+==1948691==ERROR: AddressSanitizer: stack-use-after-return on address 0x7f28fc900000 at pc 0x5595d2a1b631 bp 0x7ffd58810770 sp 0x7ffd58810768
+WRITE of size 1 at 0x7f28fc900000 thread T0
+    #0 0x5595d2a1b630 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24
+    #1 0x5595d2a22396 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #2 0x5595d2a21ea5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f28fe758d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f28fe758e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x5595d2953444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.asan.out+0x23444) (BuildId: 632f9bb2946ef918d188e7c2b11d18c36d021a92)
+
+Address 0x7f28fc900000 is located in stack of thread T0 at offset 0 in frame
+    #0 0x5595d2a2251f in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9680
+
+  This frame has 1 object(s):
+    [32, 48) 'when'
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-use-after-return /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 in parse_datetime
+Shadow bytes around the buggy address:
+  0x0fe59f917fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f917fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f917fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f917fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f917ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0fe59f918000:[f5]f5 f5 f5 f5 f5 f5 f5 00 00 00 00 00 00 00 00
+  0x0fe59f918010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f918020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f918030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f918040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe59f918050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1948691==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1948690 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

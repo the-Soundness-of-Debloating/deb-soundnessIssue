@@ -1,0 +1,78 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3582563==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7f0c2af5f600 bp 0x7fff1ede66f0 sp 0x7fff1ede64f8 T3582563)
+==3582563==The signal is caused by a READ memory access.
+==3582563==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f0c2af5f600  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5591f21725fb in get_suffix /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7683:9
+    #2 0x5591f2171f32 in get_istat /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7787:7
+    #3 0x5591f216c77b in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7317:13
+    #4 0x5591f216c000 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #5 0x7f0c2add7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f0c2add7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5591f21344c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 445fc151b381ad88eb1f541913d77300501ca1fd)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3582563==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 3582561 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_3_fuzzed/input_3_278
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==53938==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x55923f4ebf40 bp 0x7ffda7720250 sp 0x7ffda7720210 T53938)
+==53938==The signal is caused by a READ memory access.
+==53938==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55923f4ebf40 in strcmp (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.msan.out+0x54f40) (BuildId: e8b985a4b48116fe900185e400431da7876f9505)
+    #1 0x55923f557b33 in get_suffix /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7683:9
+    #2 0x55923f556c59 in get_istat /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7787:7
+    #3 0x55923f551144 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7317:13
+    #4 0x55923f5506b7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #5 0x7f62af436d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f62af436e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55923f4b6334 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.msan.out+0x1f334) (BuildId: e8b985a4b48116fe900185e400431da7876f9505)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.msan.out+0x54f40) (BuildId: e8b985a4b48116fe900185e400431da7876f9505) in strcmp
+==53938==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 53934 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_3_fuzzed/input_3_278
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==841955==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x5601c6481fa0 bp 0x000000000000 sp 0x7ffc8e96b8b0 T841955)
+==841955==The signal is caused by a READ memory access.
+==841955==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 strcmp <null> (reduced.tsan.out+0x56fa0) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+    #1 get_suffix /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7683:9 (reduced.tsan.out+0xd63a4) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+    #2 get_istat /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7787:7 (reduced.tsan.out+0xd5ffd) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+    #3 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7317:13 (reduced.tsan.out+0xd43ff) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7 (reduced.tsan.out+0xd408c) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x213a4) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.tsan.out+0x56fa0) (BuildId: b62d34fb2b5bbd244f26cda01c9b636f9cace90e) in strcmp
+==841955==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 841952 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_3_fuzzed/input_3_278
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1397544==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x7f0b9f630600 bp 0x7ffecc49c030 sp 0x7ffecc49bfa8 T0)
+==1397544==The signal is caused by a READ memory access.
+==1397544==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f0b9f630600  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x559acf5a97ba in get_suffix /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7683:9
+    #2 0x559acf5a955c in get_istat /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7787:7
+    #3 0x559acf5a86de in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7317:13
+    #4 0x559acf5a84de in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #5 0x7f0b9f4a8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f0b9f4a8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559acf5774d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.3-argv-fuzz/bins/reduced.lsan.out+0x64d4) (BuildId: 49b468277855e0706344af68935846704b36c274)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1600) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1397544==ABORTING

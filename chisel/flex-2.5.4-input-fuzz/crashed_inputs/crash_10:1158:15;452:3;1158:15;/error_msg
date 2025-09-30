@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.msan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_0
+MemorySanitizer:DEADLYSIGNAL
+==226454==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x564d48779ed9 bp 0x7ffe136c5130 sp 0x7ffe136c5030 T226454)
+==226454==The signal is caused by a READ memory access.
+==226454==Hint: address points to the zero page.
+    #0 0x564d48779ed9 in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1158:15
+    #1 0x564d48779c1c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:452:3
+    #2 0x7fe71fb96d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fe71fb96e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x564d486f32a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.msan.out+0x272a4) (BuildId: 303b4c026a60025b0718ee0b487f6c3f3b196019)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1158:15 in flexinit
+==226454==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 226453 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.msan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_0

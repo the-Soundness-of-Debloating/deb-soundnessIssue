@@ -1,0 +1,38 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile
+chmod: cannot access '/root/tmp/conftest1': No such file or directory
+chmod: cannot access '/root/tmp/conftest2': No such file or directory
+chmod: cannot access '/root/tmp/test.noread': No such file or directory
+bash-2.05.c.reduced.c:31093:30: runtime error: member access within misaligned address 0x6161616161616161 for type 'JOB' (aka 'struct job'), which requires 8 byte alignment
+0x6161616161616161: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:31093:30 in 
+bash-2.05.c.reduced.c:31093:30: runtime error: load of misaligned address 0x6161616161616179 for type 'int', which requires 8 byte alignment
+0x6161616161616179: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:31093:30 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==358469==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x5576243c3171 bp 0x7ffd038fae00 sp 0x7ffd038faba0 T358469)
+==358469==The signal is caused by a READ memory access.
+==358469==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5576243c3171 in notify_of_job_status /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:31093:30
+    #1 0x5576243c2e07 in notify_and_cleanup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:30075:5
+    #2 0x5576243d856d in shell_getc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5292:7
+    #3 0x5576243dc180 in parse_matched_pair /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6392:10
+    #4 0x5576243d93eb in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7357:14
+    #5 0x5576243a0007 in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #6 0x5576243a052e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #7 0x557624397e11 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #8 0x557624397c45 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #9 0x5576243964fa in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #10 0x557624395653 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #11 0x55762439405f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #12 0x7f7320e80d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x7f7320e80e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #14 0x55762436bad4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 75bb360d74acb15cd10cdbdf3a47060e5832b9b7)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:31093:30 in notify_of_job_status
+==358469==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 358466 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile

@@ -1,0 +1,18 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_63 -k -p -w
+MemorySanitizer:DEADLYSIGNAL
+==1013890==ERROR: MemorySanitizer: SEGV on unknown address 0x712fffffffff (pc 0x56327e5aea35 bp 0x7fffa6ff8490 sp 0x7fffa6ff82f0 T1013890)
+==1013890==The signal is caused by a READ memory access.
+    #0 0x56327e5aea35 in readline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17922:15
+    #1 0x56327e59144d in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15228:16
+    #2 0x56327e584765 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x56327e5785cc in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f43da6cbd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f43da6cbe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x56327e4c53f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.msan.out+0x213f4) (BuildId: 060a938ec0b1fe871d76e4a01ad923c86e191a77)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17922:15 in readline
+==1013890==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 1013889 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_63 -k -p -w

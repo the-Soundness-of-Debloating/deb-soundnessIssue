@@ -1,0 +1,21 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_392
+
+gzip: stdin: invalid compressed data--crc error
+
+gzip: stdin: invalid compressed data--length error
+Uninitialized bytes in __interceptor_write at offset 11 inside [0x726000000200, 12)
+==2805492==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55d1a09c5afd in safe_write /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30243:20
+    #1 0x55d1a098ea95 in full_write /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24728:17
+    #2 0x55d1a09848b0 in extract_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:8298:19
+    #3 0x55d1a0996966 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12259:13
+    #4 0x55d1a09b4a7c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #5 0x7f6f05500d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f6f05500e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55d1a08d3504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.msan.out+0x20504) (BuildId: 814153b9117fe4a94185aa17e2de25f5240888bb)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30243:20 in safe_write
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 360: 2805489 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_392

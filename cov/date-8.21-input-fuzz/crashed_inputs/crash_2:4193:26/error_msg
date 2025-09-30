@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000001,sig:04,src:000012,time:182,execs:334,op:havoc,rep:5
+date-8.21.c.reduced.c:4187:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4187:32 in 
+date-8.21.c.reduced.c:4193:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4193:26 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1344262==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7ffe0022cfe0 (pc 0x564eb3745d8a bp 0x7ffef807d070 sp 0x7ffef807b7e0 T1344262)
+==1344262==The signal is caused by a READ memory access.
+    #0 0x564eb3745d8a in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52
+    #1 0x564eb374c025 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #2 0x564eb37533e3 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x564eb375300c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f9b2f33ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f9b2f33ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x564eb37155d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x145d4) (BuildId: 7a9692a2a122b7afeed1f0fdcc93dc1c77fa9841)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52 in yyparse
+==1344262==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1344261 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

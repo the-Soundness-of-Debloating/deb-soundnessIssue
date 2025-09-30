@@ -1,0 +1,12 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '-'
+target5: invalid option -- '-'
+grep-2.4.2.c.reduced.c:11791:27: runtime error: pointer index expression with base 0x55fdf4d818f0 overflowed to 0xa80769fe9edf199a
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:11791:27 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1992725==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55fdf4d80fff (pc 0x55fdf324e246 bp 0x7ffc9ae84580 sp 0x7ffc9ae844f0 T1992725)
+==1992725==The signal is caused by a READ memory access.
+reduced.ubsan.out: malloc.c:2617: sysmalloc: Assertion `(old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)' failed.
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1992724 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

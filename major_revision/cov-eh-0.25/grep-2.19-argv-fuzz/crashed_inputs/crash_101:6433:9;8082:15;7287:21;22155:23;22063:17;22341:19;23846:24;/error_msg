@@ -1,0 +1,22 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out
+grep: ........: Bad file descriptor
+grep: ........: Bad file descriptor
+grep: @...........: Bad file descriptor
+grep: @...........: Bad file descriptor
+==3014596==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56046c88e1b5 in fts_set_stat_required /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:6433:9
+    #1 0x56046c84e20c in fts_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:8082:15
+    #2 0x56046c8490a1 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7287:21
+    #3 0x56046c8a4615 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22155:23
+    #4 0x56046c8a3bc9 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22063:17
+    #5 0x56046c88c381 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22341:19
+    #6 0x56046c88b056 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23846:24
+    #7 0x7f1b9aba0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f1b9aba0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x56046c7a0474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: fdc6d6ddcf3c7d0ba63b2c0bfe0574698d0b735d)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:6433:9 in fts_set_stat_required
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3014595 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

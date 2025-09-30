@@ -1,0 +1,26 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000101,sig:11,src:000176+000599,time:3917535,execs:434349,op:splice,rep:2
+ThreadSanitizer:DEADLYSIGNAL
+==1207125==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x560e7a1bae8b bp 0x7ffc438137c0 sp 0x7ffc438136e0 T1207125)
+==1207125==The signal is caused by a READ memory access.
+==1207125==Hint: address points to the zero page.
+    #0 apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 (reduced.tsan.out+0xd2e8b) (BuildId: c48e17b233aace36e5e2f355d72d069740730bef)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3933:5 (reduced.tsan.out+0xd14b9) (BuildId: c48e17b233aace36e5e2f355d72d069740730bef)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 in apply_relative_time
+==1207125==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1207124 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000101,sig:11,src:000176+000599,time:3917535,execs:434349,op:splice,rep:2
+LeakSanitizer:DEADLYSIGNAL
+==1211169==ERROR: LeakSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x555b124198dc bp 0x7ffef9e5d650 sp 0x7ffef9e5d650 T0)
+==1211169==The signal is caused by a READ memory access.
+==1211169==Hint: address points to the zero page.
+    #0 0x555b124198dc in apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16
+    #1 0x555b124186cd in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3933:5
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 in apply_relative_time
+==1211169==ABORTING

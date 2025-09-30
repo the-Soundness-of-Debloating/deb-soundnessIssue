@@ -1,0 +1,20 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+==4051439==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55ce7fc538bb in re_search_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14804:7
+    #1 0x55ce7fc29bdb in re_search_stub /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14395:12
+    #2 0x55ce7fc2894b in re_search /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14161:9
+    #3 0x55ce7fc2bab2 in match_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19688:9
+    #4 0x55ce7fc3742e in match_an_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4876:9
+    #5 0x55ce7fc352a7 in match_address_p /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4985:13
+    #6 0x55ce7fc1fc34 in execute_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5400:16
+    #7 0x55ce7fc1824d in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5857:14
+    #8 0x55ce7fc16458 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #9 0x7f590ba11d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f590ba11e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55ce7fb8f374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f374) (BuildId: c7f354f47ce8f2339d82224d9d179af59ad95bc1)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:14804:7 in re_search_internal
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4051438 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

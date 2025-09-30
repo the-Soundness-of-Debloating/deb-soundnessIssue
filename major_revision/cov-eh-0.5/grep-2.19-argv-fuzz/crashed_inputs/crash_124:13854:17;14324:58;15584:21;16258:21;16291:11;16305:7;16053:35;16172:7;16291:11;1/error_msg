@@ -1,0 +1,31 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1526114==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x560d93191105 bp 0x000000000000 sp 0x7ffd582acf00 T1526114)
+==1526114==The signal is caused by a READ memory access.
+==1526114==Hint: address points to the zero page.
+    #0 strcmp <null> (reduced.tsan.out+0x58105) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 find_pred /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13854:17 (reduced.tsan.out+0xeeb95) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14324:58 (reduced.tsan.out+0xed8b6) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21 (reduced.tsan.out+0xe0daf) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #4 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16258:21 (reduced.tsan.out+0xeeecc) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #5 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xeec63) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #6 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #7 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xef24d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #8 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeec95) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #9 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xeec63) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #10 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #11 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdffd1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #12 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xde6e0) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #13 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xde47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #14 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #15 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #16 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #17 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #18 _start <null> (reduced.tsan.out+0x22504) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.tsan.out+0x58105) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f) in strcmp
+==1526114==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1526112 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

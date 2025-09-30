@@ -1,0 +1,44 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2752164==ERROR: MemorySanitizer: SEGV on unknown address 0x701000010000 (pc 0x55ede59abe9c bp 0x7fff44d361f0 sp 0x7fff44d36120 T2752164)
+==2752164==The signal is caused by a WRITE memory access.
+    #0 0x55ede59abe9c in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28
+    #1 0x55ede59c22e6 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4479:7
+    #2 0x55ede59c1f9c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #3 0x55ede59c1f63 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #4 0x55ede59ab798 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #5 0x55ede59aa1db in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #6 0x55ede59b792c in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6710:5
+    #7 0x55ede59be317 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #8 0x55ede59a8ba6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #9 0x7fb038a06d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7fb038a06e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55ede5921314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f314) (BuildId: d87addfe524b03d7303077920432e2d9f7ac52f7)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28 in addtok
+==2752164==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2752163 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2837555==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x564067e8b9ac bp 0x7ffe3bbcf0c0 sp 0x7ffe3bbcf0a0 T0)
+==2837555==The signal is caused by a WRITE memory access.
+    #0 0x564067e8b9ac in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28
+    #1 0x564067e8ebfb in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4479:7
+    #2 0x564067e8eb48 in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #3 0x564067e8eb23 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #4 0x564067e8b8cf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #5 0x564067e8b528 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #6 0x564067e8d31d in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6710:5
+    #7 0x564067e8e095 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #8 0x564067e8b116 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #9 0x7f75356c0d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f75356c0e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x564067e5d4a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x54a4) (BuildId: 501851d1df848985fbc5c922196b6dbedbbda0ae)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28 in addtok
+==2837555==ABORTING

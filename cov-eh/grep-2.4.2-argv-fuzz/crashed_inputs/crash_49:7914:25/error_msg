@@ -1,0 +1,16 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:7914:25: runtime error: member access within misaligned address 0x000048820081 for type 'struct trie', which requires 8 byte alignment
+0x000048820081: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:7914:25 in 
+grep-2.4.2.c.reduced.c:7914:25: runtime error: store to misaligned address 0x000048820081 for type 'unsigned int', which requires 8 byte alignment
+0x000048820081: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:7914:25 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==623361==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000048820081 (pc 0x5591a4e5ee41 bp 0x7ffc03d5e8e0 sp 0x7ffc03d5e250 T623361)
+==623361==The signal is caused by a WRITE memory access.
+malloc(): invalid size (unsorted)
+timeout: the monitored command dumped core
+./verify.sh: line 110: 623360 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

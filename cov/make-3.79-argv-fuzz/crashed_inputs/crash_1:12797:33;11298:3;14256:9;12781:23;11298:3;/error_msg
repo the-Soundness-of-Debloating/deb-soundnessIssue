@@ -1,0 +1,54 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1449765==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6040000005b8 at pc 0x562c3a56d24e bp 0x7fffe2e46ce0 sp 0x7fffe2e46cd8
+WRITE of size 8 at 0x6040000005b8 thread T0
+    #0 0x562c3a56d24d in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12797:33
+    #1 0x562c3a56a57c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3
+    #2 0x7f3ebd4e4d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f3ebd4e4e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x562c3a499444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c444) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+
+0x6040000005b8 is located 0 bytes to the right of 40-byte region [0x604000000590,0x6040000005b8)
+allocated by thread T0 here:
+    #0 0x562c3a51ee6e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb1e6e) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+    #1 0x562c3a559994 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14256:9
+    #2 0x562c3a56cf61 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12781:23
+    #3 0x562c3a56a57c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3
+    #4 0x7f3ebd4e4d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12797:33 in decode_switches
+Shadow bytes around the buggy address:
+  0x0c087fff8060: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8070: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8080: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8090: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff80a0: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+=>0x0c087fff80b0: fa fa 00 00 00 00 00[fa]fa fa fa fa fa fa fa fa
+  0x0c087fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff80e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff80f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff8100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1449765==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1449763 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

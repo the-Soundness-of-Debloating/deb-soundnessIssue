@@ -1,0 +1,32 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==4145995==ERROR: ThreadSanitizer: SEGV on unknown address 0x556905b1f6c3 (pc 0x5569060c678a bp 0x7ffcc6162db0 sp 0x7ffcc6162120 T4145995)
+==4145995==The signal is caused by a READ memory access.
+    #0 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:11 (reduced.tsan.out+0xcf78a) (BuildId: 0585fff34489a40069d0c2b945db64dcef68430c)
+    #1 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15 (reduced.tsan.out+0xd2ca1) (BuildId: 0585fff34489a40069d0c2b945db64dcef68430c)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24 (reduced.tsan.out+0xd6493) (BuildId: 0585fff34489a40069d0c2b945db64dcef68430c)
+    #3 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 _start <null> (reduced.tsan.out+0x22474) (BuildId: 0585fff34489a40069d0c2b945db64dcef68430c)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:11 in yyparse
+==4145995==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4145994 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==887523==ERROR: LeakSanitizer: SEGV on unknown address 0x55d1ac02e3f3 (pc 0x55d1ac5dd8a5 bp 0x7ffe761c6b90 sp 0x7ffe761c6240 T0)
+==887523==The signal is caused by a READ memory access.
+    #0 0x55d1ac5dd8a5 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:11
+    #1 0x55d1ac5dfa99 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #2 0x55d1ac5e254a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7ff9358ddd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7ff9358dde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x55d1ac5af624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x6624) (BuildId: dc41ec66b6a1999d45f12514f6b38ae44ee8cb4e)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3499:11 in yyparse
+==887523==ABORTING

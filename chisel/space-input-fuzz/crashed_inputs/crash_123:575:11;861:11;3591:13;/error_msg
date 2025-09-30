@@ -1,0 +1,18 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12212.adl_fuzzed/gr12212.adl_261
+LeakSanitizer:DEADLYSIGNAL
+==3228822==ERROR: LeakSanitizer: SEGV on unknown address 0x000000068db8 (pc 0x562df5a5bc6a bp 0x000000000000 sp 0x7ffee61c0a20 T0)
+==3228822==The signal is caused by a READ memory access.
+    #0 0x562df5a5bc6a in __sanitizer::VSNPrintf(char*, int, char const*, __va_list_tag*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x12c6a) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #1 0x562df5a5c898 in __sanitizer::SharedPrintfCodeNoBuffer(bool, char*, int, char const*, __va_list_tag*) sanitizer_printf.cpp.o
+    #2 0x562df5a5c244 in __sanitizer::SharedPrintfCode(bool, char const*, __va_list_tag*) sanitizer_printf.cpp.o
+    #3 0x562df5a5c2e2 in __sanitizer::Report(char const*, ...) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x132e2) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #4 0x562df5a70043 in __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x27043) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #5 0x562df5a7cb1e in adddef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:575:11
+    #6 0x562df5a7d5f2 in adremdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:861:11
+    #7 0x562df5a7f212 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3591:13
+    #8 0x6020000009df  (<unknown module>)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x12c6a) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __sanitizer::VSNPrintf(char*, int, char const*, __va_list_tag*)
+==3228822==ABORTING

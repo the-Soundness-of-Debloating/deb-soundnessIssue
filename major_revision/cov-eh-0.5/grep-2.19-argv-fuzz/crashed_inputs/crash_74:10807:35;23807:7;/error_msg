@@ -1,0 +1,56 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==978635==ERROR: AddressSanitizer: SEGV on unknown address 0x0006d2ee1410 (pc 0x7fe590f9751d bp 0x7fff8f8f0dc0 sp 0x7fff8f8f0588 T0)
+==978635==The signal is caused by a READ memory access.
+    #0 0x7fe590f9751d  string/../sysdeps/x86_64/multiarch/memchr-evex.S:111
+    #1 0x5644d2dc707e in memchr (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x4007e) (BuildId: f96211d38f0c376d73510ba6711702c6e213731f)
+    #2 0x5644d2e81b9c in Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10807:35
+    #3 0x5644d2e99515 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #4 0x7fe590e12d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fe590e12e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x5644d2dab504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x24504) (BuildId: f96211d38f0c376d73510ba6711702c6e213731f)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memchr-evex.S:111 
+==978635==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 978634 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1347361==ERROR: MemorySanitizer: SEGV on unknown address 0xfffffffffffff640 (pc 0x7f2dedabb51d bp 0x7fff0be834c0 sp 0x7fff0be83488 T1347361)
+==1347361==The signal is caused by a READ memory access.
+    #0 0x7f2dedabb51d  string/../sysdeps/x86_64/multiarch/memchr-evex.S:111
+    #1 0x56230a5437c9 in memchr (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x587c9) (BuildId: 798e4f55d42e9c42788ca5619c4fadd9cd45e90a)
+    #2 0x56230a5c2557 in Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10807:35
+    #3 0x56230a5f5d72 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #4 0x7f2ded936d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f2ded936e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x56230a50b474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: 798e4f55d42e9c42788ca5619c4fadd9cd45e90a)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV string/../sysdeps/x86_64/multiarch/memchr-evex.S:111 
+==1347361==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1347359 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1634204==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f242dbaa51d bp 0x00000000000a sp 0x7ffc7f225dd8 T1634204)
+==1634204==The signal is caused by a READ memory access.
+==1634204==Hint: address points to the zero page.
+    #0 <null> string/../sysdeps/x86_64/multiarch/memchr-evex.S:111 (libc.so.6+0x1ae51d) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 memchr <null> (reduced.tsan.out+0x5a476) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10807:35 (reduced.tsan.out+0xda9dc) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 _start <null> (reduced.tsan.out+0x22504) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memchr-evex.S:111 
+==1634204==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1634203 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

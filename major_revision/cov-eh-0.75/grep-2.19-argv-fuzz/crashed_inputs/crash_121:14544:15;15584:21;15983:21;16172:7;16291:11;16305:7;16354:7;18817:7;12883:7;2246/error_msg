@@ -1,0 +1,23 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out
+grep: unrecognized option '-----@----Ásr^D tqutb$^^^^^^^^^^^^^^RttpPt/inYut^D tD7             b^^Z’t^Z/^Z/^^r/ir/yD ‹rai~bbbbbbbbbbcbbbbbb€in'
+==478604==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x559b04132e55 in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14544:15
+    #1 0x559b04109992 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21
+    #2 0x559b0413637f in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21
+    #3 0x559b04135a2c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #4 0x559b0413599b in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #5 0x559b04109e3c in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #6 0x559b0410695b in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #7 0x559b04101097 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #8 0x559b041009b2 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #9 0x559b0413c4c8 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #10 0x559b041259e3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #11 0x7fa4243bbd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #12 0x7fa4243bbe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #13 0x559b04048444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x1f444) (BuildId: 9bbdbd0bffef5adfcbf1bd2c872e93c69af9d3bd)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14544:15 in parse_bracket_exp
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 478602 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

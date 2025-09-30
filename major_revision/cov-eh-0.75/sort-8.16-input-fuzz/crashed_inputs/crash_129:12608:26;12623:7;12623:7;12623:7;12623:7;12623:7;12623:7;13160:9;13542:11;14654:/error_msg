@@ -1,0 +1,48 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file25_fuzzed/file25_217
+ThreadSanitizer:DEADLYSIGNAL
+==1338026==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b87fffffba0 (pc 0x7fafefaa4893 bp 0x7ffe8ada3fc0 sp 0x7ffe8ada3ef8 T1338026)
+==1338026==The signal is caused by a WRITE memory access.
+    #0 memcpy string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 (libc.so.6+0xc4893) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x58e5c) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12608:26 (reduced.tsan.out+0xd63a8) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #7 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #8 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7 (reduced.tsan.out+0xd6460) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #9 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13160:9 (reduced.tsan.out+0xd5912) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #10 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11 (reduced.tsan.out+0xd1b7f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #11 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #12 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #13 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #14 _start <null> (reduced.tsan.out+0x214d4) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 in memcpy
+==1338026==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 1338025 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file25_fuzzed/file25_217
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file25_fuzzed/file25_217
+LeakSanitizer:DEADLYSIGNAL
+==1468916==ERROR: LeakSanitizer: SEGV on unknown address 0x621ffffffba0 (pc 0x557121bcbb96 bp 0x7ffe1fab9da0 sp 0x7ffe1fab9d40 T0)
+==1468916==The signal is caused by a WRITE memory access.
+    #0 0x557121bcbb96 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12608:26
+    #1 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #2 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #3 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #4 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #5 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #6 0x557121bcbc85 in sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12623:7
+    #7 0x557121bcb4c4 in sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13160:9
+    #8 0x557121bc8df2 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11
+    #9 0x557121bc8309 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7
+    #10 0x7fc501469d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #11 0x7fc501469e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #12 0x557121b986e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.lsan.out+0x76e4) (BuildId: 8de955c844ebdd1a1870f90245353780e062cd0f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12608:26 in sequential_sort
+==1468916==ABORTING

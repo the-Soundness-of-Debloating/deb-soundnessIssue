@@ -1,0 +1,21 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/bins/reduced.lsan.out 1 -h -r /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_112
+LeakSanitizer:DEADLYSIGNAL
+==1603047==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7f7f40ecf597 bp 0x7ffe7d41f180 sp 0x7ffe7d41f0e8 T0)
+==1603047==The signal is caused by a READ memory access.
+    #0 0x7f7f40ecf597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x55a8c2ca810c in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55a8c2ca7823 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55a8c2ca7506 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55a8c2ca7e2a in grepdirent /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22013:17
+    #5 0x55a8c2ca76dc in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22160:27
+    #6 0x55a8c2ca7506 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #7 0x55a8c2ca2e7d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #8 0x55a8c2ca2c2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #9 0x7f7f40d49d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f7f40d49e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x55a8c2c65794 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-input-fuzz/bins/reduced.lsan.out+0x8794) (BuildId: 7491a5656b024b8fcc8ac2dec0a8b18f05ed0dd0)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==1603047==ABORTING

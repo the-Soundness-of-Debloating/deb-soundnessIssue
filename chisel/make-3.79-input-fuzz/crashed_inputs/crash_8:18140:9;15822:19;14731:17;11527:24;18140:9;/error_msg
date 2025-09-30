@@ -1,0 +1,18 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_464 -k -p -w
+ThreadSanitizer:DEADLYSIGNAL
+==2899827==ERROR: ThreadSanitizer: SEGV on unknown address 0x7f2251e00000 (pc 0x562e004765bc bp 0x7ffc3a0f8410 sp 0x7ffc3a0f8340 T2899827)
+==2899827==The signal is caused by a READ memory access.
+    #0 get_next_mword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18140:9 (reduced.tsan.out+0xdb5bc) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15822:19 (reduced.tsan.out+0xd8588) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14731:17 (reduced.tsan.out+0xd6abd) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11527:24 (reduced.tsan.out+0xd53d6) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23394) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18140:9 in get_next_mword
+==2899827==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2899826 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_464 -k -p -w

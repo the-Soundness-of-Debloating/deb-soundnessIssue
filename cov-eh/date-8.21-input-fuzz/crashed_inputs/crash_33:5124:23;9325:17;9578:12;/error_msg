@@ -1,0 +1,27 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000111,sig:04,src:000543,time:4616882,execs:650744,op:havoc,rep:5
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '97: 66666'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '1666 00266'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '96166666'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111¬…ÖÅ·U
+date-8.21.c.reduced.c:5124:36: runtime error: null pointer passed as argument 2, which is declared to never be null
+date-8.21.c.reduced.c:2823:53: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5124:36 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3565693==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f0b4df4debc bp 0x7ffe1ff5da20 sp 0x7ffe1ff5d9b8 T3565693)
+==3565693==The signal is caused by a READ memory access.
+==3565693==Hint: address points to the zero page.
+    #0 0x7f0b4df4debc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7f0b4dde0f58  (/lib/x86_64-linux-gnu/libc.so.6+0x44f58) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x55e181846d34 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5124:23
+    #3 0x55e181850efa in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x55e181850a09 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9578:12
+    #5 0x7f0b4ddc5d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f0b4ddc5e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55e18180f624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x15624) (BuildId: 9f8a89db4fa435d4e1cb210aba158b48cf3816cc)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3565693==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3565692 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

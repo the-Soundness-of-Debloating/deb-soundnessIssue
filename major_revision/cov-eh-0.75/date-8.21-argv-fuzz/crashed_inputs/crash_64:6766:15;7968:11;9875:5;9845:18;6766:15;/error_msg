@@ -1,0 +1,15 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.msan.out
+==3700075==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55fded7f1318 in strftime_case____0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:6766:15
+    #1 0x55fded7ee23e in fprintftime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:7968:11
+    #2 0x55fded7fb0bb in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9875:5
+    #3 0x55fded7f9873 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9845:18
+    #4 0x7fedc38e1d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fedc38e1e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55fded7543c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: e8969fb56bd55e9dde4679bdee3455a0ba8d7256)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:6766:15 in strftime_case____0
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3700074 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

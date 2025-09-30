@@ -1,0 +1,45 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==774577==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x558084783509 bp 0x7ffc32106a80 sp 0x7ffc321069d0 T774577)
+==774577==The signal is caused by a READ memory access.
+==774577==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x558084783509 in add1_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13
+    #1 0x5580847860fa in add_then_next /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1380:3
+    #2 0x558084783eda in read_text /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2481:10
+    #3 0x55808477e619 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2708:5
+    #4 0x55808477df46 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #5 0x55808477d763 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #6 0x7f41820fad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f41820fae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x558084755544 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x11544) (BuildId: 39ffc9a9be654c06c45d2f049631e09a3527027f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13 in add1_buffer
+==774577==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 774576 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==876304==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x561cb1e31ea2 bp 0x7ffc5b3befd0 sp 0x7ffc5b3bef28 T876304)
+==876304==The signal is caused by a READ memory access.
+==876304==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_write1 <null> (reduced.tsan.out+0xb9ea2) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #1 add1_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7289:13 (reduced.tsan.out+0xd08c8) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #2 add_then_next /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1380:3 (reduced.tsan.out+0xd1de1) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #3 read_text /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2481:10 (reduced.tsan.out+0xd1048) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #4 compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2708:5 (reduced.tsan.out+0xce765) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #5 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9 (reduced.tsan.out+0xce0f2) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19 (reduced.tsan.out+0xcdc06) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+    #7 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 _start <null> (reduced.tsan.out+0x21404) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out+0xb9ea2) (BuildId: b573e89ba24d52988d09ff4f81f9811927c76d76) in __tsan_write1
+==876304==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 876303 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

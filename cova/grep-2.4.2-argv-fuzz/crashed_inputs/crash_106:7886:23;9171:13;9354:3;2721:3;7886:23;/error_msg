@@ -1,0 +1,34 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1187459==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b8000010010 (pc 0x55e05b32f7dd bp 0x7ffe89af8430 sp 0x7ffe89af7f70 T1187459)
+==1187459==The signal is caused by a WRITE memory access.
+    #0 kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7886:23 (reduced.tsan.out+0xdd7dd) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #1 kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9171:13 (reduced.tsan.out+0xf3ff0) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9354:3 (reduced.tsan.out+0xe1d07) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xcee74) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x213f4) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7886:23 in kwsincr
+==1187459==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1187458 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1190559==ERROR: LeakSanitizer: SEGV on unknown address 0x620000010010 (pc 0x55a0b05f35aa bp 0x7ffed7c41a00 sp 0x7ffed7c41910 T0)
+==1190559==The signal is caused by a WRITE memory access.
+    #0 0x55a0b05f35aa in kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7886:23
+    #1 0x55a0b05feb92 in kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9171:13
+    #2 0x55a0b05f578c in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9354:3
+    #3 0x55a0b05ebd9e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7f1b0ac6cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f1b0ac6ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55a0b05bd5a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x65a4) (BuildId: 6fedfcbaa5ed42865a0b46d57d2a84559e1a7416)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7886:23 in kwsincr
+==1190559==ABORTING

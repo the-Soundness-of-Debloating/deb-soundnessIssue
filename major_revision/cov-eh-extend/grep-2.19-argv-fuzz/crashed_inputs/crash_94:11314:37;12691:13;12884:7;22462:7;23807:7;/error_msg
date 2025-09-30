@@ -1,0 +1,20 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==857800==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000028 (pc 0x55b2055b1913 bp 0x7ffe812e72a0 sp 0x7ffe812e6de0 T857800)
+==857800==The signal is caused by a WRITE memory access.
+==857800==Hint: address points to the zero page.
+    #0 kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37 (reduced.tsan.out+0xdb913) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #1 kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12691:13 (reduced.tsan.out+0xdf4a5) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #2 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12884:7 (reduced.tsan.out+0xdef32) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #3 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xf3cea) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xeb595) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+    #5 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 _start <null> (reduced.tsan.out+0x22524) (BuildId: bde6b040132c219a93b03eb9b50f5ab0864a9793)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11314:37 in kwsincr
+==857800==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 857799 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

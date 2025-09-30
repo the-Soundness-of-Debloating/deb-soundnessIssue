@@ -1,0 +1,58 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.msan.out error -Cr -otrain_input/out2.n77 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_18
+MemorySanitizer:DEADLYSIGNAL
+==3462018==ERROR: MemorySanitizer: SEGV on unknown address 0x724000020000 (pc 0x559fb6d3da72 bp 0x7fff16995910 sp 0x7fff16995880 T3462018)
+==3462018==The signal is caused by a WRITE memory access.
+    #0 0x559fb6d3da72 in mkstate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27
+    #1 0x559fb6d3ebe3 in dupmachine /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6835:13
+    #2 0x559fb6d3e81c in copysingl /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6758:11
+    #3 0x559fb6d169b8 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10370:15
+    #4 0x559fb6d0711a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #5 0x559fb6d04d2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #6 0x7f4094dbdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f4094dbde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x559fb6c7e2d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.msan.out+0x272d4) (BuildId: d1790740482575b108f46fb597c687708bddc789)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27 in mkstate
+==3462018==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 170: 3462017 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.msan.out error -Cr -otrain_input/out2.n77 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_18
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Cr -otrain_input/out2.n77 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_18
+ThreadSanitizer:DEADLYSIGNAL
+==53551==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b9000020000 (pc 0x564830d490a4 bp 0x7ffcd4fb0a40 sp 0x7ffcd4fb0960 T53551)
+==53551==The signal is caused by a WRITE memory access.
+    #0 mkstate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27 (reduced.tsan.out+0xeb0a4) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #1 dupmachine /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6835:13 (reduced.tsan.out+0xeb761) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #2 copysingl /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6758:11 (reduced.tsan.out+0xeb63f) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #3 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10370:15 (reduced.tsan.out+0xdc7d6) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #4 readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9 (reduced.tsan.out+0xd6d33) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3 (reduced.tsan.out+0xd59ac) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x29354) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27 in mkstate
+==53551==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 170: 53550 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Cr -otrain_input/out2.n77 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_18
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.lsan.out error -Cr -otrain_input/out2.n77 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_18
+LeakSanitizer:DEADLYSIGNAL
+==804621==ERROR: LeakSanitizer: SEGV on unknown address 0x624000020000 (pc 0x564a673631ed bp 0x7ffcd2e9b130 sp 0x7ffcd2e9b120 T0)
+==804621==The signal is caused by a WRITE memory access.
+    #0 0x564a673631ed in mkstate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27
+    #1 0x564a67363487 in dupmachine /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6835:13
+    #2 0x564a673633fa in copysingl /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6758:11
+    #3 0x564a6735c7f7 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10370:15
+    #4 0x564a673595da in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #5 0x564a67358e64 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #6 0x7ff0bfe7ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7ff0bfe7ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x564a6732b484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.lsan.out+0x11484) (BuildId: c4ab99ac45744a54a520ebe2fb4a9147754f8c34)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7268:27 in mkstate
+==804621==ABORTING

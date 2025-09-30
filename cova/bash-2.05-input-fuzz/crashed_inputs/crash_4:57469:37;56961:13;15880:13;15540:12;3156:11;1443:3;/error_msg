@@ -1,0 +1,21 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1674140==ERROR: AddressSanitizer: SEGV on unknown address 0x2020c8c908b2 (pc 0x559cddacae6d bp 0x7ffc6f15d8d0 sp 0x7ffc6f15d5c0 T0)
+==1674140==The signal is caused by a READ memory access.
+    #0 0x559cddacae6d in do_redirection_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:57469:37
+    #1 0x559cdda9f073 in do_redirections /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:56961:13
+    #2 0x559cdda9e5f9 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15880:13
+    #3 0x559cdda8e716 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #4 0x559cdda8d02b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #5 0x559cdda897d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #6 0x7f0dedb3bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f0dedb3be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x559cdd9c8704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0x38704) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:57469:37 in do_redirection_internal
+==1674140==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1674138 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile

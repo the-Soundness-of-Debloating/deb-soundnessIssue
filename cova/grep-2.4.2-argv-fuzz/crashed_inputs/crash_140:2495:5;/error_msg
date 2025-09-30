@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3454770==ERROR: ThreadSanitizer: SEGV on unknown address 0x563cbbabe5e0 (pc 0x7f634ee7caa4 bp 0x7fff688a8ea0 sp 0x7fff688a8bf8 T3454770)
+==3454770==The signal is caused by a WRITE memory access.
+    #0 <null> <null> (libc.so.6+0x1b1aa4) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 strcpy <null> (reduced.tsan.out+0x4dd94) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2495:5 (reduced.tsan.out+0xce51f) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x213f4) (BuildId: 7db5a2e38f3f6f22ef36fd660667d8492d34652a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1aa4) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3454770==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3454769 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

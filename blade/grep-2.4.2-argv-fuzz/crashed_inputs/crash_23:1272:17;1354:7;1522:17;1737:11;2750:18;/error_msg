@@ -1,0 +1,30 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- 'j'
+grep-2.4.2.c.reduced.c:959:52: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:959:52 in 
+grep-2.4.2.c.reduced.c:2926:56: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2926:56 in 
+grep-2.4.2.c.reduced.c:6245:31: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:6245:31 in 
+grep-2.4.2.c.reduced.c:1276:12: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:1276:12 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2722959==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000001 (pc 0x7f381b31e31d bp 0x7ffcdb3a67e0 sp 0x7ffcdb3a6778 T2722959)
+==2722959==The signal is caused by a READ memory access.
+==2722959==Hint: address points to the zero page.
+    #0 0x7f381b31e31d  (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x560ef8c76929 in prtext /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1272:17
+    #2 0x560ef8c7677e in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1354:7
+    #3 0x560ef8c7606e in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #4 0x560ef8c6164a in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #5 0x560ef8c60bf5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #6 0x7f381b199d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f381b199e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x560ef8c384c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 9231921cf048fbec2201cbbf770d1d346be9fab5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2722959==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2722958 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

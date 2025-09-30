@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:5236:16: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5236:16 in 
+date-8.21.c.reduced.c:5238:15: runtime error: store to null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5238:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1599227==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55a59b7a52a6 bp 0x7ffffa04a180 sp 0x7ffffa0492a0 T1599227)
+==1599227==The signal is caused by a WRITE memory access.
+==1599227==Hint: address points to the zero page.
+    #0 0x55a59b7a52a6 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5238:24
+    #1 0x55a59b7af220 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #2 0x7fa1a6978d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7fa1a6978e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55a59b770634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x14634) (BuildId: 3e6e225a123f721fb6cd72485c8c47002f262fa5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5238:24 in parse_datetime
+==1599227==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1599226 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

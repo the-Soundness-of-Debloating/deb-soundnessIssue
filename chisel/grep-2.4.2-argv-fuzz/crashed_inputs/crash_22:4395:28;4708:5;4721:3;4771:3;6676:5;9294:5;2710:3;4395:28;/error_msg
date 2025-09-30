@@ -1,0 +1,22 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: invalid option -- 'g'
+target5: invalid option -- '^'
+target5: invalid option -- 'g'
+LeakSanitizer:DEADLYSIGNAL
+==2338132==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x555b0a48ae9c bp 0x7ffe83b77480 sp 0x7ffe83b77460 T0)
+==2338132==The signal is caused by a WRITE memory access.
+    #0 0x555b0a48ae9c in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4395:28
+    #1 0x555b0a48d9dd in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4708:5
+    #2 0x555b0a48adcf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4721:3
+    #3 0x555b0a48a498 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4771:3
+    #4 0x555b0a48c520 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6676:5
+    #5 0x555b0a48d0c7 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9294:5
+    #6 0x555b0a48a0ed in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2710:3
+    #7 0x7fc21d166d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fc21d166e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x555b0a45c474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x5474) (BuildId: b395f683bf32c4f7d55c339ab0779b98cd8c53f5)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4395:28 in addtok
+==2338132==ABORTING

@@ -1,0 +1,18 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out -d
+==3428284==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5636ecc4b061 in inflate_codes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2603:32
+    #1 0x5636ecc4ec10 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3223:18
+    #2 0x5636ecc4f400 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3425:19
+    #3 0x5636ecc4f606 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3472:15
+    #4 0x5636ecc4f9c6 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3617:15
+    #5 0x5636ecc62436 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6903:22
+    #6 0x5636ecc60459 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6618:9
+    #7 0x7fcb453bbd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fcb453bbe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x5636ecbbd344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out+0x1f344) (BuildId: 6079568a4f5d28c09d83fea3b29313160caa9586)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2603:32 in inflate_codes
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3428283 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.msan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/msan/crashes/id:000030* > sample1.tst

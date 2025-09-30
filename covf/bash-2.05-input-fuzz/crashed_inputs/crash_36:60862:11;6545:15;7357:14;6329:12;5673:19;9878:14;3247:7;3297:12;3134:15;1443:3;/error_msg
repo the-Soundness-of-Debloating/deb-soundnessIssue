@@ -1,0 +1,28 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2168427==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x563e87ba938d bp 0x000000000009 sp 0x7ffdb8ec8fd0 T2168427)
+==2168427==The signal is caused by a READ memory access.
+==2168427==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x563e87ba938d in malloc /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/lib/malloc/malloc.c:662
+    #1 0x563e87ba9a66 in realloc /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/lib/malloc/malloc.c:803
+    #2 0x563e87b33267 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60862:11
+    #3 0x563e87b68a87 in parse_matched_pair /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6545:15
+    #4 0x563e87b6587b in read_token_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:7357:14
+    #5 0x563e87b2c007 in read_token /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:6329:12
+    #6 0x563e87b2c52e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:5673:19
+    #7 0x563e87b23e11 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:9878:14
+    #8 0x563e87b23c45 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #9 0x563e87b224fa in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #10 0x563e87b21653 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #11 0x563e87b2005f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #12 0x7fb91bb93d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x7fb91bb93e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #14 0x563e87af7ad4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/lib/malloc/malloc.c:662 in malloc
+==2168427==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2168425 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile

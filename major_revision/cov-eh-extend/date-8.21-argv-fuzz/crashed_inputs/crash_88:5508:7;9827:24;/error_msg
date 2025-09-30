@@ -1,0 +1,51 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==420292==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x555ec1e99cc2 bp 0x7ffd9d599760 sp 0x7ffd9d599330 T0)
+==420292==The signal is caused by a READ memory access.
+==420292==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x555ec1e99cc2 in __lsan::Deallocate(void*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x2ecc2) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc)
+    #1 0x555ec1ea3e50 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7
+    #2 0x555ec1ea67c9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7f2c3f837d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f2c3f837e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x555ec1e72664 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x7664) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x2ecc2) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc) in __lsan::Deallocate(void*)
+==420292==ABORTING
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==900494==ERROR: AddressSanitizer: SEGV on unknown address 0x56479de22db3 (pc 0x56479dd39742 bp 0x56479de4ef08 sp 0x7fffad014fc0 T0)
+==900494==The signal is caused by a WRITE memory access.
+    #0 0x56479dd39742 in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0x26742) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+    #1 0x56479ddbcc46 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa9c46) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+    #2 0x56479de05c64 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7
+    #3 0x56479de0b002 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7feb55019d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7feb55019e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x56479dd37464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0x24464) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0x26742) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db) in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType)
+==900494==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 900493 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer: CHECK failed: sanitizer_allocator_secondary.h:297 "((IsAligned(p, page_size_))) != (0)" (0x0, 0x0) (tid=930849)
+    #0 __tsan::CheckUnwind() <null> (reduced.tsan.out+0xb45ab) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #1 __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) <null> (reduced.tsan.out+0x361e4) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #2 __sanitizer::LargeMmapAllocator<__tsan::MapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Deallocate(__sanitizer::AllocatorStats*, void*) <null> (reduced.tsan.out+0xafd26) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #3 __tsan::user_free(__tsan::ThreadState*, unsigned long, void*, bool) <null> (reduced.tsan.out+0xaca5f) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #4 free <null> (reduced.tsan.out+0x4eaf4) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #5 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7 (reduced.tsan.out+0xd4ebe) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24 (reduced.tsan.out+0xd85d6) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #7 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #9 _start <null> (reduced.tsan.out+0x22484) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+
+timeout: the monitored command dumped core
+./verify.sh: line 110: 930848 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

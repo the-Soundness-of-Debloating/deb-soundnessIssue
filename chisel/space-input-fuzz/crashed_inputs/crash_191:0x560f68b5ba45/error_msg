@@ -1,0 +1,17 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3291.adl_fuzzed/gr3291.adl_82
+LeakSanitizer:DEADLYSIGNAL
+==4001518==ERROR: LeakSanitizer: SEGV on unknown address 0x00000000000a (pc 0x560f68b5ba45 bp 0x0000003d0eee sp 0x7ffd316fc0f0 T0)
+==4001518==The signal is caused by a READ memory access.
+==4001518==Hint: address points to the zero page.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x560f68b5ba45 in __sanitizer::VSNPrintf(char*, int, char const*, __va_list_tag*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x12a45) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #1 0x560f68b5c898 in __sanitizer::SharedPrintfCodeNoBuffer(bool, char*, int, char const*, __va_list_tag*) sanitizer_printf.cpp.o
+    #2 0x560f68b5c244 in __sanitizer::SharedPrintfCode(bool, char const*, __va_list_tag*) sanitizer_printf.cpp.o
+    #3 0x560f68b5c2e2 in __sanitizer::Report(char const*, ...) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x132e2) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #4 0x560f68b70043 in __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x27043) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+    #5 0x7ffd316fc53f  ([stack]+0x1e53f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x12a45) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __sanitizer::VSNPrintf(char*, int, char const*, __va_list_tag*)
+==4001518==ABORTING

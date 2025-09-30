@@ -1,0 +1,19 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- 'À'
+make: invalid option -- '­'
+LeakSanitizer:DEADLYSIGNAL
+==2399942==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55e2a810c04c bp 0x7ffc1afbe8e0 sp 0x7ffc1afbe890 T0)
+==2399942==The signal is caused by a READ memory access.
+==2399942==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55e2a810c04c in lookup_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22504:11
+    #1 0x55e2a81136a5 in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12448:13
+    #2 0x55e2a810bcb5 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12710:7
+    #3 0x55e2a810ad8e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #4 0x7f6a6fd37d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f6a6fd37e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55e2a80d6704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out+0xa704) (BuildId: 3de32f5c6438875dd91170370f4cf10f80ee5fee)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22504:11 in lookup_variable
+==2399942==ABORTING

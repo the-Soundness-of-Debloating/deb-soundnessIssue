@@ -1,0 +1,90 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+chmod: cannot access '/root/tmp/test.noread': No such file or directory
+
+=================================================================
+==973761==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 9 byte(s) in 3 object(s) allocated from:
+    #0 0x55f28b6c10ce in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.asan.out+0xbc0ce) (BuildId: c0283963003c8a41c55ca6094710469169825340)
+    #1 0x55f28b6fd454 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55f28b705448 in substring /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32010:12
+    #3 0x55f28b733c8f in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40713:16
+    #4 0x55f28b731217 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #5 0x55f28b739a9d in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #6 0x55f28b72004f in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #7 0x55f28b71fe79 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #8 0x55f28b708f0d in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #9 0x55f28b708524 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #10 0x55f28b6fd536 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #11 0x55f28b6fce03 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #12 0x55f28b6fbcdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #13 0x7f50027cad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: 9 byte(s) leaked in 3 allocation(s).
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+
+=================================================================
+==2033429==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 9 byte(s) in 3 object(s) allocated from:
+    #0 0x55dd35b63c72 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x51c72) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+    #1 0x55dd35b676e4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55dd35b6ab58 in substring /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32010:12
+    #3 0x55dd35b7dc8c in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40713:16
+    #4 0x55dd35b7d0a2 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #5 0x55dd35b7fdad in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #6 0x55dd35b754d3 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #7 0x55dd35b75379 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #8 0x55dd35b6c37b in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #9 0x55dd35b6be61 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #10 0x55dd35b677c6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #11 0x55dd35b6730e in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #12 0x55dd35b667b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #13 0x7fc5aad73d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 9 byte(s) leaked in 3 allocation(s).
+
+=================================================================
+==2033515==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 9 byte(s) in 3 object(s) allocated from:
+    #0 0x55dd35b63c72 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x51c72) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+    #1 0x55dd35b676e4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55dd35b6ab58 in substring /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32010:12
+    #3 0x55dd35b7dc8c in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40713:16
+    #4 0x55dd35b7d0a2 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #5 0x55dd35b7fdad in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #6 0x55dd35b754d3 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #7 0x55dd35b75379 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #8 0x55dd35b6c37b in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #9 0x55dd35b6be61 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #10 0x55dd35b677c6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #11 0x55dd35b6730e in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #12 0x55dd35b667b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #13 0x7fc5aad73d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 9 byte(s) leaked in 3 allocation(s).
+
+=================================================================
+==2033599==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 9 byte(s) in 3 object(s) allocated from:
+    #0 0x55dd35b63c72 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x51c72) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+    #1 0x55dd35b676e4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x55dd35b6ab58 in substring /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:32010:12
+    #3 0x55dd35b7dc8c in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40713:16
+    #4 0x55dd35b7d0a2 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #5 0x55dd35b7fdad in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #6 0x55dd35b754d3 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #7 0x55dd35b75379 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #8 0x55dd35b6c37b in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #9 0x55dd35b6be61 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #10 0x55dd35b677c6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #11 0x55dd35b6730e in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #12 0x55dd35b667b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #13 0x7fc5aad73d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 9 byte(s) leaked in 3 allocation(s).

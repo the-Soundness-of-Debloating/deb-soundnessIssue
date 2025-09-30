@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000038,sig:11,src:000036,time:1145420,execs:2259,op:havoc,rep:16
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2282609)
+  Write of size 1 at 0x7b8000000000 by main thread:
+    #0 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 (reduced.tsan.out+0xd222b) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+    #1 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17 (reduced.tsan.out+0xd5914) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xd5709) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+
+  Previous write of size 8 at 0x7b8000000000 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da54) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+    #1 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5135:15 (reduced.tsan.out+0xd22b9) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+    #2 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17 (reduced.tsan.out+0xd5914) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xd5709) (BuildId: e76696a567e7e40d8b3bb4161785db30578f00d4)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5127:24 in parse_datetime
+==================

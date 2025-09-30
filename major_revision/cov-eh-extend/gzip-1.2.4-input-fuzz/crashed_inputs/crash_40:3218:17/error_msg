@@ -1,0 +1,23 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d
+gzip-1.2.4.c.reduced.c:3218:17: runtime error: applying non-zero offset 1376 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:3218:17 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3855529==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000561 (pc 0x55c9bd26879f bp 0x7ffe0b3fe950 sp 0x7ffe0b3fe160 T3855529)
+==3855529==The signal is caused by a READ memory access.
+==3855529==Hint: address points to the zero page.
+    #0 0x55c9bd26879f in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3219:17
+    #1 0x55c9bd269092 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #2 0x55c9bd2690f0 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #3 0x55c9bd2691df in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #4 0x55c9bd279173 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #5 0x55c9bd278771 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #6 0x7feb147acd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7feb147ace3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55c9bd234524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x1d524) (BuildId: 6b9ea55da14d010f96c1a4a49f0a25eb28a78b48)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3219:17 in inflate_dynamic
+==3855529==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3855528 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/ubsan/crashes/id:000005* > sample1.tst

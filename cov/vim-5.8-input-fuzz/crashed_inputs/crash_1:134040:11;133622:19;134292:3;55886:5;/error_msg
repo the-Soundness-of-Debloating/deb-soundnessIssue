@@ -1,0 +1,19 @@
+msan:
+spawn /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/bins/vim-5.8 -u /root/.vimrc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/vim/inputs/copy1
+[1m[31m[1m[31mUninitialized bytes in [1m[32m__interceptor_strlen[1m[31m at offset 0 inside [0x706000000060, 1)[1m[0m
+[1m[31m==2541719==WARNING: MemorySanitizer: use-of-uninitialized-value
+[1m[0m    #0 0x7f0c13f0c7c8 in _nc_first_db (/lib/x86_64-linux-gnu/libtinfo.so.6+0x117c8) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561)
+    #1 0x7f0c13f16696 in _nc_read_entry2 (/lib/x86_64-linux-gnu/libtinfo.so.6+0x1b696) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561)
+    #2 0x7f0c13f16711  (/lib/x86_64-linux-gnu/libtinfo.so.6+0x1b711) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561)
+    #3 0x7f0c13f16866 in _nc_setupterm (/lib/x86_64-linux-gnu/libtinfo.so.6+0x1b866) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561)
+    #4 0x7f0c13f174c9 in tgetent_sp (/lib/x86_64-linux-gnu/libtinfo.so.6+0x1c4c9) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561)
+    #5 0x5653cf09b2fd in tgetent_error /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:134040:11
+    #6 0x5653cf099735 in set_termname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:133622:19
+    #7 0x5653cf03dbdf in termcapinit /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:134292:3
+    #8 0x5653cf03a4d8 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/./vim-5.8.c.reduced.c:55886:5
+    #9 0x7f0c13bdfd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f0c13bdfe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x5653cef6d464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/vim-5.8-input-fuzz/bins/vim-5.8+0x28464) (BuildId: 2fd0bf032c49c7dd1f0739c9ef3249491b744266)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value (/lib/x86_64-linux-gnu/libtinfo.so.6+0x117c8) (BuildId: e22ba7829a55a0dec2201a0b6dac7ba236118561) in _nc_first_db
+Exiting

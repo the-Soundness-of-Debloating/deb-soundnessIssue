@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/bins/reduced.ubsan.out '.$' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+grep-2.19.c.reduced.c:20113:24: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:20113:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==202495==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7f627684f397 bp 0x7ffe620573b0 sp 0x7ffe620571a8 T202495)
+==202495==The signal is caused by a READ memory access.
+    #0 0x7f627684f397  (/lib/x86_64-linux-gnu/libc.so.6+0x1af397) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55f9cc65587c in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21144:25
+    #2 0x55f9cc653fb3 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21658:15
+    #3 0x55f9cc653926 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21497:17
+    #4 0x55f9cc644f06 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21773:19
+    #5 0x55f9cc6449fa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23010:24
+    #6 0x7f62766c9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f62766c9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55f9cc5cb7a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/bins/reduced.ubsan.out+0x417a4) (BuildId: c4562a080170db48c2dbb3ce014e487baf592a70)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1af397) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==202495==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 202494 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/bins/reduced.ubsan.out .$ /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129

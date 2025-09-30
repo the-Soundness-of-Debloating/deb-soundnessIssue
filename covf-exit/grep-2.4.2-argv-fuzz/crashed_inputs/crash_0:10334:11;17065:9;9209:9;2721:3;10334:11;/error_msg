@@ -1,0 +1,15 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+==3713204==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55b077fa319e in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:10334:11
+    #1 0x55b077f9fbae in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:17065:9
+    #2 0x55b077f9d15a in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9209:9
+    #3 0x55b077f64328 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7fcbee3edd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fcbee3ede3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55b077eda364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f364) (BuildId: 8c4f43dbc5099f5d24feb475ac4f55087ebcb4c4)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/covf-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:10334:11 in regex_compile
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3713203 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,17 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_0
+LeakSanitizer:DEADLYSIGNAL
+==1928918==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55cf22128adb bp 0x7ffd1a2de170 sp 0x7ffd1a2dd820 T0)
+==1928918==The signal is caused by a READ memory access.
+==1928918==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55cf22128adb in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4267:52
+    #1 0x55cf22129a89 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #2 0x55cf2212c6d0 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #3 0x55cf2212c405 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #4 0x7f1e1ff0ed8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f1e1ff0ee3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55cf220f9614 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.lsan.out+0x6614) (BuildId: 28257b49eae180d28bd4545bf4496b56c8908a88)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4267:52 in yyparse
+==1928918==ABORTING

@@ -1,0 +1,48 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '^'
+
+=================================================================
+==3444662==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x55649bb4de9e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb2e9e) (BuildId: f17361d7d5b214662fd461ed7f3b9fe688365893)
+    #1 0x55649bb889d4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55649bb9f14d in install_default_suffix_rules /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:24699:17
+    #3 0x55649bb9ae83 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11591:3
+    #4 0x7ff914902d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 8 byte(s) in 1 object(s) allocated from:
+    #0 0x55649bb4de9e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out+0xb2e9e) (BuildId: f17361d7d5b214662fd461ed7f3b9fe688365893)
+    #1 0x55649bb889d4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55649bb9d4bf in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12949:13
+    #3 0x55649bb9af2a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:3
+    #4 0x7ff914902d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: 64 byte(s) leaked in 2 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3444660 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- '^'
+make: *** Warning: File `hello' has modification time in the future (3351170-05-16 11:47:11 > 2025-04-14 15:00:52.5)
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+=================================================================
+==1986373==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x55a572306912 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x35912) (BuildId: 269c8f844acb89125d8202adb0b3475ec3de23e7)
+    #1 0x55a5723094d4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55a57231207c in install_default_suffix_rules /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:24699:17
+    #3 0x55a572310777 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11591:3
+    #4 0x7f0b7a023d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 8 byte(s) in 1 object(s) allocated from:
+    #0 0x55a572306912 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x35912) (BuildId: 269c8f844acb89125d8202adb0b3475ec3de23e7)
+    #1 0x55a5723094d4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14255:9
+    #2 0x55a5723116dd in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12949:13
+    #3 0x55a5723107f0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:3
+    #4 0x7f0b7a023d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 64 byte(s) leaked in 2 allocation(s).

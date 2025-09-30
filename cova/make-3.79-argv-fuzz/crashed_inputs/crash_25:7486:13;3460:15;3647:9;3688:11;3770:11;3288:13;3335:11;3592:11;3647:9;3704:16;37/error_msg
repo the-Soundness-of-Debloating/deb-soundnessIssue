@@ -1,0 +1,41 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3744444==ERROR: ThreadSanitizer: SEGV on unknown address 0x55ef37222ea0 (pc 0x55ef371bfb54 bp 0x7ffed7df4470 sp 0x7ffed7df42a0 T3744444)
+==3744444==The signal is caused by a WRITE memory access.
+    #0 handle_function /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:7486:13 (reduced.tsan.out+0xd6b54) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #1 variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3460:15 (reduced.tsan.out+0xd5d41) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #2 variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3647:9 (reduced.tsan.out+0xd73e0) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #3 variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3688:11 (reduced.tsan.out+0xd7442) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #4 allocated_variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3770:11 (reduced.tsan.out+0xd59ec) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #5 recursively_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3288:13 (reduced.tsan.out+0xd5930) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #6 reference_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3335:11 (reduced.tsan.out+0xd72f3) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #7 variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3592:11 (reduced.tsan.out+0xd63a6) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #8 variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3647:9 (reduced.tsan.out+0xd73e0) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #9 variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3704:16 (reduced.tsan.out+0xd7557) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #10 allocated_variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:3770:11 (reduced.tsan.out+0xd59ec) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #11 new_job /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:9718:20 (reduced.tsan.out+0xd2a01) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #12 execute_file_commands /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:2026:3 (reduced.tsan.out+0xd0759) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #13 remake_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20574:7 (reduced.tsan.out+0x1017bb) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #14 update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19906:3 (reduced.tsan.out+0x10002e) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #15 update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18999:15 (reduced.tsan.out+0xf40a3) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #16 check_dep /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20178:18 (reduced.tsan.out+0x100694) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #17 update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19415:16 (reduced.tsan.out+0xfe164) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #18 update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18999:15 (reduced.tsan.out+0xf40a3) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #19 check_dep /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20178:18 (reduced.tsan.out+0x100694) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #20 update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19415:16 (reduced.tsan.out+0xfe164) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #21 update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18999:15 (reduced.tsan.out+0xf40a3) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #22 check_dep /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20178:18 (reduced.tsan.out+0x100694) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #23 update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19415:16 (reduced.tsan.out+0xfe164) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #24 update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18999:15 (reduced.tsan.out+0xf40a3) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #25 update_goal_chain /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18771:13 (reduced.tsan.out+0xed8a1) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #26 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11917:16 (reduced.tsan.out+0xe4bf9) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+    #27 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #28 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #29 _start <null> (reduced.tsan.out+0x234a4) (BuildId: 6505bb85e9c3e7414df0f3eb93146c55dcf70a68)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:7486:13 in handle_function
+==3744444==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3744442 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

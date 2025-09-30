@@ -1,0 +1,55 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==3071294==ERROR: MemorySanitizer: SEGV on unknown address 0x720000010010 (pc 0x55b7a6b51798 bp 0x7ffd2f882ed0 sp 0x7ffd2f8829e0 T3071294)
+==3071294==The signal is caused by a WRITE memory access.
+    #0 0x55b7a6b51798 in kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29
+    #1 0x55b7a6b5ddd7 in kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12714:13
+    #2 0x55b7a6b5c9b7 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12884:7
+    #3 0x55b7a6b98448 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #4 0x55b7a6b819e3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f7c3e21dd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f7c3e21de3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55b7a6aa4444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x1f444) (BuildId: 9bbdbd0bffef5adfcbf1bd2c872e93c69af9d3bd)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29 in kwsincr
+==3071294==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3071293 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3609052==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b8000010010 (pc 0x5597a7e875b7 bp 0x7fff9c36f420 sp 0x7fff9c36f040 T3609052)
+==3609052==The signal is caused by a WRITE memory access.
+    #0 kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29 (reduced.tsan.out+0xd85b7) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12714:13 (reduced.tsan.out+0xdc078) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #2 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12884:7 (reduced.tsan.out+0xdba14) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #3 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xed2ea) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #5 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 _start <null> (reduced.tsan.out+0x224d4) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29 in kwsincr
+==3609052==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3609051 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==4168023==ERROR: LeakSanitizer: SEGV on unknown address 0x620000010010 (pc 0x55d381a66f24 bp 0x7ffd0e89d410 sp 0x7ffd0e89d340 T0)
+==4168023==The signal is caused by a WRITE memory access.
+    #0 0x55d381a66f24 in kwsincr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29
+    #1 0x55d381a68a93 in kwsmusts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12714:13
+    #2 0x55d381a6871f in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12884:7
+    #3 0x55d381a71b31 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #4 0x55d381a6e3d5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7fcd83193d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7fcd83193e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55d381a336f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.lsan.out+0x76f4) (BuildId: ea8856ab63cd605041ee0443a56efa50fa0b5281)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11277:29 in kwsincr
+==4168023==ABORTING

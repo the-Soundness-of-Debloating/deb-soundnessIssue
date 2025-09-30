@@ -1,0 +1,69 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+bash-2.05.c.reduced.c:42641:27: runtime error: member access within misaligned address 0x746e65576f646f54 for type 'BUCKET_CONTENTS' (aka 'struct bucket_contents'), which requires 8 byte alignment
+0x746e65576f646f54: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:42641:27 in 
+bash-2.05.c.reduced.c:42641:27: runtime error: load of misaligned address 0x746e65576f646f5c for type 'char *', which requires 8 byte alignment
+0x746e65576f646f5c: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:42641:27 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2164034==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x558c970067fb bp 0x7ffc5b886600 sp 0x7ffc5b886530 T2164034)
+==2164034==The signal is caused by a READ memory access.
+==2164034==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x558c970067fb in find_hash_item /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42641:27
+    #1 0x558c97020520 in find_hashed_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42471:10
+    #2 0x558c9702af0b in search_for_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:56364:21
+    #3 0x558c97033a88 in execute_disk_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:19578:13
+    #4 0x558c96ffe365 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18972:3
+    #5 0x558c96ffc768 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #6 0x558c97048b8d in parse_and_execute /home/qxin6/debaug_expt/debaug/working/bash/versions.alt/versions.orig/v6/builtins/evalstring.c:255
+    #7 0x558c9701d335 in command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37471:17
+    #8 0x558c97039d67 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41038:13
+    #9 0x558c97042db2 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #10 0x558c9701fe36 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #11 0x558c9700a4f9 in expand_words_no_vars /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41739:9
+    #12 0x558c96fffdf3 in execute_for_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:17119:14
+    #13 0x558c96ffc893 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16078:17
+    #14 0x558c96fe9566 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #15 0x558c96fe8708 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #16 0x558c96fe705f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #17 0x7fdf332e3d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #18 0x7fdf332e3e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #19 0x558c96fbead4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42641:27 in find_hash_item
+==2164034==ABORTING
+bash-2.05.c.reduced.c:42641:27: runtime error: member access within misaligned address 0x746e65576f646f54 for type 'BUCKET_CONTENTS' (aka 'struct bucket_contents'), which requires 8 byte alignment
+0x746e65576f646f54: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:42641:27 in 
+bash-2.05.c.reduced.c:42641:27: runtime error: load of misaligned address 0x746e65576f646f5c for type 'char *', which requires 8 byte alignment
+0x746e65576f646f5c: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:42641:27 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2163811==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x558c970067fb bp 0x7ffc5b8872d0 sp 0x7ffc5b887200 T2163811)
+==2163811==The signal is caused by a READ memory access.
+==2163811==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x558c970067fb in find_hash_item /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42641:27
+    #1 0x558c97020520 in find_hashed_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42471:10
+    #2 0x558c9702af0b in search_for_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:56364:21
+    #3 0x558c97033a88 in execute_disk_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:19578:13
+    #4 0x558c96ffe365 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18972:3
+    #5 0x558c96ffc768 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #6 0x558c96fe9566 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #7 0x558c96fe8708 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #8 0x558c96fe705f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #9 0x7fdf332e3d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7fdf332e3e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x558c96fbead4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x4aad4) (BuildId: 6542a38a135fdb155230071cd00740f54a8d2ab8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42641:27 in find_hash_item
+==2163811==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2163809 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile

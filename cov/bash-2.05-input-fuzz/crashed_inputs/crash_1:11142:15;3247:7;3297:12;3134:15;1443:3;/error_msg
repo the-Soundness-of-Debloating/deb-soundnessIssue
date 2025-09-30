@@ -1,0 +1,53 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile: d: command not found
+=================================================================
+==984784==ERROR: AddressSanitizer: global-buffer-overflow on address 0x563864aee49e at pc 0x563864a75e70 bp 0x7ffefe190de0 sp 0x7ffefe190dd8
+READ of size 2 at 0x563864aee49e thread T0
+    #0 0x563864a75e6f in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:11142:15
+    #1 0x563864a74035 in parse_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3247:7
+    #2 0x563864a734ca in read_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3297:12
+    #3 0x563864a72d7b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3134:15
+    #4 0x563864a71cdd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #5 0x7faaf709cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7faaf709ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5638649b16a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.asan.out+0x366a4) (BuildId: 809eb55ae1961fea625c86178d895ca2277ed85f)
+
+0x563864aee49e is located 2 bytes to the left of global variable 'yygindex' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3748' (0x563864aee4a0) of size 70
+0x563864aee49e is located 130 bytes to the right of global variable 'yyrindex' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3675' (0x563864aee1e0) of size 572
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:11142:15 in yyparse
+Shadow bytes around the buggy address:
+  0x0ac78c955c40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955c50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955c60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955c70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955c80: 00 00 00 04 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+=>0x0ac78c955c90: f9 f9 f9[f9]00 00 00 00 00 00 00 00 06 f9 f9 f9
+  0x0ac78c955ca0: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955cb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955cc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955cd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac78c955ce0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==984784==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 984783 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/bash-2.05-input-fuzz/testplans.fine/testfile

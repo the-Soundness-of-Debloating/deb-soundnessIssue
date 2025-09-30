@@ -1,0 +1,27 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.asan.out
+date: invalid option -- 'ð'
+date: invalid option -- '’'
+date: invalid option -- '€'
+date: invalid option -- '€'
+=================================================================
+==2363167==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x603000000103 in thread T0
+    #0 0x562044b74bd2 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa8bd2) (BuildId: 3b9a90384a668ae69cf36c04a99fca0642954d06)
+    #1 0x562044bb76b9 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5220:13
+    #2 0x562044bbf381 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7fa780b11d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7fa780b11e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x562044aef454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.asan.out+0x23454) (BuildId: 3b9a90384a668ae69cf36c04a99fca0642954d06)
+
+0x603000000103 is located 3 bytes inside of 19-byte region [0x603000000100,0x603000000113)
+allocated by thread T0 here:
+    #0 0x562044b74e7e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa8e7e) (BuildId: 3b9a90384a668ae69cf36c04a99fca0642954d06)
+    #1 0x7fa780b2d03f in __add_to_environ stdlib/setenv.c:217:10
+    #2 0x562044bb793c in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5243:23
+    #3 0x562044bbf381 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7fa780b11d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa8bd2) (BuildId: 3b9a90384a668ae69cf36c04a99fca0642954d06) in free
+==2363167==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2363166 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

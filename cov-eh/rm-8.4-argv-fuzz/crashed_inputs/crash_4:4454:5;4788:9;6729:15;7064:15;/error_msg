@@ -1,0 +1,83 @@
+ubsan:
+++ echo Y
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.ubsan.out
+rm: invalid option -- 'j'
+rm-8.4.c.reduced.c:4454:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+rm-8.4.c.reduced.c:1177:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior rm-8.4.c.reduced.c:4454:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1694677==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f0b601f9f0c bp 0x7ffe81a33a00 sp 0x7ffe81a33918 T1694677)
+==1694677==The signal is caused by a WRITE memory access.
+==1694677==Hint: address points to the zero page.
+    #0 0x7f0b601f9f0c  (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5586e9c0fee4 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x5586e9c0dc84 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4788:9
+    #3 0x5586e9c10407 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6729:15
+    #4 0x5586e9c11b8b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #5 0x7f0b60074d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f0b60074e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5586e9bdf5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.ubsan.out+0xd5d4) (BuildId: c3be70fff7bfc4f114ad2d51e4b617241ee2c683)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1694677==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 1694673 Done                    echo "Y"
+     1694674 Aborted                 | timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input5_fuzzed/input5_393
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1798517==ERROR: MemorySanitizer: SEGV on unknown address 0x710000010000 (pc 0x7f9fc8d74f0c bp 0x7ffee0de28d0 sp 0x7ffee0de2088 T1798517)
+==1798517==The signal is caused by a WRITE memory access.
+    #0 0x7f9fc8d74f0c  (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x560ffcb84cbe in __msan_memmove (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x4ccbe) (BuildId: c49d3aa917e35651867e1aa996e42f7a2bdb2a9a)
+    #2 0x560ffcbebe4c in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #3 0x560ffcbe8b42 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4788:9
+    #4 0x560ffcbec8a9 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6729:15
+    #5 0x560ffcbefb0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #6 0x7f9fc8befd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f9fc8befe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x560ffcb573c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: c49d3aa917e35651867e1aa996e42f7a2bdb2a9a)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1798517==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 1798515 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_383
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2472352==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b4000010000 (pc 0x7fcca799bf0c bp 0x7ffda6c2c360 sp 0x7ffda6c2c288 T2472352)
+==2472352==The signal is caused by a WRITE memory access.
+    #0 <null> <null> (libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 __interceptor_memmove <null> (reduced.tsan.out+0x58c2c) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+    #2 fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5 (reduced.tsan.out+0xd148c) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+    #3 fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4788:9 (reduced.tsan.out+0xd08a7) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+    #4 rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6729:15 (reduced.tsan.out+0xd16c9) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15 (reduced.tsan.out+0xd2187) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x21424) (BuildId: a3dbbbe9547536d9e72e26376b7cc124ac7af6e9)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2472352==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2472349 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_383
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2947380==ERROR: LeakSanitizer: SEGV on unknown address 0x610000010000 (pc 0x7fcb15198f0c bp 0x7ffc5348b690 sp 0x7ffc5348b658 T0)
+==2947380==The signal is caused by a WRITE memory access.
+    #0 0x7fcb15198f0c  (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55a13277119f in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x55a132770aef in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4788:9
+    #3 0x55a1327712f0 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6729:15
+    #4 0x55a132771a72 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #5 0x7fcb15013d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fcb15013e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55a1327415a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.lsan.out+0x65a4) (BuildId: 19a6a33bde6db4e096c07d2103d477a6687bb78a)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2947380==ABORTING

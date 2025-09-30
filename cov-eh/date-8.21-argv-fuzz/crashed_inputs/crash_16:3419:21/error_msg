@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:3923:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3923:32 in 
+date-8.21.c.reduced.c:3929:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3929:26 in 
+date-8.21.c.reduced.c:3419:21: runtime error: applying non-zero offset 18446744073709551560 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3419:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==686060==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffc8 (pc 0x7f907823ebcd bp 0x7ffd87c45d10 sp 0x7ffd87c44478 T686060)
+==686060==The signal is caused by a READ memory access.
+    #0 0x7f907823ebcd  (/lib/x86_64-linux-gnu/libc.so.6+0x1aebcd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55e0ff64ccdc in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3419:13
+    #2 0x55e0ff659d1e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15
+    #3 0x55e0ff661c85 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24
+    #4 0x7f90780b9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f90780b9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55e0ff620634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x15634) (BuildId: 4790a9e712c368a2dea5186ba7996863bba7fda6)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aebcd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==686060==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 686059 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

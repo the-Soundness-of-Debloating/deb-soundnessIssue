@@ -1,0 +1,18 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -k -p -w
+MemorySanitizer:DEADLYSIGNAL
+==3793367==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x7ffe8bec2960 sp 0x7ffe8bec2938 T3793367)
+==3793367==Hint: pc points to the zero page.
+==3793367==The signal is caused by a READ memory access.
+==3793367==Hint: address points to the zero page.
+    #0 0x0  (<unknown module>)
+    #1 0x55d7f783868f in __sanitizer::BufferedStackTrace::UnwindImpl(unsigned long, unsigned long, void*, bool, unsigned int) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out+0x4968f) (BuildId: 36e7e4c97f69ec78e7819f301e80a0f55f845dc5)
+    #2 0x55d7f7831e45 in __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out+0x42e45) (BuildId: 36e7e4c97f69ec78e7819f301e80a0f55f845dc5)
+    #3 0x55d7f783216a in __sanitizer::HandleDeadlySignal(void*, void*, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out+0x4316a) (BuildId: 36e7e4c97f69ec78e7819f301e80a0f55f845dc5)
+    #4 0x7f50a88bd51f  (/lib/x86_64-linux-gnu/libc.so.6+0x4251f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (<unknown module>) 
+==3793367==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 3793364 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -k -p -w

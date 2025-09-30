@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d
+==2968855==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x562f42ac6bc1 in unRLE_obuf_to_output_FAST /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:5702:15
+    #1 0x562f42ac51cc in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6159:25
+    #2 0x562f42ace833 in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6909:17
+    #3 0x562f42ae9294 in uncompressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7515:23
+    #4 0x562f42ad97ba in uncompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:9244:23
+    #5 0x562f42ad5038 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10352:13
+    #6 0x7f87342ddd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f87342dde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x562f429f6344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out+0x1e344) (BuildId: c4ead3fdaa17eee821f2f602ad1d1dd19eb10757)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:5702:15 in unRLE_obuf_to_output_FAST
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 170: 2968854 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/result/afl_result/reduced/result_1/msan/crashes/id:000032* > sample1.tst

@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1444045==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b8000010000 (pc 0x55c286cfd707 bp 0x7ffce2484990 sp 0x7ffce2483aa0 T1444045)
+==1444045==The signal is caused by a WRITE memory access.
+    #0 kwsprep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11871:37 (reduced.tsan.out+0xdc707) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 Fcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:10842:5 (reduced.tsan.out+0xdaa6e) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 _start <null> (reduced.tsan.out+0x22504) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:11871:37 in kwsprep
+==1444045==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1444044 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

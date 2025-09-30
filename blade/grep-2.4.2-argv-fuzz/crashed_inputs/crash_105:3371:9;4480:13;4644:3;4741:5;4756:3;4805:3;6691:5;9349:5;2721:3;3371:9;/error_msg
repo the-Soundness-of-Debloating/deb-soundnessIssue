@@ -1,0 +1,24 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+target5: invalid option -- 'S'
+target5: invalid option -- '_'
+target5: invalid option -- '|'
+target5: invalid option -- 'g'
+==2906169==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55a3bb25c6b4 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3371:9
+    #1 0x55a3bb2742fd in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13
+    #2 0x55a3bb273f9c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #3 0x55a3bb273f63 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5
+    #4 0x55a3bb25d798 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #5 0x55a3bb25c1db in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #6 0x55a3bb269480 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5
+    #7 0x55a3bb271118 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #8 0x55a3bb25aba6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #9 0x7f3a83cb5d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f3a83cb5e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55a3bb1d3314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f314) (BuildId: d87addfe524b03d7303077920432e2d9f7ac52f7)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3371:9 in lex
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2906168 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

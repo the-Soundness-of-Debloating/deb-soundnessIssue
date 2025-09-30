@@ -1,0 +1,55 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.ubsan.out
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- '"'
+sort: invalid option -- ''
+sort: invalid option -- 'ÿ'
+sort: invalid option -- ''
+sort: invalid option -- '-'
+sort: invalid option -- '-'
+sort: invalid option -- '~'
+sort: invalid option -- 'E'
+sort: invalid option -- 'E'
+sort: invalid option -- 'E'
+sort: invalid option -- 'E'
+sort: invalid option -- 'E'
+sort: invalid option -- 'E'
+sort: invalid option -- 'Å'
+sort: invalid option -- ''
+sort: invalid option -- '"'
+sort: invalid option -- '"'
+sort: invalid option -- '"'
+sort: invalid option -- ''
+sort: invalid option -- '"'
+sort-8.16.c.reduced.c:13601:18: runtime error: member access within misaligned address 0x563e0d5fe711 for type 'struct keyfield', which requires 8 byte alignment
+0x563e0d5fe711: note: pointer points here
+ 00 10 08  00 03 01 ff 7f 2d 2d 6e  2e 2d 69 00 74 45 a5 ff  ff a5 6e 00 2d 18 22 22  22 16 22 6b 39
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13601:18 in 
+sort-8.16.c.reduced.c:13596:12: runtime error: load of misaligned address 0x563e0d5fe751 for type 'struct keyfield *', which requires 8 byte alignment
+0x563e0d5fe751: note: pointer points here
+ 6e 36 00  50 50 50 2d 16 22 6b 39  39 2e 39 2e 2d 69 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13596:12 in 
+sort-8.16.c.reduced.c:13601:13: runtime error: load of misaligned address 0x563e0d5fe751 for type 'struct keyfield *', which requires 8 byte alignment
+0x563e0d5fe751: note: pointer points here
+ 6e 36 00  50 50 50 2d 16 22 6b 39  39 2e 39 2e 2d 69 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13601:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1878659==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x563e0cc8d909 bp 0x7fff8c278cb0 sp 0x7fff8c278c50 T1878659)
+==1878659==The signal is caused by a READ memory access.
+==1878659==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x563e0cc8d909 in insertkey /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12
+    #1 0x563e0cc8c005 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14349:13
+    #2 0x7f6d955c3d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f6d955c3e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x563e0cc5c754 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.ubsan.out+0x11754) (BuildId: 3e772c13c7cd1f56ba1e3d37306c949e7dd79151)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13596:12 in insertkey
+==1878659==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1878658 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

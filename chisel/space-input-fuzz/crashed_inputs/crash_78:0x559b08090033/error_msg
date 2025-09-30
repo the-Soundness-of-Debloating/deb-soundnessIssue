@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_108
+ThreadSanitizer:DEADLYSIGNAL
+==2233011==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x559b08090033 bp 0x39327ffd4fd55580 sp 0x7ffd4fd554e0 T2233011)
+==2233011==The signal is caused by a WRITE memory access.
+==2233011==Hint: address points to the zero page.
+    #0 __tsan::ExtractRecvmsgFDs(void*, int*, int) <null> (reduced.tsan.out+0xcc033) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xcc033) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan::ExtractRecvmsgFDs(void*, int*, int)
+==2233011==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2233010 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_108
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_327
+LeakSanitizer:DEADLYSIGNAL
+==3629935==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5585cb3e0033 bp 0x393237fd04f3ea70 sp 0x7ffd04f3ea30 T0)
+==3629935==The signal is caused by a WRITE memory access.
+==3629935==Hint: address points to the zero page.
+LeakSanitizer:DEADLYSIGNAL
+LeakSanitizer: nested bug in the same thread, aborting.

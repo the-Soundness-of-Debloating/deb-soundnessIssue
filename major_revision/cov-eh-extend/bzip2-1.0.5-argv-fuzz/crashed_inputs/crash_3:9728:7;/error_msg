@@ -1,0 +1,111 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1493852==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55bb526331a0 at pc 0x55bb51c6fa36 bp 0x7ffdd13cfc90 sp 0x7ffdd13cfc88
+WRITE of size 8 at 0x55bb526331a0 thread T0
+    #0 0x55bb51c6fa35 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x55bb51c6d09f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:7
+    #2 0x7fa2cf867d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7fa2cf867e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55bb51b753b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: d888850453e77554996765170f481f93ff7e64be)
+
+0x55bb526331a0 is located 0 bytes to the right of global variable 'afl_init_argv.ret' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:51' (0x55bb52631260) of size 8000
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+Shadow bytes around the buggy address:
+  0x0ab7ea4be5e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab7ea4be5f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab7ea4be600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab7ea4be610: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab7ea4be620: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ab7ea4be630: 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab7ea4be640: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab7ea4be650: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab7ea4be660: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab7ea4be670: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab7ea4be680: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1493852==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 174: 1493851 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_184 > sample1.rb2
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1632653==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55cdbb665000 (pc 0x55cdbac995a0 bp 0x7ffe3cc561c0 sp 0x7ffe3cc56090 T1632653)
+==1632653==The signal is caused by a WRITE memory access.
+    #0 0x55cdbac995a0 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x55cdbac94c31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:7
+    #2 0x7fbd9c675d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7fbd9c675e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55cdbabf7564 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.ubsan.out+0x5f564) (BuildId: c9590f1aaf3578bfa1df769ea72de125b69ab400)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1632653==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 174: 1632652 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_104
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1774842==ERROR: MemorySanitizer: SEGV on unknown address 0x562fd748a000 (pc 0x562fd5ac76b1 bp 0x7ffe05fe7d50 sp 0x7ffe05fe7c60 T1774842)
+==1774842==The signal is caused by a WRITE memory access.
+    #0 0x562fd5ac76b1 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x562fd5ac14f7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:7
+    #2 0x7f0cbf9bdd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f0cbf9bde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x562fd59dd354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out+0x1f354) (BuildId: a8b2c825cf23ad998d6dc4e6d62a5eb240c84834)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1774842==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 174: 1774841 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_104
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1872770==ERROR: ThreadSanitizer: SEGV on unknown address 0x560ab2194000 (pc 0x560ab0dc61d5 bp 0x7ffe9c279250 sp 0x7ffe9c2791a0 T1872770)
+==1872770==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xf21d5) (BuildId: 1d529ef70c881bd24389e32f550891528bcbcb6b)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:7 (reduced.tsan.out+0xf032d) (BuildId: 1d529ef70c881bd24389e32f550891528bcbcb6b)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x213e4) (BuildId: 1d529ef70c881bd24389e32f550891528bcbcb6b)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1872770==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 174: 1872769 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_184 > sample1.rb2
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2019286==ERROR: LeakSanitizer: SEGV on unknown address 0x56047b758000 (pc 0x56047add9fa1 bp 0x7ffe80f61a70 sp 0x7ffe80f61a50 T0)
+==2019286==The signal is caused by a WRITE memory access.
+    #0 0x56047add9fa1 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x56047add8f91 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:7
+    #2 0x7f2592faad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f2592faae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x56047ad9f554 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/bins/reduced.lsan.out+0x5554) (BuildId: d293b4d6668a5ded779031a46921c83399ea9d13)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==2019286==ABORTING

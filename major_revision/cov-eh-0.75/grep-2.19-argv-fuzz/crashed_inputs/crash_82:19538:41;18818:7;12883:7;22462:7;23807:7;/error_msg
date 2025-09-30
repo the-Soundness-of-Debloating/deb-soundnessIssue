@@ -1,0 +1,104 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.asan.out
+grep: invalid option -- 'ÿ'
+grep: invalid option -- 'ÿ'
+grep: invalid option -- 'ÿ'
+grep: invalid option -- ''
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==405716==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x559c1a5633b6 bp 0x7ffc3e23f2c0 sp 0x7ffc3e23ebc0 T0)
+==405716==The signal is caused by a READ memory access.
+==405716==Hint: address points to the zero page.
+    #0 0x559c1a5633b6 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41
+    #1 0x559c1a555a12 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x559c1a5557cf in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x559c1a56f161 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #4 0x559c1a5669c4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f3fb53b8d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f3fb53b8e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x559c1a47e4d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x244d4) (BuildId: 3164c3eea1a1521a60bbfbb62408f94b8439fa50)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 in dfamust
+==405716==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 405715 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep: invalid option -- '^'
+grep-2.19.c.reduced.c:19538:41: runtime error: member access within null pointer of type 'must' (aka 'struct must')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19538:41 in 
+grep-2.19.c.reduced.c:19538:41: runtime error: load of null pointer of type 'char **'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19538:41 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==429515==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x564218d24af8 bp 0x7ffe50173aa0 sp 0x7ffe50172ef0 T429515)
+==429515==The signal is caused by a READ memory access.
+==429515==Hint: address points to the zero page.
+    #0 0x564218d24af8 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41
+    #1 0x564218d08672 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x564218d082bc in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x564218d38cb0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #4 0x564218d2a33a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f4eed140d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f4eed140e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x564218cb8734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x3c734) (BuildId: ac39b4c09d29105563097ba948cba8dedcd8b52a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 in dfamust
+==429515==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 429514 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out
+grep: invalid option -- 'N'
+grep: invalid option -- '%'
+grep: invalid option -- '%'
+grep: invalid option -- '-'
+grep: invalid option -- ' '
+grep: invalid option -- ''
+MemorySanitizer:DEADLYSIGNAL
+==469882==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x55cdeffef2c1 bp 0x7ffdb9c47080 sp 0x7ffdb9c46800 T469882)
+==469882==The signal is caused by a READ memory access.
+==469882==Hint: address points to the zero page.
+    #0 0x55cdeffef2c1 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41
+    #1 0x55cdeffd20af in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x55cdeffd19b2 in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x55cdf000d4c8 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #4 0x55cdefff69e3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f69a3e96d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f69a3e96e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55cdeff19444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x1f444) (BuildId: 9bbdbd0bffef5adfcbf1bd2c872e93c69af9d3bd)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 in dfamust
+==469882==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 469881 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+grep: invalid option -- ' '
+grep: invalid option -- 'p'
+grep: invalid option -- ' '
+grep: invalid option -- '-'
+grep: invalid option -- ' '
+grep: invalid option -- 'p'
+grep: invalid option -- ' '
+grep: invalid option -- '-'
+ThreadSanitizer:DEADLYSIGNAL
+==497940==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x561422b297b0 bp 0x7ffc118115d0 sp 0x7ffc11810f90 T497940)
+==497940==The signal is caused by a READ memory access.
+==497940==Hint: address points to the zero page.
+    #0 dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 (reduced.tsan.out+0xe47b0) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7 (reduced.tsan.out+0xdbc79) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #2 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xdba0f) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #3 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xed33a) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #5 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 _start <null> (reduced.tsan.out+0x224d4) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 in dfamust
+==497940==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 497939 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

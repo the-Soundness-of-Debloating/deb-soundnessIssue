@@ -1,0 +1,15 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000098,sig:06,src:000431,time:6375764,execs:142847,op:havoc,rep:5
+Uninitialized bytes in __interceptor_mktime at offset 0 inside [0x7ffd4769ce78, 4)
+==1173457==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56245b5e4668 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5383:15
+    #1 0x56245b5f3896 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #2 0x56245b5f2978 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #3 0x7f012c910d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f012c910e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x56245b54a3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 38e0a2657909430f9acb327b3d4451d0e2314928)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5383:15 in parse_datetime
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1173456 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

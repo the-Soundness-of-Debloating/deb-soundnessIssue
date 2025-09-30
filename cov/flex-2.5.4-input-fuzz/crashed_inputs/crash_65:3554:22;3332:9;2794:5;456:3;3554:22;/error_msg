@@ -1,0 +1,18 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Cf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_8
+ThreadSanitizer:DEADLYSIGNAL
+==148375==ERROR: ThreadSanitizer: SEGV on unknown address 0x7fffcc94945c (pc 0x560b3955902c bp 0x7fffcc932880 sp 0x7fffcc9326a0 T148375)
+==148375==The signal is caused by a WRITE memory access.
+    #0 mkeccl /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3554:22 (reduced.tsan.out+0xe202c) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #1 sympartition /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3332:9 (reduced.tsan.out+0xdffb6) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #2 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2794:5 (reduced.tsan.out+0xd7af7) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:456:3 (reduced.tsan.out+0xd59b1) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x29354) (BuildId: faae93fc72e2a73df2c13def45ed2efbedbd054e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3554:22 in mkeccl
+==148375==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 170: 148371 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Cf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_8

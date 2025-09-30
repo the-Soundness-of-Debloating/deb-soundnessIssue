@@ -1,0 +1,18 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_68
+ThreadSanitizer:DEADLYSIGNAL
+==533403==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b9841225867 (pc 0x55cc00f5764a bp 0x7fffb97e5ba0 sp 0x7fffb97e5b10 T533403)
+==533403==The signal is caused by a WRITE memory access.
+    #0 ccladd /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1993:22 (reduced.tsan.out+0xda64a) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10297:5 (reduced.tsan.out+0xd9916) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #2 readin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1543:9 (reduced.tsan.out+0xd5e43) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:453:3 (reduced.tsan.out+0xd5960) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x29324) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1993:22 in ccladd
+==533403==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 533402 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_68

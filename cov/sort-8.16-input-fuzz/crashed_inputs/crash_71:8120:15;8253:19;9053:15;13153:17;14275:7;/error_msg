@@ -1,0 +1,21 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file4_fuzzed/file4_321
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3770027==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00000000001c (pc 0x7f403c52615d bp 0x7f403c4a6200 sp 0x7fffed34e5a0 T3770027)
+==3770027==The signal is caused by a READ memory access.
+==3770027==Hint: address points to the zero page.
+    #0 0x7f403c52615d in fflush libio/iofflush.c:39:7
+    #1 0x5635e0a7b4cd in rpl_fflush /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8120:15
+    #2 0x5635e0a79765 in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8253:19
+    #3 0x5635e0a7f987 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9053:15
+    #4 0x5635e0a7d91c in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13153:17
+    #5 0x5635e0a7c4ac in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7
+    #6 0x7f403c4d0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f403c4d0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x5635e0a515f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xc5f4) (BuildId: 8c74d5fecdf2b9a5fa868b6219f34ae936b50db4)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV libio/iofflush.c:39:7 in fflush
+==3770027==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 3770026 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file4_fuzzed/file4_321

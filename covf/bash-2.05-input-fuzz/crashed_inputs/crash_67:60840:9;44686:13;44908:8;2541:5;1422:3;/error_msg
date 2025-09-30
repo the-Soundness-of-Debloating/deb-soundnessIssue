@@ -1,0 +1,28 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+==1841272==ERROR: ThreadSanitizer: requested allocation size 0xfffffffffffff8c0 exceeds maximum supported size of 0x10000000000
+    #0 __interceptor_malloc <null> (reduced.tsan.out+0x5c6e1) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #1 xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9 (reduced.tsan.out+0xdecc5) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #2 fd_to_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44686:13 (reduced.tsan.out+0xf8b4e) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #3 with_input_from_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44908:8 (reduced.tsan.out+0xf9533) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #4 set_bash_input /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2541:5 (reduced.tsan.out+0xde3f1) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1422:3 (reduced.tsan.out+0xdd35c) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+==1841272==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: ThreadSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out+0x5c6e1) (BuildId: 1da74fe6cf81eb2c8e9694606b9739c16cb9df14) in __interceptor_malloc
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1841271 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/testplans.fine/testfile
+==2705978==ERROR: LeakSanitizer: requested allocation size 0x96eaeb6a19d28f00 exceeds maximum supported size of 0x200000000
+    #0 0x56103f067c72 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x51c72) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77)
+    #1 0x56103f06b6e4 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9
+    #2 0x56103f07a079 in fd_to_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44686:13
+    #3 0x56103f07a40c in with_input_from_buffered_stream /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:44908:8
+    #4 0x56103f06b1c6 in set_bash_input /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2541:5
+    #5 0x56103f06a785 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1422:3
+    #6 0x7f609e5c8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+==2705978==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: LeakSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x51c72) (BuildId: 5db776cc41430ecd84ae90ba7fd8fc4457bf6e77) in __interceptor_malloc

@@ -1,0 +1,68 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile
+ln: failed to create hard link '/root/tmp/ghi': File exists
+=================================================================
+==2701460==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ff41fb17639 at pc 0x55ba671c59fb bp 0x7ffe09cb9190 sp 0x7ffe09cb9188
+READ of size 1 at 0x7ff41fb17639 thread T0
+    #0 0x55ba671c59fa in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11
+    #1 0x55ba671cd60d in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #2 0x55ba671a5a5f in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #3 0x55ba671a5889 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #4 0x55ba671884cd in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #5 0x55ba67187ab4 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #6 0x55ba6717b9f6 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #7 0x55ba6717b1b3 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #8 0x55ba67178ff9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #9 0x7ff4215e6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7ff4215e6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55ba670b86c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out+0x3a6c4) (BuildId: fcf3c81cb82ef58e661034d2f4494cf3da9dc80e)
+
+Address 0x7ff41fb17639 is located in stack of thread T0 at offset 57 in frame
+    #0 0x55ba671c3bef in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40817
+
+  This frame has 8 object(s):
+    [32, 36) 'istring_size' (line 40821)
+    [48, 52) 'istring_index' (line 40822) <== Memory access at offset 57 overflows this variable
+    [64, 68) 'sindex' (line 40826)
+    [80, 84) 'quoted_dollar_at' (line 40827)
+    [96, 100) 'had_quoted_null' (line 40829)
+    [112, 116) 'has_dollar_at' (line 40830)
+    [128, 384) 'ifscmap' (line 40834)
+    [448, 450) 'twochars' (line 40835)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11 in expand_word_internal
+Shadow bytes around the buggy address:
+  0x0fff03f5ae70: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fff03f5ae80: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fff03f5ae90: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fff03f5aea0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fff03f5aeb0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0fff03f5aec0: f1 f1 f1 f1 04 f2 04[f2]04 f2 04 f2 04 f2 04 f2
+  0x0fff03f5aed0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fff03f5aee0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fff03f5aef0: f2 f2 f2 f2 f2 f2 f2 f2 02 f3 f3 f3 00 00 00 00
+  0x0fff03f5af00: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fff03f5af10: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2701460==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2701459 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bash-2.05-input-fuzz/testplans.fine/testfile

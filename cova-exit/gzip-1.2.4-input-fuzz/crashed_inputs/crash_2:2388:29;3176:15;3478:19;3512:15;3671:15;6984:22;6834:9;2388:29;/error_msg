@@ -1,0 +1,40 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -d
+ThreadSanitizer:DEADLYSIGNAL
+==4127362==ERROR: ThreadSanitizer: SEGV on unknown address 0x00000000ffd2 (pc 0x563c7b29f291 bp 0x7ffc70387a90 sp 0x7ffc70387330 T4127362)
+==4127362==The signal is caused by a READ memory access.
+    #0 huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 (reduced.tsan.out+0xcf291) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #1 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3176:15 (reduced.tsan.out+0xd0a5d) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #2 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd1219) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #3 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd12ce) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #4 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd14dd) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #5 treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22 (reduced.tsan.out+0xd93f1) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9 (reduced.tsan.out+0xd7d8c) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+    #7 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 _start <null> (reduced.tsan.out+0x213c4) (BuildId: f48bc7604e6f05c71069e99e07b29fde1de7ca71)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 in huft_build
+==4127362==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 4127361 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/tsan/crashes/id:000021* > sample1.tst
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out -d
+LeakSanitizer:DEADLYSIGNAL
+==4175605==ERROR: LeakSanitizer: SEGV on unknown address 0x000009d74fac (pc 0x56400c628059 bp 0x7ffeecdc0110 sp 0x7ffeecdbfaa0 T0)
+==4175605==The signal is caused by a READ memory access.
+    #0 0x56400c628059 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29
+    #1 0x56400c628fcf in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3176:15
+    #2 0x56400c629511 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #3 0x56400c629585 in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #4 0x56400c6296d4 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #5 0x56400c62dc0c in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #6 0x56400c62cf31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #7 0x7f4104b89d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f4104b89e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x56400c5f9564 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x6564) (BuildId: 242b9179380745ff85cd813da0eddb3008520267)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 in huft_build
+==4175605==ABORTING

@@ -1,0 +1,19 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_9
+flex-2.5.4.c.reduced.c:9587:21: runtime error: index -1 out of bounds for type 'const char[281]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:9587:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2163783==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x563bffc42a14 (pc 0x563a806c0b64 bp 0x7fffef0d3040 sp 0x7fffef0d2c30 T2163783)
+==2163783==The signal is caused by a READ memory access.
+    #0 0x563a806c0b64 in epsclosure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2397:32
+    #1 0x563a806b98c3 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2731:12
+    #2 0x563a806b75ed in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:456:3
+    #3 0x7fd69013ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fd69013ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x563a8068f464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out+0x1e464) (BuildId: 98d1054176299ea75a5287415ea1c76968a7be43)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2397:32 in epsclosure
+==2163783==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2163782 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_9

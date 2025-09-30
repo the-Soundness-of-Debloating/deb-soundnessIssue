@@ -1,0 +1,44 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_382
+space.c.reduced.c:3098:5: runtime error: index 21 out of bounds for type 'char[21]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3098:5 in 
+space.c.reduced.c:8088:23: runtime error: load of misaligned address 0x7fff33f3c161 for type 'struct charac *', which requires 8 byte alignment
+0x7fff33f3c161: note: pointer points here
+ 7f 00 00  18 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  80 b4 bf e3 b4 55 00 00  70 27 c4 e3 b4
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8088:23 in 
+space.c.reduced.c:3106:3: runtime error: index 25 out of bounds for type 'char[21]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3106:3 in 
+space.c.reduced.c:8091:11: runtime error: load of misaligned address 0x7fff33f3c261 for type 'struct charac *', which requires 8 byte alignment
+0x7fff33f3c261: note: pointer points here
+ 7f 00 00  e8 c2 f3 33 ff 7f 00 00  d0 c2 f3 33 ff 7f 00 00  f8 c4 f3 61 18 00 00 00  f0 c2 f3 33 ff
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8091:11 in 
+space.c.reduced.c:8091:17: runtime error: member access within misaligned address 0xd000007fff33f3c2 for type 'struct charac', which requires 8 byte alignment
+0xd000007fff33f3c2: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8091:17 in 
+space.c.reduced.c:8091:17: runtime error: load of misaligned address 0xd000007fff33f3c2 for type 'char', which requires 8 byte alignment
+0xd000007fff33f3c2: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8091:17 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1068327==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55b4e3c19225 bp 0x7fff33f3c1f0 sp 0x7fff33f3c1a0 T1068327)
+==1068327==The signal is caused by a READ memory access.
+==1068327==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55b4e3c19225 in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17
+    #1 0x55b4e3c01bb4 in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3100:10
+    #2 0x55b4e3c099cb in remdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:6464:11
+    #3 0x55b4e3c0989b in adremdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:876:13
+    #4 0x55b4e3c2380a in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3631:13
+    #5 0x55b4e3bfd03e in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3871:11
+    #6 0x55b4e3bfb60d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:482:11
+    #7 0x7f241f3a9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f241f3a9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55b4e3bd3464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.ubsan.out+0x27464) (BuildId: 0ef4839d17384d2174dd09d6eea65bc4ca188228)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8091:17 in TapeGet
+==1068327==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 150: 1068326 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_382

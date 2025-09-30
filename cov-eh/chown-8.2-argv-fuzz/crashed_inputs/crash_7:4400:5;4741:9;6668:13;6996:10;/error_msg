@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+chown-8.2.c.reduced.c:4400:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+chown-8.2.c.reduced.c:833:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior chown-8.2.c.reduced.c:4400:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2148221==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f732dfdff0c bp 0x7ffc7865b270 sp 0x7ffc7865b128 T2148221)
+==2148221==The signal is caused by a WRITE memory access.
+==2148221==Hint: address points to the zero page.
+    #0 0x7f732dfdff0c  (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55c3e0cdd7a4 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4400:5
+    #2 0x55c3e0cd8376 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4741:9
+    #3 0x55c3e0cde70f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6668:13
+    #4 0x55c3e0ce0625 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6996:10
+    #5 0x7f732de5ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f732de5ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55c3e0ca7694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: af11e17219ff26e2d951e8cbc95073273712bf8f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2148221==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2148220 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

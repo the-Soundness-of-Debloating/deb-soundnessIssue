@@ -1,0 +1,80 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+target5: invalid option -- 'é'
+target5: invalid option -- '<'
+target5: invalid option -- '.'
+target5: invalid option -- '‰'
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2760088)
+  Read of size 1 at 0x7b0400000020 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34 (reduced.tsan.out+0xcf075) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13 (reduced.tsan.out+0xe5181) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3 (reduced.tsan.out+0xe4ee5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5 (reduced.tsan.out+0xe4eb5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xd00fe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xceef7) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd7a36) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #7 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+  Previous write of size 8 at 0x7b0400000020 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4d793) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9 (reduced.tsan.out+0xd27d5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4419:11 (reduced.tsan.out+0xd02fb) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4708:7 (reduced.tsan.out+0xe50e5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5 (reduced.tsan.out+0xe4eb5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xd00fe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #6 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xceef7) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #7 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd7a36) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #8 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34 in lex
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2760088)
+  Read of size 1 at 0x7b0400000030 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34 (reduced.tsan.out+0xcf075) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13 (reduced.tsan.out+0xe5181) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3 (reduced.tsan.out+0xe4ee5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5 (reduced.tsan.out+0xe4eb5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xd00fe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xceef7) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd7a36) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #7 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+  Previous write of size 8 at 0x7b0400000030 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4d793) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9 (reduced.tsan.out+0xd27d5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4419:11 (reduced.tsan.out+0xd02fb) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4742:5 (reduced.tsan.out+0xe4ebf) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xd00fe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xceef7) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd7a36) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #7 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:34 in lex
+==================
+ThreadSanitizer:DEADLYSIGNAL
+==2760088==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b0400010000 (pc 0x5603fefd907d bp 0x7ffc87d2a260 sp 0x7ffc87d29ef0 T2760088)
+==2760088==The signal is caused by a READ memory access.
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:9 (reduced.tsan.out+0xcf07d) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4480:13 (reduced.tsan.out+0xe5181) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3 (reduced.tsan.out+0xe4ee5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4741:5 (reduced.tsan.out+0xe4eb5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3 (reduced.tsan.out+0xd00fe) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3 (reduced.tsan.out+0xceef7) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5 (reduced.tsan.out+0xd7a36) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #7 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdd972) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #9 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 _start <null> (reduced.tsan.out+0x213d4) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3368:9 in lex
+==2760088==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2760087 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,23 @@
+/* scanner for a toy Pascal-like language */
+
+%{
+/* eat up one-line comments */
+
+[ \t\n]+	/* eat up whitespace */
+
+.		printf("Unrecognized character: %s\n", yytext);
+
+%%
+
+main(argc, argv)
+int argc;
+char **argv;
+	{
+	++argv, --argc;	/* skip over program name */
+	if(argc > 2147483647)
+		yyin = fopen(argv[0], "r");
+	else
+		yyin = stdin;
+
+	yylex();
+	} 

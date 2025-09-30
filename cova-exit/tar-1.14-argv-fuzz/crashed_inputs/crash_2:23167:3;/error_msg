@@ -1,0 +1,30 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3060558==ERROR: ThreadSanitizer: SEGV on unknown address 0x562136730000 (pc 0x562135357125 bp 0x7ffc5eecd220 sp 0x7ffc5eecd170 T3060558)
+==3060558==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xeb125) (BuildId: fd1a77fe36a169ef2e7762ceff5698c9dadf540e)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23167:3 (reduced.tsan.out+0xeaaa1) (BuildId: fd1a77fe36a169ef2e7762ceff5698c9dadf540e)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x22574) (BuildId: fd1a77fe36a169ef2e7762ceff5698c9dadf540e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==3060558==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 3060556 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_184
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3587428==ERROR: LeakSanitizer: SEGV on unknown address 0x5625bb54d000 (pc 0x5625babc49d1 bp 0x7ffd9f3e1cc0 sp 0x7ffd9f3e1ca0 T0)
+==3587428==The signal is caused by a WRITE memory access.
+    #0 0x5625babc49d1 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x5625babc459e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23167:3
+    #2 0x7ff292eb7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7ff292eb7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5625bab85874 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0xb874) (BuildId: 3b5513b2d622a7e80d998179337b7ff7778383d2)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/tar-1.14-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==3587428==ABORTING

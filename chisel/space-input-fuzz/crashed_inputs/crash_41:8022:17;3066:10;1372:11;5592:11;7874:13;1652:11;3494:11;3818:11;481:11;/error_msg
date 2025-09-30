@@ -1,0 +1,74 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_138
+space.c.reduced.c:1370:3: runtime error: store to misaligned address 0x7ffc317a95cc for type 'struct charac *', which requires 8 byte alignment
+0x7ffc317a95cc: note: pointer points here
+  e0 96 7a 31 fc 7f 00 00  d8 95 7a 31 fc 7f 00 00  e0 96 7a 31 fc 7f 00 00  ec 95 7a 31 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1370:3 in 
+space.c.reduced.c:3037:15: runtime error: load of misaligned address 0x7ffc317a95cc for type 'struct charac *', which requires 8 byte alignment
+0x7ffc317a95cc: note: pointer points here
+  e0 96 7a 31 d0 e4 4e a1  25 56 00 00 fc 7f 00 00  e0 96 7a 31 fc 7f 00 00  ec 95 7a 31 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3037:15 in 
+space.c.reduced.c:3064:5: runtime error: index 21 out of bounds for type 'char[21]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3064:5 in 
+space.c.reduced.c:8022:11: runtime error: load of misaligned address 0x7ffc317a9335 for type 'struct charac *', which requires 8 byte alignment
+0x7ffc317a9335: note: pointer points here
+ 71 da df c5 7f 00 00  19 00 00 00 c5 7f 00 35  30 34 36 39 32 33 31 37  33 31 36 38 37 33 30 33  37
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8022:11 in 
+space.c.reduced.c:8022:17: runtime error: member access within misaligned address 0xc50000001900007f for type 'struct charac', which requires 8 byte alignment
+0xc50000001900007f: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8022:17 in 
+space.c.reduced.c:8022:17: runtime error: load of misaligned address 0xc50000001900007f for type 'char', which requires 8 byte alignment
+0xc50000001900007f: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:8022:17 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3768189==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x5625a0a7f6ab bp 0x7ffc317a9270 sp 0x7ffc317a9220 T3768189)
+==3768189==The signal is caused by a READ memory access.
+==3768189==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5625a0a7f6ab in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17
+    #1 0x5625a0a77b73 in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10
+    #2 0x5625a0a7c189 in circpol /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1372:11
+    #3 0x5625a0a84bd2 in polspec /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:5592:11
+    #4 0x5625a0a7c9cb in sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7874:13
+    #5 0x5625a0a7c7b9 in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1652:11
+    #6 0x5625a0a81d3c in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3494:11
+    #7 0x5625a0a747bd in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3818:11
+    #8 0x5625a0a735b0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11
+    #9 0x7fc5dfdd1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7fc5dfdd1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x5625a0a4b454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out+0x11454) (BuildId: b40c8b1e995522a49e1e4906d827c1a2a8b210b5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 in TapeGet
+==3768189==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 3768188 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_138
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_138
+ThreadSanitizer:DEADLYSIGNAL
+==1735150==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x560f77725038 bp 0x7ffcf084dcc0 sp 0x7ffcf084dc68 T1735150)
+==1735150==The signal is caused by a READ memory access.
+==1735150==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read1 <null> (reduced.tsan.out+0xb8038) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #1 TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:8022:17 (reduced.tsan.out+0xd1789) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3066:10 (reduced.tsan.out+0xce695) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #3 circpol /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1372:11 (reduced.tsan.out+0xd019b) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #4 polspec /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:5592:11 (reduced.tsan.out+0xd3c06) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #5 sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7874:13 (reduced.tsan.out+0xd0740) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #6 elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:1652:11 (reduced.tsan.out+0xd0566) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #7 greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3494:11 (reduced.tsan.out+0xd2290) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #8 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:3818:11 (reduced.tsan.out+0xcd2f4) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:481:11 (reduced.tsan.out+0xcca1d) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #10 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 _start <null> (reduced.tsan.out+0x203b4) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xb8038) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan_read1
+==1735150==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 1735149 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_138

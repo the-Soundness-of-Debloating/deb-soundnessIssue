@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0
+flex-2.5.4.c.reduced.c:8198:7: runtime error: index -1 out of bounds for type 'int[257]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:8198:7 in 
+flex-2.5.4.c.reduced.c:8487:9: runtime error: applying non-zero offset 8 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior flex-2.5.4.c.reduced.c:8487:9 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3632678==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000008 (pc 0x56310104def8 bp 0x7ffd80ba4750 sp 0x7ffd80ba4690 T3632678)
+==3632678==The signal is caused by a WRITE memory access.
+==3632678==Hint: address points to the zero page.
+    #0 0x56310104def8 in mk1tbl /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22
+    #1 0x563101040ab2 in ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2980:7
+    #2 0x56310103d597 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:454:3
+    #3 0x7f972fc2fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f972fc2fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x563101015444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out+0x1d444) (BuildId: 9e08a170512f5c7debe410822a63a9ddc1823860)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8487:22 in mk1tbl
+==3632678==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 3632677 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0

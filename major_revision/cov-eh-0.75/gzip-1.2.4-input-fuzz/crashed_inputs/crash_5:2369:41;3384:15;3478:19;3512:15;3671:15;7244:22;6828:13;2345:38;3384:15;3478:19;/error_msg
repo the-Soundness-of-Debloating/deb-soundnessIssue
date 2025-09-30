@@ -1,0 +1,64 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_16
+=================================================================
+==127364==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x616000000390 at pc 0x55a24b5cb19a bp 0x7ffea74d1ad0 sp 0x7ffea74d12a0
+WRITE of size 16 at 0x616000000390 thread T0
+    #0 0x55a24b5cb199 in __asan_memcpy (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7199) (BuildId: 0f698429e25e1b111ce92ebe12fdebfd0d21bc3d)
+    #1 0x55a24b607b34 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2369:41
+    #2 0x55a24b60a55b in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x55a24b60a8f7 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55a24b60aa1a in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55a24b60ac56 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55a24b611fc1 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #7 0x55a24b611b4b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #8 0x7feb35437d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #9 0x7feb35437e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #10 0x55a24b5463b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: 0f698429e25e1b111ce92ebe12fdebfd0d21bc3d)
+
+0x616000000390 is located 256 bytes to the right of 528-byte region [0x616000000080,0x616000000290)
+allocated by thread T0 here:
+    #0 0x55a24b5cbdde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: 0f698429e25e1b111ce92ebe12fdebfd0d21bc3d)
+    #1 0x55a24b607791 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55a24b60a55b in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #3 0x55a24b60a8f7 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55a24b60aa1a in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55a24b60ac56 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55a24b611fc1 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #7 0x55a24b611b4b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #8 0x7feb35437d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7199) (BuildId: 0f698429e25e1b111ce92ebe12fdebfd0d21bc3d) in __asan_memcpy
+Shadow bytes around the buggy address:
+  0x0c2c7fff8020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c2c7fff8030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c2c7fff8040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c2c7fff8050: 00 00 fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x0c2c7fff8070: fa fa[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff80b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c2c7fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==127364==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 127363 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_16

@@ -1,0 +1,26 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:2970:21: runtime error: signed integer overflow: 8735910198050214144 + 8735910198050214144 cannot be represented in type 'long'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:2970:21 in 
+date-8.21.c.reduced.c:4752:48: runtime error: null pointer passed as argument 2, which is declared to never be null
+date-8.21.c.reduced.c:808:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4752:48 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==907837==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f5415d1480c bp 0x7ffe5ba11290 sp 0x7ffe5ba11048 T907837)
+==907837==The signal is caused by a READ memory access.
+==907837==Hint: address points to the zero page.
+    #0 0x7f5415d1480c  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139
+    #1 0x557a577da9d8 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4752:17
+    #2 0x557a577ca808 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5025:14
+    #3 0x557a577c10aa in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3504:16
+    #4 0x557a577cf203 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #5 0x557a577d7a2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #6 0x7f5415b8cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f5415b8ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x557a57793674 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x17674) (BuildId: a3de010e9147085ac3382577691b4704265fc1fe)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139 
+==907837==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 907836 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

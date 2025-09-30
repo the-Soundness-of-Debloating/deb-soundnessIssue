@@ -1,0 +1,21 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2771878==ERROR: MemorySanitizer: SEGV on unknown address 0x701000010000 (pc 0x55c9d17ace9c bp 0x7ffeb453c1b0 sp 0x7ffeb453c0e0 T2771878)
+==2771878==The signal is caused by a WRITE memory access.
+    #0 0x55c9d17ace9c in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28
+    #1 0x55c9d17c2f7b in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4742:5
+    #2 0x55c9d17ac798 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #3 0x55c9d17ab1db in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #4 0x55c9d17b8480 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5
+    #5 0x55c9d17bf317 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #6 0x55c9d17a9ba6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f46179c9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f46179c9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55c9d1722314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f314) (BuildId: d87addfe524b03d7303077920432e2d9f7ac52f7)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28 in addtok
+==2771878==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2771877 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

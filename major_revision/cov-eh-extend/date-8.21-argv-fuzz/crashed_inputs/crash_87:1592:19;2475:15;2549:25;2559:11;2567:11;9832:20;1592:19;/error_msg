@@ -1,0 +1,19 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==397329==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55a3d7d78e51 bp 0x7fffc02733f0 sp 0x7fffc0273380 T0)
+==397329==The signal is caused by a READ memory access.
+==397329==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55a3d7d78e51 in quotearg_buffer_restyled /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:1592:19
+    #1 0x55a3d7d72ddc in quotearg_n_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2475:15
+    #2 0x55a3d7d72d09 in quote_n_mem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2549:25
+    #3 0x55a3d7d72e31 in quote_n /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2559:11
+    #4 0x55a3d7d72e56 in quote /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2567:11
+    #5 0x55a3d7d787ec in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9832:20
+    #6 0x7f1ae1794d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f1ae1794e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55a3d7d44664 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x7664) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:1592:19 in quotearg_buffer_restyled
+==397329==ABORTING

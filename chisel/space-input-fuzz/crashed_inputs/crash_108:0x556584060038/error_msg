@@ -1,0 +1,19 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr8250.adl_fuzzed/gr8250.adl_290
+ThreadSanitizer:DEADLYSIGNAL
+==3020231==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x556584060038 bp 0x39327ffc90bdc680 sp 0x7ffc90bdc5e0 T3020231)
+==3020231==The signal is caused by a WRITE memory access.
+==3020231==Hint: address points to the zero page.
+ThreadSanitizer:DEADLYSIGNAL
+ThreadSanitizer: nested bug in the same thread, aborting.
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_35
+LeakSanitizer:DEADLYSIGNAL
+==3420104==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x558781680038 bp 0x39327ffecb17cd80 sp 0x7ffecb17cd40 T0)
+==3420104==The signal is caused by a READ memory access.
+==3420104==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x558781680038 in __lsan_ignore_object (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x2a038) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out+0x2a038) (BuildId: 7016d1ae861efa8b2ac1aa17b4079f14ae970928) in __lsan_ignore_object
+==3420104==ABORTING

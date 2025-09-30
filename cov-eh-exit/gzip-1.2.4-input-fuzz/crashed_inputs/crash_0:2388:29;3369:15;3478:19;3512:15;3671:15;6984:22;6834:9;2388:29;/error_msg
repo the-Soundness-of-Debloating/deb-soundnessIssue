@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -d
+ThreadSanitizer:DEADLYSIGNAL
+==3296729==ERROR: ThreadSanitizer: SEGV on unknown address 0x5646d06428ae (pc 0x56454614f046 bp 0x7fff05977440 sp 0x7fff05976cd0 T3296729)
+==3296729==The signal is caused by a READ memory access.
+    #0 huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 (reduced.tsan.out+0xcf046) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #1 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3369:15 (reduced.tsan.out+0xd0cb4) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #2 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd1009) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #3 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd10be) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #4 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd12cd) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #5 treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22 (reduced.tsan.out+0xd83e6) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9 (reduced.tsan.out+0xd74f3) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+    #7 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 _start <null> (reduced.tsan.out+0x213b4) (BuildId: 0fe686fa25c57540dd6712e27caa5024e14520af)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 in huft_build
+==3296729==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3296727 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_156 > sample1.tst

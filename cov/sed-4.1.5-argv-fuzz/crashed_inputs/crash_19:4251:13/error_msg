@@ -1,0 +1,55 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+sed-4.1.5.c.reduced.c:4251:13: runtime error: load of value 15, which is not a valid value for type '_Bool'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4251:13 in 
+sed-4.1.5.c.reduced.c:4383:12: runtime error: member access within misaligned address 0x562fe2095594 for type 'struct append_queue', which requires 8 byte alignment
+0x562fe2095594: note: pointer points here
+  69 6e 00 0b 2d 2d 66 00  0b 74 72 61 52 6e 5f 69  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4383:12 in 
+sed-4.1.5.c.reduced.c:4383:12: runtime error: load of misaligned address 0x562fe209559c for type 'char *', which requires 8 byte alignment
+0x562fe209559c: note: pointer points here
+  0b 74 72 61 52 6e 5f 69  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00  0c 0c 0c 0c 0c 0c 0c 0c
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4383:12 in 
+sed-4.1.5.c.reduced.c:4385:36: runtime error: member access within misaligned address 0x562fe2095594 for type 'struct append_queue', which requires 8 byte alignment
+0x562fe2095594: note: pointer points here
+  69 6e 00 0b 2d 2d 66 00  0b 74 72 61 52 6e 5f 69  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4385:36 in 
+sed-4.1.5.c.reduced.c:4385:36: runtime error: load of misaligned address 0x562fe209559c for type 'char *', which requires 8 byte alignment
+0x562fe209559c: note: pointer points here
+  0b 74 72 61 52 6e 5f 69  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00  0c 0c 0c 0c 0c 0c 0c 0c
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4385:36 in 
+sed-4.1.5.c.reduced.c:4385:57: runtime error: member access within misaligned address 0x562fe2095594 for type 'struct append_queue', which requires 8 byte alignment
+0x562fe2095594: note: pointer points here
+  69 6e 00 0b 2d 2d 66 00  0b 74 72 61 52 6e 5f 69  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4385:57 in 
+sed-4.1.5.c.reduced.c:4385:57: runtime error: load of misaligned address 0x562fe20955a4 for type 'size_t' (aka 'unsigned long'), which requires 8 byte alignment
+0x562fe20955a4: note: pointer points here
+  6e 70 75 74 2f 64 65 66  61 75 6c 74 2e 69 6e 00  0c 0c 0c 0c 0c 0c 0c 0c  0c 0c 0c 0c 0c 0c 0c 0c
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4385:57 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1578582==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7f56c42f22f8 bp 0x7f56c426a200 sp 0x7fff3c0eb130 T1578582)
+==1578582==The signal is caused by a READ memory access.
+==1578582==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f56c42f22f8 in clearerr (/lib/x86_64-linux-gnu/libc.so.6+0x872f8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x562fe16effe0 in ck_fwrite /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6716:3
+    #2 0x562fe16faa3b in dump_append_queue /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4385:7
+    #3 0x562fe16ecc7c in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4688:5
+    #4 0x562fe16e8436 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #5 0x562fe16e7848 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #6 0x7f56c4294d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f56c4294e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x562fe16bf574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x2a574) (BuildId: f8a36511d25695c83c0593c1783befcadb47ca1c)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x872f8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in clearerr
+==1578582==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1578581 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

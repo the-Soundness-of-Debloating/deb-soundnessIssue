@@ -1,0 +1,80 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '/'
+=================================================================
+==3365523==ERROR: AddressSanitizer: global-buffer-overflow on address 0x56445f540b20 at pc 0x56445f4fad2c bp 0x7ffe5a83e2d0 sp 0x7ffe5a83e2c8
+READ of size 4 at 0x56445f540b20 thread T0
+    #0 0x56445f4fad2b in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17
+    #1 0x56445f4f9dd7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7fa8c8b6ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fa8c8b6ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x56445f432354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0x29354) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9)
+
+0x56445f540b20 is located 0 bytes to the right of global variable 'switches' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:10647' (0x56445f5403e0) of size 1856
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17 in decode_switches
+Shadow bytes around the buggy address:
+  0x0ac90bea0110: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac90bea0120: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac90bea0130: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac90bea0140: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac90bea0150: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ac90bea0160: 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac90bea0170: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac90bea0180: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac90bea0190: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 00 00 00 00
+  0x0ac90bea01a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac90bea01b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3365523==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3365522 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.tsan.out
+make: invalid option -- 'X'
+ThreadSanitizer:DEADLYSIGNAL
+==259509==ERROR: ThreadSanitizer: SEGV on unknown address 0x562283f55020 (pc 0x562282b85d9c bp 0x7ffd0526f540 sp 0x7ffd0526f410 T259509)
+==259509==The signal is caused by a READ memory access.
+    #0 decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17 (reduced.tsan.out+0xd5d9c) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3 (reduced.tsan.out+0xd5156) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x23394) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17 in decode_switches
+==259509==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 259507 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- 'X'
+LeakSanitizer:DEADLYSIGNAL
+==569098==ERROR: LeakSanitizer: SEGV on unknown address 0x55b73dced030 (pc 0x55b73d36c83a bp 0x7fff404c22a0 sp 0x7fff404c2220 T0)
+==569098==The signal is caused by a READ memory access.
+    #0 0x55b73d36c83a in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17
+    #1 0x55b73d36c17d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7fe6d3b64d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fe6d3b64e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55b73d33b5a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x85a4) (BuildId: af35362ada0832d26698cb4d04d5df30e89bd732)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12648:17 in decode_switches
+==569098==ABORTING

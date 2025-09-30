@@ -1,0 +1,28 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_425
+date-8.21.c.reduced.c:4190:24: runtime error: index -93 out of bounds for type 'const yytype_int8[113]' (aka 'const signed char[113]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4190:24 in 
+date-8.21.c.reduced.c:4187:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4187:32 in 
+date-8.21.c.reduced.c:4193:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4193:26 in 
+date-8.21.c.reduced.c:3464:10: runtime error: applying non-zero offset 56 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3464:10 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3258270==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000038 (pc 0x7f636fdb4be5 bp 0x7ffdea1389f0 sp 0x7ffdea137158 T3258270)
+==3258270==The signal is caused by a WRITE memory access.
+==3258270==Hint: address points to the zero page.
+    #0 0x7f636fdb4be5  (/lib/x86_64-linux-gnu/libc.so.6+0x1aebe5) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55fe6b43d139 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3465:14
+    #2 0x55fe6b446b79 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #3 0x55fe6b44ad94 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x55fe6b44ab90 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f636fc2fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f636fc2fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55fe6b4144c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.ubsan.out+0xe4c4) (BuildId: 336126ddb138782a560972e59c0f23dc49177c19)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aebe5) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==3258270==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3258269 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

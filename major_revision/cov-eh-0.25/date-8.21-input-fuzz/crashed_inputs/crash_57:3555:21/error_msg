@@ -1,0 +1,26 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000029,sig:11,src:000012,time:50722,execs:3727,op:havoc,rep:7
+date-8.21.c.reduced.c:4267:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4267:32 in 
+date-8.21.c.reduced.c:4273:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4273:26 in 
+date-8.21.c.reduced.c:3555:21: runtime error: applying non-zero offset 56 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3555:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1194541==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000038 (pc 0x7f47ddfd2dcd bp 0x7fff746030d0 sp 0x7fff74601838 T1194541)
+==1194541==The signal is caused by a READ memory access.
+==1194541==Hint: address points to the zero page.
+    #0 0x7f47ddfd2dcd  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317
+    #1 0x55d12888cccc in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3555:13
+    #2 0x55d128899d0e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #3 0x55d1288a1faa in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #4 0x55d1288a1ab9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #5 0x7f47dde4dd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f47dde4de3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55d128860624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x15624) (BuildId: cd15982450242ba53543e7ec817dba62c5172b7e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317 
+==1194541==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1194540 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

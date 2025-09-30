@@ -1,0 +1,36 @@
+VPATH = .
+srcdvi: hello.texi
+	$(TEXI-1DVI) $(srcdir)/hello.texi
+
+.PHONY: che config.status
+
+config.status: configure
+	$(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/configure --no-create
+
+TAGS: $(SRCS)
+	etags $(SRCS)
+
+.PHONY: clean mostlyclean distclean realclean dist
+
+.NOEXPORT:

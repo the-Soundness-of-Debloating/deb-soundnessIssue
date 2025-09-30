@@ -1,0 +1,20 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==84622==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00000000000f (pc 0x7f97ce1fad4d bp 0x556d134913c0 sp 0x7fff4b56f130 T84622)
+==84622==The signal is caused by a READ memory access.
+==84622==Hint: address points to the zero page.
+    #0 0x7f97ce1fad4d in fclose libio/iofclose.c:51:3
+    #1 0x556d11de08bb in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8469:14
+    #2 0x556d11dee9a4 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15
+    #3 0x556d11de822c in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17
+    #4 0x556d11de5ed5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7
+    #5 0x7f97ce1a5d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f97ce1a5e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x556d11db8714 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xf714) (BuildId: 92f74ad919d026a679d1177e901c06802dd804ef)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV libio/iofclose.c:51:3 in fclose
+==84622==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 84621 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88

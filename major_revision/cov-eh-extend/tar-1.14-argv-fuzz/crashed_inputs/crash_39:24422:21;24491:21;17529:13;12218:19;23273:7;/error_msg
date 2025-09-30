@@ -1,0 +1,19 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2516797==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f05bc1d8800 bp 0x7ffdf7517920 sp 0x7ffdf75178c8 T0)
+==2516797==The signal is caused by a READ memory access.
+==2516797==Hint: address points to the zero page.
+    #0 0x7f05bc1d8800  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:132
+    #1 0x55d32547cbc8 in fnmatch_no_wildcards /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24422:21
+    #2 0x55d3254787c3 in excluded_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24491:21
+    #3 0x55d3254701db in excluded_name /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:17529:13
+    #4 0x55d325474325 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:12218:19
+    #5 0x55d3254798ee in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23273:7
+    #6 0x7f05bc050d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f05bc050e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55d32543b8d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0xb8d4) (BuildId: 5dcd19460d3df0e9a7a802662d8f518e5648bfec)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:132 
+==2516797==ABORTING

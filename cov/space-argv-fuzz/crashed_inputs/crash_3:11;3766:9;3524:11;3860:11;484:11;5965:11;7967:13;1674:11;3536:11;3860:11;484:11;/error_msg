@@ -1,0 +1,69 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.lsan.out
+
+=================================================================
+==1715826==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x5572a8ae9662 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.lsan.out+0x31662) (BuildId: 4f0354f6fb9c149ad33da0283a24940b28752c57)
+    #1 0x5572a8aef7ea in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:1646:9
+    #2 0x5572a8af2b50 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3536:11
+    #3 0x5572a8aec70e in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #4 0x5572a8aebeda in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #5 0x7f967237cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 208 byte(s) in 1 object(s) allocated from:
+    #0 0x5572a8ae9662 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.lsan.out+0x31662) (BuildId: 4f0354f6fb9c149ad33da0283a24940b28752c57)
+    #1 0x5572a8af2d96 in griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3766:9
+    #2 0x5572a8af2b1b in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3524:11
+    #3 0x5572a8aec70e in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #4 0x5572a8aebeda in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #5 0x7f967237cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 480 byte(s) in 5 object(s) allocated from:
+    #0 0x5572a8ae9662 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.lsan.out+0x31662) (BuildId: 4f0354f6fb9c149ad33da0283a24940b28752c57)
+    #1 0x5572a8af4cc1 in portspec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:5965:11
+    #2 0x5572a8aefcbe in sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:7967:13
+    #3 0x5572a8aef874 in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:1674:11
+    #4 0x5572a8af2b50 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3536:11
+    #5 0x5572a8aec70e in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #6 0x5572a8aebeda in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #7 0x7f967237cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 944 byte(s) leaked in 7 allocation(s).
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.asan.out
+==56736==AddressSanitizer: WARNING: unexpected format specifier in printf interceptor: %    	 (reported once per process)
+
+=================================================================
+==56736==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x55cf9234dd8e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.asan.out+0xa7d8e) (BuildId: bcbf00a3900dbb6bd534c592f056fff871391804)
+    #1 0x55cf923959ef in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:1646:9
+    #2 0x55cf9239f717 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3536:11
+    #3 0x55cf92389c74 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #4 0x55cf92388308 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #5 0x7fa6bd4e9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 208 byte(s) in 1 object(s) allocated from:
+    #0 0x55cf9234dd8e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.asan.out+0xa7d8e) (BuildId: bcbf00a3900dbb6bd534c592f056fff871391804)
+    #1 0x55cf9239fcac in griddef1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3766:9
+    #2 0x55cf9239f6d2 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3524:11
+    #3 0x55cf92389c74 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #4 0x55cf92388308 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #5 0x7fa6bd4e9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 480 byte(s) in 5 object(s) allocated from:
+    #0 0x55cf9234dd8e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/bins/reduced.asan.out+0xa7d8e) (BuildId: bcbf00a3900dbb6bd534c592f056fff871391804)
+    #1 0x55cf923a77ef in portspec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:5965:11
+    #2 0x55cf92396945 in sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:7967:13
+    #3 0x55cf92395aa6 in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:1674:11
+    #4 0x55cf9239f717 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3536:11
+    #5 0x55cf92389c74 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:3860:11
+    #6 0x55cf92388308 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-argv-fuzz/./space.c.reduced.c:484:11
+    #7 0x7fa6bd4e9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: 944 byte(s) leaked in 7 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 110: 56735 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

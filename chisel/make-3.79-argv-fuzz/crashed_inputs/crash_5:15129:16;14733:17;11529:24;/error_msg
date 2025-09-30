@@ -1,0 +1,57 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make-3.79.c.reduced.c:11172:15: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:11172:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3775919==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f70739fb384 bp 0x7ffeaed31500 sp 0x7ffeaed30e18 T3775919)
+==3775919==The signal is caused by a READ memory access.
+==3775919==Hint: address points to the zero page.
+    #0 0x7f70739fb384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55fd5f14ca47 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15129:16
+    #2 0x55fd5f149a34 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14733:17
+    #3 0x55fd5f1461cc in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11529:24
+    #4 0x7f707399dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f707399de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55fd5f1105c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x165c4) (BuildId: 37a82cc5b4e843d12e1696b73a4a747832f52480)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==3775919==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3775918 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==259266==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f6e69205384 bp 0x7ffc2676ca50 sp 0x7ffc2676c4b8 T259266)
+==259266==The signal is caused by a READ memory access.
+==259266==Hint: address points to the zero page.
+    #0 feof <null> (libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15129:16 (reduced.tsan.out+0xd850d) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14733:17 (reduced.tsan.out+0xd6d9d) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11529:24 (reduced.tsan.out+0xd543e) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23394) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==259266==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 259265 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==581768==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fb5b0204384 bp 0x7ffe4b411c50 sp 0x7ffe4b4117c8 T0)
+==581768==The signal is caused by a READ memory access.
+==581768==Hint: address points to the zero page.
+    #0 0x7fb5b0204384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55a705474f52 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15129:16
+    #2 0x55a705474147 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14733:17
+    #3 0x55a70547331b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11529:24
+    #4 0x7fb5b01a6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fb5b01a6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55a7054425a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x85a4) (BuildId: af35362ada0832d26698cb4d04d5df30e89bd732)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==581768==ABORTING

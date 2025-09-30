@@ -1,0 +1,20 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/bins/reduced.tsan.out -r /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_166
+ThreadSanitizer:DEADLYSIGNAL
+==1237457==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b07ffffffe0 (pc 0x7f586808b893 bp 0x7ffea4083fc0 sp 0x7ffea4083ef8 T1237457)
+==1237457==The signal is caused by a WRITE memory access.
+    #0 memcpy string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 (libc.so.6+0xc4893) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x58e7c) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+    #2 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12608:26 (reduced.tsan.out+0xd7c78) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+    #3 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13163:9 (reduced.tsan.out+0xd720d) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+    #4 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11 (reduced.tsan.out+0xd341f) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd2310) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+    #6 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 _start <null> (reduced.tsan.out+0x214f4) (BuildId: a1076dc0556b8bbeab41a51389aac5dad1650bfb)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 in memcpy
+==1237457==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 1237456 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/bins/reduced.tsan.out -r /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_166

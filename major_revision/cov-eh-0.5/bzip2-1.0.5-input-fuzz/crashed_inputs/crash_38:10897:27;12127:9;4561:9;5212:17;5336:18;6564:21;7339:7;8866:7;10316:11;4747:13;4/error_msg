@@ -1,0 +1,64 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -c
+=================================================================
+==2803850==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7f70f0a1f7fc at pc 0x55ee22e1a4a4 bp 0x7ffc8d079130 sp 0x7ffc8d079128
+WRITE of size 4 at 0x7f70f0a1f7fc thread T0
+    #0 0x55ee22e1a4a3 in fallbackSort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10897:27
+    #1 0x55ee22dfc216 in BZ2_blockSort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:12127:9
+    #2 0x55ee22dfba11 in BZ2_compressBlock /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:4561:9
+    #3 0x55ee22e0fcc0 in handle_compress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:5212:17
+    #4 0x55ee22e0f70f in BZ2_bzCompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:5336:18
+    #5 0x55ee22e132d4 in BZ2_bzWriteClose64 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6564:21
+    #6 0x55ee22e20c5d in compressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7339:7
+    #7 0x55ee22e18be3 in compress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:8866:7
+    #8 0x55ee22e175d9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10316:11
+    #9 0x7f70f41e3d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7f70f41e3e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x55ee22d243a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out+0x203a4) (BuildId: 8a6de870bf33598eb62832a25dc1ccd77b7995a4)
+
+0x7f70f0a1f7fc is located 4 bytes to the left of 3600136-byte region [0x7f70f0a1f800,0x7f70f0d8e708)
+allocated by thread T0 here:
+    #0 0x55ee22da9dce in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out+0xa5dce) (BuildId: 8a6de870bf33598eb62832a25dc1ccd77b7995a4)
+    #1 0x55ee22e0f160 in default_bzalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:4747:13
+    #2 0x55ee22e0e961 in BZ2_bzCompressInit /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:4861:27
+    #3 0x55ee22e12913 in BZ2_bzWriteOpen /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6363:13
+    #4 0x55ee22e20b01 in compressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7300:13
+    #5 0x55ee22e18be3 in compress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:8866:7
+    #6 0x55ee22e175d9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10316:11
+    #7 0x7f70f41e3d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10897:27 in fallbackSort
+Shadow bytes around the buggy address:
+  0x0fee9e13bea0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0fee9e13beb0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0fee9e13bec0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0fee9e13bed0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0fee9e13bee0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x0fee9e13bef0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+  0x0fee9e13bf00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee9e13bf10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee9e13bf20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee9e13bf30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fee9e13bf40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2803850==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 170: 2803825 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -c < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000000* > sample1.rb2

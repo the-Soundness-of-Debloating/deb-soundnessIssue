@@ -1,0 +1,29 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:35:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:35:5 in 
+chown: invalid option -- '5'
+chown: invalid option -- '5'
+chown: invalid option -- ''
+chown: invalid option -- '5'
+chown: invalid option -- '5'
+chown: invalid option -- ''
+chown: invalid option -- '5'
+chown: invalid option -- '5'
+chown: invalid option -- ''
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2148479==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55bc553c5905 bp 0x7ffc87e50520 sp 0x7ffc87e4ff80 T2148479)
+==2148479==The signal is caused by a READ memory access.
+==2148479==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55bc553c5905 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4754:17
+    #1 0x55bc553cb70f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6668:13
+    #2 0x55bc553cd625 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6996:10
+    #3 0x7f70e172fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f70e172fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55bc55394694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: af11e17219ff26e2d951e8cbc95073273712bf8f)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4754:17 in fts_read
+==2148479==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2148478 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

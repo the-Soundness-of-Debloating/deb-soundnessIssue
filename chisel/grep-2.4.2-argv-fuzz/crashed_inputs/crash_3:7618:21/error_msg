@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:7618:21: runtime error: null pointer passed as argument 1, which is declared to never be null
+grep-2.4.2.c.reduced.c:462:62: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:7618:21 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1489307==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f4d187c1ebc bp 0x7ffd6adcc9e0 sp 0x7ffd6adcc648 T1489307)
+==1489307==The signal is caused by a READ memory access.
+==1489307==Hint: address points to the zero page.
+    #0 0x7f4d187c1ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x559c4c7d2c67 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7618:14
+    #2 0x559c4c7d1d39 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6677:5
+    #3 0x559c4c7d5ee8 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9205:5
+    #4 0x559c4c7c3a6e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2710:3
+    #5 0x7f4d18639d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f4d18639e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559c4c79b484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x14484) (BuildId: 383714eab8385c135d5335a5cfbe6d9ce0194020)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1489307==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1489306 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

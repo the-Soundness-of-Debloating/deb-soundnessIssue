@@ -1,0 +1,29 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/bins/reduced.ubsan.out -frv
+gzip-1.3.c.reduced.c:3112:11: runtime error: index 4095 out of bounds for type 'ush[16]' (aka 'unsigned short[16]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.3.c.reduced.c:3112:11 in 
+gzip-1.3.c.reduced.c:3113:35: runtime error: index 4095 out of bounds for type 'ush[16]' (aka 'unsigned short[16]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.3.c.reduced.c:3113:35 in 
+gzip-1.3.c.reduced.c:3113:5: runtime error: index 4095 out of bounds for type 'ush[16]' (aka 'unsigned short[16]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.3.c.reduced.c:3113:5 in 
+gzip-1.3.c.reduced.c:3290:46: runtime error: index 4095 out of bounds for type 'ct_data[39]' (aka 'struct ct_data[39]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.3.c.reduced.c:3290:46 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3740622==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55f4dc41a00c (pc 0x55f4dba65288 bp 0x7ffd28d0dfb0 sp 0x7ffd28d0de80 T3740622)
+==3740622==The signal is caused by a READ memory access.
+    #0 0x55f4dba65288 in scan_tree /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:3290:40
+    #1 0x55f4dba5eb2f in build_bl_tree /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:3433:3
+    #2 0x55f4dba5c5a8 in flush_block /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:3499:17
+    #3 0x55f4dba5a38f in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:1083:13
+    #4 0x55f4dba61681 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:6288:3
+    #5 0x55f4dba6218a in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:7176:16
+    #6 0x55f4dba62080 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:7006:5
+    #7 0x7f7c6b0b1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f7c6b0b1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55f4dba2f3e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/bins/reduced.ubsan.out+0xf3e4) (BuildId: bef0f0ddb7295375b11f7502cc088178c18e8eee)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/./gzip-1.3.c.reduced.c:3290:40 in scan_tree
+==3740622==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 163: 3740621 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/bins/reduced.ubsan.out -frv < /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000000*

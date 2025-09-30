@@ -1,0 +1,19 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d
+gzip-1.2.4.c.reduced.c:1161:27: runtime error: index 4294967289 out of bounds for type 'uch[256]' (aka 'unsigned char[256]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:1161:27 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3859036==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x5568bc9ac549 (pc 0x5567bbfff75a bp 0x7ffca980e4e0 sp 0x7ffca980e330 T3859036)
+==3859036==The signal is caused by a READ memory access.
+    #0 0x5567bbfff75a in unpack /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:1161:27
+    #1 0x5567bc01b173 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #2 0x5567bc01a771 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #3 0x7f728f1e1d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f728f1e1e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x5567bbfd6524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x1d524) (BuildId: 6b9ea55da14d010f96c1a4a49f0a25eb28a78b48)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:1161:27 in unpack
+==3859036==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3859035 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/ubsan/crashes/id:000086* > sample1.tst

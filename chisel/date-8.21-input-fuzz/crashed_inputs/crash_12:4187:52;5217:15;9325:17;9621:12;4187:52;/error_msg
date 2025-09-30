@@ -1,0 +1,17 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000060,sig:11,src:000222+000100,time:1881164,execs:142536,op:splice,rep:2
+LeakSanitizer:DEADLYSIGNAL
+==2174489==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55bbeb8ba164 bp 0x7ffc38ff50e0 sp 0x7ffc38ff4530 T0)
+==2174489==The signal is caused by a READ memory access.
+==2174489==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55bbeb8ba164 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52
+    #1 0x55bbeb8baaa8 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #2 0x55bbeb8bbc54 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x55bbeb8bbabd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f2c49bd3d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f2c49bd3e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55bbeb88b4d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.lsan.out+0x54d4) (BuildId: 5b718ef538ae10eb77bc1c9302598d9ad557f51d)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4187:52 in yyparse
+==2174489==ABORTING

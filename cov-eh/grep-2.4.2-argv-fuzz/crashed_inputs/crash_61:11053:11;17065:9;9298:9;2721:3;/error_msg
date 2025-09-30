@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:12043:36: runtime error: signed integer overflow: 892666672 * 10 cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:12043:36 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==642448==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x555b65227000 (pc 0x555b64888ee2 bp 0x7ffc305a2c60 sp 0x7ffc305a1ac0 T642448)
+==642448==The signal is caused by a READ memory access.
+    #0 0x555b64888ee2 in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11053:11
+    #1 0x555b64886b1a in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:17065:9
+    #2 0x555b6488686b in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9298:9
+    #3 0x555b64854fcb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7f3cd7747d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f3cd7747e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x555b6482c5e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x2e5e4) (BuildId: c596296324c806a74fee30cd546cda4f03499544)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11053:11 in regex_compile
+==642448==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 642447 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

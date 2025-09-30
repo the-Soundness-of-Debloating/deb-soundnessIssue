@@ -1,0 +1,18 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.lsan.out: foo.exclude.eY: No such file or directory
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.lsan.out: Error is not recoverable: exiting now
+
+=================================================================
+==113029==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 20482 byte(s) in 2 object(s) allocated from:
+    #0 0x55d5bda94e84 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0x36e84) (BuildId: bcfbd508e5c276bc5abf53eca83bf082b3b6c2ef)
+    #1 0x55d5bdaaab17 in xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30548:13
+    #2 0x55d5bda9d7a1 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30562:13
+    #3 0x55d5bdaa9a1e in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24642:17
+    #4 0x55d5bdaa7dab in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15
+    #5 0x55d5bdaa67a0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #6 0x7f5e15a11d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: LeakSanitizer: 20482 byte(s) leaked in 2 allocation(s).

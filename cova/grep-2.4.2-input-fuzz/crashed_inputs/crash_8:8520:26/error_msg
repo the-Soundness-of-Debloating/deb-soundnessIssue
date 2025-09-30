@@ -1,0 +1,24 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000027,sig:04,src:000141,time:23029202,execs:13250907,op:havoc,rep:11
+grep-2.4.2.c.reduced.c:8520:26: runtime error: applying non-zero offset 7 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:8520:26 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1392212==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000005 (pc 0x55ded62b48bf bp 0x7fff005d3c30 sp 0x7fff005d35d0 T1392212)
+==1392212==The signal is caused by a READ memory access.
+==1392212==Hint: address points to the zero page.
+    #0 0x55ded62b48bf in bmexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8521:8
+    #1 0x55ded62b41ac in kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8882:13
+    #2 0x55ded62b9dcb in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9389:13
+    #3 0x55ded62e989b in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #4 0x55ded62e8215 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #5 0x55ded627d71f in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #6 0x55ded627cf4c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2749:18
+    #7 0x7f7a72f96d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f7a72f96e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55ded62535c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out+0x515c4) (BuildId: ba59659aa3047ce0ef9774cf341eb1a7ceb06f2d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8521:8 in bmexec
+==1392212==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1392211 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000027*

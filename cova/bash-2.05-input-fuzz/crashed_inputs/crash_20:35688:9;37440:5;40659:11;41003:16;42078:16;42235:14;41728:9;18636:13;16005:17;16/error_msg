@@ -1,0 +1,62 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+bash-2.05.c.reduced.c:35688:16: runtime error: null pointer passed as argument 1, which is declared to never be null
+bash-2.05.c.reduced.c:835:62: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior bash-2.05.c.reduced.c:35688:16 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2992948==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f05fa544ebc bp 0x7fff6f7cc4e0 sp 0x7fff6f7cc448 T2992948)
+==2992948==The signal is caused by a READ memory access.
+==2992948==Hint: address points to the zero page.
+find: '/root/tmp/basic1': No such file or directory
+    #0 0x7f05fa544ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5569664823d5 in remove_quoted_escapes /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:35688:9
+    #2 0x5569664820ce in command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37440:5
+    #3 0x5569664b2ff5 in param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40659:11
+    #4 0x5569664af606 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16
+    #5 0x5569664bf24b in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #6 0x556966485696 in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #7 0x556966485409 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #8 0x556966453766 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #9 0x556966452158 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #10 0x55696645b2b1 in execute_connection /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16990:17
+    #11 0x556966452596 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16149:17
+    #12 0x556966433786 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #13 0x556966430f40 in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #14 0x55696642bba3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #15 0x7f05fa3bcd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #16 0x7f05fa3bce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #17 0x556966402b74 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.ubsan.out+0x68b74) (BuildId: a44eaa834020820a84100449915057f062298f14)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2992948==ABORTING
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+ThreadSanitizer:DEADLYSIGNAL
+==1957616==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f7b3875febc bp 0x7fff688d1980 sp 0x7fff688d18c8 T1957616)
+==1957616==The signal is caused by a READ memory access.
+==1957616==Hint: address points to the zero page.
+    #0 <null> <null> (libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 strlen <null> (reduced.tsan.out+0x65b12) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #2 remove_quoted_escapes /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:35688:9 (reduced.tsan.out+0x104f95) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #3 command_substitute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:37440:5 (reduced.tsan.out+0x104dc8) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #4 param_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40659:11 (reduced.tsan.out+0x11d1c8) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #5 expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41003:16 (reduced.tsan.out+0x11b302) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #6 shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16 (reduced.tsan.out+0x123149) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #7 expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14 (reduced.tsan.out+0x1068b5) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #8 expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9 (reduced.tsan.out+0x10669a) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #9 execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13 (reduced.tsan.out+0xf0876) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #10 execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17 (reduced.tsan.out+0xefd7c) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #11 execute_connection /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16990:17 (reduced.tsan.out+0xf3c83) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #12 execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16149:17 (reduced.tsan.out+0xeff1d) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #13 execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12 (reduced.tsan.out+0xe2213) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #14 reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11 (reduced.tsan.out+0xe10f9) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #15 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3 (reduced.tsan.out+0xdddab) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+    #16 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #17 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #18 _start <null> (reduced.tsan.out+0x306e4) (BuildId: faf97d23020e028fb87f32f3884354efebf67a18)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1957616==ABORTING
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile: eccalc)r!!xcalc: command not found

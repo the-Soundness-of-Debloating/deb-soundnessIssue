@@ -1,0 +1,50 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_2/asan/crashes/id:000028,sig:06,src:000556,time:3159645,execs:407013,op:havoc,rep:5
+=================================================================
+==3414227==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55d14ceb2540 at pc 0x55d14c4fc52a bp 0x7ffe2c605f70 sp 0x7ffe2c605f68
+READ of size 1 at 0x55d14ceb2540 thread T0
+    #0 0x55d14c4fc529 in longest_match /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5388:24
+    #1 0x55d14c4fcec3 in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5687:46
+    #2 0x55d14c4fde10 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5948:7
+    #3 0x55d14c4fee81 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7071:22
+    #4 0x55d14c4feb3f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6612:13
+    #5 0x7fc78aee9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fc78aee9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55d14c4333b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: f74c338dee2852035998ab7f034d13ec52921d79)
+
+0x55d14ceb2540 is located 0 bytes to the right of global variable 'window' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:155' (0x55d14cea2540) of size 65536
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5388:24 in longest_match
+Shadow bytes around the buggy address:
+  0x0abaa99ce450: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaa99ce460: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaa99ce470: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaa99ce480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaa99ce490: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0abaa99ce4a0: 00 00 00 00 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9
+  0x0abaa99ce4b0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaa99ce4c0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaa99ce4d0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaa99ce4e0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaa99ce4f0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3414227==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3414226 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_2/asan/crashes/id:000028*

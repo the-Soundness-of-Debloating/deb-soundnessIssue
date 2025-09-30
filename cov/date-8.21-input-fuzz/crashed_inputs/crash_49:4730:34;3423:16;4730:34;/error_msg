@@ -1,0 +1,26 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000062,sig:11,src:000093,time:143947,execs:9014,op:havoc,rep:8
+ThreadSanitizer:DEADLYSIGNAL
+==1962397==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55710b2a8284 bp 0x7fff60c47f80 sp 0x7fff60c47d20 T1962397)
+==1962397==The signal is caused by a READ memory access.
+==1962397==Hint: address points to the zero page.
+    #0 yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4730:34 (reduced.tsan.out+0xd1284) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16 (reduced.tsan.out+0xcf65c) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4730:34 in yylex
+==1962397==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1962396 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_33
+LeakSanitizer:DEADLYSIGNAL
+==2948661==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55a357393b5c bp 0x7fff2cad04a0 sp 0x7fff2cad03e0 T0)
+==2948661==The signal is caused by a READ memory access.
+==2948661==Hint: address points to the zero page.
+    #0 0x55a357393b5c in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4730:34
+    #1 0x55a3573927a7 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4730:34 in yylex
+==2948661==ABORTING

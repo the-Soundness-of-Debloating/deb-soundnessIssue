@@ -1,0 +1,46 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_3
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2163502==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7fbd731e7b77 bp 0x000000000001 sp 0x7ffd83720140 T2163502)
+==2163502==The signal is caused by a READ memory access.
+==2163502==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7fbd731e7b77 in _IO_fread (/lib/x86_64-linux-gnu/libc.so.6+0x7fb77) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x559f8cd722ec in yy_get_next_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15733:17
+    #2 0x559f8cd71c47 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15536:18
+    #3 0x559f8cd6b145 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15
+    #4 0x559f8cd6b3dc in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14
+    #5 0x559f8cd4e57a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #6 0x559f8cd4d5e8 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #7 0x7fbd73191d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fbd73191e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x559f8cd25464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out+0x1e464) (BuildId: 98d1054176299ea75a5287415ea1c76968a7be43)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7fb77) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_fread
+==2163502==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2163501 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_3
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_383
+ThreadSanitizer:DEADLYSIGNAL
+==2480443==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b0400010000 (pc 0x7f935a962e7e bp 0x0000000004fb sp 0x7ffd30a86bc8 T2480443)
+==2480443==The signal is caused by a WRITE memory access.
+    #0 <null> <null> (libc.so.6+0x1aee7e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 <null> <null> (libc.so.6+0x8b3e5) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 _IO_fread <null> (libc.so.6+0x7fba8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 fread <null> (reduced.tsan.out+0x61a95) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #4 yy_get_next_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15733:17 (reduced.tsan.out+0xe85ec) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #5 flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15536:18 (reduced.tsan.out+0xe820b) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #6 yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15 (reduced.tsan.out+0xe4f9a) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #7 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14 (reduced.tsan.out+0xe50b8) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #8 readin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9 (reduced.tsan.out+0xd6573) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3 (reduced.tsan.out+0xd5972) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #10 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 _start <null> (reduced.tsan.out+0x29334) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aee7e) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2480443==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2480442 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_383

@@ -1,0 +1,23 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_123
+ThreadSanitizer:DEADLYSIGNAL
+==3768888==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b5bffffffe0 (pc 0x7fea608df893 bp 0x7ffc6f488da0 sp 0x7ffc6f488cd8 T3768888)
+==3768888==The signal is caused by a WRITE memory access.
+    #0 memcpy string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 (libc.so.6+0xc4893) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x58dcc) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #2 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12276:24 (reduced.tsan.out+0xd20cf) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #3 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12294:7 (reduced.tsan.out+0xd21b0) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #4 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12294:7 (reduced.tsan.out+0xd21b0) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #5 sequential_sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12296:9 (reduced.tsan.out+0xd21db) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #6 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12808:9 (reduced.tsan.out+0xd1592) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #7 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13182:11 (reduced.tsan.out+0xd02ef) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #8 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7 (reduced.tsan.out+0xcf864) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #9 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #10 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #11 _start <null> (reduced.tsan.out+0x21444) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:227 in memcpy
+==3768888==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 3768886 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_123

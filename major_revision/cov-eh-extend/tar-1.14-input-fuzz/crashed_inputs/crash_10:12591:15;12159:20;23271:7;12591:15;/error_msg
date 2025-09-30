@@ -1,0 +1,20 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_13
+
+gzip: stdin: invalid compressed data--crc error
+
+gzip: stdin: invalid compressed data--length error
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out: This does not look like a tar archive
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out: Skipping to next header
+==821004==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55becaaad529 in read_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12591:15
+    #1 0x55becaaa96e5 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12159:20
+    #2 0x55becaaca11c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #3 0x7f642d3fbd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f642d3fbe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x55beca9e2574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out+0x20574) (BuildId: 2dfaa8c7e81cd23acb675684db929e5074a532ff)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12591:15 in read_header
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 360: 821003 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_13

@@ -1,0 +1,16 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3296384==ERROR: LeakSanitizer: SEGV on unknown address 0x560c40bef73a (pc 0x560c0730d18f bp 0x7ffde3ada9e0 sp 0x7ffde3ada9c0 T0)
+==3296384==The signal is caused by a READ memory access.
+    #0 0x560c0730d18f in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:552:20
+    #1 0x560c0730ef76 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #2 0x560c0730f62f in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7248:16
+    #3 0x560c0730f3b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7076:5
+    #4 0x7f28279f4d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f28279f4e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x560c072df424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out+0x5424) (BuildId: 8d041e66b3ece08eedda1b33002b9afe05d1b1bd)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:552:20 in lm_init
+==3296384==ABORTING

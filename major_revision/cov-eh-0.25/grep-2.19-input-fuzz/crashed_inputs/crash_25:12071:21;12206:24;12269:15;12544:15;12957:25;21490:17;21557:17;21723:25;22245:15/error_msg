@@ -1,0 +1,26 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.tsan.out -i Si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_134
+ThreadSanitizer:DEADLYSIGNAL
+==3956488==ERROR: ThreadSanitizer: SEGV on unknown address 0x7bb400010000 (pc 0x56465c184169 bp 0x7ffc652404b0 sp 0x7ffc652403c0 T3956488)
+==3956488==The signal is caused by a READ memory access.
+    #0 memchr_kwset /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12071:21 (reduced.tsan.out+0xec169) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #1 bmexec_trans /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12206:24 (reduced.tsan.out+0xebd32) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #2 bmexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12269:15 (reduced.tsan.out+0xdde1b) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #3 kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12544:15 (reduced.tsan.out+0xdcff4) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #4 EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12957:25 (reduced.tsan.out+0xded2e) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #5 do_execute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21490:17 (reduced.tsan.out+0xf2ee9) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #6 grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21557:17 (reduced.tsan.out+0xf296c) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #7 grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21723:25 (reduced.tsan.out+0xf1fb7) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #8 grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15 (reduced.tsan.out+0xf0fda) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #9 grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17 (reduced.tsan.out+0xf0b79) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #10 grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19 (reduced.tsan.out+0xea3e2) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #11 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24 (reduced.tsan.out+0xea04a) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+    #12 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #13 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #14 _start <null> (reduced.tsan.out+0x22504) (BuildId: 8ea3c740043dd00a5573bd98dfcd4ae8d3c6d08e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:12071:21 in memchr_kwset
+==3956488==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 233: 3956487 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.tsan.out -i Si /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_134

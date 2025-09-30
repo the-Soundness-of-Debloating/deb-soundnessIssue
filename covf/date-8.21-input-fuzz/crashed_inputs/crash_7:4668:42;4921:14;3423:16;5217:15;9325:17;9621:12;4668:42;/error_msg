@@ -1,0 +1,21 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000000,sig:11,src:000038,time:19096,execs:842,op:havoc,rep:10
+MemorySanitizer:DEADLYSIGNAL
+==1772921==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x557af152b068 bp 0x7ffd3284bab0 sp 0x7ffd3284b810 T1772921)
+==1772921==The signal is caused by a READ memory access.
+==1772921==Hint: address points to the zero page.
+    #0 0x557af152b068 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:42
+    #1 0x557af1511a7d in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4921:14
+    #2 0x557af1508aca in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+    #3 0x557af1516425 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #4 0x557af152473c in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #5 0x557af1523a4b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #6 0x7f326f28bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f326f28be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x557af147e3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.msan.out+0x203c4) (BuildId: a8851fd3c5b5a81db6d454d3bd67bc511f908ffb)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:42 in lookup_word
+==1772921==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1772919 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

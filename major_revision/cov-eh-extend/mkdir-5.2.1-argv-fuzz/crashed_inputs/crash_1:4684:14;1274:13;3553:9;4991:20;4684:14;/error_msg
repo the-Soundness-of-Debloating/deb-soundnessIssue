@@ -1,0 +1,49 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1923385==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow on address 0x7ffe07743e4f at pc 0x55d46c931bba bp 0x7ffe07743d50 sp 0x7ffe07743d48
+READ of size 1 at 0x7ffe07743e4f thread T0
+    #0 0x55d46c931bb9 in base_name /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4684:14
+    #1 0x55d46c931aa4 in strip_trailing_slashes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:1274:13
+    #2 0x55d46c933cb8 in make_path /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:3553:9
+    #3 0x55d46c9351a6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4991:20
+    #4 0x7fe1ac3f6d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fe1ac3f6e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55d46c870404 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/bins/reduced.asan.out+0x1f404) (BuildId: 1f1373c480f83b177be1f5069a8522b5d5e3f752)
+
+Address 0x7ffe07743e4f is located in stack of thread T0
+SUMMARY: AddressSanitizer: dynamic-stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/mkdir-5.2.1-argv-fuzz/./mkdir-5.2.1.c.reduced.c:4684:14 in base_name
+Shadow bytes around the buggy address:
+  0x100040ee0770: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee0780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee0790: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee07a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee07b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x100040ee07c0: 00 00 00 00 ca ca ca ca 00[07]cb cb cb cb cb cb
+  0x100040ee07d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee07e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee07f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee0800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100040ee0810: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1923385==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1923384 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

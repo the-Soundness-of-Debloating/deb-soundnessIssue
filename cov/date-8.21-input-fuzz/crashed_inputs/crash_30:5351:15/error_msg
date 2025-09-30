@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000124,sig:04,src:000756,time:56620884,execs:13007039,op:havoc,rep:1
+date-8.21.c.reduced.c:5351:15: runtime error: signed integer overflow: -9223372036854775680 - 28800 cannot be represented in type 'long'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5351:15 in 
+date-8.21.c.reduced.c:6150:23: runtime error: member access within null pointer of type 'const struct tm'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:6150:23 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1354067==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000008 (pc 0x55952fd84fb1 bp 0x7fff3abfaf10 sp 0x7fff3abfa250 T1354067)
+==1354067==The signal is caused by a READ memory access.
+==1354067==Hint: address points to the zero page.
+    #0 0x55952fd84fb1 in strftime_case____0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23
+    #1 0x55952fd84ee5 in fprintftime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:7806:11
+    #2 0x55952fd895ea in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9698:5
+    #3 0x55952fd89429 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9328:19
+    #4 0x55952fd8900c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7fbef79b9d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fbef79b9e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55952fd4b5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x145d4) (BuildId: 7a9692a2a122b7afeed1f0fdcc93dc1c77fa9841)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23 in strftime_case____0
+==1354067==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1354065 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

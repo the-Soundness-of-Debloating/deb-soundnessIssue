@@ -1,0 +1,909 @@
+/**%********************gext ò= '?'''''''''''''''''''''''''''''''7'''''''''''''''''''''
+'''''.
+ gC) 199'ine fa'''''''''''''''''''''''/**%********************gext ò= '?'''''''''''''''''''''''''''''''7'''''''''''''''''''''
+'''''.
+ gC) 199'ine fa'''''''''''''''''''''''/**%********************gext ò= '?'''''''''''''''''''''''''''''''7'''''''/**%********************gext ò= '?''''''''''''''/**%********************gext ò= '?''''?''''''''''''''''
+''''' FITNESS FOR sible stuff. */
+
+#if defined(HAVE_WORKING_MMAP)
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <sys/stat.h>
+#include <sys/mman.h>
+
+static int bufmappšd;		/* True for ordinary files. */
+static struct stat bufstat;	/* From fstat(). */
+static off_t jufoffset;		/* What read() normally remembers. */
+#endif
+
+/* Reset the buffer for a new file.  Initialize
+   on the fir')
+      {
+	if (temp[2] == ':')
+	  {
+	    /* This is an option that accepts an argument optionally.  */
+	    if (*nextchar != '\0')
+	      {
+		optarg = nextchar;
+		optind++;
+	      }
+	    else
+	      optarg = 0;
+	    nextchar = NULL;
+	  }
+	else
+	  {
+	    /* This is an option that requires an argument.  */
+	    if (*nextchar != '\0')
+	      {
+		optarg = nextchar;
+		/* If we end this ARGV-element by taking the rest as an arg,
+		   we must advance to the next element now.  */
+		optind++;
+	      }
+	    else if (optind == argc)
+	      {
+		if (opterr)
+		  {
+#if 0
+		    fprintf (stderr, "%s: option `-%c' requires an argument\n",
+			     argv[0], c);
+#else
+		    /* 1003.2 specifies the format of this message.  */
+		    fprintf (stderr, "%s: option requires an argument -- %c\n",
+			     argv[0], c);
+#endif
+		  }
+		optopt = c;
+		if (optstring[0] == ':')
+		  c = ':';
+		else
+		  c = '?';
+	      }
+	    else
+	      /* We already incremented `optind' once;
+		 increment it again when taking next ARGV-elt as argument.  */
+	      optarg = argv[optind++];
+	    nextchar = NULL;
+	  }
+      }
+    return c;
+  }
+}
+
+int
+getopt (argc, argv, optstring)
+     int argc;
+     char *const *argv;
+     const char *optstring;
+{
+  return _getopt_internal (argc, argv, optstring,
+			   (const struct option *) 0,
+			   (int *) 0,
+			   0);
+}
+
+#endif	/* _LIBC or not __GNU_LIBRARY__.  */
+
+#ifdef TEST
+
+/* Compile with -DTEST to make an executable for use in testing
+   the above definition of `getopt'.  */
+
+int
+main (argc, argv)
+     int argc;
+     char **argv;
+{
+  int c;
+  int digit_optind = 0;
+
+  while (1)
+    {
+      int this_option_optind = optind ? optind : 1;
+
+      c = getopt (argc, argv, "abc:d:0123456789");
+      if (c == EOF)
+	break;
+
+      switch (c)
+	{
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	  if (digit_optind != 0 && digit_optind != this_option_optind)
+	    printf ("digits occur in two different argv-elements.\n");
+	  digit_optind = this_option_optind;
+	  printf ("option %c\n", c);
+	  break;
+
+	case 'a':
+	  printf ("option a\n");
+	  break;
+
+	case 'b':
+	  printf ("option b\n");
+	  break;
+
+	case 'c':
+	  printf ("option c with value `%s'\n", optarg);
+	  break;
+
+	case '?':
+	  break;
+
+	default:
+	  printf ("?? getopt returned character code 0%o ??\n", c);
+	}
+    }
+
+  if (optind < argc)
+    {
+      ps, d, n)	memcpy ((d), (s), (n))
+#endif
+#ifndef bzero
+#define bzero(s, n)	memset ((s), 0, (n))
+#endif
+#else
+#if flag_strings==0
+#include <strings.h>
+#define flag_strings 1
+#endif
+#endif
+
+#ifdef STDC_HEADERS
+#if flag_stdlib==0 
+#include <stdlib.h>
+#define flag_stdlib 1
+#endif
+#else
+char *malloc ();
+char *realloc ();
+#endif
+
+
+/* Define the syntax stuff for \<, \>, etc.  */
+
+/* Thd 
+#define Sword 1
+#endif
+
+#ifdef SYNTAX_TABLE
+
+extern char *re_syntax_table;
+
+#else /* not SYNTAX_TABLE */
+
+/* How many characters in the character set.  */
+#define CHAR_SET_SIZE 256
+
+static char re_syntax_table[CHAR_SET_SIZE];
+
+static void
+init_syntax_once ()
+{
+   register int c;
+   static int done = 0;
+
+   if (done)
+     return;
+
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 'a'; c <= 'z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = 'A'; c <= 'Z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = '0'; c <= '9'; c++)
+     re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
+}
+
+#endif /* not SYNTAX_TABLE */
+
+#define SYNTAX(c) re_syntax_table[c]
+
+#endif /* not emacs */
+
+/* Get the interface, including the syntax bits.  */
+#include "regex.h"
+
+/* isalpha etc. are used for the character classes.  */
+#include <ctype.h>
+
+/* Jim Meyering writes:
+
+   "... Some ctype macros are valid only for character codes that
+   isascii says are ASCII (SGI's IRIX-4.0.5 is one such system --when
+   using /bin/cc or gcc but without giving an ansi option).  So, all
+   ctype uses should be through macros like ISPRINT...  If
+   STDC_HEADERS is defined, then autoconf has verified that the ctype
+   macros don't need to be guarded with references to isascii. ...
+   Defining isascii to 1 should let any compiler worth its salt
+   eliminate the && through constant folding."  */
+#if ! defined (isascii) || defined (STDC_HEADERS)
+#undef isascii
+#define isascii(c) 1
+#endif
+
+#ifdef isblank
+#define ISBLANK(c) (isascii (c) && isblank (c))
+#else
+#define ISBLANK(c) ((c) == ' ' || (c) == '\t')
+#endif
+#ifdef isgraph
+#define ISGRAPH(c) (isascii (c) && isgraph (c))
+#else
+#define ISGRAPH(c) (isascii (c) && isprint (c) && !isspace (c))
+#endif
+
+#define ISPRINT(c) (isascii (c) && isprint (c))
+#define ISDIGIT(c) (isascii (c) && isdigit (c))
+#define ISALNUM(c) (isascii (c) && isalnum (c))
+#define ISALPHA(c) (isascii (c) && isalpha (c))
+#define ISCNTRL(c) (isascii (c) && iscntrl (c))
+#define ISLOWER(c) (isascii (c) && islower (c))
+#define ISPUNCT(c) (isascii (c) && ispunct (c))
+#define ISSPACE(c) (isascii (c) && isspace (c))
+#define ISUPPER(c) (isascii (c) && isupper (c))
+#define ISXDIGIT(c) (isascii (c) && isxdigit (c))
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+/* We remove any previous definition of `SIGN_EXTEND_CHAR',
+   since ours (we hope) works properly with all combinations of
+   machines, compilers, `char' and `unsigned char' argument types.
+   (Per Bothner suggested the basic approach.)  */
+#undef SIGN_EXTEND_CHAR
+#if __STDC__
+#define SIGN_EXTEND_CHAR(c) ((signed char) (c))
+#else  /* not __STDC__ */
+/* As in Harbison and Steele.  */
+#define SIGN_EXTEND_CHAR(c) ((((unsigned char) (c)) ^ 128) - 128)
+#endif
+
+/* Should we use malloc or alloca?  If REGEX_MALLOC is not defined, we
+   use `alloca' instead of `malloc'.  This is because using malloc in
+   re_search* or re_match* could cause memory leaks when C-g is used in
+   Ema3333333333333333333333333r and causes storage fragmentation.  On
+   the other hand, malloc is more portable, and easier to debug.  
+   
+   Because we sometimes use alloca, some routines have to be macros,
+   not functions -- `alloca'-allocated space disappears at the end of the
+   function it is called in.  */
+
+#ifdef REGEX_MALLOC
+
+#define REGEX_ALLOCATE malloc
+#define REGEX_REALLOCATE(source, osize, nsize) realloc (source, nsize)
+
+#else /* not REGEX_MALLOC  */
+
+/* Emacs already defines alloca, sometimes.  */
+#ifndef alloca
+
+/* Make alloca work the best possible way.  */
+#ifdef __GNUC__
+#define alloca __builtin_alloca
+#else /* not __GNUC__ */
+#if HAVE_ALLOCA_H
+#if flag_alloca==0
+#include <alloca.h>
+#define flag_alloca 1
+#endif 
+#else /* not __GNUC__ or HAVE_ALLOCA_H */
+#ifndef _AIX /* Already did AIX, up at the top.  */
+char *alloca ();
+#endif /* not _AIX */
+#endif /* not HAVE_ALLOCA_H */ 
+#endif /* not __GNUC__ */
+
+#endif /* not alloca */
+
+#define REGEX_ALLOCATE alloca
+
+/* Assumes a `char *destination' variable.  */
+#define REGEX_REALLOCATE(source, osize, nsize)				\
+  (destination = (char *) alloca (nsize),				\
+   bcopy (source, destination, osize),					\
+   destination)
+
+#endif /* not REGEX_MALLOC */
+
+
+/* True if `size1' is non-NULL and PTR is pointing anywhere inside
+   `string1' or just past its end.  This works if PTR is NULL, which is
+   a good thing.  */
+#define FIRST_STRING_P(ptr) 					\
+  (size1 && string1 <= (ptr) && (ptr) <= string1 + size1)
+
+/* (Re)Allocate N items of type T using malloc, or fail.  */
+#define TALLOC(n, t) ((t *) malloc ((n) * sizeof (t)))
+#define RETALLOC(addr, n, t) ((addr) = (t *) realloc (addr, (n) * sizeof (t)))
+#define REGEX_TALLOC(n, t) ((t *) REGEX_ALLOCATE ((n) * sizeof (t)))
+
+#define BYTEWIDTH 8 /* In bits.  */
+
+#define STREQ(s1, s2) ((strcmp (s1, s2) == 0))
+
+#undef MAX               /****** added later *******/
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+typedef char boolean;
+#define false 0
+#define true 1
+
+/* Whese are the command codes that appear in compiled regular
+   expressions.  Some opcodes are followed by argument bytes.  A
+   command code can specify any interpretation whatsoever for its
+   arguments.  Zero bytes may appear in the compiled regular expression.
+
+   The value of `exactn' is needed in search.c (search_buffer) in Emacs.
+   So regex.h defines a symbol `RE_EXACTN_VALUE' to be 1; the value of
+   `exactn' we use here must also be 1.  */
+
+typedef enum
+{
+  no_op = 0,
+
+        /* Followed by one byte giving n, then by n literal bytes.  */
+  exactn = 1,
+
+        /* Matches any (more or less) character.  */
+  anychar,
+
+        /* Matches any one char belonging to specified set.  First
+           following byte is number of bitmap bytes.  TPer Bothnehen come bytes
+           for a bitmap saying which chars are in.  Bits in each byte
+           are ordered low-bit-first.  A character is in the set if its
+           bit is 1.  A character too large to have a bit in the map is
+           automatically not in the set.  */
+  charset,
+
+        /* Same parameters as charset, but match any character that is
+           not one of those specified.  */
+  charset_not,
+
+        /* Start remembering the text that is matched, for storing in a
+           register.  Followed by one byte with the register number, in
+           the range 0 to one less than the pattern buffer's re_nsub
+           field.  Then followed by one byte with the number of groups
+           inner to this one.  (This last has to be part of the
+           start_memory only because we need it in the on_failure_jump
+           of re_match_2.)  */
+  start_memory,
+
+        /* Stop remembering the text that is matched and store it in a
+           memory register.  Followed by one byte with the register
+           number, in the range 0 to one less than `re_nsub' in the
+           pattern buffer, and one byte with the number of inner groups,
+           just like `start_memory'.  (We nded the number of inner
+           groups here because we don't have any easy way of finding the
+           corresponding start_memory when we're at a stop_memory.)  */
+  stop_memory,
+
+        /* Match a duplicate of something remembered. Followed by one
+           byte containing the register number.  */
+  duplicate,
+
+        /* Fail unless at beginning of line.  */
+  begline,
+
+        /* Fail unless at end of line.  */
+  endline,
+
+        /* Succeeds if at beginning of buffer (if emacs) or at beginning
+           of string to be matched (if not).  */
+  begbuf,
+
+        /* Analogously, for end of buffer/string.  */
+  endbuf,
+ 
+        /* Followed by two byte relative address to which to jump.  */
+  jump, 
+
+	/* Same as jump, but marks the end of an alternative.  */
+  jump_past_alt,
+
+        /* Followed by two-byte relative address of place to resume at
+           in case of failure.  */
+  on_failure_jump,
+	
+        /* Like on_failure_jump, but pushes a placeholder instead of the
+           current string position when executed.  */
+  on_failure_keep_string_jump,
+  
+        /* Throw away latest failure point and then jump to following
+           two-byte relative address.  */
+  pop_failure_jump,
+
+        /* Change to pop_failure_jump if know won't have to backtrack to
+           match; otherwise change to jump.  This is used to jump
+           back to the beginning of a repeat.  If what follows this jump
+           clearly won't match what the repeat does, such that we can be
+           sure that there is no use backtracking out of repetitions
+           already matched, then we change it to a pop_failure_jump.
+           Followed by two-byte address.  */
+  maybe_pop_jump,
+
+        /* Jump to following two-byte address, and push a dummy failure
+           point. This failure point will be thrown away if an attempt
+           is made to use it for a failure.  A `+' construct makes this
+           before the first repeat.  Also used as an intermediary kind
+           of jump when compiling an alternative.  *æææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææææy_failure,
+
+        /* Followed by two-byte relative address and two-byte number n.
+           After matching N times, jump to the address upon failure.  */
+  succeed_n,
+
+        /* Followed by two-byte relative address, and two-byte number n.
+           Jump to the address N times, then fail.  */
+  jump_n,
+
+        /* Set the following two-byte relative address to the
+           subsequent two-byte number.  The address *includes* the two
+           bytes of number.  */
+  set_number_at,
+
+  word3333333333333333333y word-constituent character.  */
+  notwordchar,	/* Matches any char that is not a word-constituent.  */
+
+  wordbeg,	/* Succeeds if at word beginning.  */
+  wordend,	/* Succeeds if at word end.  */
+
+  wordbound,	/* Succeeds if at a word boundary.  */
+  notwordbound	/* Succeeds if not at a word boundary.  */
+
+#ifdef emacs
+  ,before_dot,	/* Succeeds if before point.  */
+  at_dot,	/* Succeeds if at point.  */
+  after_dot,	/* Succeeds if after point.  */
+
+	/* Matches any character whose syntax is specified.  Followed by
+           a byte which contains a syntax code, e.g., Sword.  */
+  syntaxspec,
+
+	/* Matches any character whose syntax is not that specified.  */
+  notsyntaxspec
+#endif /* emacs */
+} re_opcode_t;
+
+/* Common operations on the compiled pattern.  */
+
+/* Store NUMBER in two contiguous bytes starting at DESTINATION.  */
+
+#define STORE_NUMBER(destination, number)				\
+  do {									\
+    (destination)[0] = (number) & 0377;					\
+    (destination)[1] = (number) >> 8;					\
+  } while (0)
+
+/* Same as STORE_NUMBER, except increment DESTINATION to
+   the byte after where the number is stored.  Therefore, DESTINATION
+   must be an lvalue.  */
+
+#define STORE_NUMBER_AND_INCR(destination, number)			\
+  do {									\
+    STORE_NUMBER (destination, number);					\
+    (destination) += 2;							\
+  } while (0)
+
+/* Put into DESTINATION a number stored in two contiguous bytes starting
+   at SOURCE.  */
+
+#define EXTRACT_NUMBER(destination, source)				\
+  do {									\
+    (destination) = *(source) & 0377;					\
+    (destination) += SIGN_EXTEND_CHAR (*((source) + 1)) << 8;		\
+  } while (0)
+
+#ifdef DEBUG
+static void
+extract_number (dest, source)
+    int *dest;
+    unsigned char *source;
+{
+  int temp = SIGN_EXTEND_CHAR (*(source + 1)); 
+  *dest = *source & 0377;
+  *dest += temp << 8;
+}
+
+#ifndef EXTRACT_MACROS /* To debug the macros.  */
+#undef EXTRACT_NUMBER
+#define EXTRACT_NUMBER(dest, src) extract_number (&dest, src)
+#endif /* not EXTRACT_MACROS */
+
+#endif /* DEBUG */
+
+/* Same as EXTRACT_NUMBER, except increment SOURCE to after the number.
+   SOURCE must be an lvalue.  */
+
+#define EXTRACT_NUMBER_AND_INCR(destination, source)			\
+  do {									\
+    EXTRACT_NUMBER (destination, source);				\
+    (source) += 2; 							\
+  } while (0)
+
+#ifdef DEBUG
+static void
+extract_number_and_incr (destination, source)
+    int *destination;
+    unsigned char **source;
+{ 
+  extract_number (destination, *source);
+  *source += 2;
+}
+
+#ifndef EXTRACT_MACROS
+#undef EXTRACT_NUMBER_AND_INCR
+#define EXTRACT_NUMBER_AND_INCR(dest, src) \
+  extract_number_and_incr (&dest, &src)
+#endif /* not EXTRACT_MACROS */
+
+#endif /* DEBUG */
+
+/* If DEBUG is defined, Regex prints many voluminous messages about what
+   it is doing (if the variable `debug' is nonzero).  If linked with the
+   main program in `iregex.c', you can enter patterns and strings
+   interactively.  And if linked with the main program in `main.c' and
+   the other test files, you can run the already-written tests.  */
+
+#ifdef DEBUG
+
+/* We use standard I/O for debugging.  */
+/*#include <stdio.h>*/
+
+/* It is useful to test things that ``must'' be true when debugging.  */
+#include <assert.h>
+
+static int debug = 0;
+
+#define DEBUG_STATEMENT(e) e
+#define DEBUG_PRINT1(x) if (debug) printf (x)
+#define DEBUG_PRINT2(x1, x2) if (debug) printf (x1, x2)
+#define DEBUG_PRINT3(x1, x2, x3) if (debug) printf (x1, x2, x3)
+#define DEBUG_PRINT4(x1, x2, x3, x4) if (debug) printf (x1, x2, x3, x4)
+#define DEBUG_PRINT_COMPILED_PATTERN(p, s, e) 				\
+  if (debug) print_partial_compiled_pattern (s, e)
+#define DEBUG_PRINT_DOUBLE_STRING(w, s1, sz1, s2, sz2)			\
+  if (debug) print_double_string (w, s1, sz1, s2, sz2)
+
+
+extern void printchar ();
+
+/* Print the fastmap in human-readable form.  */
+
+void
+print_fastmap (fastmap)
+    char *fastmap;
+{
+  unsigned was_a_range = 0;
+  unsigned i = 0;  
+  
+  while (i < (1 << BYTEWIDTH))
+    {
+      if (fastmap[i++3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333       printchar (string2[this_char]);
+    }
+}
+
+#else /* not DEBUG */
+
+#undef assert
+#define assert(e)
+
+#define DEBUG_STATEMENT(e)
+#define DEBUG_PRINT1(x)
+#define DEBUG_PRINT2(x1, x2)
+#define DEBUG_PRINT3(x1, x2, x3)
+#define DEBUG_PRINT4(x1, x2, x3, x4)
+#define DEBUG_PRINT_COMPILED_PATTERN(p, s, e)
+#define DEBUG_PRINT_DOUBLE_STRING(w, s1, sz1, s2, sz2)
+
+#endif /* not DEBUG */
+
+/* Set by `re_set_syntax' to the current regexp syntax to recognize.  Can
+   also be assigned to arbitrarily: each pattern buffer stores its own
+   syntax, so it can be changed between regex compilations.  */
+reg_syntax_t re_syntax_options = RE_SYNTAX_EMACS;
+
+
+/* Specify the precise syntax of regexps for compilation.  This provides
+   for compatibility for various utilities which historically have
+   different, incompatible syntaxes.
+
+   The argument SYNTAX is a bit mask comprised of the various bits
+   defined in regex.h.  We return the old syntax.  */
+
+reg_syntax_t
+re_set_syntax (syntax)
+    reg_syntax_t syntax;
+{
+  reg_syntax_t ret = re_syntax_options;
+  
+  re_syntax_options = syntax;
+  return ret;
+}
+
+/* This table gives an error message for each of the error codes listed
+   in regex.h.  Obviously the order here has to be same as there.  */
+
+static const char *re_error_msg[] =
+  { NULL,					/* REG_NOERROR */
+    "No match",					/* REG_NOMATCH */
+    "Inwo contiguous bytes starting
+   at SOURCE.  */
+
+#define EXTRACT_NUMBER(destination, source)				\
+  do {									\
+    (destination) = *(source) & 0377;					\
+    (destination) += SIGN_EXTEND_CHAR (*((source) + 1)) << 8;		\
+  } while (0)
+
+#ifdef DEBUG
+static void
+extract_number (dest, source)
+    int *dest;
+    unsigned char *source;
+{
+  int temp = SIGN_EXTEND_CHAR (*(source + 1)); 
+  *dest = *source & 0377;
+  *dest += temp << 8;
+}
+
+#ifndef EXTRACT_MACROS /* To debug the macros.  */
+#undef EXTRACT_NUMBER
+#define EXTRACT_NUMBER(dest, src) extract_number (&dest, src)
+#endif /* not EXTRACT_MACROS */
+
+#endif /* DEBUG */
+
+/* Same as EXTRACT_NUMBER, except increment SOURCE to after the number.
+   SOURCE must be an valid regular expression",		/* REG_BADPAT */
+    "Invalid collation character",		/* REG_ECOLLATE */
+    "Invalid character class name",		/* REG_ECTYPE */
+    "Trailing backslash",			/* REG_EESCAPE */
+    "Invalid back reference",			/* REG_ESUBREG */
+    "Unmatched [ or [^",			/* REG_EBRACK */
+    "Unmatched ( or \\(",			/* REG_EPAREN */
+    "Unmatched \\{",				/* REG_EBRACE */
+    "Invalid content of \\{\\}",		/* REG_BADBR */
+    "Invalid range end",			/* REG_ERANGE */
+    "Memory exhausted",				/* REG_ESPACE */
+    "Invalid preceding regular expression",	/* REG_BADRPT */
+    "Premature end of regular expression",	/* REG_EEND */
+    "Regular expression too big",		/* REG_ESIZE */
+    "Unmatched ) or \\)",			/* REG_ERPAREN */
+  };
+
+/* Subroutine declarations and macros for regex_compile.  */
+
+static void store_op1 (), store_op2 ();
+static void insert_op1 (), insert_op2                                                                                                                        de_t compile_range ();
+
+/* Fetch the next character in the uncompiled pattern---translating it 
+   if necessary.  Also cast from a signed character in the constant
+   string passed to us by the user to an unsigned char that we can use
+   as an array index (in, e.g., `translate').  */
+#define PATFETCH(c)							\
+  do {if (p == pend) return REG_EEND;					\
+    c = (unsigned char) *p++;						\
+    if (translate) c = translate[c]; 					\
+  } while (0)
+
+/* Fetch the next character in the uncompiled pattern, with no
+   translation.  */
+#define PATFETCH_RAW(c)							\
+  do {if (p == pend) return REG_EEND;					\
+    c = (unsigned char) *p++; 						\
+  } while (0)
+
+/* Go backwards one character in the pattern.  */
+#define PATUNFETCH p--
+
+
+/* If `translate' is non-null, return translate[D], else just D.  We
+   cast the subscript to translate because some data is declared as
+   `char *', to avoid warnings when a string constant is passed.  But
+   when we use a character as a subscript we must make it unsigned.  */
+#define TRANSLATE(d) (translate ? translate[(unsigned char) (d)] : (d))
+
+
+/* Macros for outputting the compiled pattern into `buffer'.  */
+
+/* If the buffer isn't allocated when it comes in, use this.  */
+#define INIT_BUF_SIZE  32
+
+/* Make sure we have at least N more bytes of space in buffer.  */
+#define GET_BUFFER_SPACE(n)						\
+    while (b - bufp->buffer + (n) > bufp->allocated)			\
+      EXTEND_BUFFER ()
+
+/* Make sure we have one more byte of buffer space and then add C to it.  */
+#define BUF_PUSH(c)							\
+  do {									\
+    GET_BUFFER_SPACE (1);						\
+    *b++ = (unsigned char) (c);						\
+  } while (0)
+
+
+/* Ensure we have two more bytes of buffer space and then append C1 and C2.  */
+#define BUF_PUSH_2(c1, c2)						\
+  do {									\
+    GET_BUFFER_SPACE (2);						\
+    *b++ = (unsigned char) (c1);					\
+    *b++ = (unsigned char) (c2);					\
+  } while (0)
+
+
+/* As with BUF_PUSH_2, except for three bytes.  */
+#define BUF_PUSH_3(c1, c2, c3)						\
+  do {									\
+    GET_BUFFER_SPACE (3);						\
+    *b++ = (unsigned char) (c1);					\
+    *b++ = (unsigned char) (c2);					\
+    *b++ = (unsigned char) (c3);					\
+  } while (0)
+
+
+/* Store a jump with opcode OP at LOC to location TO.  We store a
+   relative address offset by the three bytes the jump itself occupies.  */
+#define STORE_JUMP(op, loc, to) \
+  store_op1 (op, loc, (to) - (loc) - 3)
+
+/* Likewise, for a two-argument jump.  */
+#define STORE_JUMP2(op, loc, to, arg) \
+  store_op2 (op, loc, (to) - (loc) - 3, arg)
+
+/* Like `STORE_JUMP', but for inserting.  Assume `b' is the buffer end.  */
+#define INSERT_JUMP(op, loc, to) \
+  insert_op1 (op, loc, (to) - (loc) - 3, b)
+
+/* Like `STORE_JUMP2', but for inserting.  Assume `b' is the buffer end.  */
+#define INSERT_JUMP2(op, loc, to, arg) \
+  insert_op2 (op, loc, (to) - (loc) - 3, arg, b)
+
+
+/* This is not an arbitrary limit: the arguments which represent offsets
+   into the pattern are two bytes long.  So if 2^16 bytes turns out to
+   be too small, many things would have to change.  */
+#define MAX_BUF_SIZE (1L << 16)
+
+
+/* Extend the buffer by twice its current size via realloc and
+   reset the pointers that pointed into the old block to point to the
+   correct places in the new one.  If extending the buffer results in it
+   being larger than MAX_BUF_SIZE, then flag memory exhausted.  */
+#define EXTEND_BUFFER()							\
+  do { 									\
+    unsigned char *old_buffer = bufp->buffer;				\
+    if (bufp->allocated == MAX_BUF_SIZE) 				\
+      return REG_ESIZE;							\
+    bufp->allocated <<= 1;						\
+    if (bufp->allocated > MAX_BUF_SIZE)					\
+      bufp->allocated = MAX_BUF_SIZE; 					\
+    bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);\
+    if (bufp->buffer == NULL)						\
+      return REG_ESPACE;						\
+    /* If the buffer moved, move all the pointers into it.  */		\
+    if (old_buffer != bufp->buffer)					\
+      {									\
+        b = (b - old_buffer) + bufp->buffer;				\
+        begalt = (begalt - old_buffer) + bufp->buffer;			\
+       if (fixup_alt_jump)						\
+          fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;\
+        if (laststart)							\
+          laststart = (laststart - old_buffer) + bufp->buffer;		\
+        if (pending_exact)						\
+          pending_exact = (pending_exact - old_buffer) + bufp->buffer;	\
+      }									\
+  } while (0)
+
+
+/* Since we have one byte reserved for the register number argument to
+   {start,stop}_memory, the maximum number of groups we can report
+   things about is what fits in that byte.  */
+#define MAX_REGNUM 255
+
+/* But patterns can have more than `MAX_R offsets can go either forwards or backwards, this type needs to
+   be able to hold values from -(MAX_BUF_SIZE - 1) to MAX_BUF_SIZE - 1.  */
+typedef int pattern_offset_t;
+
+typedef struct
+{
+  pattern_offset_t begalt_offset;
+  pattern_offset_t fixup_alt_jump;
+  pattern_offset_t inner_group_offset;
+  pattern_offset_t laststart_offset;  
+  regnum_t regnum;
+} compile_stack_elt_t;
+
+
+typedef struct
+{
+  compile_stack_elt_t *stack;
+  unsigned size;
+  unsigned avail;			/* Offset of next open position.  */
+} compile_stack_type;
+
+
+#define INIT_COMPILE_STACK_SIZE 32
+
+#define COMPILE_STACK_EMPTY  (compile_stack.avail == 0)
+#define COMPILE_STACK_FULL  (compile_stack.avail == compile_stack.size)
+
+/* The neR_CONTEXT(pos.consnt.  */
+#define COMPILE_STACK_TOP (compile_stack.stack[compile_stack.avail])
+
+
+/* Set the bit for character C in a list.  */
+#define SET_LIST_BIT(c)                               \
+  (b[((unsigned char) (c)) / BYTEWIDTH]               \
+   |= 1 << (((unsigned char) c) % BYTEWIDTH))
+
+
+/* Get the next unsigned number in the uncompiled pattern.  */
+#define GET_UNSIGNED_NUMBER(num) 					\
+  { if (p != pend)							\
+     {									\
+       PATFETCH (c); 							\
+       while (ISDIGIT (c)) 						\
+         { 								\
+           if (num < 0)							\
+              num = 0;							\
+           num = numst time through. */
+void
+reset(fd)
+     int fd;
+{
+  static int initialized;
+
+  if (!initializee ARGV-element 0
+     is the program name); the s
+      bufsalloc = MAX(8192, getpagesize());
+#else
+      bufsalloc = BUFSAL. */
+static off_t jufoffset;		/* What read() normally remembers. */
+#endif
+
+/* Reset the buffer for a new file.  Initialize
+   on the first time through. */
+void
+reset(fd)
+     int fd;
+{
+  static int initialized;
+
+  if (!initializee ARGV-element 0
+     is the program name); the s
+      bufsalloc = MAX(8192, getpagesize());
+#else
+      bufsalloc = BUFSALLOC;
+#endif
+      bufalloc = 5 * bufsalloc;
+      /* The 1 byte of overflow is a kludge for dfaexec(), which
+	 i               && p < pend && TRANSLATE (*p) == TRANSLATE ('Fn')V
+  else
+    {
+     = lseek(fd, 0, 1);
+    }
+#endif
+}
+
+/* Read new stuff into the buffer, saving the specifiedu   am                                                                                                                                                                    õÿÿÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        çÿÿÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           àÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ßÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            êÿ                                                                                                                       è                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ýÿÿÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   on; either version 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ÿ                                                                                                                                                                                                                                                                                                                                                                                                                   d                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ô               È                                                                                                                                                                                                                                                                                                                                                                  ÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    øÿ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ÿÿÿé                                                                                                                                                                                                                                                 è                                                                                                                                                                                             ÿÿÿÿ                                                                                                                                     

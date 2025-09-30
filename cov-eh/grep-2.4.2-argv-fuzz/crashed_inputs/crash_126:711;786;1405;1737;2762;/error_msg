@@ -1,0 +1,37 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_54
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140268025399104) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140268025399104) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140268025399104) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140268025399104, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f92b1d81476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f92b1d677f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f92b1dc8676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7f92b1f1ab77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007f92b1ddfcfc in malloc_printerr (str=str@entry=0x7f92b1f1dbc0 "malloc(): invalid size (unsorted)") at ./malloc/malloc.c:5664
+#7  0x00007f92b1de30dc in _int_malloc (av=av@entry=0x7f92b1f59c80 <main_arena>, bytes=bytes@entry=45056) at ./malloc/malloc.c:4002
+#8  0x00007f92b1de4262 in __GI___libc_malloc (bytes=45056) at ./malloc/malloc.c:3321
+#9  0x0000562aff96c17d in page_alloc (size=40961, up=0x562aff98d290 <ubuffer>) at ./grep-2.4.2.c.reduced.c:711
+#10 0x0000562aff96bca1 in reset (fd=0, file=0x0, stats=0x562aff9726d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:786
+#11 0x0000562aff96b6cf in grep (fd=0, file=0x0, stats=0x562aff9726d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1405
+#12 0x0000562aff9630dc in grepfile (file=0x0, stats=0x562aff9726d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#13 0x0000562aff962ae7 in main (argc=2, argv=0x562aff98b2d0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2762

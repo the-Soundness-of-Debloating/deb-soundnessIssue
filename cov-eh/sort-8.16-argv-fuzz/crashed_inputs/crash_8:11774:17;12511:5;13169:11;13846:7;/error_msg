@@ -1,0 +1,20 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==679050==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000000c0 (pc 0x7f41f4b7523c bp 0x7ffdaea21010 sp 0x7ffdaea20f50 T679050)
+==679050==The signal is caused by a READ memory access.
+==679050==Hint: address points to the zero page.
+    #0 fwrite_unlocked <null> (libc.so.6+0x8a23c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 write_line /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:11774:17 (reduced.tsan.out+0xd5196) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+    #2 write_unique /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12511:5 (reduced.tsan.out+0xd5ec4) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+    #3 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13169:11 (reduced.tsan.out+0xd1eb7) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13846:7 (reduced.tsan.out+0xd0ae5) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x214d4) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x8a23c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fwrite_unlocked
+==679050==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 679049 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,29 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=502823)
+  Read of size 1 at 0x7b1400000050 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 (reduced.tsan.out+0xddd75) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21 (reduced.tsan.out+0xeb598) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeb285) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xeb253) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16316:11 (reduced.tsan.out+0xde55c) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #5 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdd561) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #6 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xdbc70) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #7 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xdba0f) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #8 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xed2ea) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+  Previous write of size 8 at 0x7b1400000050 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4eb34) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 free_charset posix/regcomp.c:3804:3 (libc.so.6+0x10351f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 parse_bracket_exp posix/regcomp.c:3385:7 (libc.so.6+0x10351f)
+    #3 parse_expression posix/regcomp.c:2286:14 (libc.so.6+0x10351f)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xed2ea) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 in lex
+==================
+grep: Invalid content of \{\}
+timeout: the monitored command dumped core
+./verify.sh: line 110: 502822 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

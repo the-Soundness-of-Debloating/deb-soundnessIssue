@@ -1,0 +1,28 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==3734229==ERROR: MemorySanitizer: stack-overflow on address 0x7ffe362a7000 (pc 0x5561be516c33 bp 0x7ffe362a4d20 sp 0x7ffe362a3c80 T3734229)
+    #0 0x5561be516c33 in line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14
+
+SUMMARY: MemorySanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14 in line_directive_out
+==3734229==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3734228 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==159648==ERROR: ThreadSanitizer: stack-overflow on address 0x7ffd2ff73000 (pc 0x55f06fd64d2b bp 0x7ffd2ff714e0 sp 0x7ffd2ff70450 T159648)
+    #0 line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14 (reduced.tsan.out+0xdbd2b) (BuildId: 3561bd196d3f6827a17f2ef4a581916d024be2a1)
+
+SUMMARY: ThreadSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14 in line_directive_out
+==159648==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 159647 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==964987==ERROR: LeakSanitizer: stack-overflow on address 0x7ffc9bbc4000 (pc 0x55bf59edd383 bp 0x7ffc9bbc2fc0 sp 0x7ffc9bbc1f80 T0)
+    #0 0x55bf59edd383 in line_directive_out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14
+
+SUMMARY: LeakSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6066:14 in line_directive_out
+==964987==ABORTING

@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '\'
+target5: invalid option -- '{'
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1997960==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x0000000077fc (pc 0x55583e238aff bp 0x7ffe7cb83a70 sp 0x7ffe7cb83600 T1997960)
+==1997960==The signal is caused by a READ memory access.
+    #0 0x55583e238aff in cwexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8688:31
+    #1 0x55583e236174 in kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8895:13
+    #2 0x55583e23ac7b in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9390:13
+    #3 0x55583e248828 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #4 0x55583e247d09 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1612:16
+    #5 0x55583e207d2f in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #6 0x55583e2071b3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #7 0x7fd4a26ffd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fd4a26ffe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55583e1de594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x34594) (BuildId: 7722db87e8e7ac352905c2ebb734116afefb2f4d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:8688:31 in cwexec
+==1997960==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1997959 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

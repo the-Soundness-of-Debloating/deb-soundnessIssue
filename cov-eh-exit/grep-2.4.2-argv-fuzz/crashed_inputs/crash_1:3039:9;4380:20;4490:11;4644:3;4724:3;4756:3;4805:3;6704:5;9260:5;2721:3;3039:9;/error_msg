@@ -1,0 +1,21 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+==1789788==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5566523c4234 in charclass_index /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3039:9
+    #1 0x556652378687 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4380:20
+    #2 0x5566523c5748 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4490:11
+    #3 0x5566523c4eec in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4644:3
+    #4 0x5566523c4d1c in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4724:3
+    #5 0x5566523788a8 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #6 0x55665237289e in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #7 0x556652392d36 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6704:5
+    #8 0x5566523a9ccd in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #9 0x55665236eb2a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #10 0x7f21905bdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7f21905bde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x5566522e4374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f374) (BuildId: b65dd0c03f55f20279164addcee6efca3719057c)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:3039:9 in charclass_index
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1789787 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

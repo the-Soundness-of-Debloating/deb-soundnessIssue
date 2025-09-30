@@ -1,0 +1,19 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+target5: invalid option -- ''
+ThreadSanitizer:DEADLYSIGNAL
+==2753693==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b73fffffff8 (pc 0x55a5d56272e5 bp 0x7ffe5a90b920 sp 0x7ffe5a90b270 T2753693)
+==2753693==The signal is caused by a READ memory access.
+    #0 dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7444:43 (reduced.tsan.out+0xd82e5) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #1 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6711:5 (reduced.tsan.out+0xd7b9d) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #2 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5 (reduced.tsan.out+0xddef3) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce3b0) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x213d4) (BuildId: 9306c724145ede82f7b929a1fc6476d817673c8c)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7444:43 in dfamust
+==2753693==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2753692 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

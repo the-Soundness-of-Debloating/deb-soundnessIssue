@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d
+==2235612==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x562253171ec9 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1532:21
+    #1 0x5622531a8808 in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6150:19
+    #2 0x5622531b17d3 in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6845:17
+    #3 0x5622531cb8eb in uncompressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7459:23
+    #4 0x5622531bc3f8 in uncompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:8958:23
+    #5 0x5622531b7e69 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10214:13
+    #6 0x7faa93ac1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7faa93ac1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5622530d9344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out+0x1e344) (BuildId: 7161c42a978e0834ea90e9509e0062c72b23a664)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1532:21 in BZ2_decompress
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 170: 2235611 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/result/afl_result/reduced/result_1/msan/crashes/id:000014* > sample1.tst

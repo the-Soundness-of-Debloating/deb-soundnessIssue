@@ -1,0 +1,36 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '‡'
+target5: invalid option -- 'π'
+target5: invalid option -- 'Ä'
+target5: invalid option -- 'è'
+target5: invalid option -- '˜'
+grep-2.4.2.c.reduced.c:2926:56: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2926:56 in 
+grep-2.4.2.c.reduced.c:959:52: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:959:52 in 
+grep-2.4.2.c.reduced.c:1022:33: runtime error: addition of unsigned offset to 0x55c5e9f15000 overflowed to 0x55c5e9f14fff
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:1022:33 in 
+grep-2.4.2.c.reduced.c:9379:20: runtime error: addition of unsigned offset to 0x55c5e9f15000 overflowed to 0x55c5e9f104da
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:9379:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1485946==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55c5e8085405 bp 0x7ffdb22eafd0 sp 0x7ffdb22e7820 T1485946)
+==1485946==The signal is caused by a READ memory access.
+==1485946==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55c5e8085405 in dfastate /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5825:11
+    #1 0x55c5e80899c6 in build_state /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6395:3
+    #2 0x55c5e808946d in dfaexec /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6592:7
+    #3 0x55c5e8090ccb in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9434:13
+    #4 0x55c5e8092733 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #5 0x55c5e809206e in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #6 0x55c5e807d64a in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #7 0x55c5e807cc86 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2762:14
+    #8 0x7f2907157d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7f2907157e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x55c5e80544c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 9231921cf048fbec2201cbbf770d1d346be9fab5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5825:11 in dfastate
+==1485946==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1485945 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

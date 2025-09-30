@@ -1,0 +1,127 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_16
+=================================================================
+==3582737==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61d000001190 at pc 0x55ee2e6988c5 bp 0x7ffe8a35bf50 sp 0x7ffe8a35bf48
+READ of size 1 at 0x61d000001190 thread T0
+    #0 0x55ee2e6988c4 in inflate_codes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2539:30
+    #1 0x55ee2e69aab0 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3398:18
+    #2 0x55ee2e69ad82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #3 0x55ee2e69aeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #4 0x55ee2e69b116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #5 0x55ee2e6a2636 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #6 0x55ee2e6a216a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #7 0x7f1256b09d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f1256b09e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x55ee2e5d43b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+
+0x61d000001190 is located 2304 bytes to the right of 2064-byte region [0x61d000000080,0x61d000000890)
+freed by thread T0 here:
+    #0 0x55ee2e659b32 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7b32) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55ee2e698661 in huft_free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2466:11
+    #2 0x55ee2e69a851 in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3365:7
+    #3 0x55ee2e69ad82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55ee2e69aeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55ee2e69b116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55ee2e6a2636 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #7 0x55ee2e6a216a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #8 0x7f1256b09d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+previously allocated by thread T0 here:
+    #0 0x55ee2e659dde in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0xa7dde) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+    #1 0x55ee2e697a69 in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2345:38
+    #2 0x55ee2e69a25d in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3176:15
+    #3 0x55ee2e69ad82 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #4 0x55ee2e69aeaa in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #5 0x55ee2e69b116 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #6 0x55ee2e6a2636 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22
+    #7 0x55ee2e6a216a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13
+    #8 0x7f1256b09d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2539:30 in inflate_codes
+Shadow bytes around the buggy address:
+  0x0c3a7fff81e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff81f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8210: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8220: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x0c3a7fff8230: fa fa[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8240: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8250: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8260: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8270: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c3a7fff8280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3582737==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3582736 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_16
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_488
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=3776604)
+  Read of size 1 at 0x7b7400000280 by main thread:
+    #0 inflate_codes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2539:30 (reduced.tsan.out+0xd13e5) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #1 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3398:18 (reduced.tsan.out+0xd2aff) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #2 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd2d34) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #3 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd2dd9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #4 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd2f54) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #5 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22 (reduced.tsan.out+0xd8ff8) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13 (reduced.tsan.out+0xd8a15) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+
+  Previous write of size 8 at 0x7b7400000280 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da14) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #1 huft_free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2466:11 (reduced.tsan.out+0xd11b9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #2 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3365:7 (reduced.tsan.out+0xd2997) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #3 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd2d34) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #4 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd2dd9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #5 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd2f54) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #6 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22 (reduced.tsan.out+0xd8ff8) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13 (reduced.tsan.out+0xd8a15) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2539:30 in inflate_codes
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=3776604)
+  Read of size 2 at 0x7b7400000288 by main thread:
+    #0 inflate_codes /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2585:39 (reduced.tsan.out+0xd1680) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #1 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3398:18 (reduced.tsan.out+0xd2aff) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #2 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd2d34) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #3 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd2dd9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #4 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd2f54) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #5 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22 (reduced.tsan.out+0xd8ff8) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13 (reduced.tsan.out+0xd8a15) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+
+  Previous write of size 8 at 0x7b7400000288 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4da14) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #1 huft_free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2466:11 (reduced.tsan.out+0xd11b9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #2 inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3365:7 (reduced.tsan.out+0xd2997) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #3 inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19 (reduced.tsan.out+0xd2d34) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #4 inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15 (reduced.tsan.out+0xd2dd9) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #5 unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15 (reduced.tsan.out+0xd2f54) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #6 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7244:22 (reduced.tsan.out+0xd8ff8) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6828:13 (reduced.tsan.out+0xd8a15) (BuildId: 5ca7f30a0db84f5bb88d6c400fe34e1369fda83e)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2585:39 in inflate_codes
+==================
+
+reduced.tsan.out: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_488: unexpected end of file
+ThreadSanitizer: reported 2 warnings
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3776603 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_488

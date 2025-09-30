@@ -1,0 +1,50 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000020,sig:06,src:000038,time:26286,execs:1141,op:havoc,rep:2
+==804514==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x561043ad3d13 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12
+    #1 0x561043ae0004 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #2 0x561043aefa56 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #3 0x561043aeeb38 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #4 0x7f94f22efd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f94f22efe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x561043a463c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 83ea95ce99a1a3d2ae722158e73bbcff564230cc)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12 in yyparse
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 804513 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000081,sig:11,src:000093+000270,time:352598,execs:31522,op:splice,rep:2
+ThreadSanitizer:DEADLYSIGNAL
+==810367==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000003 (pc 0x559351be2758 bp 0x7ffef29e8930 sp 0x7ffef29e7ca0 T810367)
+==810367==The signal is caused by a WRITE memory access.
+==810367==Hint: address points to the zero page.
+    #0 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12 (reduced.tsan.out+0xd0758) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #1 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15 (reduced.tsan.out+0xd3ca1) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #2 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17 (reduced.tsan.out+0xd775d) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12 (reduced.tsan.out+0xd7403) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 _start <null> (reduced.tsan.out+0x22474) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12 in yyparse
+==810367==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 810366 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000003,sig:11,src:000036,time:226,execs:356,op:havoc,rep:12
+LeakSanitizer:DEADLYSIGNAL
+==811655==ERROR: LeakSanitizer: SEGV on unknown address 0x7f9ec4995603 (pc 0x55b87cc92ef3 bp 0x7ffeb7098c70 sp 0x7ffeb7098320 T0)
+==811655==The signal is caused by a WRITE memory access.
+    #0 0x55b87cc92ef3 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12
+    #1 0x55b87cc95119 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #2 0x55b87cc97e6e in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #3 0x55b87cc97b88 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #4 0x7f9ec48e3d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f9ec48e3e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55b87cc64614 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out+0x6614) (BuildId: 8bc9601b1d8ac744a7bda0bb90254865831e3dc3)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3446:12 in yyparse
+==811655==ABORTING

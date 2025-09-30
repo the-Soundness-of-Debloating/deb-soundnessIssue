@@ -1,0 +1,44 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: invalid option -- 'S'
+target5: invalid option -- '_'
+target5: invalid option -- '|'
+target5: invalid option -- 'g'
+LeakSanitizer:DEADLYSIGNAL
+==2913207==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x56062a8d29ac bp 0x7ffe5696b110 sp 0x7ffe5696b0f0 T0)
+==2913207==The signal is caused by a WRITE memory access.
+    #0 0x56062a8d29ac in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28
+    #1 0x56062a8d5b2d in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4742:5
+    #2 0x56062a8d28cf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #3 0x56062a8d2528 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #4 0x56062a8d427a in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5
+    #5 0x56062a8d5307 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #6 0x56062a8d2116 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7efe7407dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7efe7407de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x56062a8a44a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x54a4) (BuildId: 501851d1df848985fbc5c922196b6dbedbbda0ae)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28 in addtok
+==2913207==ABORTING
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2507953==ERROR: MemorySanitizer: SEGV on unknown address 0x701000010000 (pc 0x55cc31c92e9c bp 0x7ffef2963490 sp 0x7ffef29633c0 T2507953)
+==2507953==The signal is caused by a WRITE memory access.
+    #0 0x55cc31c92e9c in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28
+    #1 0x55cc31ca8f7b in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4742:5
+    #2 0x55cc31c92798 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4756:3
+    #3 0x55cc31c911db in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4805:3
+    #4 0x55cc31c9e480 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6691:5
+    #5 0x55cc31ca6118 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #6 0x55cc31c8fba6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f85d970dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f85d970de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55cc31c08314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f314) (BuildId: d87addfe524b03d7303077920432e2d9f7ac52f7)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4425:28 in addtok
+==2507953==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2507952 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

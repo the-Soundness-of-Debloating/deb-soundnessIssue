@@ -1,0 +1,37 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1018422==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7f268877d9cf bp 0x000000000000 sp 0x7ffeb58ad2d0 T0)
+==1018422==The signal is caused by a READ memory access.
+==1018422==Hint: address points to the zero page.
+    #0 0x7f268877d9cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x555df8e20a78 in readfil3 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:6162:9
+    #2 0x555df8e201f6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:474:9
+    #3 0x7f268871fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f268871fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x555df8d60364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.asan.out+0x1f364) (BuildId: a9dd8ab892ebc7773c3d570e6ca61dba783c78ea)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==1018422==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1018421 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1172967==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7f8cdd9c59cf bp 0x000000000000 sp 0x7ffedc1046a0 T1172967)
+==1172967==The signal is caused by a READ memory access.
+==1172967==Hint: address points to the zero page.
+    #0 0x7f8cdd9c59cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5612ecd9cf0b in readfil3 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:6162:9
+    #2 0x5612ecd9c65d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:474:9
+    #3 0x7f8cdd967d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f8cdd967e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x5612ecd74464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.ubsan.out+0x12464) (BuildId: 10a5d18a96939aa94f02ccf17bc8850f8093f2f0)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==1172967==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1172966 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

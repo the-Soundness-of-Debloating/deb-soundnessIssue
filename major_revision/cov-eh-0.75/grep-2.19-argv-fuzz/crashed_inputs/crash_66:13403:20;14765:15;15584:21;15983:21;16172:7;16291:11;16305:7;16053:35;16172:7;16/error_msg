@@ -1,0 +1,82 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==392196==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f8dd2a00250 at pc 0x55a0bb5878fb bp 0x7ffe0324d1d0 sp 0x7ffe0324d1c8
+READ of size 4 at 0x7f8dd2a00250 thread T0
+    #0 0x55a0bb5878fa in setbit /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13403:20
+    #1 0x55a0bb59c2d5 in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14765:15
+    #2 0x55a0bb5889fc in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21
+    #3 0x55a0bb59cce3 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21
+    #4 0x55a0bb59caac in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #5 0x55a0bb59ca86 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #6 0x55a0bb588c18 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #7 0x55a0bb59ce5c in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35
+    #8 0x55a0bb59caac in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #9 0x55a0bb59ca86 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #10 0x55a0bb588c18 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #11 0x55a0bb59ce5c in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35
+    #12 0x55a0bb59caac in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #13 0x55a0bb59ca86 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #14 0x55a0bb588c18 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #15 0x55a0bb587c0a in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #16 0x55a0bb585a09 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #17 0x55a0bb5857cf in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #18 0x55a0bb59f131 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #19 0x55a0bb5969c4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #20 0x7f8dd46d0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #21 0x7f8dd46d0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #22 0x55a0bb4ae4d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x244d4) (BuildId: 3164c3eea1a1521a60bbfbb62408f94b8439fa50)
+
+Address 0x7f8dd2a00250 is located in stack of thread T0 at offset 80 in frame
+    #0 0x55a0bb59ab1f in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13868
+
+  This frame has 12 object(s):
+    [32, 64) 'ccl' (line 13873)
+    [96, 100) '_wc' (line 13888) <== Memory access at offset 80 underflows this variable
+    [112, 116) '_wc___0' (line 13894)
+    [128, 132) '_wc___1' (line 13900)
+    [144, 177) 'str' (line 13904)
+    [224, 228) '_wc___2' (line 13908)
+    [240, 244) '_wc___3' (line 13915)
+    [256, 260) '_wc___4' (line 13932)
+    [272, 276) '_wc___6' (line 13944)
+    [288, 292) '_wc___7' (line 13950)
+    [304, 308) '_wc___8' (line 13956)
+    [320, 324) '_wc___9' (line 13975)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13403:20 in setbit
+Shadow bytes around the buggy address:
+  0x0ff23a537ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff23a538000: f1 f1 f1 f1 04 f2 00 f2 f2 f2 00 f2 f2 f2 00 00
+  0x0ff23a538010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff23a538020: f3 f3 f3 f3 f3 f3 f3 f3 00 00 00 00 00 00 00 00
+  0x0ff23a538030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ff23a538040: f1 f1 f1 f1 00 00 00 00 f2 f2[f2]f2 04 f2 04 f2
+  0x0ff23a538050: 04 f2 00 00 00 00 01 f2 f2 f2 f2 f2 04 f2 04 f2
+  0x0ff23a538060: 04 f2 04 f2 04 f2 04 f2 04 f3 f3 f3 00 00 00 00
+  0x0ff23a538070: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff23a538080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff23a538090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==392196==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 392195 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

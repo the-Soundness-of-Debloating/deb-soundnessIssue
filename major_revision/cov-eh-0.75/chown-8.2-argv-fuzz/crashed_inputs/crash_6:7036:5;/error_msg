@@ -1,0 +1,18 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:35:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:35:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1693137==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55a5f2cfd000 (pc 0x55a5f23787f0 bp 0x7ffd167c4690 sp 0x7ffd167c45b0 T1693137)
+==1693137==The signal is caused by a WRITE memory access.
+    #0 0x55a5f23787f0 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./argv-fuzz-inl.h:35:13
+    #1 0x55a5f2377dc1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7036:5
+    #2 0x7f97aaa53d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f97aaa53e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55a5f233f694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: 712be70f50e9f63efde890b7bda4bb1c420ecabb)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./argv-fuzz-inl.h:35:13 in afl_init_argv
+==1693137==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1693136 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

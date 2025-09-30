@@ -1,0 +1,25 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==920748==ERROR: ThreadSanitizer: SEGV on unknown address 0x565517a5238b (pc 0x5655179fd379 bp 0x7ffd78f67c20 sp 0x7ffd78f67a00 T920748)
+==920748==The signal is caused by a WRITE memory access.
+    #0 to_chars /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:4176:35 (reduced.tsan.out+0xd6379) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #1 mode_to_chars /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:4516:7 (reduced.tsan.out+0xd6dd7) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #2 start_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5163:11 (reduced.tsan.out+0xd737b) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #3 dump_regular_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5525:13 (reduced.tsan.out+0xed4c7) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #4 dump_file0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6440:26 (reduced.tsan.out+0xd9a00) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #5 dump_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6629:7 (reduced.tsan.out+0xd8cb9) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #6 dump_dir0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5832:13 (reduced.tsan.out+0xee560) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #7 dump_dir /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5896:7 (reduced.tsan.out+0xed185) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #8 dump_file0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6371:9 (reduced.tsan.out+0xd976d) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #9 dump_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6629:7 (reduced.tsan.out+0xd8cb9) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #10 create_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:6044:15 (reduced.tsan.out+0xd8a0c) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #11 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23261:7 (reduced.tsan.out+0xe6bb9) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+    #12 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #13 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #14 _start <null> (reduced.tsan.out+0x22524) (BuildId: f19db1a6449a7716f2ca0ceb5da8a847be42f3ac)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:4176:35 in to_chars
+==920748==ABORTING
+timeout: the monitored command dumped core

@@ -1,0 +1,52 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.asan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -k -p -w
+=================================================================
+==1173028==ERROR: AddressSanitizer: dynamic-stack-buffer-overflow on address 0x7ffc6950238d at pc 0x555a3844d5e6 bp 0x7ffc69501c90 sp 0x7ffc69501458
+READ of size 13 at 0x7ffc6950238d thread T0
+    #0 0x555a3844d5e5 in strlen (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.asan.out+0x435e5) (BuildId: d5b66dab2fad33b15fe89789152db34c7ba80aea)
+    #1 0x555a38504acb in lookup_function /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:5565:9
+    #2 0x555a384fe585 in handle_function /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:7401:13
+    #3 0x555a384fd6e3 in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3460:15
+    #4 0x555a384ffc7f in variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3647:9
+    #5 0x555a38511a9c in decode_env_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:12938:11
+    #6 0x555a3850f271 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11296:3
+    #7 0x7f6fde131d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f6fde131e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x555a38436424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.asan.out+0x2c424) (BuildId: d5b66dab2fad33b15fe89789152db34c7ba80aea)
+
+Address 0x7ffc6950238d is located in stack of thread T0
+SUMMARY: AddressSanitizer: dynamic-stack-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.asan.out+0x435e5) (BuildId: d5b66dab2fad33b15fe89789152db34c7ba80aea) in strlen
+Shadow bytes around the buggy address:
+  0x10000d298420: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d298430: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d298440: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d298450: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d298460: 00 00 00 00 00 00 00 00 00 00 00 00 ca ca ca ca
+=>0x10000d298470: 00[05]cb cb cb cb cb cb 00 00 00 00 00 00 00 00
+  0x10000d298480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d298490: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d2984a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d2984b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10000d2984c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1173028==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 1173027 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.asan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -k -p -w

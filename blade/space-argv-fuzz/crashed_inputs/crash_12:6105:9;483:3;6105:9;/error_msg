@@ -1,0 +1,13 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.msan.out
+==2052710==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55b7f6603bfb in prnfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:6105:9
+    #1 0x55b7f6602ef9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:483:3
+    #2 0x7fd620788d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fd620788e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55b7f657c324 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.msan.out+0x1e324) (BuildId: 0eb95ffdb4b182fd2d34bb5dc83560ee00bcfcfb)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:6105:9 in prnfile
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2052709 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

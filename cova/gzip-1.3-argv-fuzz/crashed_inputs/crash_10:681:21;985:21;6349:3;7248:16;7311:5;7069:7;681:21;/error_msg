@@ -1,0 +1,52 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/bins/reduced.asan.out
+gzip: ==============================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================M=================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================Â================: file name too long
+=================================================================
+==2439265==ERROR: AddressSanitizer: global-buffer-overflow on address 0x556c7cf241e0 at pc 0x556c7c54b0c4 bp 0x7ffc289c7070 sp 0x7ffc289c7068
+READ of size 1 at 0x556c7cf241e0 thread T0
+    #0 0x556c7c54b0c3 in longest_match /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:681:21
+    #1 0x556c7c54ba01 in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:985:21
+    #2 0x556c7c551567 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6349:3
+    #3 0x556c7c5540e8 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7248:16
+    #4 0x556c7c5532bb in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7311:5
+    #5 0x556c7c552b63 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #6 0x7f5f5002fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f5f5002fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x556c7c48a374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/bins/reduced.asan.out+0x21374) (BuildId: 6d3a20169d845bcd22deb43305eb42c75fb47d16)
+
+0x556c7cf241e0 is located 0 bytes to the right of global variable 'window' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:199' (0x556c7cf141e0) of size 65536
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:681:21 in longest_match
+Shadow bytes around the buggy address:
+  0x0aae0f9dc7e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aae0f9dc7f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aae0f9dc800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aae0f9dc810: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aae0f9dc820: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0aae0f9dc830: 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9 f9 f9
+  0x0aae0f9dc840: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aae0f9dc850: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aae0f9dc860: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aae0f9dc870: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0aae0f9dc880: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2439265==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 177: 2439264 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/gzip-1.3-argv-fuzz/result/afl_result/reduced/result_2/asan/crashes/id:000002*

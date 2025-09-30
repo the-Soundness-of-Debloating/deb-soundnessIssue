@@ -1,0 +1,32 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_31
+=================================================================
+==2307492==ERROR: AddressSanitizer: requested allocation size 0xffffffffffedb080 (0xffffffffffedc080 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x55a39fbccdce in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out+0xa5dce) (BuildId: 11297d8842f2d50aa922417b1df790d249c2dbff)
+    #1 0x55a39fc32590 in default_bzalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:4747:13
+    #2 0x55a39fc0ca67 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1119:29
+    #3 0x55a39fc349b2 in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6196:19
+    #4 0x55a39fc3e6bc in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6909:17
+    #5 0x55a39fc4c0cd in testStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7791:23
+    #6 0x55a39fc431ca in testf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:9485:15
+    #7 0x55a39fc41522 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10416:17
+    #8 0x7f3229a76d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==2307492==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.asan.out+0xa5dce) (BuildId: 11297d8842f2d50aa922417b1df790d249c2dbff) in __interceptor_malloc
+==2307492==ABORTING
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.lsan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file2_fuzzed/file2_31
+==2798801==ERROR: LeakSanitizer: requested allocation size 0xffffffffffedb080 exceeds maximum supported size of 0x200000000
+    #0 0x55c8a516b712 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.lsan.out+0x30712) (BuildId: 60aef1e6531555946c5f1d87fe2f4b010c204f20)
+    #1 0x55c8a51771e0 in default_bzalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:4747:13
+    #2 0x55c8a516efa6 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:1119:29
+    #3 0x55c8a5177c0c in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6196:19
+    #4 0x55c8a5179cb9 in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6909:17
+    #5 0x55c8a517e3eb in testStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7791:23
+    #6 0x55c8a517bdc5 in testf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:9485:15
+    #7 0x55c8a517ae13 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10416:17
+    #8 0x7fa06396dd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+==2798801==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: LeakSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/bzip2-1.0.5-input-fuzz/bins/reduced.lsan.out+0x30712) (BuildId: 60aef1e6531555946c5f1d87fe2f4b010c204f20) in __interceptor_malloc

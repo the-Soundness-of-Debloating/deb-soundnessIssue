@@ -1,0 +1,20 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000012,sig:11,src:000001,time:7777,execs:641,op:havoc,rep:13
+
+=================================================================
+==2172823==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 120 byte(s) in 1 object(s) allocated from:
+    #0 0x55ac3ec696b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.lsan.out+0x306b2) (BuildId: 5b718ef538ae10eb77bc1c9302598d9ad557f51d)
+    #1 0x7f135ebcb122 in __getdelim (/lib/x86_64-linux-gnu/libc.so.6+0x80122) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x613fffffffff  (<unknown module>)
+
+Direct leak of 1 byte(s) in 1 object(s) allocated from:
+    #0 0x55ac3ec696b2 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.lsan.out+0x306b2) (BuildId: 5b718ef538ae10eb77bc1c9302598d9ad557f51d)
+    #1 0x55ac3ec6c034 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:706:11
+    #2 0x55ac3ec6d8d1 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5113:25
+    #3 0x55ac3ec6ec54 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x55ac3ec6eabd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f135eb74d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 121 byte(s) leaked in 2 allocation(s).

@@ -1,0 +1,14 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==692350==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x5606adf50cc2 bp 0x7ffd3da33890 sp 0x7ffd3da33460 T0)
+==692350==The signal is caused by a READ memory access.
+==692350==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x5606adf50cc2 in __lsan::Deallocate(void*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x2ecc2) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc)
+    #1 0x5606adf5ae50 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7
+    #2 0x7ffd3da3388f  ([stack]+0x1e88f)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x2ecc2) (BuildId: 37fb4530d8209ceb6caf9adcc24498b770bfefbc) in __lsan::Deallocate(void*)
+==692350==ABORTING

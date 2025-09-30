@@ -1,0 +1,42 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1459160==ERROR: AddressSanitizer: SEGV on unknown address 0x4a8725d4d105 (pc 0x5600ef688382 bp 0x7ffe60f378c0 sp 0x7ffe60f37660 T0)
+==1459160==The signal is caused by a READ memory access.
+    #0 0x5600ef688382 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28
+    #1 0x7f8d0f9a0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7f8d0f9a0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x5600ef5b7454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.asan.out+0x24454) (BuildId: b66c9801f5056d45552296ad4aa024dd3d31215b)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28 in main
+==1459160==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1459159 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.msan.out
+==963758==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5607e7766cfb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28
+    #1 0x7ff93627bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7ff93627be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x5607e76bf3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: 108307a13e29df7c08098651edb3abb06cb5476b)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28 in main
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 963757 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1901896==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x55f59496e8a4 bp 0x7ffe9ca81b80 sp 0x7ffe9ca819f0 T0)
+==1901896==The signal is caused by a READ memory access.
+==1901896==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55f59496e8a4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28
+    #1 0x7f84a68d0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7f84a68d0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x55f59493b624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.lsan.out+0x6624) (BuildId: 4d45626fbc540f7e899180e005f384e0acff3092)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9671:28 in main
+==1901896==ABORTING

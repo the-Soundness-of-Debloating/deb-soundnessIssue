@@ -1,0 +1,25 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_116
+date-8.21.c.reduced.c:4751:48: runtime error: null pointer passed as argument 2, which is declared to never be null
+date-8.21.c.reduced.c:807:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4751:48 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2779896==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f400002e80c bp 0x7ffd0ccc2680 sp 0x7ffd0ccc2438 T2779896)
+==2779896==The signal is caused by a READ memory access.
+==2779896==Hint: address points to the zero page.
+    #0 0x7f400002e80c  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139
+    #1 0x55ac4213c4a8 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4751:17
+    #2 0x55ac4212c7f8 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5024:14
+    #3 0x55ac4212309a in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3503:16
+    #4 0x55ac421311f3 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15
+    #5 0x55ac42139caa in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #6 0x55ac42139681 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #7 0x7f3fffea6d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7f3fffea6e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x55ac420f5664 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x17664) (BuildId: e1a26e58b6ebde2b054bc079fd03078bd3a0a58e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139 
+==2779896==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2779895 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

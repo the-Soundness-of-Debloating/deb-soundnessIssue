@@ -1,0 +1,16 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/bins/reduced.msan.out
+==2155216==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5635849b1bfa in out_line_count /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6403:11
+    #1 0x5635849a3e91 in out_str /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6424:3
+    #2 0x56358499f1c4 in indent_put2s /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:4921:3
+    #3 0x56358497a08a in make_tables /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5037:5
+    #4 0x563584971f20 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:487:3
+    #5 0x7f951b6edd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f951b6ede3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5635848eb2e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/bins/reduced.msan.out+0x272e4) (BuildId: 62af667f5bf06ae7d0ff0de4d76a72f424c0622d)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:6403:11 in out_line_count
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2155215 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,20 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_0
+ThreadSanitizer:DEADLYSIGNAL
+==754208==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x560c395e4370 bp 0x7fff83ed3580 sp 0x7fff83ed28e8 T754208)
+==754208==The signal is caused by a READ memory access.
+==754208==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read2 <null> (reduced.tsan.out+0xba370) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4267:64 (reduced.tsan.out+0xd21b0) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #2 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5328:15 (reduced.tsan.out+0xd3ca1) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #3 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17 (reduced.tsan.out+0xd775d) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12 (reduced.tsan.out+0xd7403) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #5 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 _start <null> (reduced.tsan.out+0x22474) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out+0xba370) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a) in __tsan_read2
+==754208==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 754207 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

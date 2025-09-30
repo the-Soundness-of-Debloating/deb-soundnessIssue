@@ -1,0 +1,49 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==806861==ERROR: AddressSanitizer: global-buffer-overflow on address 0x555a642fc1c4 at pc 0x555a642dc15e bp 0x7ffe94adde30 sp 0x7ffe94adde28
+READ of size 1 at 0x555a642fc1c4 thread T0
+    #0 0x555a642dc15d in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3923:32
+    #1 0x555a642e0290 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5206:15
+    #2 0x555a642e6bbd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9604:24
+    #3 0x7f338f269d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f338f269e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x555a64215454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/bins/reduced.asan.out+0x24454) (BuildId: b09a55c9f114e952f573dc66b95083f3d5526045)
+
+0x555a642fc1c4 is located 28 bytes to the left of global variable 'yypgoto' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3158' (0x555a642fc1e0) of size 26
+0x555a642fc1c4 is located 8 bytes to the right of global variable 'yyr1' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3006' (0x555a642fc160) of size 92
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3923:32 in yyparse
+Shadow bytes around the buggy address:
+  0x0aabcc8577e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 f9
+  0x0aabcc8577f0: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aabcc857800: 00 00 01 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0aabcc857810: 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 00 00 00 00
+  0x0aabcc857820: 00 00 00 00 00 00 00 04 f9 f9 f9 f9 00 00 00 00
+=>0x0aabcc857830: 00 00 00 00 00 00 00 04[f9]f9 f9 f9 00 00 00 02
+  0x0aabcc857840: f9 f9 f9 f9 00 00 00 02 f9 f9 f9 f9 00 00 01 f9
+  0x0aabcc857850: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aabcc857860: 00 00 02 f9 f9 f9 f9 f9 05 f9 f9 f9 03 f9 f9 f9
+  0x0aabcc857870: 02 f9 f9 f9 00 00 00 00 f9 f9 f9 f9 01 f9 f9 f9
+  0x0aabcc857880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==806861==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 806860 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

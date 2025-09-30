@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+chown-8.2.c.reduced.c:4535:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+chown-8.2.c.reduced.c:844:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior chown-8.2.c.reduced.c:4535:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1606028==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fe79ecd110c bp 0x7ffff60b7860 sp 0x7ffff60b7718 T1606028)
+==1606028==The signal is caused by a WRITE memory access.
+==1606028==Hint: address points to the zero page.
+    #0 0x7fe79ecd110c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x5625a3357234 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4535:5
+    #2 0x5625a3351e06 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4949:9
+    #3 0x5625a335819f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13
+    #4 0x5625a335a1c4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10
+    #5 0x7fe79eb4bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7fe79eb4be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x5625a331e6a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x146a4) (BuildId: e16b2cb7791efe9eaa2259b91025496cf8991263)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==1606028==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1606027 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

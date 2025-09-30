@@ -1,0 +1,70 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.asan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file6_fuzzed/file6_155 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_155
+
+=================================================================
+==1978508==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x556aff587fae in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.asan.out+0xb3fae) (BuildId: 57de7921fa025be95c7f71277642e8b0a1cb7a87)
+    #1 0x556aff5eac64 in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30514:13
+    #2 0x556aff5cda39 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30528:13
+    #3 0x556aff5e2aaa in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:21840:21
+    #4 0x556aff5e2094 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #5 0x7fee69d6bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 1 byte(s) in 1 object(s) allocated from:
+    #0 0x556aff5883d6 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.asan.out+0xb43d6) (BuildId: 57de7921fa025be95c7f71277642e8b0a1cb7a87)
+    #1 0x556aff5eacdc in xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30546:13
+    #2 0x556aff5cdd71 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30560:13
+    #3 0x556aff5e76f4 in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24640:17
+    #4 0x556aff5e484a in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:22483:15
+    #5 0x556aff5e2094 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #6 0x7fee69d6bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 6 byte(s) in 2 object(s) allocated from:
+    #0 0x556aff587fae in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.asan.out+0xb3fae) (BuildId: 57de7921fa025be95c7f71277642e8b0a1cb7a87)
+    #1 0x556aff5eac64 in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30514:13
+    #2 0x556aff5cda39 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30528:13
+    #3 0x556aff5eae28 in xclone /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30624:13
+    #4 0x556aff5dcca9 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30639:17
+    #5 0x556aff5e2d67 in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:21863:26
+    #6 0x556aff5e2094 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #7 0x7fee69d6bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: 63 byte(s) leaked in 4 allocation(s).
+timeout: the monitored command dumped core
+./verify.sh: line 360: 1978506 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.asan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file6_fuzzed/file6_155 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_155
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.lsan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file6_fuzzed/file6_155 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_155
+
+=================================================================
+==2039335==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 56 byte(s) in 1 object(s) allocated from:
+    #0 0x555a31467a12 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.lsan.out+0x36a12) (BuildId: de6bbede380b8811ab06353e523f912c5fdcc55a)
+    #1 0x555a3147fa5f in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30514:13
+    #2 0x555a31470949 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30528:13
+    #3 0x555a3147a948 in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:21840:21
+    #4 0x555a3147a51f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #5 0x7fb2abd39d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Direct leak of 1 byte(s) in 1 object(s) allocated from:
+    #0 0x555a31467e64 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.lsan.out+0x36e64) (BuildId: de6bbede380b8811ab06353e523f912c5fdcc55a)
+    #1 0x555a3147fad7 in xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30546:13
+    #2 0x555a31470a61 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30560:13
+    #3 0x555a3147d6fe in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24640:17
+    #4 0x555a3147b9ea in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:22483:15
+    #5 0x555a3147a51f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #6 0x7fb2abd39d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+Indirect leak of 6 byte(s) in 2 object(s) allocated from:
+    #0 0x555a31467a12 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/bins/reduced.lsan.out+0x36a12) (BuildId: de6bbede380b8811ab06353e523f912c5fdcc55a)
+    #1 0x555a3147fa5f in xnmalloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30514:13
+    #2 0x555a31470949 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30528:13
+    #3 0x555a3147fbc8 in xclone /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30624:13
+    #4 0x555a31477c49 in xstrdup /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:30639:17
+    #5 0x555a3147aa11 in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:21863:26
+    #6 0x555a3147a51f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-exit/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23202:7
+    #7 0x7fb2abd39d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 63 byte(s) leaked in 4 allocation(s).

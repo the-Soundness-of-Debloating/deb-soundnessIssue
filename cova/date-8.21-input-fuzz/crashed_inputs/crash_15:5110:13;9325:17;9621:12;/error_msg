@@ -1,0 +1,16 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000057,sig:06,src:000570+000918,time:14105357,execs:550142,op:splice,rep:1
+LeakSanitizer:DEADLYSIGNAL
+==3357219==ERROR: LeakSanitizer: SEGV on unknown address 0x7f33e1c00000 (pc 0x559421122109 bp 0x7ffdfe11e240 sp 0x7ffdfe11ddb0 T0)
+==3357219==The signal is caused by a READ memory access.
+    #0 0x559421122109 in __sanitizer::LargeMmapAllocator<__sanitizer::NoOpMapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Deallocate(__sanitizer::AllocatorStats*, void*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out+0x32109) (BuildId: d22710d484f64ca41029273a411f26eabfa52507)
+    #1 0x559421128b66 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5110:13
+    #2 0x55942112e047 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x55942112dd08 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f33e3165d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f33e3165e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5594210f7684 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out+0x7684) (BuildId: d22710d484f64ca41029273a411f26eabfa52507)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out+0x32109) (BuildId: d22710d484f64ca41029273a411f26eabfa52507) in __sanitizer::LargeMmapAllocator<__sanitizer::NoOpMapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Deallocate(__sanitizer::AllocatorStats*, void*)
+==3357219==ABORTING

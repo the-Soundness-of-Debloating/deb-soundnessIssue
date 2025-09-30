@@ -1,0 +1,19 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.lsan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file14_fuzzed/file14_108 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_108 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file15_fuzzed/file15_108
+LeakSanitizer:DEADLYSIGNAL
+==1897080==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x7f03ced710bc bp 0x7ffef6dcae30 sp 0x7ffef6dcadd8 T0)
+==1897080==The signal is caused by a READ memory access.
+==1897080==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f03ced710bc  string/../sysdeps/x86_64/multiarch/strlen-evex.S:77
+    #1 0x5582c6170a55 in fnmatch_no_wildcards /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24427:19
+    #2 0x5582c616c7c3 in excluded_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24489:21
+    #3 0x5582c61641db in excluded_name /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:17528:13
+    #4 0x5582c6168325 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12217:19
+    #5 0x5582c616d8bd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #6 0x7f03cebe8d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f03cebe8e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x5582c612f8d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.lsan.out+0xb8d4) (BuildId: 372b27ffc1a56eeeecc5f18a8efa70615b6cda6e)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==1897080==ABORTING

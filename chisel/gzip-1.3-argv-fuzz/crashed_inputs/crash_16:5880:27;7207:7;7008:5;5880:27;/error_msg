@@ -1,0 +1,48 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/bins/reduced.tsan.out
+gzip: invalid option -- '`'
+gzip: invalid option -- 'i'
+gzip: invalid option -- '_'
+gzip: invalid option -- 'i'
+gzip: invalid option -- 'p'
+gzip: invalid option -- 'u'
+gzip: invalid option -- '/'
+gzip: invalid option -- 'i'
+gzip: invalid option -- 'e'
+ThreadSanitizer:DEADLYSIGNAL
+==1928110==ERROR: ThreadSanitizer: FPE on unknown address 0x5609e6f57dff (pc 0x5609e6f57dff bp 0x7ffdd0317880 sp 0x7ffdd0317840 T1928110)
+    #0 display_ratio /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5880:27 (reduced.tsan.out+0xd0dff) (BuildId: bd7ec0b4f57d3a743a8cb360291f14ff4d692d9c)
+    #1 treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7207:7 (reduced.tsan.out+0xd1fed) (BuildId: bd7ec0b4f57d3a743a8cb360291f14ff4d692d9c)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7008:5 (reduced.tsan.out+0xd1acc) (BuildId: bd7ec0b4f57d3a743a8cb360291f14ff4d692d9c)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 _start <null> (reduced.tsan.out+0x21354) (BuildId: bd7ec0b4f57d3a743a8cb360291f14ff4d692d9c)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: FPE /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5880:27 in display_ratio
+==1928110==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 1928107 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_74
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/bins/reduced.lsan.out
+gzip: invalid option -- '`'
+gzip: invalid option -- 'i'
+gzip: invalid option -- '_'
+gzip: invalid option -- 'i'
+gzip: invalid option -- 'p'
+gzip: invalid option -- 'u'
+gzip: invalid option -- '/'
+gzip: invalid option -- 'i'
+gzip: invalid option -- 'e'
+LeakSanitizer:DEADLYSIGNAL
+==3104201==ERROR: LeakSanitizer: FPE on unknown address 0x55b71c87575e (pc 0x55b71c87575e bp 0x7fff9e78c2d0 sp 0x7fff9e78c2b0 T0)
+    #0 0x55b71c87575e in display_ratio /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5880:27
+    #1 0x55b71c876088 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7207:7
+    #2 0x55b71c875dff in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7008:5
+    #3 0x7f2e21376d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f2e21376e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55b71c846414 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/bins/reduced.lsan.out+0x5414) (BuildId: 5cd07706713c8a343cf4e9d00a0b5f0a05457ec3)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: FPE /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5880:27 in display_ratio
+==3104201==ABORTING

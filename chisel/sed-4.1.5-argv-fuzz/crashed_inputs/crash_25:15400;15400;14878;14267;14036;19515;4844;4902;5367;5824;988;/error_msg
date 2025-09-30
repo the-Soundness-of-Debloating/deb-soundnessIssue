@@ -1,0 +1,36 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/input/radamsa_fuzzed/input_1_fuzzed/input_1_260
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055a8641a3cfa in check_matching (mctx=0x7fff757e1a48, fl_longest_match=1, p_match_first=0x7fff757e1b04) at ./sed-4.1.5.c.reduced.c:15400
+15400	    if (cur_state->halt) {
+#0  0x000055a8641a3cfa in check_matching (mctx=0x7fff757e1a48, fl_longest_match=1, p_match_first=0x7fff757e1b04) at ./sed-4.1.5.c.reduced.c:15400
+#1  0x000055a8641a39fc in re_search_internal (preg=0x55a8658f5500, string=0x55a8658fc0f0 "#del and fileread", length=17, start=0, range=17, stop=17, nmatch=1, pmatch=0x55a8658fcd70, eflags=0)
+    at ./sed-4.1.5.c.reduced.c:14878
+#2  0x000055a8641a1611 in re_search_stub (bufp=0x55a8658f5500, string=0x55a8658fc0f0 "#del and fileread", length=17, start=0, range=17, stop=17, regs___0=0x0, ret_len=0)
+    at ./sed-4.1.5.c.reduced.c:14267
+#3  0x000055a8641a156c in re_search (bufp=0x55a8658f5500, string=0x55a8658fc0f0 "#del and fileread", length=17, start=0, range=17, regs___0=0x0) at ./sed-4.1.5.c.reduced.c:14036
+#4  0x000055a8641a17c0 in match_regex (regex=0x55a8658f5500, buf=0x55a8658fc0f0 "#del and fileread", buflen=17, buf_start_offset=0, regarray=0x0, regsize=0) at ./sed-4.1.5.c.reduced.c:19515
+#5  0x000055a8641a2376 in match_an_address_p (addr=0x55a8658f6100, input=0x7fff757e1e58) at ./sed-4.1.5.c.reduced.c:4844
+#6  0x000055a8641a20d7 in match_address_p (cmd=0x55a86591e630, input=0x7fff757e1e58) at ./sed-4.1.5.c.reduced.c:4902
+#7  0x000055a8641a0d38 in execute_program (vec=0x55a8658f3480, input=0x7fff757e1e58) at ./sed-4.1.5.c.reduced.c:5367
+#8  0x000055a8641a0514 in process_files (the_program___0=0x55a8658f3480, argv=0x55a8641c09b8 <afl_init_argv[ret]+24>) at ./sed-4.1.5.c.reduced.c:5824
+#9  0x000055a8641a02fa in main (argc=14, argv=0x55a8641c09a0 <afl_init_argv[ret]>) at ./sed-4.1.5.c.reduced.c:988

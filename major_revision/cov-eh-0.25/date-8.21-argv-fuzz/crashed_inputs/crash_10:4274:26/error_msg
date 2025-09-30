@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:4268:32: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4268:32 in 
+date-8.21.c.reduced.c:4274:26: runtime error: index -28 out of bounds for type 'const yytype_int8[26]' (aka 'const signed char[26]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4274:26 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3124597==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7ffd258defb8 (pc 0x7f9c01e11dcd bp 0x7ffd260db470 sp 0x7ffd260d9bd8 T3124597)
+==3124597==The signal is caused by a READ memory access.
+    #0 0x7f9c01e11dcd  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317
+    #1 0x563488e08cdc in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3556:13
+    #2 0x563488e15d1e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #3 0x563488e1dd35 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7f9c01c8cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f9c01c8ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x563488ddc634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x15634) (BuildId: 1af85365cd1837342f5c0bbde6e9d93d79f5e384)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:317 
+==3124597==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3124596 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

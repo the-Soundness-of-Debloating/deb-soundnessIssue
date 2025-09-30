@@ -1,0 +1,20 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_374
+LeakSanitizer:DEADLYSIGNAL
+==1461800==ERROR: LeakSanitizer: SEGV on unknown address 0x7ffc8f6f6f6f (pc 0x55964e81480c bp 0x7ffc8f4389a0 sp 0x7ffc8f4389a0 T0)
+==1461800==The signal is caused by a READ memory access.
+    #0 0x55964e81480c in TapeGet /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8088:23
+    #1 0x55964e8102b1 in GetKeyword /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3100:10
+    #2 0x55964e814488 in geomspec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:2928:11
+    #3 0x55964e812a1a in sinelem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:7929:11
+    #4 0x55964e8126d4 in elemdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:1672:11
+    #5 0x55964e8159b0 in greldef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3534:11
+    #6 0x55964e80f56e in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3858:11
+    #7 0x55964e80ee99 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:482:11
+    #8 0x7f58c53c6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7f58c53c6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x55964e7e1474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.lsan.out+0x6474) (BuildId: 2415353368ab9fc4dc89cd6cbe6ee23a5f425cb1)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:8088:23 in TapeGet
+==1461800==ABORTING

@@ -1,0 +1,64 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==600822==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60300000023c at pc 0x55b859b4db61 bp 0x7ffe78ed12c0 sp 0x7ffe78ed12b8
+READ of size 4 at 0x60300000023c thread T0
+    #0 0x55b859b4db60 in state_index /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5094:77
+    #1 0x55b859b51d1f in dfastate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6215:13
+    #2 0x55b859b53e12 in build_state /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6395:3
+    #3 0x55b859b52f03 in dfaexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6592:7
+    #4 0x55b859b5e8b6 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9434:13
+    #5 0x55b859b64961 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #6 0x55b859b63eba in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #7 0x55b859b468f3 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #8 0x55b859b45d95 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #9 0x7f4920ed7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f4920ed7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55b859a853e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x213e4) (BuildId: 713d16dea25a93e923af0f64a7b76188c3b16ee2)
+
+0x60300000023c is located 4 bytes to the right of 24-byte region [0x603000000220,0x603000000238)
+allocated by thread T0 here:
+    #0 0x55b859b0ae0e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0xa6e0e) (BuildId: 713d16dea25a93e923af0f64a7b76188c3b16ee2)
+    #1 0x55b859b4b354 in xmalloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2881:9
+    #2 0x55b859b4e185 in state_index /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5131:13
+    #3 0x55b859b4b23a in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5724:3
+    #4 0x55b859b55334 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5
+    #5 0x55b859b5e37b in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #6 0x55b859b45b13 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f4920ed7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5094:77 in state_index
+Shadow bytes around the buggy address:
+  0x0c067fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c067fff8000: fa fa 00 00 00 fa fa fa 00 00 00 05 fa fa 00 00
+  0x0c067fff8010: 00 00 fa fa fd fd fd fd fa fa fd fd fd fd fa fa
+  0x0c067fff8020: fd fd fd fa fa fa fd fd fd fa fa fa fd fd fd fa
+  0x0c067fff8030: fa fa fd fd fd fa fa fa fd fd fd fa fa fa fd fd
+=>0x0c067fff8040: fd fd fa fa 00 00 00[fa]fa fa 00 00 00 fa fa fa
+  0x0c067fff8050: 00 00 00 00 fa fa 00 00 00 00 fa fa fd fd fd fd
+  0x0c067fff8060: fa fa fd fd fd fd fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==600822==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 600821 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

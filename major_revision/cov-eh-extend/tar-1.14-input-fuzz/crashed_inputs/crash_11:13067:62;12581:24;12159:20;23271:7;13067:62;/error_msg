@@ -1,0 +1,21 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_22
+
+gzip: stdin: invalid compressed data--crc error
+
+gzip: stdin: invalid compressed data--length error
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out: This does not look like a tar archive
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out: Skipping to next header
+==821405==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55c5595da53f in from_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13067:62
+    #1 0x55c5595d5342 in read_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12581:24
+    #2 0x55c5595d16e5 in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12159:20
+    #3 0x55c5595f211c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #4 0x7f52e1855d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f52e1855e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55c55950a574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out+0x20574) (BuildId: 2dfaa8c7e81cd23acb675684db929e5074a532ff)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13067:62 in from_header
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 360: 821403 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xzf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file11_fuzzed/file11_22

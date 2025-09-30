@@ -1,0 +1,20 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_88 -k -p -w
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==440371==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55956dc00000 (pc 0x55956c94d944 bp 0x7ffd195bc5e0 sp 0x7ffd195bc470 T440371)
+==440371==The signal is caused by a READ memory access.
+    #0 0x55956c94d944 in lookup_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:22482:16
+    #1 0x55956c93ae11 in reference_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3319:7
+    #2 0x55956c939bad in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3592:11
+    #3 0x55956c95b232 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:16089:13
+    #4 0x55956c9521f3 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #5 0x55956c94a1c0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #6 0x7f4413cb8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f4413cb8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55956c905704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out+0x2d704) (BuildId: a372ba9bfd508861707996a31990acfe3e988146)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:22482:16 in lookup_variable
+==440371==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 440368 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_88 -k -p -w

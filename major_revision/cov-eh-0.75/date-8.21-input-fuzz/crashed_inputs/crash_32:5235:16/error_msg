@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000105,sig:06,src:000119+000279,time:2025200,execs:296739,op:splice,rep:2
+date-8.21.c.reduced.c:5235:16: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5235:16 in 
+date-8.21.c.reduced.c:5237:15: runtime error: store to null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5237:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2024634==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5564edf70296 bp 0x7fffd073f0a0 sp 0x7fffd073e1c0 T2024634)
+==2024634==The signal is caused by a WRITE memory access.
+==2024634==Hint: address points to the zero page.
+    #0 0x5564edf70296 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5237:24
+    #1 0x5564edf7a47c in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #2 0x5564edf79fa4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #3 0x7f01d1667d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f01d1667e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x5564edf3b624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x14624) (BuildId: 2c50ff3723806d02fe3505f7aa894b1ca8e1b326)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5237:24 in parse_datetime
+==2024634==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2024633 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

@@ -1,0 +1,20 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file14_fuzzed/file14_130 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_130 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file15_fuzzed/file15_130
+MemorySanitizer:DEADLYSIGNAL
+==873257==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x7f08b375e9af bp 0x7ffe635ed0a0 sp 0x7ffe635ec670 T873257)
+==873257==The signal is caused by a READ memory access.
+==873257==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7f08b375e9af in internal_fnmatch posix/fnmatch_loop.c:54:13
+    #1 0x55cc87c2a04a in excluded_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:24489:21
+    #2 0x55cc87bf6887 in excluded_name /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:17528:13
+    #3 0x55cc87c0fd2d in read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12217:19
+    #4 0x55cc87c3011c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7
+    #5 0x7f08b3695d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f08b3695e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55cc87b48574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out+0x20574) (BuildId: 2dfaa8c7e81cd23acb675684db929e5074a532ff)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV posix/fnmatch_loop.c:54:13 in internal_fnmatch
+==873257==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 360: 873256 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/bins/reduced.msan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file14_fuzzed/file14_130 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file12_fuzzed/file12_130 -X /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-input-fuzz/input/radamsa_fuzzed/file15_fuzzed/file15_130

@@ -1,0 +1,22 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2985591==ERROR: LeakSanitizer: SEGV on unknown address 0x6010a03f2048 (pc 0x556d0a040331 bp 0x7ffd3e5c8de0 sp 0x7ffd3e5c8d60 T0)
+==2985591==The signal is caused by a READ memory access.
+    #0 0x556d0a040331 in create_cd_newstate /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8846:18
+    #1 0x556d0a040258 in re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8621:15
+    #2 0x556d0a03f235 in create_initial_state /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9907:28
+    #3 0x556d0a03e06e in re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9611:9
+    #4 0x556d0a03df7b in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9116:9
+    #5 0x556d0a03e2ba in compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19425:11
+    #6 0x556d0a03e27a in compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19477:3
+    #7 0x556d0a03d4fe in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3270:36
+    #8 0x556d0a03cfe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #9 0x556d0a03ce31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #10 0x7fcf8faf6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x7fcf8faf6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x556d0a00f444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5444) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8846:18 in create_cd_newstate
+==2985591==ABORTING

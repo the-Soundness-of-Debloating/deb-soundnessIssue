@@ -1,0 +1,62 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out -r /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_200
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2244678)
+  Read of size 5 at 0x7b50000000b3 by main thread (mutexes: write M0):
+    #0 memcmp <null> (reduced.tsan.out+0x590ad) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 compare /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12016:18 (reduced.tsan.out+0xd4d12) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 mergelines_node /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12962:19 (reduced.tsan.out+0xd6b2d) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 merge_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13090:7 (reduced.tsan.out+0xd6654) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13170:7 (reduced.tsan.out+0xd5a5e) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11 (reduced.tsan.out+0xd1b7f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+  Previous write of size 8 at 0x7b50000000b0 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4db34) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 _IO_deallocate_file libio/libioP.h:862:3 (libc.so.6+0x7ed26) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 fclose libio/iofclose.c:74:3 (libc.so.6+0x7ed26)
+    #3 rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8469:14 (reduced.tsan.out+0xcdc3c) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15 (reduced.tsan.out+0xd4f89) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17 (reduced.tsan.out+0xd1aa7) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+  Mutex M0 (0x7b04000000f8) created at:
+    #0 pthread_mutex_init <null> (reduced.tsan.out+0x5047f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 init_node /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12740:5 (reduced.tsan.out+0xd614d) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 merge_tree_init /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12676:5 (reduced.tsan.out+0xd56c8) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13539:21 (reduced.tsan.out+0xd1b25) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out+0x590ad) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b) in memcmp
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2244678)
+  Write of size 1 at 0x7b50000000bd by main thread (mutexes: write M0):
+    #0 write_line /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12083:20 (reduced.tsan.out+0xd4e86) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 write_unique /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12850:5 (reduced.tsan.out+0xd5bd4) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 mergelines_node /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12969:11 (reduced.tsan.out+0xd6bf9) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 merge_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13090:7 (reduced.tsan.out+0xd6654) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13170:7 (reduced.tsan.out+0xd5a5e) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13542:11 (reduced.tsan.out+0xd1b7f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+  Previous write of size 8 at 0x7b50000000b8 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4db34) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 _IO_deallocate_file libio/libioP.h:862:3 (libc.so.6+0x7ed26) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 fclose libio/iofclose.c:74:3 (libc.so.6+0x7ed26)
+    #3 rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8469:14 (reduced.tsan.out+0xcdc3c) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9288:15 (reduced.tsan.out+0xd4f89) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #5 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13513:17 (reduced.tsan.out+0xd1aa7) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+  Mutex M0 (0x7b04000000f8) created at:
+    #0 pthread_mutex_init <null> (reduced.tsan.out+0x5047f) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #1 init_node /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12740:5 (reduced.tsan.out+0xd614d) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #2 merge_tree_init /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12676:5 (reduced.tsan.out+0xd56c8) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #3 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13539:21 (reduced.tsan.out+0xd1b25) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14654:7 (reduced.tsan.out+0xd0a6b) (BuildId: eec2bb4a919b48274cb07bcbae0fe00574ced45b)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:12083:20 in write_line
+==================
+timeout: the monitored command dumped core
+./verify.sh: line 167: 2244677 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/bins/reduced.tsan.out -r /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/sort-8.16-input-fuzz/input/radamsa_fuzzed/file27_fuzzed/file27_200

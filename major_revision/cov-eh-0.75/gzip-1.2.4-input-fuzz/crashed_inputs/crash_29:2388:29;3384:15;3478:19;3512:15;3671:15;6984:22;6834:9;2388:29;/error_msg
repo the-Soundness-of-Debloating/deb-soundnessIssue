@@ -1,0 +1,53 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d
+=================================================================
+==408283==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55836f9a989c at pc 0x55836f961eee bp 0x7ffc9891a0b0 sp 0x7ffc9891a0a8
+READ of size 2 at 0x55836f9a989c thread T0
+    #0 0x55836f961eed in huft_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29
+    #1 0x55836f96455b in inflate_dynamic /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3384:15
+    #2 0x55836f9648f7 in inflate_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3478:19
+    #3 0x55836f964a1a in inflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3512:15
+    #4 0x55836f964c56 in unzip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:3671:15
+    #5 0x55836f96c465 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #6 0x55836f96bb5a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #7 0x7fb07c870d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7fb07c870e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x55836f8a03b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: 0f698429e25e1b111ce92ebe12fdebfd0d21bc3d)
+
+0x55836f9a989c is located 36 bytes to the left of global variable 'method' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6293' (0x55836f9a98c0) of size 4
+0x55836f9a989c is located 0 bytes to the right of global variable 'cpdext' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2113' (0x55836f9a9860) of size 60
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:2388:29 in huft_build
+Shadow bytes around the buggy address:
+  0x0ab0edf2d2c0: f9 f9 f9 f9 00 00 00 00 02 f9 f9 f9 f9 f9 f9 f9
+  0x0ab0edf2d2d0: 04 f9 f9 f9 04 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0ab0edf2d2e0: 00 04 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 06
+  0x0ab0edf2d2f0: f9 f9 f9 f9 00 00 00 00 00 00 00 06 f9 f9 f9 f9
+  0x0ab0edf2d300: 00 00 00 00 00 00 00 04 f9 f9 f9 f9 00 00 00 00
+=>0x0ab0edf2d310: 00 00 00[04]f9 f9 f9 f9 04 f9 f9 f9 00 00 00 00
+  0x0ab0edf2d320: 00 00 00 00 00 00 00 00 00 00 04 f9 f9 f9 f9 f9
+  0x0ab0edf2d330: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f9
+  0x0ab0edf2d340: f9 f9 f9 f9 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+  0x0ab0edf2d350: 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9 04 f9 f9 f9
+  0x0ab0edf2d360: 00 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==408283==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 408282 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000043* > sample1.tst

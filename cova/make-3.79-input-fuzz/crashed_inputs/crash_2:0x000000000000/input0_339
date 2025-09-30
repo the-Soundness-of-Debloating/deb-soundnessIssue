@@ -1,0 +1,39 @@
+VPATH = .
+srcdir = $(VPATH)
+
+CC = gcc
+INSTALL = cp
+INSTALL_PROGRAM = $(INSTALL_PROGRAM) hello $(bindir)/$(binprefix)hello
+	-$(INSTALL_DATA) $(srcdir)/hello.info $(infodir)/hello.info
+installdirs:
+	${srcdir}/mkinstalldirs $(bindir) $(infodir)
+
+hello: $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+hello.o getopt.o getopt65537.o: getopt.h
+
+hello.info: hello.texi
+	$(MAKEINFO) -I$(srcdir) -o hello.info $(srcdir)/hello.texi
+hello.dvi: hello.texi
+	$(TEXI2DVI) $(srcdir)/hello.texi
+
+.PHONY: check
+check: hello
+	@echo expect no output from diff
+	./hello > test.out
+	diff -c $(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/configure --no-create
+
+TAGS: $(SRCS)
+	etags $(SRCS)
+
+.PHONY: clean mostlyclean distclean realclean dist
+
+.NOEXPORT:

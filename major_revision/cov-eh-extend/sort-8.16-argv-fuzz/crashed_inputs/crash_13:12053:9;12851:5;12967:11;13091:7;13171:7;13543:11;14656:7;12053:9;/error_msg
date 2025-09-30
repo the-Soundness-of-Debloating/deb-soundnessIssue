@@ -1,0 +1,18 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.msan.out
+==453907==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x56430cf2d259 in write_line /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12053:9
+    #1 0x56430cf30b80 in write_unique /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12851:5
+    #2 0x56430cf34d75 in mergelines_node /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12967:11
+    #3 0x56430cf33867 in merge_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13091:7
+    #4 0x56430cf30679 in sortlines /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13171:7
+    #5 0x56430cf207ad in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13543:11
+    #6 0x56430cf1bf74 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7
+    #7 0x7fde573dad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7fde573dae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x56430ce864a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.msan.out+0x1f4a4) (BuildId: dccc0c6da19a6629b4cd1c23f16ebd8bc7a92258)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12053:9 in write_line
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 453906 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

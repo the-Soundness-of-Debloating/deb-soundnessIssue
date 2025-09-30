@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2662498==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000003e8 (pc 0x7ff3cd16e0bc bp 0x0000000003e8 sp 0x7ffd00e23db8 T2662498)
+==2662498==The signal is caused by a READ memory access.
+==2662498==Hint: address points to the zero page.
+    #0 <null> string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 (libc.so.6+0x1b20bc) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 fnmatch posix/fnmatch.c:283:54 (libc.so.6+0xf3efc) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 excluded_filename /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24491:21 (reduced.tsan.out+0xe6bb4) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #3 excluded_name /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:17529:13 (reduced.tsan.out+0xd9bc8) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #4 create_archive /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:5938:23 (reduced.tsan.out+0xd96b2) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23261:7 (reduced.tsan.out+0xe8559) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+    #6 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 _start <null> (reduced.tsan.out+0x225a4) (BuildId: e8e6297d5ae4a8cdc88c6aecd88da3ffd6322c2f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==2662498==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2662497 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/tar-1.14-argv-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000018*

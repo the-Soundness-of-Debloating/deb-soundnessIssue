@@ -1,0 +1,25 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out
+grep: invalid option -- 'Y'
+grep: invalid option -- 'Y'
+grep: invalid option -- 'Y'
+grep: invalid option -- 'Y'
+grep: invalid option -- ''
+grep: invalid option -- ' '
+grep: invalid option -- ' '
+grep: invalid option -- ' '
+==456800==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x560540c5a339 in fts_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7980:13
+    #1 0x560540c560a1 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7287:21
+    #2 0x560540ca8445 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22155:23
+    #3 0x560540ca79f9 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22063:17
+    #4 0x560540c920c1 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22341:19
+    #5 0x560540c90d97 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23846:24
+    #6 0x7f8547674d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f8547674e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x560540bb3444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x1f444) (BuildId: 9bbdbd0bffef5adfcbf1bd2c872e93c69af9d3bd)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7980:13 in fts_build
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 456799 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

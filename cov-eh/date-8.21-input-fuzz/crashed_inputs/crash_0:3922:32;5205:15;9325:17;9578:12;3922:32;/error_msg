@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_0
+=================================================================
+==2933747==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55d5374f41c4 at pc 0x55d5374d415e bp 0x7ffde4868990 sp 0x7ffde4868988
+READ of size 1 at 0x55d5374f41c4 thread T0
+    #0 0x55d5374d415d in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3922:32
+    #1 0x55d5374d8290 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5205:15
+    #2 0x55d5374ded6a in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #3 0x55d5374de6fc in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9578:12
+    #4 0x7fb9ad1eed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fb9ad1eee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55d53740d454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/bins/reduced.asan.out+0x24454) (BuildId: 2d92cf59b81e7c665681c2b48e9c5bfa3105ee51)
+
+0x55d5374f41c4 is located 28 bytes to the left of global variable 'yypgoto' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3157' (0x55d5374f41e0) of size 26
+0x55d5374f41c4 is located 8 bytes to the right of global variable 'yyr1' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3005' (0x55d5374f4160) of size 92
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3922:32 in yyparse
+Shadow bytes around the buggy address:
+  0x0abb26e967e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 f9
+  0x0abb26e967f0: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abb26e96800: 00 00 01 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0abb26e96810: 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 00 00 00 00
+  0x0abb26e96820: 00 00 00 00 00 00 00 04 f9 f9 f9 f9 00 00 00 00
+=>0x0abb26e96830: 00 00 00 00 00 00 00 04[f9]f9 f9 f9 00 00 00 02
+  0x0abb26e96840: f9 f9 f9 f9 00 00 00 02 f9 f9 f9 f9 00 00 01 f9
+  0x0abb26e96850: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abb26e96860: 00 00 02 f9 f9 f9 f9 f9 05 f9 f9 f9 03 f9 f9 f9
+  0x0abb26e96870: 02 f9 f9 f9 00 00 00 00 f9 f9 f9 f9 01 f9 f9 f9
+  0x0abb26e96880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2933747==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2933746 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

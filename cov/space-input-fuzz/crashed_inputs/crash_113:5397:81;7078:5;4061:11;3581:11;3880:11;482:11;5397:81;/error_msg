@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_336
+ThreadSanitizer:DEADLYSIGNAL
+==1270810==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000004 (pc 0x55a61c2fad98 bp 0x7ffd58e991c0 sp 0x7ffd58e99110 T1270810)
+==1270810==The signal is caused by a READ memory access.
+==1270810==Hint: address points to the zero page.
+    #0 parserro /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:5397:81 (reduced.tsan.out+0xdad98) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #1 serotpha /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:7078:5 (reduced.tsan.out+0xdbc83) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #2 grphaexc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:4061:11 (reduced.tsan.out+0xda57d) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #3 grexcdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3581:11 (reduced.tsan.out+0xd9ccb) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #4 groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:3880:11 (reduced.tsan.out+0xcd7be) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:482:11 (reduced.tsan.out+0xcca89) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x203b4) (BuildId: 8cf5f480f22ebc6f861f900af0ee30596e13ad72)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:5397:81 in parserro
+==1270810==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 150: 1270809 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_336

@@ -1,0 +1,52 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1005622==ERROR: AddressSanitizer: SEGV on unknown address 0x55db37a80d13 (pc 0x55db3799a732 bp 0x55db37aacdc8 sp 0x7ffcd1d1bc00 T0)
+==1005622==The signal is caused by a WRITE memory access.
+    #0 0x55db3799a732 in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.asan.out+0x26732) (BuildId: 78081de67ff24ba69549a5c31fdab21e4279441b)
+    #1 0x55db37a1dc36 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa9c36) (BuildId: 78081de67ff24ba69549a5c31fdab21e4279441b)
+    #2 0x55db37a64e5a in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7
+    #3 0x55db37a69c7d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7fdd369e2d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fdd369e2e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55db37998454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.asan.out+0x24454) (BuildId: 78081de67ff24ba69549a5c31fdab21e4279441b)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.asan.out+0x26732) (BuildId: 78081de67ff24ba69549a5c31fdab21e4279441b) in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType)
+==1005622==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1005621 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer: bad pointer 0x55e8277c5ddd
+MemorySanitizer: CHECK failed: sanitizer_allocator_secondary.h:177 "((IsAligned(reinterpret_cast<uptr>(p), page_size_))) != (0)" (0x0, 0x0) (tid=1023513)
+    #0 0x55e8277302a9 in CheckUnwind() msan.cpp.o
+    #1 0x55e82771b124 in __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out+0x33124) (BuildId: fdc30ed6222feb2f97d3275106b8b7ab3996a586)
+    #2 0x55e82773152d in __sanitizer::CombinedAllocator<__sanitizer::SizeClassAllocator64<__msan::AP64>, __sanitizer::LargeMmapAllocatorPtrArrayDynamic>::GetMetaData(void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out+0x4952d) (BuildId: fdc30ed6222feb2f97d3275106b8b7ab3996a586)
+    #3 0x55e827731257 in __msan::MsanDeallocate(__sanitizer::StackTrace*, void*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out+0x49257) (BuildId: fdc30ed6222feb2f97d3275106b8b7ab3996a586)
+    #4 0x55e827735307 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out+0x4d307) (BuildId: fdc30ed6222feb2f97d3275106b8b7ab3996a586)
+    #5 0x55e8277a2761 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7
+    #6 0x55e8277aff98 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #7 0x7faa7b014d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #8 0x7faa7b014e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #9 0x55e8277073c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: fdc30ed6222feb2f97d3275106b8b7ab3996a586)
+
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1023512 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer: CHECK failed: sanitizer_allocator_secondary.h:297 "((IsAligned(p, page_size_))) != (0)" (0x0, 0x0) (tid=1031637)
+    #0 __tsan::CheckUnwind() <null> (reduced.tsan.out+0xb459b) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #1 __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) <null> (reduced.tsan.out+0x361d4) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #2 __sanitizer::LargeMmapAllocator<__tsan::MapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Deallocate(__sanitizer::AllocatorStats*, void*) <null> (reduced.tsan.out+0xafd16) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #3 __tsan::user_free(__tsan::ThreadState*, unsigned long, void*, bool) <null> (reduced.tsan.out+0xaca4f) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #4 free <null> (reduced.tsan.out+0x4eae4) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #5 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5508:7 (reduced.tsan.out+0xd41c2) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24 (reduced.tsan.out+0xd753c) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+    #7 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #9 _start <null> (reduced.tsan.out+0x22474) (BuildId: e5d44f5dc3b57d6f433a44b0d5ac6f0b8289c0c1)
+
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1031636 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

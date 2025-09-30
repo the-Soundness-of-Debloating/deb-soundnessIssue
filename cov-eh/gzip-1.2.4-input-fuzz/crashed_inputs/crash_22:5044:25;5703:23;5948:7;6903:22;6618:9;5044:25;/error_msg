@@ -1,0 +1,69 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -c
+=================================================================
+==3405173==ERROR: AddressSanitizer: global-buffer-overflow on address 0x559ce06facc0 at pc 0x559cdfd3d5fa bp 0x7fff7ce49260 sp 0x7fff7ce49258
+WRITE of size 1 at 0x559ce06facc0 thread T0
+    #0 0x559cdfd3d5f9 in ct_tally /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5044:25
+    #1 0x559cdfd3ef52 in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5703:23
+    #2 0x559cdfd3fe10 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5948:7
+    #3 0x559cdfd41325 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6903:22
+    #4 0x559cdfd40b4e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6618:9
+    #5 0x7f397e354d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f397e354e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559cdfc753b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: f74c338dee2852035998ab7f034d13ec52921d79)
+
+0x559ce06facc0 is located 0 bytes to the right of global variable 'flag_buf' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4090' (0x559ce06f9cc0) of size 4096
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5044:25 in ct_tally
+Shadow bytes around the buggy address:
+  0x0ab41c0d7540: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab41c0d7550: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab41c0d7560: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab41c0d7570: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab41c0d7580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ab41c0d7590: 00 00 00 00 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9
+  0x0ab41c0d75a0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab41c0d75b0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab41c0d75c0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab41c0d75d0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab41c0d75e0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3405173==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3405090 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -c < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000022* > sample1.gz
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -c
+ThreadSanitizer:DEADLYSIGNAL
+==3433171==ERROR: ThreadSanitizer: SEGV on unknown address 0x563ba532dca3 (pc 0x563ba33206c6 bp 0x7ffcb4f81d70 sp 0x7ffcb4f81c60 T3433171)
+==3433171==The signal is caused by a WRITE memory access.
+    #0 ct_tally /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5044:25 (reduced.tsan.out+0xd36c6) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+    #1 deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5703:23 (reduced.tsan.out+0xd4be8) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+    #2 zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5948:7 (reduced.tsan.out+0xd58fe) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+    #3 treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6903:22 (reduced.tsan.out+0xd6f27) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6618:9 (reduced.tsan.out+0xd64d8) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x213b4) (BuildId: ec480074d204be482f18514d3747c54ddee72b48)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5044:25 in ct_tally
+==3433171==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3433170 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.tsan.out -c < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000000* > sample1.gz

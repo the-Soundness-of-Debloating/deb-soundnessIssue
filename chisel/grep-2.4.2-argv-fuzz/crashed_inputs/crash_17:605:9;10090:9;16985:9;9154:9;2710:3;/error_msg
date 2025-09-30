@@ -1,0 +1,16 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+
+=================================================================
+==2231625==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 1280 byte(s) in 1 object(s) allocated from:
+    #0 0x55f6bb5c5652 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x30652) (BuildId: b395f683bf32c4f7d55c339ab0779b98cd8c53f5)
+    #1 0x55f6bb5c7e64 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:605:9
+    #2 0x55f6bb5cb1bc in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:10090:9
+    #3 0x55f6bb5cb13b in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:16985:9
+    #4 0x55f6bb5cae9a in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9154:9
+    #5 0x55f6bb5c80ed in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2710:3
+    #6 0x7fb2db977d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 1280 byte(s) leaked in 1 allocation(s).

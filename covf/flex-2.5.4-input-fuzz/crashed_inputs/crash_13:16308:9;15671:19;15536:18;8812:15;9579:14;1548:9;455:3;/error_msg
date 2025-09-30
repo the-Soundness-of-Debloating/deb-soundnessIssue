@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_428
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1173067==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x0000fffffff9 (pc 0x7fbc39d98795 bp 0x000100000001 sp 0x7ffc2cceebf0 T1173067)
+==1173067==The signal is caused by a READ memory access.
+    #0 0x7fbc39d98795 in __libc_realloc (/lib/x86_64-linux-gnu/libc.so.6+0xa5795) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5610ae583f4c in yy_flex_realloc /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16308:9
+    #2 0x5610ae582437 in yy_get_next_buffer /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15671:19
+    #3 0x5610ae5752b2 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:15536:18
+    #4 0x5610ae580b15 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15
+    #5 0x5610ae55371b in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14
+    #6 0x5610ae54c60a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #7 0x5610ae54a67b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #8 0x7fbc39d1cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7fbc39d1ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x5610ae5224b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out+0x274b4) (BuildId: bc04e47559dcd16767e694b2be677949fc5d7150)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xa5795) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __libc_realloc
+==1173067==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1173066 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/bins/reduced.ubsan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_428

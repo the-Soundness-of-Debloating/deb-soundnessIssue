@@ -1,0 +1,48 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:959:52: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:959:52 in 
+grep-2.4.2.c.reduced.c:2926:56: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2926:56 in 
+grep-2.4.2.c.reduced.c:6245:31: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:6245:31 in 
+grep-2.4.2.c.reduced.c:1276:12: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:1276:12 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2712724==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000001 (pc 0x7f4dc179031d bp 0x7ffc2b07d220 sp 0x7ffc2b07d1b8 T2712724)
+==2712724==The signal is caused by a READ memory access.
+==2712724==Hint: address points to the zero page.
+    #0 0x7f4dc179031d  (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5579aa115929 in prtext /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1272:17
+    #2 0x5579aa1157a9 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1366:7
+    #3 0x5579aa11506e in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #4 0x5579aa10064a in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #5 0x5579aa0ffbf5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #6 0x7f4dc160bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f4dc160be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5579aa0d74c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 9231921cf048fbec2201cbbf770d1d346be9fab5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2712724==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2712723 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2912674==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000001 (pc 0x7f353fa5631d bp 0x7ffd0c0434b0 sp 0x7ffd0c043468 T0)
+==2912674==The signal is caused by a READ memory access.
+==2912674==Hint: address points to the zero page.
+    #0 0x7f353fa5631d  (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x556c82c148e9 in prtext /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1272:17
+    #2 0x556c82c147f9 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1366:7
+    #3 0x556c82c14567 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #4 0x556c82c1147a in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #5 0x556c82c11198 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #6 0x7f353f8d1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f353f8d1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x556c82be34a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x54a4) (BuildId: 501851d1df848985fbc5c922196b6dbedbbda0ae)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1ae31d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2912674==ABORTING

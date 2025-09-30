@@ -1,0 +1,23 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==900635==ERROR: AddressSanitizer: attempting free on address which was not malloc()-ed: 0x602000000053 in thread T0
+    #0 0x55e5a18c7be2 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa9be2) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+    #1 0x55e5a190d849 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5220:13
+    #2 0x55e5a1916002 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7fc6b0849d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7fc6b0849e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x55e5a1842464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0x24464) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+
+0x602000000053 is located 3 bytes inside of 9-byte region [0x602000000050,0x602000000059)
+allocated by thread T0 here:
+    #0 0x55e5a18c7e8e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa9e8e) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db)
+    #1 0x7fc6b086503f in __add_to_environ stdlib/setenv.c:217:10
+    #2 0x55e5a190daed in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5243:23
+    #3 0x55e5a1916002 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #4 0x7fc6b0849d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: bad-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.asan.out+0xa9be2) (BuildId: b4ee7ab63a3c4f2a4f5845c213ae40ebcfb9e4db) in free
+==900635==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 900634 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

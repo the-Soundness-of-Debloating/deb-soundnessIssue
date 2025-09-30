@@ -1,0 +1,21 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1182891==ERROR: MemorySanitizer: SEGV on unknown address 0x713000010000 (pc 0x7f287ea309e8 bp 0x7ffeee7ddf10 sp 0x7ffeee7dd6c8 T1182891)
+==1182891==The signal is caused by a WRITE memory access.
+    #0 0x7f287ea309e8  (/lib/x86_64-linux-gnu/libc.so.6+0xc49e8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55df50f06983 in __msan_memcpy (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x4c983) (BuildId: e2561e71e428f9b639841fa8b51d84a3b11feea3)
+    #2 0x55df50f7ac7c in merge /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4967:29
+    #3 0x55df50f76b6a in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5539:7
+    #4 0x55df50f8f017 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5
+    #5 0x55df50fa6f78 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #6 0x55df50f64ab0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f287e995d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f287e995e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55df50ed9384 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.msan.out+0x1f384) (BuildId: e2561e71e428f9b639841fa8b51d84a3b11feea3)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xc49e8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1182891==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1182890 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

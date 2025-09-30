@@ -1,0 +1,40 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:3528:16: runtime error: index 113 out of bounds for type 'const yytype_uint8[113]' (aka 'const unsigned char[113]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3528:16 in 
+date-8.21.c.reduced.c:3445:10: runtime error: applying non-zero offset 2 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:3445:10 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3509088==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000002 (pc 0x559dc59a0fa0 bp 0x7ffeb64e4690 sp 0x7ffeb64e2d70 T3509088)
+==3509088==The signal is caused by a WRITE memory access.
+==3509088==Hint: address points to the zero page.
+    #0 0x559dc59a0fa0 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3447:12
+    #1 0x559dc59af203 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #2 0x559dc59b7a2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #3 0x7f9f49258d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f9f49258e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x559dc5973674 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x17674) (BuildId: a3de010e9147085ac3382577691b4704265fc1fe)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3447:12 in yyparse
+==3509088==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3509087 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==4091850==ERROR: ThreadSanitizer: SEGV on unknown address 0x02d325ebb808 (pc 0x556992f41344 bp 0x7ffdeacd40c0 sp 0x7ffdeacd33f8 T4091850)
+==4091850==The signal is caused by a WRITE memory access.
+    #0 __tsan_write2 <null> (reduced.tsan.out+0xbb344) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3447:12 (reduced.tsan.out+0xd1139) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #2 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15 (reduced.tsan.out+0xd48e9) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24 (reduced.tsan.out+0xd85d6) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 _start <null> (reduced.tsan.out+0x22484) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/date-8.21-argv-fuzz/bins/reduced.tsan.out+0xbb344) (BuildId: 0a7af547484abbc16ded632d4ae487a6b8d5db48) in __tsan_write2
+==4091850==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 4091849 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

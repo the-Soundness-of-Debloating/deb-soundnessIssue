@@ -1,0 +1,55 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.asan.out
+sort: invalid option -- 'a'
+sort: invalid option -- 'p'
+=================================================================
+==3642239==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000000040 at pc 0x563b1d06e845 bp 0x7ffd1bf163d0 sp 0x7ffd1bf163c8
+WRITE of size 8 at 0x602000000040 thread T0
+    #0 0x563b1d06e844 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14258:35
+    #1 0x7fa96d608d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7fa96d608e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x563b1cfaa534 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.asan.out+0x21534) (BuildId: 7f943676df9712e8d03a0366fe5921ebd278e2e1)
+
+0x602000000040 is located 0 bytes to the right of 16-byte region [0x602000000030,0x602000000040)
+allocated by thread T0 here:
+    #0 0x563b1d02ff5e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.asan.out+0xa6f5e) (BuildId: 7f943676df9712e8d03a0366fe5921ebd278e2e1)
+    #1 0x563b1d06aa24 in xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:1991:11
+    #2 0x563b1d06cfb4 in xnmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:1295:15
+    #3 0x563b1d06e59d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14022:22
+    #4 0x7fa96d608d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14258:35 in main
+Shadow bytes around the buggy address:
+  0x0c047fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c047fff8000: fa fa 00 02 fa fa 00 00[fa]fa fa fa fa fa fa fa
+  0x0c047fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3642239==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3642238 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,13 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/testplans.fine/testfile
+==2835446==ERROR: ThreadSanitizer: requested allocation size 0x403200000001 exceeds maximum supported size of 0x10000000000
+    #0 __interceptor_malloc <null> (reduced.tsan.out+0x5b671) (BuildId: f09404f8f3959ab4b1a249972554a11acaada0c0)
+    #1 xmalloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:60840:9 (reduced.tsan.out+0xdc465) (BuildId: f09404f8f3959ab4b1a249972554a11acaada0c0)
+    #2 shell_initialize /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2799:17 (reduced.tsan.out+0xdbeca) (BuildId: f09404f8f3959ab4b1a249972554a11acaada0c0)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1279:3 (reduced.tsan.out+0xdbc93) (BuildId: f09404f8f3959ab4b1a249972554a11acaada0c0)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+==2835446==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: ThreadSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.tsan.out+0x5b671) (BuildId: f09404f8f3959ab4b1a249972554a11acaada0c0) in __interceptor_malloc
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2835445 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/testplans.fine/testfile

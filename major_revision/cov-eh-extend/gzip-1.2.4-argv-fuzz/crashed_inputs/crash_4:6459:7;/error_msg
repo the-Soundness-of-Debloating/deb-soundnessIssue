@@ -1,0 +1,34 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2992245==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x5629b9d9d000 (pc 0x5629b93bb980 bp 0x7ffe5aa1cf40 sp 0x7ffe5aa1ce10 T2992245)
+==2992245==The signal is caused by a WRITE memory access.
+    #0 0x5629b93bb980 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x5629b93bad91 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6459:7
+    #2 0x7f0f3b4f9d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f0f3b4f9e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x5629b9377524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out+0x1d524) (BuildId: 02f43cf2a29d6f833c3280ed76296a6cbd140f60)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==2992245==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2992240 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/bins/reduced.ubsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_184 > sample1.gz
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==3293936==ERROR: ThreadSanitizer: SEGV on unknown address 0x55c93b211000 (pc 0x55c939df8b85 bp 0x7ffe2a5e1170 sp 0x7ffe2a5e10c0 T3293936)
+==3293936==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xd8b85) (BuildId: d7169ebb1d7ec884b2cf5f71e6444f6c2a179232)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6459:7 (reduced.tsan.out+0xd821a) (BuildId: d7169ebb1d7ec884b2cf5f71e6444f6c2a179232)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x213b4) (BuildId: d7169ebb1d7ec884b2cf5f71e6444f6c2a179232)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==3293936==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 3293935 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_184 > sample1.gz

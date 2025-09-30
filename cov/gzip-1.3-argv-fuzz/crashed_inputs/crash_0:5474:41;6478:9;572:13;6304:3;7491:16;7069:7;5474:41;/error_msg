@@ -1,0 +1,71 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1611226==ERROR: AddressSanitizer: global-buffer-overflow on address 0x557f16c84ba0 at pc 0x557f162b31ee bp 0x7ffc866c2f80 sp 0x7ffc866c2f78
+READ of size 1 at 0x557f16c84ba0 thread T0
+    #0 0x557f162b31ed in updcrc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:41
+    #1 0x557f162adf95 in file_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6478:9
+    #2 0x557f162ae630 in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:572:13
+    #3 0x557f162b40b3 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #4 0x557f162b58c9 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7491:16
+    #5 0x557f162b523f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #6 0x7f1ea5e6ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f1ea5e6ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x557f161ee374 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.asan.out+0x21374) (BuildId: 37d90ccabbfeab8cc0a4bf83d187b597c0aacde4)
+
+0x557f16c84ba0 is located 0 bytes to the right of global variable 'window' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:199' (0x557f16c74ba0) of size 65536
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:41 in updcrc
+Shadow bytes around the buggy address:
+  0x0ab062d88920: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab062d88930: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab062d88940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab062d88950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ab062d88960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ab062d88970: 00 00 00 00[f9]f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab062d88980: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab062d88990: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab062d889a0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab062d889b0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ab062d889c0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1611226==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 177: 1611224 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000000* > sample1.rb2
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1622948==ERROR: MemorySanitizer: SEGV on unknown address 0x563df4d57000 (pc 0x563df33599b7 bp 0x7ffdf10c8500 sp 0x7ffdf10c8490 T1622948)
+==1622948==The signal is caused by a READ memory access.
+    #0 0x563df33599b7 in updcrc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:41
+    #1 0x563df334cddd in file_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6478:9
+    #2 0x563df334e36a in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:572:13
+    #3 0x563df335c71c in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #4 0x563df336044a in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7491:16
+    #5 0x563df335f570 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #6 0x7f9e9e429d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f9e9e429e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x563df32c6304 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.msan.out+0x1f304) (BuildId: bb6820a44acf98555cb3a7734d1235ac882d796f)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:41 in updcrc
+==1622948==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 177: 1622947 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/gzip-1.3-argv-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000000* > sample1.rb2

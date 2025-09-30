@@ -1,0 +1,21 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==902360==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00000000000f (pc 0x7f992187915d bp 0x7f99217f9200 sp 0x7fff0126b6c0 T902360)
+==902360==The signal is caused by a READ memory access.
+==902360==Hint: address points to the zero page.
+    #0 0x7f992187915d in fflush (/lib/x86_64-linux-gnu/libc.so.6+0x7f15d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x558233163c44 in rpl_fflush /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8125:15
+    #2 0x55823315f8a5 in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8251:19
+    #3 0x55823316d9a4 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9053:15
+    #4 0x55823316722c in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13145:17
+    #5 0x558233164ed5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13844:7
+    #6 0x7f9921823d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f9921823e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x558233137714 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xf714) (BuildId: 1bc07daef25850174c6cf36a0df305106fbeb1e5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x7f15d) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in fflush
+==902360==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 902358 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88

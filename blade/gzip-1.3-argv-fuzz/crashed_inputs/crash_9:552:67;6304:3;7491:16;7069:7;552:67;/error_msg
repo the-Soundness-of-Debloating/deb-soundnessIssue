@@ -1,0 +1,52 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.asan.out
+gzip: invalid option -- '0'
+=================================================================
+==2791721==ERROR: AddressSanitizer: global-buffer-overflow on address 0x564ec9904c5a at pc 0x564ec98c64a6 bp 0x7fff45837c70 sp 0x7fff45837c68
+READ of size 2 at 0x564ec9904c5a thread T0
+    #0 0x564ec98c64a5 in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:552:67
+    #1 0x564ec98caf12 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #2 0x564ec98cbff7 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7491:16
+    #3 0x564ec98cba6e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #4 0x7fba6e984d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fba6e984e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x564ec9806344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.asan.out+0x20344) (BuildId: bfb53496b1da4708969c0165c233703ac06cd885)
+
+0x564ec9904c5a is located 38 bytes to the left of global variable 'dbits' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:1164' (0x564ec9904c80) of size 4
+0x564ec9904c5a is located 6 bytes to the left of global variable 'lbits' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:1163' (0x564ec9904c60) of size 4
+0x564ec9904c5a is located 42 bytes to the right of global variable 'configuration_table' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:517' (0x564ec9904be0) of size 80
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:552:67 in lm_init
+Shadow bytes around the buggy address:
+  0x0aca59318930: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca59318940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca59318950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca59318960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aca59318970: 00 00 00 00 00 00 00 00 00 f9 f9 f9 00 00 00 00
+=>0x0aca59318980: 00 00 00 00 00 00 f9 f9 f9 f9 f9[f9]04 f9 f9 f9
+  0x0aca59318990: 04 f9 f9 f9 00 00 00 00 00 00 00 06 f9 f9 f9 f9
+  0x0aca593189a0: 00 00 00 00 00 00 00 06 f9 f9 f9 f9 00 00 00 00
+  0x0aca593189b0: 00 00 00 00 00 00 00 00 00 00 04 f9 f9 f9 f9 f9
+  0x0aca593189c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f9
+  0x0aca593189d0: f9 f9 f9 f9 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2791721==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 2791720 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_1_fuzzed/input_1_63

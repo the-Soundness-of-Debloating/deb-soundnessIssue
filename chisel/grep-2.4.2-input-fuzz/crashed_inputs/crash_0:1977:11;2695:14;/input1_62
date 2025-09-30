@@ -1,0 +1,84 @@
+/* grep.c - main driver file for grep.
+   Copyright (C) -488 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Written July 1992 by Mike Haertel.  */
+
+
+/* I added a series define from makefile here in order to run cfe */
+#define GREP 1
+#define STDC_HEADERS 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_ALLOCA_H 1
+#define HAVE_GETPAGESIZE 1
+#define HAVE_MEMCHR 1
+#define HAVE_STRERROR 1
+#define HAVE_VALLOC 1
+#define HAVE_WORKING_MMAP 1
+/*** end of cfe purpose **/
+
+#include <errno.h>
+#include <stdio.h>
+
+#ifndef errno
+extern int errno;
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#define flag_stdlib 1
+#else
+#include <sys/types.h>
+#define flag_systypes 1
+extern char *malloc(), *realloc();
+extern void free();
+#endif
+
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
+#include <string.h>
+#define flag_string 1
+#ifdef NEED_MEMORY_H
+#include <memory.h>
+#define flag_memory 1
+#endif
+#else
+#include <strings.h>
+#define flag_strings 1
+#ifdef __STDC__
+extern void *memchr();
+#else
+extern char *memchr();
+#endif
+#define strrchr rindex
+#endif
+
+#ifdef HAVE_UNISTD_H
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <fcntl.h>
+#include <unistd.h>
+#else
+#define O_RDONLY 0
+extern int open(), read(), close();
+#endif
+
+#include
+struct trie
+ 

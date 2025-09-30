@@ -1,0 +1,16 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2212976==ERROR: ThreadSanitizer: SEGV on unknown address 0x55ceb0b55000 (pc 0x55ceaf73e645 bp 0x7ffd3b951170 sp 0x7ffd3b9510c0 T2212976)
+==2212976==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xd6645) (BuildId: 1b697d845e400ebb0ecf268ab7fa5c9911c72e54)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6387:3 (reduced.tsan.out+0xd5e4a) (BuildId: 1b697d845e400ebb0ecf268ab7fa5c9911c72e54)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x213b4) (BuildId: 1b697d845e400ebb0ecf268ab7fa5c9911c72e54)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==2212976==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2212975 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_184 > sample1.gz

@@ -1,0 +1,21 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -c
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==35453==ERROR: AddressSanitizer: SEGV on unknown address 0x5630365de2d0 (pc 0x563035bd7e9c bp 0x7ffd399ef190 sp 0x7ffd399eefb0 T0)
+==35453==The signal is caused by a WRITE memory access.
+    #0 0x563035bd7e9c in build_tree___0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4684:20
+    #1 0x563035bd78c3 in flush_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5006:7
+    #2 0x563035bdb511 in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5862:17
+    #3 0x563035bdbf10 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6054:7
+    #4 0x563035bdd8e5 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #5 0x563035bdcddb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #6 0x7fa9f315ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fa9f315ae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x563035b113d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x233d4) (BuildId: a3eaea2156c7b336ca7877df2b819b2644b96bc8)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4684:20 in build_tree___0
+==35453==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 35452 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -c < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000000* > sample1.gz

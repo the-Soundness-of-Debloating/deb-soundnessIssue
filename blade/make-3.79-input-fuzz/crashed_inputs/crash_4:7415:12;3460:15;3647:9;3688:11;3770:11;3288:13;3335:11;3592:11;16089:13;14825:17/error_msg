@@ -1,0 +1,28 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_16 -k -p -w
+make-3.79.c.reduced.c:7415:18: runtime error: load of null pointer of type 'char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:7415:18 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1490222==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55d8c1166748 bp 0x7fffe0a9e6b0 sp 0x7fffe0a9e470 T1490222)
+==1490222==The signal is caused by a READ memory access.
+==1490222==Hint: address points to the zero page.
+    #0 0x55d8c1166748 in handle_function /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:7415:12
+    #1 0x55d8c116533e in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3460:15
+    #2 0x55d8c116803f in variable_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3647:9
+    #3 0x55d8c1168079 in variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3688:11
+    #4 0x55d8c1164e7b in allocated_variable_expand_for_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3770:11
+    #5 0x55d8c1164b46 in recursively_expand /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3288:13
+    #6 0x55d8c1167ef6 in reference_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3335:11
+    #7 0x55d8c1165d11 in variable_expand_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:3592:11
+    #8 0x55d8c118c666 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:16089:13
+    #9 0x55d8c1187585 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #10 0x55d8c11800da in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #11 0x7fdd6ba79d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 0x7fdd6ba79e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x55d8c1131704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.ubsan.out+0x2a704) (BuildId: c18f0a4655bac142f0d94b0802a1351bb84a36a6)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:7415:12 in handle_function
+==1490222==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 1490221 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_16 -k -p -w

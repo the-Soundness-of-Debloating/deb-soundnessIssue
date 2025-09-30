@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/bins/reduced.ubsan.out
+space.c.reduced.c:5404:30: runtime error: member access within null pointer of type 'struct charac'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5404:30 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3364759==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000008 (pc 0x55918ec9bcd1 bp 0x7ffdf1774670 sp 0x7ffdf1774560 T3364759)
+==3364759==The signal is caused by a READ memory access.
+==3364759==Hint: address points to the zero page.
+    #0 0x55918ec9bcd1 in parserro /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/./space.c.reduced.c:5404:30
+    #1 0x55918ecc32e4 in grgeodef /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/./space.c.reduced.c:3617:5
+    #2 0x55918ec95905 in groupdef /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/./space.c.reduced.c:3873:11
+    #3 0x55918ec93720 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/./space.c.reduced.c:484:11
+    #4 0x7fe2548acd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fe2548ace3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55918ec6b474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/bins/reduced.ubsan.out+0x2d474) (BuildId: 2ba79b1248ccb37f7bec3d04e3a6d9515e5993c4)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/space-argv-fuzz/./space.c.reduced.c:5404:30 in parserro
+==3364759==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3364758 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

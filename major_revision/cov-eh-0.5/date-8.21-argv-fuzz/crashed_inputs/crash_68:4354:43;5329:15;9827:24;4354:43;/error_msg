@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2380344==ERROR: ThreadSanitizer: SEGV on unknown address 0x7ffd7413fffe (pc 0x561abee03315 bp 0x7ffd7493ea40 sp 0x7ffd7493ddb0 T2380344)
+==2380344==The signal is caused by a READ memory access.
+    #0 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4354:43 (reduced.tsan.out+0xd2315) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+    #1 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15 (reduced.tsan.out+0xd3ca1) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24 (reduced.tsan.out+0xd75cc) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+    #3 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 _start <null> (reduced.tsan.out+0x22474) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4354:43 in yyparse
+==2380344==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2380343 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

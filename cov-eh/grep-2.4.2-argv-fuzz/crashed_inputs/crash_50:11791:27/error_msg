@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:11791:27: runtime error: pointer index expression with base 0x55dede0fc8f0 overflowed to 0x8da0590ada7dcef2
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:11791:27 in 
+grep-2.4.2.c.reduced.c:11793:38: runtime error: pointer index expression with base 0x55dede0fc8f0 overflowed to 0xb1257ae4e00fd0fe
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:11793:38 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==623413==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55def234ee15 (pc 0x55dedcaf2b3f bp 0x7ffd1ce05ce0 sp 0x7ffd1ce04b40 T623413)
+==623413==The signal is caused by a WRITE memory access.
+    #0 0x55dedcaf2b3f in regex_compile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11802:24
+    #1 0x55dedcaedb1a in re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:17065:9
+    #2 0x55dedcaed86b in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9298:9
+    #3 0x55dedcabbfcb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7f6773c82d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f6773c82e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55dedca935e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x2e5e4) (BuildId: c596296324c806a74fee30cd546cda4f03499544)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:11802:24 in regex_compile
+==623413==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 623412 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

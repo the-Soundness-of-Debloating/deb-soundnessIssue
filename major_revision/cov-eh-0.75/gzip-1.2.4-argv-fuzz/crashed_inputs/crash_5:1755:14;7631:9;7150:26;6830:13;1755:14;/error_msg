@@ -1,0 +1,78 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.asan.out
+tr›ain_input/trainc/sample1.ref.gz: No such file or directory
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2925077==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55b132655499 bp 0x7ffd9ca08f50 sp 0x7ffd9ca08ed0 T0)
+==2925077==The signal is caused by a READ memory access.
+==2925077==Hint: address points to the zero page.
+    #0 0x55b132655499 in strlwr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14
+    #1 0x55b13266413c in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7631:9
+    #2 0x55b1326613db in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26
+    #3 0x55b132660c84 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13
+    #4 0x7f68654b1d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f68654b1e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55b1325953b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: 1efe5e6fd215a62e4d3703eb31ff762ebb7ea8be)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14 in strlwr
+==2925077==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2925076 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_163 > sample1.gz
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==3355251==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x5600d9114ed1 bp 0x7ffe2d5abcb0 sp 0x7ffe2d5abc20 T3355251)
+==3355251==The signal is caused by a READ memory access.
+==3355251==Hint: address points to the zero page.
+    #0 0x5600d9114ed1 in strlwr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14
+    #1 0x5600d913922d in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7631:9
+    #2 0x5600d913162d in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26
+    #3 0x5600d913059b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13
+    #4 0x7f872db9cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f872db9ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x5600d908d344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.msan.out+0x1f344) (BuildId: f35d0922b748b67eb89e515071c3eb397e3bc3f5)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14 in strlwr
+==3355251==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 3355250 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_489 > sample1.gz
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out
+tr›ain_input/trainc/sample1.ref.gz: No such file or directory
+ThreadSanitizer:DEADLYSIGNAL
+==3570053==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5642603bc046 bp 0x7ffe2315c630 sp 0x7ffe2315c5c0 T3570053)
+==3570053==The signal is caused by a READ memory access.
+==3570053==Hint: address points to the zero page.
+    #0 strlwr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14 (reduced.tsan.out+0xce046) (BuildId: c3fd3810b85687950e9bbdd0882880ece65ca07f)
+    #1 make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7631:9 (reduced.tsan.out+0xd910e) (BuildId: c3fd3810b85687950e9bbdd0882880ece65ca07f)
+    #2 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26 (reduced.tsan.out+0xd6aec) (BuildId: c3fd3810b85687950e9bbdd0882880ece65ca07f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13 (reduced.tsan.out+0xd6557) (BuildId: c3fd3810b85687950e9bbdd0882880ece65ca07f)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 _start <null> (reduced.tsan.out+0x213b4) (BuildId: c3fd3810b85687950e9bbdd0882880ece65ca07f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14 in strlwr
+==3570053==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 3570052 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_163 > sample1.gz
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.lsan.out
+tr›ain_input/trainc/sample1.ref.gz: No such file or directory
+LeakSanitizer:DEADLYSIGNAL
+==3764405==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56008cbf0258 bp 0x7fff508fb270 sp 0x7fff508fb250 T0)
+==3764405==The signal is caused by a READ memory access.
+==3764405==Hint: address points to the zero page.
+    #0 0x56008cbf0258 in strlwr /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14
+    #1 0x56008cbf6505 in make_ofname /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7631:9
+    #2 0x56008cbf507b in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:7150:26
+    #3 0x56008cbf4d3d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:6830:13
+    #4 0x7f86bb78ad8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f86bb78ae3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x56008cbc2514 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/bins/reduced.lsan.out+0x6514) (BuildId: 066deed00e6161c13c7de9227c3b6dcbd29f0dde)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/gzip-1.2.4-argv-fuzz/./gzip-1.2.4.c.reduced.c:1755:14 in strlwr
+==3764405==ABORTING

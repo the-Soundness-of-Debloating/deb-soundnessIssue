@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.tsan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/result/afl_result/reduced/result_1/tsan/crashes/id:000000,sig:11,src:000101,time:3989422,execs:233438,op:havoc,rep:7 bar
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.tsan.out: This does not look like a tar archive
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.tsan.out: Skipping to next header
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.tsan.out: Archive contains obsolescent base-64 headers
+ThreadSanitizer:DEADLYSIGNAL
+==2530740==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b9800010000 (pc 0x55bd230f3bdf bp 0x7ffeca1ee7e0 sp 0x7ffeca1ee0f0 T2530740)
+==2530740==The signal is caused by a READ memory access.
+    #0 from_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13223:42 (reduced.tsan.out+0xe1bdf) (BuildId: c27edb10a700707e1d8d68860aca60b7e06a2b2b)
+    #1 read_header /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12581:24 (reduced.tsan.out+0xdffa2) (BuildId: c27edb10a700707e1d8d68860aca60b7e06a2b2b)
+    #2 read_and /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:12277:24 (reduced.tsan.out+0xdf3f5) (BuildId: c27edb10a700707e1d8d68860aca60b7e06a2b2b)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:23271:7 (reduced.tsan.out+0xe6df0) (BuildId: c27edb10a700707e1d8d68860aca60b7e06a2b2b)
+    #4 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #6 _start <null> (reduced.tsan.out+0x22524) (BuildId: c27edb10a700707e1d8d68860aca60b7e06a2b2b)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/./tar-1.14.c.reduced.c:13223:42 in from_header
+==2530740==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 360: 2530739 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/bins/reduced.tsan.out xf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/tar-1.14-input-fuzz/result/afl_result/reduced/result_1/tsan/crashes/id:000000* bar

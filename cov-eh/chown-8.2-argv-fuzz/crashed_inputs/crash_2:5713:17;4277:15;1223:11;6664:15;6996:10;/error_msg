@@ -1,0 +1,17 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==2131784==ERROR: AddressSanitizer: requested allocation size 0x7ff292000200 (0x7ff292001200 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x55a505b622b6 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.asan.out+0xa62b6) (BuildId: a15b8f34da86ed881e62945e3a2358a9b103a3fe)
+    #1 0x55a505ba13fd in fts_palloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:5713:17
+    #2 0x55a505b9e662 in fts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4277:15
+    #3 0x55a505b9e408 in xfts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:1223:11
+    #4 0x55a505ba5919 in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6664:15
+    #5 0x55a505ba7837 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6996:10
+    #6 0x7ff293bedd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+==2131784==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/chown-8.2-argv-fuzz/bins/reduced.asan.out+0xa62b6) (BuildId: a15b8f34da86ed881e62945e3a2358a9b103a3fe) in __interceptor_realloc
+==2131784==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2131783 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

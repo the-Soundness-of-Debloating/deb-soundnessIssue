@@ -1,0 +1,35 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_1_fuzzed/input_1_163
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055d466ee90ed in build_state (s=0, d=0x55d466f15408 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6347
+6347	  if ((d->states + s)->newline) {
+#0  0x000055d466ee90ed in build_state (s=0, d=0x55d466f15408 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6347
+#1  0x000055d466ee907c in build_state_zero (d=0x55d466f15408 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6475
+#2  0x000055d466ee8cfc in dfaexec (d=0x55d466f15408 <dfa_1>, 
+    begin=0x55d4677f0000 "/* grep.c - main driver file for grep.\n   Copyright (C) 1992 Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU Ge"..., end=0x55d4677f7fe4 "      && ((argv[optind][0] =", newline___0=0, count=0x0, backref=0x7ffc67b60bc0) at ./grep-2.4.2.c.reduced.c:6529
+#3  0x000055d466eec78c in EGexecute (
+    buf=0x55d4677f0000 "/* grep.c - main driver file for grep.\n   Copyright (C) 1992 Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU Ge"..., size=32740, endp=0x7ffc67b60c18) at ./grep-2.4.2.c.reduced.c:9434
+#4  0x000055d466ef4859 in grepbuf (
+    beg=0x55d4677f0000 "/* grep.c - main driver file for grep.\n   Copyright (C) 1992 Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU Ge"..., lim=0x55d4677f7fe4 "      && ((argv[optind][0] =") at ./grep-2.4.2.c.reduced.c:1324
+#5  0x000055d466ef3ef1 in grep (fd=3, file=0x55d466efad2d <afl_init_argv.in_buf+13> "train_input/grep1.dat", stats=0x55d466efa7c8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1522
+#6  0x000055d466ee375f in grepfile (file=0x55d466efad2d <afl_init_argv.in_buf+13> "train_input/grep1.dat", stats=0x55d466efa7c8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#7  0x000055d466ee3336 in main (argc=4, argv=0x55d466f133c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

@@ -1,0 +1,24 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2687841==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000018 (pc 0x565237c9a4ab bp 0x7ffe82fa88a0 sp 0x7ffe82fa84b0 T0)
+==2687841==The signal is caused by a READ memory access.
+==2687841==Hint: address points to the zero page.
+    #0 0x565237c9a4ab in build_state /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6347:7
+    #1 0x565237c9a317 in build_state_zero /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6475:3
+    #2 0x565237c99881 in dfaexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6529:5
+    #3 0x565237ca58b6 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9434:13
+    #4 0x565237cab961 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #5 0x565237caaeba in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #6 0x565237c8d8f3 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #7 0x565237c8cd95 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #8 0x7f2c9cbeed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x7f2c9cbeee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x565237bcc3e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x213e4) (BuildId: 713d16dea25a93e923af0f64a7b76188c3b16ee2)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6347:7 in build_state
+==2687841==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2687837 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

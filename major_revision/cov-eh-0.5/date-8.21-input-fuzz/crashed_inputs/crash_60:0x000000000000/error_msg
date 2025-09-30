@@ -1,0 +1,36 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000115,sig:11,src:000362+000419,time:38993032,execs:4999698,op:splice,rep:2
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out: time -666289870760492320 is out of range
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out: invalid date '777wed--48'
+LeakSanitizer:DEADLYSIGNAL
+==815580==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x7fffc969f2e0 sp 0x7fffc969eed0 T0)
+==815580==Hint: pc points to the zero page.
+==815580==The signal is caused by a READ memory access.
+==815580==Hint: address points to the zero page.
+    #0 0x0  (<unknown module>)
+    #1 0x558ab3f88497 in __sanitizer::BufferedStackTrace::UnwindImpl(unsigned long, unsigned long, void*, bool, unsigned int) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out+0x2d497) (BuildId: 8bc9601b1d8ac744a7bda0bb90254865831e3dc3)
+    #2 0x558ab3f82ff5 in __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out+0x27ff5) (BuildId: 8bc9601b1d8ac744a7bda0bb90254865831e3dc3)
+    #3 0x558ab3f8331a in __sanitizer::HandleDeadlySignal(void*, void*, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out+0x2831a) (BuildId: 8bc9601b1d8ac744a7bda0bb90254865831e3dc3)
+    #4 0x7f5b678fc51f  (/lib/x86_64-linux-gnu/libc.so.6+0x4251f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (<unknown module>) 
+==815580==ABORTING
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000062,sig:11,src:000080+000064,time:69087,execs:12412,op:splice,rep:1
+ThreadSanitizer:DEADLYSIGNAL
+==842037==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x000000000000 sp 0x7ffe14a6a630 T842037)
+==842037==Hint: pc points to the zero page.
+==842037==The signal is caused by a READ memory access.
+==842037==Hint: address points to the zero page.
+    #0 <null> <null> (0x000000000000)
+    #1 __sanitizer::BufferedStackTrace::UnwindImpl(unsigned long, unsigned long, void*, bool, unsigned int) <null> (reduced.tsan.out+0xca511) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #2 __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) <null> (reduced.tsan.out+0x43e55) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #3 __sanitizer::HandleDeadlySignal(void*, void*, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) <null> (reduced.tsan.out+0x4417a) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #4 <null> <null> (libc.so.6+0x4251f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (<unknown module>) 
+==842037==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 842036 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

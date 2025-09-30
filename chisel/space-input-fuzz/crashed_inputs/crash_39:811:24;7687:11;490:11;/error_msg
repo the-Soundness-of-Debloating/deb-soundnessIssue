@@ -1,0 +1,37 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_35
+space.c.reduced.c:1370:3: runtime error: store to misaligned address 0x7ffc6bec242c for type 'struct charac *', which requires 8 byte alignment
+0x7ffc6bec242c: note: pointer points here
+  40 25 ec 6b fc 7f 00 00  38 24 ec 6b fc 7f 00 00  40 25 ec 6b fc 7f 00 00  4c 24 ec 6b fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1370:3 in 
+space.c.reduced.c:3037:15: runtime error: load of misaligned address 0x7ffc6bec242c for type 'struct charac *', which requires 8 byte alignment
+0x7ffc6bec242c: note: pointer points here
+  40 25 ec 6b 30 e0 25 26  e2 55 00 00 fc 7f 00 00  40 25 ec 6b fc 7f 00 00  4c 24 ec 6b fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3037:15 in 
+space.c.reduced.c:1394:10: runtime error: load of misaligned address 0x7ffc6bec242c for type 'struct charac *', which requires 8 byte alignment
+0x7ffc6bec242c: note: pointer points here
+  40 25 ec 6b 30 e0 25 26  e2 55 00 00 fc 7f 00 00  40 25 ec 6b fc 7f 00 00  4c 24 ec 6b fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:1394:10 in 
+space.c.reduced.c:5878:3: runtime error: store to misaligned address 0x7ffc6bec241c for type 'struct charac *', which requires 8 byte alignment
+0x7ffc6bec241c: note: pointer points here
+  40 da 25 26 e2 55 00 00  2c 24 ec 6b fc 7f 00 00  40 25 ec 6b 30 e0 25 26  e2 55 00 00 fc 7f 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5878:3 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3758981==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x55e2257bb4b0 (pc 0x55e2257c1239 bp 0x7ffc6bec2900 sp 0x7ffc6bec26e0 T3758981)
+==3758981==The signal is caused by a WRITE memory access.
+    #0 0x55e2257c1239 in addscan /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:811:24
+    #1 0x55e2257bd05d in simgroup /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:7687:11
+    #2 0x55e2257bb5e6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:490:11
+    #3 0x7f4c32b3cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f4c32b3ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55e225793454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out+0x11454) (BuildId: b40c8b1e995522a49e1e4906d827c1a2a8b210b5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:811:24 in addscan
+==3758981==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 3758980 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr3249.adl_fuzzed/gr3249.adl_35

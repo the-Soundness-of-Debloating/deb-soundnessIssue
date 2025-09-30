@@ -1,0 +1,14 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -k -p -w
+LeakSanitizer:DEADLYSIGNAL
+==2616589==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000320 (pc 0x560f81fd8fab bp 0x7ffc9acdb830 sp 0x7ffc9acda510 T0)
+==2616589==The signal is caused by a READ memory access.
+==2616589==Hint: address points to the zero page.
+    #0 0x560f81fd8fab in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11841:18
+    #1 0x7f35ffc60d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7f35ffc60e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x560f81fa16d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0xa6d4) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11841:18 in main
+==2616589==ABORTING

@@ -1,0 +1,18 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-exit-aug/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1549903==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x557d7d726000 (pc 0x557d7cd50400 bp 0x7ffcd844e620 sp 0x7ffcd844e4f0 T1549903)
+==1549903==The signal is caused by a WRITE memory access.
+    #0 0x557d7cd50400 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-exit-aug/make-3.79-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x557d7cd4d985 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-exit-aug/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11031:3
+    #2 0x7f02851fed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f02851fee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x557d7cd05714 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-exit-aug/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x35714) (BuildId: f26ae3aacccef8c348b16f71aca4712af8572ec9)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-exit-aug/make-3.79-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1549903==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1549902 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

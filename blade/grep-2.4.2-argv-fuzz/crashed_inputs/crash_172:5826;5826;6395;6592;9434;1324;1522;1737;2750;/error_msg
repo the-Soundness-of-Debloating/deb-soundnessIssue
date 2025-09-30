@@ -1,0 +1,32 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_3_fuzzed/input_3_204
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055f1fbcdaaa2 in dfastate (s=0, d=0x55f1fbcfb890 <dfa_1>, trans___0=0x55f1fbeb20b0) at ./grep-2.4.2.c.reduced.c:5826
+5826	    if ((int )*(d->tokens + pos.strchr) >= 0) {
+#0  0x000055f1fbcdaaa2 in dfastate (s=0, d=0x55f1fbcfb890 <dfa_1>, trans___0=0x55f1fbeb20b0) at ./grep-2.4.2.c.reduced.c:5826
+#1  0x000055f1fbcdb465 in build_state (s=0, d=0x55f1fbcfb890 <dfa_1>) at ./grep-2.4.2.c.reduced.c:6395
+#2  0x000055f1fbcdb37a in dfaexec (d=0x55f1fbcfb890 <dfa_1>, begin=0x55f1fbea7002 "\n\n", end=0x55f1fbea7003 "\n", newline___0=0, count=0x0, backref=0x7ffc4affedb8) at ./grep-2.4.2.c.reduced.c:6592
+#3  0x000055f1fbcdc673 in EGexecute (buf=0x55f1fbea7002 "\n\n", size=1, endp=0x7ffc4affee08) at ./grep-2.4.2.c.reduced.c:9434
+#4  0x000055f1fbcdcc04 in grepbuf (beg=0x55f1fbea7002 "\n\n", lim=0x55f1fbea7003 "\n") at ./grep-2.4.2.c.reduced.c:1324
+#5  0x000055f1fbcdc9e8 in grep (fd=-1, file=0x55f1fbce124b <afl_init_argv.in_buf+43> "trai%naaaa%d%nep*.dat-G", stats=0x55f1fbce11c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1522
+#6  0x000055f1fbcd98fb in grepfile (file=0x55f1fbce124b <afl_init_argv.in_buf+43> "trai%naaaa%d%nep*.dat-G", stats=0x55f1fbce11c4 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#7  0x000055f1fbcd9619 in main (argc=952, argv=0x55f1fbcf98c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

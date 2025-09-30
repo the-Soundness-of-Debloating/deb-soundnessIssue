@@ -1,0 +1,17 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out -c
+LeakSanitizer:DEADLYSIGNAL
+==1832120==ERROR: LeakSanitizer: SEGV on unknown address 0x562b0c21c8f4 (pc 0x562ada89da68 bp 0x7ffcefc0d490 sp 0x7ffcefc0d460 T0)
+==1832120==The signal is caused by a WRITE memory access.
+    #0 0x562ada89da68 in flush_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4998:26
+    #1 0x562ada89f354 in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5862:17
+    #2 0x562ada89f6bb in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6054:7
+    #3 0x562ada8a03e8 in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #4 0x562ada89fd2b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #5 0x7ff7d6b01d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7ff7d6b01e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x562ada86d514 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/bins/reduced.lsan.out+0x6514) (BuildId: f33f235454e214f540fd1bbb46714b0a6327d608)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4998:26 in flush_block
+==1832120==ABORTING

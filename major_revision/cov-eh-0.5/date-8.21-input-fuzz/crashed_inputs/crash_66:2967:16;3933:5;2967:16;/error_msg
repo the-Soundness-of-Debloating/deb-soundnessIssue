@@ -1,0 +1,28 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000077,sig:11,src:000085+000272,time:169816,execs:31803,op:splice,rep:3
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.tsan.out: invalid date ','
+ThreadSanitizer:DEADLYSIGNAL
+==842549==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x563969e06edb bp 0x7fffec298a80 sp 0x7fffec2989a0 T842549)
+==842549==The signal is caused by a READ memory access.
+==842549==Hint: address points to the zero page.
+    #0 apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 (reduced.tsan.out+0xd2edb) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3933:5 (reduced.tsan.out+0xd14fe) (BuildId: 6ebe3b0f5558ee4090e98be8ac866d3ff12a456a)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 in apply_relative_time
+==842549==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 842548 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000077,sig:11,src:000085+000272,time:169816,execs:31803,op:splice,rep:3
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/bins/reduced.lsan.out: invalid date ','
+LeakSanitizer:DEADLYSIGNAL
+==846964==ERROR: LeakSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x560ff1acd92c bp 0x7ffddb7e32d0 sp 0x7ffddb7e32d0 T0)
+==846964==The signal is caused by a READ memory access.
+==846964==Hint: address points to the zero page.
+    #0 0x560ff1acd92c in apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16
+    #1 0x560ff1acc712 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3933:5
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-input-fuzz/./date-8.21.c.reduced.c:2967:16 in apply_relative_time
+==846964==ABORTING

@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out
+==3890767==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x557490c6c272 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:990:11
+    #1 0x557490cad878 in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:6197:19
+    #2 0x557490cb6843 in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:6910:17
+    #3 0x557490cd1c54 in uncompressStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:7516:23
+    #4 0x557490cc217a in uncompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9245:23
+    #5 0x557490cbd219 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:10354:13
+    #6 0x7f36c7bf2d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f36c7bf2e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x557490bde354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out+0x1f354) (BuildId: 97d8cae8f560baaa0490df6a14fc90d9b8cdc718)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:990:11 in BZ2_decompress
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 174: 3890765 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/bzip2-1.0.5-argv-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000000* > sample1.rb2

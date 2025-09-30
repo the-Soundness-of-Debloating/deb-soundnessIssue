@@ -1,0 +1,37 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_344 -k -p -w
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==621317==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x56292989d2a9 (pc 0x56292989d2a9 bp 0x7ffc9605bf50 sp 0x7ffc9605bba8 T621317)
+==621317==The signal is caused by a READ memory access.
+==621317==Hint: PC is at a non-executable region. Maybe a wild jump?
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x56292989d2a9  ([heap]+0xa2a9)
+    #1 0x7f9374bdfcfa in glob64 (/lib/x86_64-linux-gnu/libc.so.6+0xeecfa) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x562927480694 in multi_glob /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18551:15
+    #3 0x56292747f388 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:16181:22
+    #4 0x5629274761f3 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #5 0x56292746e1c0 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #6 0x7f9374b1ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV ([heap]+0xa2a9) 
+==621317==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 621315 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.ubsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_344 -k -p -w
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/bins/reduced.lsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_344 -k -p -w
+LeakSanitizer:DEADLYSIGNAL
+==1911281==ERROR: LeakSanitizer: SEGV on unknown address 0x613000000449 (pc 0x613000000449 bp 0x7ffdf4d42cf0 sp 0x7ffdf4d42948 T0)
+==1911281==The signal is caused by a READ memory access.
+==1911281==Hint: PC is at a non-executable region. Maybe a wild jump?
+    #0 0x613000000449  (<unknown module>)
+    #1 0x7fcc30ca1cfa in glob64 (/lib/x86_64-linux-gnu/libc.so.6+0xeecfa) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x55b358f29dc9 in multi_glob /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:18551:15
+    #3 0x55b358f297eb in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:16181:22
+    #4 0x55b358f26cf8 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #5 0x55b358f24e97 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #6 0x7fcc30bdcd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (<unknown module>) 
+==1911281==ABORTING

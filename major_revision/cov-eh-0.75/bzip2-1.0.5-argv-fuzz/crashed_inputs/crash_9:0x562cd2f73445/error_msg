@@ -1,0 +1,14 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1158838==ERROR: ThreadSanitizer: SEGV on unknown address 0x562cd4341000 (pc 0x562cd2f73445 bp 0x7ffca96548f0 sp 0x7ffca9654840 T1158838)
+==1158838==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xee445) (BuildId: 71afa74aca6c9bb714849d189a086553bf69704c)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./bzip2-1.0.5.c.reduced.c:9728:5 (reduced.tsan.out+0xec6ed) (BuildId: 71afa74aca6c9bb714849d189a086553bf69704c)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x213e4) (BuildId: 71afa74aca6c9bb714849d189a086553bf69704c)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/bzip2-1.0.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1158838==ABORTING

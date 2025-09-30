@@ -1,0 +1,18 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_82
+ThreadSanitizer:DEADLYSIGNAL
+==2232125==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x39327fff18afc760 sp 0x7fff18afc6c0 T2232125)
+==2232125==Hint: pc points to the zero page.
+==2232125==The signal is caused by a READ memory access.
+==2232125==Hint: address points to the zero page.
+    #0 <null> <null> (0x000000000000)
+    #1 __sanitizer::BufferedStackTrace::UnwindImpl(unsigned long, unsigned long, void*, bool, unsigned int) <null> (reduced.tsan.out+0xc8451) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #2 __sanitizer::ReportDeadlySignal(__sanitizer::SignalContext const&, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) <null> (reduced.tsan.out+0x41d95) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #3 __sanitizer::HandleDeadlySignal(void*, void*, unsigned int, void (*)(__sanitizer::SignalContext const&, void const*, __sanitizer::BufferedStackTrace*), void const*) <null> (reduced.tsan.out+0x420ba) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+    #4 <null> <null> (libc.so.6+0x4251f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (<unknown module>) 
+==2232125==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2232124 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr5513.adl_fuzzed/gr5513.adl_82

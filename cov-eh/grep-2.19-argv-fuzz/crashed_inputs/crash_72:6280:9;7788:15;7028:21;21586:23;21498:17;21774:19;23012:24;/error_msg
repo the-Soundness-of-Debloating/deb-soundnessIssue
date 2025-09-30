@@ -1,0 +1,26 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.msan.out
+grep: ÈpuÞÍÍ: Bad file descriptor
+grep: ÈpuÞÍÍ: Bad file descriptor
+grep: ŽÍÍ: Bad file descriptor
+grep: ŽÍÍ: Bad file descriptor
+grep: ÎÍ: Bad file descriptor
+grep: ÎÍ: Bad file descriptor
+grep: bÍt^ ^p: Bad file descriptor
+grep: bÍt^ ^p: Bad file descriptor
+==3265734==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5564935de6c5 in fts_set_stat_required /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:6280:9
+    #1 0x55649359e99c in fts_build /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7788:15
+    #2 0x556493599831 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7028:21
+    #3 0x5564935f4b25 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21586:23
+    #4 0x5564935f40d9 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21498:17
+    #5 0x5564935dca41 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21774:19
+    #6 0x5564935db716 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23012:24
+    #7 0x7efd664ffd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7efd664ffe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x5564934f1474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.msan.out+0x20474) (BuildId: 3986e534a970d19e08cb62b487ef62852ddf0e34)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:6280:9 in fts_set_stat_required
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3265733 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

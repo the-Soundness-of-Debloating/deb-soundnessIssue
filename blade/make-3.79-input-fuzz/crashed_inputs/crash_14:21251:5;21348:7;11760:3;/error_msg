@@ -1,0 +1,16 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out -d -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_3 -n -p -s -w
+LeakSanitizer:DEADLYSIGNAL
+==2686544==ERROR: LeakSanitizer: SEGV on unknown address 0x55cf225ee79f (pc 0x7f906d15b1e8 bp 0x7ffe801b8360 sp 0x7ffe801b82c8 T0)
+==2686544==The signal is caused by a READ memory access.
+    #0 0x7f906d15b1e8  (/lib/x86_64-linux-gnu/libc.so.6+0x1af1e8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55cf225d115b in convert_suffix_rule /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:21251:5
+    #2 0x55cf225ceb9d in convert_to_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:21348:7
+    #3 0x55cf225cce77 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11760:3
+    #4 0x7f906cfd5d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f906cfd5e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55cf225956d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-input-fuzz/bins/reduced.lsan.out+0xa6d4) (BuildId: c36dfead64fe1dcdedc2ba63efa61db16411d786)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1af1e8) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2686544==ABORTING

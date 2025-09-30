@@ -1,0 +1,20 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/bins/reduced.ubsan.out '^[^AEIOU]' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_129
+grep-2.19.c.reduced.c:20646:24: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:20646:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3986016==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7fdde7385597 bp 0x7ffc3c09b540 sp 0x7ffc3c09b338 T3986016)
+==3986016==The signal is caused by a READ memory access.
+    #0 0x7fdde7385597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x55f6a4e7777c in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55f6a4e75eb3 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55f6a4e75826 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55f6a4e67946 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x55f6a4e67435 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7fdde71ffd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fdde71ffe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55f6a4df5734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/bins/reduced.ubsan.out+0x3c734) (BuildId: 49ceee8c1a5b774599c6d900905962a23c5afa25)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==3986016==ABORTING

@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep-2.19.c.reduced.c:19426:41: runtime error: member access within null pointer of type 'must' (aka 'struct must')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19426:41 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1117896==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000018 (pc 0x55da5f9273fc bp 0x7ffd189d31e0 sp 0x7ffd189d2630 T1117896)
+==1117896==The signal is caused by a READ memory access.
+==1117896==Hint: address points to the zero page.
+    #0 0x55da5f9273fc in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19426:41
+    #1 0x55da5f90c822 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x55da5f90c46a in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x55da5f93d46b in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #4 0x55da5f92eecf in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f3b7575cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f3b7575ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55da5f8b57b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x417b4) (BuildId: 7a7e28c3e7653107aff2d05ee594e0608946f256)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19426:41 in dfamust
+==1117896==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1117893 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

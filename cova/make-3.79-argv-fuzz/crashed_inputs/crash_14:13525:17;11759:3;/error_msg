@@ -1,0 +1,30 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3030854==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000001 (pc 0x558257cc074e bp 0x7fffb8e4bff0 sp 0x7fffb8e4b220 T3030854)
+==3030854==The signal is caused by a WRITE memory access.
+==3030854==Hint: address points to the zero page.
+    #0 0x558257cc074e in define_makeflags /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:13525:17
+    #1 0x558257cb05b7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11759:3
+    #2 0x7fa037515d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fa037515e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x558257c557f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x4a7f4) (BuildId: 5dba9ec5dc0fc9d4e8ca4d12a57decbb11557055)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:13525:17 in define_makeflags
+==3030854==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3030852 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.msan.out
+==3221449==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55db9e6fc720 in define_makeflags /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:13525:17
+    #1 0x55db9e6e56d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11759:3
+    #2 0x7f122771ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f122771ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55db9e612464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.msan.out+0x21464) (BuildId: ce5aac766f32a74780db244351e6edf0f4d99ce2)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:13525:17 in define_makeflags
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3221447 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

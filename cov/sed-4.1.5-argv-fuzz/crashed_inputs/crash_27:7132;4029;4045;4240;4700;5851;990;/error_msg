@@ -1,0 +1,41 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_17
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140707877398336) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140707877398336) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140707877398336) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140707877398336, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007ff91b10f476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007ff91b0f57f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007ff91b156676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7ff91b2a8b77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007ff91b16dcfc in malloc_printerr (str=str@entry=0x7ff91b2a66f1 "corrupted size vs. prev_size") at ./malloc/malloc.c:5664
+#7  0x00007ff91b16e7e2 in unlink_chunk (p=p@entry=0x5628e85e5700, av=0x7ff91b2e7c80 <main_arena>) at ./malloc/malloc.c:1629
+#8  0x00007ff91b17162b in _int_malloc (av=av@entry=0x7ff91b2e7c80 <main_arena>, bytes=bytes@entry=97) at ./malloc/malloc.c:4307
+#9  0x00007ff91b171b8a in _int_realloc (av=av@entry=0x7ff91b2e7c80 <main_arena>, oldp=oldp@entry=0x5628e85e54d0, oldsize=oldsize@entry=64, nb=nb@entry=112) at ./malloc/malloc.c:4878
+#10 0x00007ff91b172909 in __GI___libc_realloc (oldmem=0x5628e85e54e0, bytes=100) at ./malloc/malloc.c:3485
+#11 0x00005628e748a1d2 in ck_realloc (ptr=0x5628e85e54e0, size=100) at ./sed-4.1.5.c.reduced.c:7132
+#12 0x00005628e748c131 in resize_line (lb=0x5628e7495448 <line>, len=2368) at ./sed-4.1.5.c.reduced.c:4029
+#13 0x00005628e748c0a3 in str_append (to=0x5628e7495448 <line>, string=0x5628e85e5600 "\177ELF\002\001\001", length=2368) at ./sed-4.1.5.c.reduced.c:4045
+#14 0x00005628e748c040 in read_file_line (input=0x7fff73cab0f8) at ./sed-4.1.5.c.reduced.c:4240
+#15 0x00005628e74896cb in read_pattern_space (input=0x7fff73cab0f8, the_program___0=0x5628e85e44d0, append=false) at ./sed-4.1.5.c.reduced.c:4700
+#16 0x00005628e7488873 in process_files (the_program___0=0x5628e85e44d0, argv=0x5628e74adb98 <afl_init_argv[ret]+24>) at ./sed-4.1.5.c.reduced.c:5851
+#17 0x00005628e7488493 in main (argc=3, argv=0x5628e74adb80 <afl_init_argv[ret]>) at ./sed-4.1.5.c.reduced.c:990

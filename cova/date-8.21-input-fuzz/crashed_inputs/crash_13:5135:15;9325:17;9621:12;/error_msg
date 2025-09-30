@@ -1,0 +1,17 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000034,sig:06,src:000860,time:5886505,execs:438085,op:havoc,rep:7
+ThreadSanitizer: CHECK failed: sanitizer_allocator_secondary.h:297 "((IsAligned(p, page_size_))) != (0)" (0x0, 0x0) (tid=1648397)
+    #0 __tsan::CheckUnwind() <null> (reduced.tsan.out+0xb45eb) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #1 __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) <null> (reduced.tsan.out+0x36224) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #2 __sanitizer::LargeMmapAllocator<__tsan::MapUnmapCallback, __sanitizer::LargeMmapAllocatorPtrArrayDynamic, __sanitizer::LocalAddressSpaceView>::Deallocate(__sanitizer::AllocatorStats*, void*) <null> (reduced.tsan.out+0xafd66) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #3 __tsan::user_free(__tsan::ThreadState*, unsigned long, void*, bool) <null> (reduced.tsan.out+0xaca9f) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #4 free <null> (reduced.tsan.out+0x4eb34) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #5 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5135:15 (reduced.tsan.out+0xd551d) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #6 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17 (reduced.tsan.out+0xdb80e) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xdb42a) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #8 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 _start <null> (reduced.tsan.out+0x224c4) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1648396 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

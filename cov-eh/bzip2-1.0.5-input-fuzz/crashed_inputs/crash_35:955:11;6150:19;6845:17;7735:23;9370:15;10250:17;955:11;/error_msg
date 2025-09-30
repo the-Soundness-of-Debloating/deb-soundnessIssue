@@ -1,0 +1,17 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_12
+==3872544==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x556e0419c262 in BZ2_decompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:955:11
+    #1 0x556e041dd808 in BZ2_bzDecompress /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6150:19
+    #2 0x556e041e67d3 in BZ2_bzRead /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:6845:17
+    #3 0x556e04201f1d in testStream /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:7735:23
+    #4 0x556e041f273d in testf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:9370:15
+    #5 0x556e041ed326 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:10250:17
+    #6 0x7fcb2c31bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fcb2c31be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x556e0410e344 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out+0x1e344) (BuildId: 7161c42a978e0834ea90e9509e0062c72b23a664)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/./bzip2-1.0.5.c.reduced.c:955:11 in BZ2_decompress
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 170: 3872543 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/bins/reduced.msan.out -t /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/bzip2-1.0.5-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_12

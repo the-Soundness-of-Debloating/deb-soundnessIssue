@@ -1,0 +1,17 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+
+=================================================================
+==3374322==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 2805 byte(s) in 11 object(s) allocated from:
+    #0 0x555bc61ac622 in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x30622) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+    #1 0x555bc61afc30 in getline_local /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6767:17
+    #2 0x555bc61afd04 in ck_getline /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6856:11
+    #3 0x555bc61b0b46 in read_file_line /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4208:9
+    #4 0x555bc61af7d1 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4670:15
+    #5 0x555bc61af052 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5818:11
+    #6 0x555bc61aee59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:988:17
+    #7 0x7f39d1523d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 2805 byte(s) leaked in 11 allocation(s).

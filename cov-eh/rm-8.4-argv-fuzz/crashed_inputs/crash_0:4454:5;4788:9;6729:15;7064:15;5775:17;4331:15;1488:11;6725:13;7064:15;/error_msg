@@ -1,0 +1,59 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==437040==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000000140 at pc 0x5596f0102662 bp 0x7ffc466a15f0 sp 0x7ffc466a0dc0
+WRITE of size 4132 at 0x611000000140 thread T0
+    #0 0x5596f0102661 in __asan_memmove (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out+0xa5661) (BuildId: e24221608d3b90108d9cbb7354f3acfd6c58ecec)
+    #1 0x5596f0142959 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4454:5
+    #2 0x5596f0141651 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4788:9
+    #3 0x5596f0142bea in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6729:15
+    #4 0x5596f014420c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #5 0x7f92448bcd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f92448bce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5596f007d424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out+0x20424) (BuildId: e24221608d3b90108d9cbb7354f3acfd6c58ecec)
+
+0x611000000140 is located 0 bytes to the right of 256-byte region [0x611000000040,0x611000000140)
+allocated by thread T0 here:
+    #0 0x5596f0103276 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out+0xa6276) (BuildId: e24221608d3b90108d9cbb7354f3acfd6c58ecec)
+    #1 0x5596f014056d in fts_palloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:5775:17
+    #2 0x5596f013e322 in fts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:4331:15
+    #3 0x5596f013e0c8 in xfts_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:1488:11
+    #4 0x5596f0142bd0 in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6725:13
+    #5 0x5596f014420c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #6 0x7f92448bcd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out+0xa5661) (BuildId: e24221608d3b90108d9cbb7354f3acfd6c58ecec) in __asan_memmove
+Shadow bytes around the buggy address:
+  0x0c227fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff8000: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x0c227fff8010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c227fff8020: 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa fa
+  0x0c227fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==437040==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 189: 437038 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_138

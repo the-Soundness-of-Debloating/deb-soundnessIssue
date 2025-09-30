@@ -1,0 +1,37 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/testplans.fine/testfile
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2609151==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5590697d0fdf bp 0x7ffe0b42c540 sp 0x7ffe0b42c510 T0)
+==2609151==The signal is caused by a READ memory access.
+==2609151==Hint: address points to the zero page.
+    #0 0x5590697d0fdf in change_flag /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:27851:15
+    #1 0x5590697d1317 in initialize_job_control /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:31398:3
+    #2 0x5590697c877b in shell_initialize /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2828:3
+    #3 0x5590697c83aa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1279:3
+    #4 0x7fd12989dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fd12989de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x559069708614 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.asan.out+0x34614) (BuildId: 94ed3783c6ab3c2ae74dc57b7a991f7a5c3fb3b4)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:27851:15 in change_flag
+==2609151==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2609150 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/testplans.fine/testfile
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/testplans.fine/testfile
+LeakSanitizer:DEADLYSIGNAL
+==3068912==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5635f744f51e bp 0x7ffcf0103390 sp 0x7ffcf0103390 T0)
+==3068912==The signal is caused by a READ memory access.
+==3068912==Hint: address points to the zero page.
+    #0 0x5635f744f51e in change_flag /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:27851:15
+    #1 0x5635f744f857 in initialize_job_control /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:31398:3
+    #2 0x5635f744b52b in shell_initialize /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:2828:3
+    #3 0x5635f744b3d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1279:3
+    #4 0x7f217889ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f217889ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5635f741d9f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/bins/reduced.lsan.out+0x239f4) (BuildId: bd4a4c7048834de63b0dd2b057a753ac24cccf89)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:27851:15 in change_flag
+==3068912==ABORTING

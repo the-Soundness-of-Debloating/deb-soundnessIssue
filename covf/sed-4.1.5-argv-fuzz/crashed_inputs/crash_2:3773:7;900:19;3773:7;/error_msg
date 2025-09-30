@@ -1,0 +1,53 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+sed: invalid option -- 'ó'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3176215==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x557283228772 bp 0x7ffd55b06050 sp 0x7ffd55b06020 T0)
+==3176215==The signal is caused by a READ memory access.
+==3176215==Hint: address points to the zero page.
+    #0 0x557283228772 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7
+    #1 0x5572832282a4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #2 0x7f719fc07d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f719fc07e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5572831683b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x203b4) (BuildId: 94598d3664b6fdfecf03f242d61d9372128580dd)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7 in compile_file
+==3176215==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3176214 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+sed: invalid option -- 'ó'
+ThreadSanitizer:DEADLYSIGNAL
+==3262648==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56026e3a7eef bp 0x7ffca8542fe0 sp 0x7ffca8542f80 T3262648)
+==3262648==The signal is caused by a READ memory access.
+==3262648==Hint: address points to the zero page.
+    #0 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7 (reduced.tsan.out+0xcdeef) (BuildId: c673a8119b2be889ff68b2dcc5762d20282fc1cd)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19 (reduced.tsan.out+0xcdb71) (BuildId: c673a8119b2be889ff68b2dcc5762d20282fc1cd)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x213f4) (BuildId: c673a8119b2be889ff68b2dcc5762d20282fc1cd)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7 in compile_file
+==3262648==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3262647 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+sed: invalid option -- 'ó'
+LeakSanitizer:DEADLYSIGNAL
+==3291547==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x555c414691c5 bp 0x7ffc3891c710 sp 0x7ffc3891c6f0 T0)
+==3291547==The signal is caused by a READ memory access.
+==3291547==Hint: address points to the zero page.
+    #0 0x555c414691c5 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7
+    #1 0x555c41468fd9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #2 0x7f4dd6ce2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f4dd6ce2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x555c4143b534 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x6534) (BuildId: bb4f1667633af1d1e218276822c9f942c57cc736)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3773:7 in compile_file
+==3291547==ABORTING

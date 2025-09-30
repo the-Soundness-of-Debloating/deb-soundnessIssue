@@ -1,0 +1,77 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.asan.out -c 12345a
+=================================================================
+==3143669==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000010 at pc 0x55e66a8511d3 bp 0x7ffd40eecd70 sp 0x7ffd40eecd68
+WRITE of size 4 at 0x602000000010 thread T0
+    #0 0x55e66a8511d2 in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4424:28
+    #1 0x55e66a85bccb in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4478:7
+    #2 0x55e66a85bc18 in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4643:3
+    #3 0x55e66a85bba8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4723:3
+    #4 0x55e66a850ebf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4755:3
+    #5 0x55e66a8507c8 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4804:3
+    #6 0x55e66a857d59 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:6709:5
+    #7 0x55e66a85a955 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9259:5
+    #8 0x55e66a8502ae in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2720:3
+    #9 0x7f7423c3bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f7423c3be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55e66a790354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.asan.out+0x1f354) (BuildId: dec1b4d9997378fc260a18747d762e0c0e8d96e7)
+
+0x602000000010 is located 0 bytes inside of 4-byte region [0x602000000010,0x602000000014)
+freed by thread T0 here:
+    #0 0x55e66a8161a6 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.asan.out+0xa51a6) (BuildId: dec1b4d9997378fc260a18747d762e0c0e8d96e7)
+    #1 0x55e66a85bb7c in xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2900:9
+    #2 0x55e66a85109d in addtok /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4418:11
+    #3 0x55e66a85bccb in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4478:7
+    #4 0x55e66a85bc18 in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4643:3
+    #5 0x55e66a85bba8 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4723:3
+    #6 0x55e66a850ebf in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4755:3
+    #7 0x55e66a8507c8 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4804:3
+    #8 0x55e66a857d59 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:6709:5
+    #9 0x55e66a85a955 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9259:5
+    #10 0x55e66a8502ae in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2720:3
+    #11 0x7f7423c3bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+previously allocated by thread T0 here:
+    #0 0x55e66a815d7e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.asan.out+0xa4d7e) (BuildId: dec1b4d9997378fc260a18747d762e0c0e8d96e7)
+    #1 0x55e66a852f24 in xmalloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2880:9
+    #2 0x55e66a85798f in dfainit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:6624:13
+    #3 0x55e66a857d48 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:6708:5
+    #4 0x55e66a85a955 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9259:5
+    #5 0x55e66a8502ae in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2720:3
+    #6 0x7f7423c3bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:4424:28 in addtok
+Shadow bytes around the buggy address:
+  0x0c047fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c047fff8000: fa fa[fd]fa fa fa 04 fa fa fa fa fa fa fa fa fa
+  0x0c047fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3143669==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 3143668 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.asan.out -c 12345a < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000000*

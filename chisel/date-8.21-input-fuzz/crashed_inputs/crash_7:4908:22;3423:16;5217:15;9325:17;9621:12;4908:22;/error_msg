@@ -1,0 +1,56 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000021,sig:06,src:000012,time:83533,execs:6549,op:havoc,rep:2
+=================================================================
+==2170128==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f8ac00001b4 at pc 0x559704f9d28b bp 0x7ffef65f94d0 sp 0x7ffef65f94c8
+WRITE of size 1 at 0x7f8ac00001b4 thread T0
+    #0 0x559704f9d28a in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4908:22
+    #1 0x559704f98c58 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+    #2 0x559704f9edd1 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #3 0x559704fa22be in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x559704fa1e7f in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f8ac1d9fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f8ac1d9fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x559704ed8394 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/bins/reduced.asan.out+0x20394) (BuildId: 1240b59b47f714ba4151461146d16cbe17141ef3)
+
+Address 0x7f8ac00001b4 is located in stack of thread T0 at offset 52 in frame
+    #0 0x559704f9c88f in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4701
+
+  This frame has 1 object(s):
+    [32, 52) 'buff' (line 4718) <== Memory access at offset 52 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4908:22 in yylex
+Shadow bytes around the buggy address:
+  0x0ff1d7ff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff8000: f1 f1 f1 f1 00 f2 f2 f2 00 f2 f2 f2 00 00 f3 f3
+  0x0ff1d7ff8010: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0ff1d7ff8020: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0ff1d7ff8030: f1 f1 f1 f1 00 00[04]f3 f3 f3 f3 f3 00 00 00 00
+  0x0ff1d7ff8040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff8050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff8060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff8070: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff1d7ff8080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2170128==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2170127 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

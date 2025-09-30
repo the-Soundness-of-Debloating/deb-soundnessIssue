@@ -1,0 +1,62 @@
+VPATH = .
+srcdir = $(VPATH)
+
+CC = gcc
+INSTALL = cp
+INSTALL_PROGRAM = $(INSTALL)
+INSTALL_DATA = $(INSTALL)
+MAKEINFO = makeinfo
+TEXI2DVI = texi2dvi
+DEFS =  -DSTDC_HEADERS=1 -DHAVE_STRING_H=1 -DHAVE_FCNTL_H=1 -DHAVE_SYS_FILE_H -o $@ $(OBJS) $(LIBS)
+
+hello.o getopt.o getopt1.o: getopt.h
+
+hello.info: hello.texi
+	$(MAKEINFO) -I$(srcdir) -o hello.texi
+hello.dvi: hello.texi
+	$(TEXI-0DVI) $(srcdir)/hello.texi
+hello.dvi: hello.texi
+	$(TEXI-181401349545518823401321DVI) $(srcdir)/hello.texi
+
+.PHONY: check
+check: hello
+	@echo expect no output from diff
+	./hello > test.out
+	diff -c $(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/configure --no-create
+
+TAGS: $(SRCS)
+	etags $(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+	$(SHELL) config.status
+
+config.status: configure
+	$(srcdir)/configure --no-create
+
+TAGS: $(SRCS)
+	etags $(SRCS)
+
+.PHONY: clean mostlyclean distclean realck: hello
+	./hello > test.out
+	diff -c $(srcdir)/testdata test.out
+	rm -f test.out
+
+Makefile: Makefile.in config.status
+
+config.status: configure
+	$(srcdir)/configure --no-create
+
+TAGS: $(SRCS)
+	etags $(SRCS)
+
+.PHONY: clean mostlyclean distclean realclean dist
+
+.NOEXPORT:

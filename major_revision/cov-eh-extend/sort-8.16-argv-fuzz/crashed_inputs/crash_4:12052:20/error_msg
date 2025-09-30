@@ -1,0 +1,22 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.ubsan.out
+sort-8.16.c.reduced.c:12052:20: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:12052:20 in 
+sort-8.16.c.reduced.c:12084:14: runtime error: applying non-zero offset 18446744073709551615 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:12084:14 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3836640==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffff (pc 0x558d295de27a bp 0x7fff1c6cc490 sp 0x7fff1c6cc3d0 T3836640)
+==3836640==The signal is caused by a WRITE memory access.
+    #0 0x558d295de27a in write_line /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12084:20
+    #1 0x558d295e013b in write_unique /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12851:5
+    #2 0x558d295d7cc5 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13549:11
+    #3 0x558d295d4fae in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7
+    #4 0x7f886db20d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f886db20e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x558d295a6734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/bins/reduced.ubsan.out+0x10734) (BuildId: a353b697cda2c5669756e86c4c9b7914d38e8bcc)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:12084:20 in write_line
+==3836640==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3836639 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

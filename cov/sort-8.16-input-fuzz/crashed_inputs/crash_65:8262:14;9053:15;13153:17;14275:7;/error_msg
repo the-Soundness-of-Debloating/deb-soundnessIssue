@@ -1,0 +1,23 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3622982==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffff (pc 0x7fd491afd3fe bp 0x000000000000 sp 0x7ffe5049f780 T3622982)
+==3622982==The signal is caused by a READ memory access.
+    #0 0x7fd491afd3fe in __libc_free malloc/malloc.c:3368:7
+    #1 0x7fd491ae725c in __GI__IO_free_backup_area libio/genops.c:190:3
+    #2 0x7fd491ae725c in _IO_unsave_markers libio/genops.c:968:5
+    #3 0x7fd491ae3ec7 in _IO_file_close_it libio/fileops.c:139:3
+    #4 0x7fd491ad6d8e in fclose libio/iofclose.c:53:14
+    #5 0x55a74a7e377b in rpl_fclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:8262:14
+    #6 0x55a74a7e9987 in xfclose /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:9053:15
+    #7 0x55a74a7e791c in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13153:17
+    #8 0x55a74a7e64ac in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7
+    #9 0x7fd491a81d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7fd491a81e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x55a74a7bb5f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xc5f4) (BuildId: 8c74d5fecdf2b9a5fa868b6219f34ae936b50db4)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV malloc/malloc.c:3368:7 in __libc_free
+==3622982==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 3622981 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_88

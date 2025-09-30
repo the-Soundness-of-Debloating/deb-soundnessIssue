@@ -1,0 +1,45 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/bins/reduced.tsan.out
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+sort: invalid option -- 'Z'
+sort: invalid option -- 'l'
+ThreadSanitizer:DEADLYSIGNAL
+==679665==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fa2206fc5aa bp 0x0000000003ea sp 0x7ffec96db770 T679665)
+==679665==The signal is caused by a READ memory access.
+==679665==Hint: address points to the zero page.
+    #0 <null> <null> (libc.so.6+0x1085aa) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 <null> <null> (libc.so.6+0x108ada) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 getopt_long <null> (libc.so.6+0x108b61) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13650:15 (reduced.tsan.out+0xd0641) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x214d4) (BuildId: 9ecca38da042c861ba6684456fdb17cb3606019d)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1085aa) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==679665==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 679664 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

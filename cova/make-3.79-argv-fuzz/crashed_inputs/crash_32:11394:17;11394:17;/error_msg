@@ -1,0 +1,25 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.msan.out
+==1642645==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5587addf9d03 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11394:17
+    #1 0x7f889f215d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7f889f215e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x5587add2b464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.msan.out+0x21464) (BuildId: ce5aac766f32a74780db244351e6edf0f4d99ce2)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11394:17 in main
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1642644 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2178662==ERROR: LeakSanitizer: SEGV on unknown address 0x00040000002e (pc 0x5581ca6d1e11 bp 0x7ffd049bd070 sp 0x7ffd049bb3f0 T0)
+==2178662==The signal is caused by a WRITE memory access.
+    #0 0x5581ca6d1e11 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11394:17
+    #1 0x7f772c23fd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7f772c23fe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x5581ca6997b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/bins/reduced.lsan.out+0xa7b4) (BuildId: d57fcb93c67dcd9f6f9b427d38547f4a0da96590)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11394:17 in main
+==2178662==ABORTING

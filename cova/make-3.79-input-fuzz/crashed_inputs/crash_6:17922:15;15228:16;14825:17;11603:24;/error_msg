@@ -1,0 +1,18 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_63 -k -p -w
+MemorySanitizer:DEADLYSIGNAL
+==3829463==ERROR: MemorySanitizer: SEGV on unknown address 0x712fffffffff (pc 0x55adc5a4f125 bp 0x7ffc70671190 sp 0x7ffc70670ff0 T3829463)
+==3829463==The signal is caused by a READ memory access.
+    #0 0x55adc5a4f125 in readline /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17922:15
+    #1 0x55adc5a2515f in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15228:16
+    #2 0x55adc5a14f4f in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55adc59fa5f5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f901d064d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f901d064e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55adc5929464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out+0x21464) (BuildId: 36e7e4c97f69ec78e7819f301e80a0f55f845dc5)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/./make-3.79.c.reduced.c:17922:15 in readline
+==3829463==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 3829461 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/bins/reduced.msan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_63 -k -p -w

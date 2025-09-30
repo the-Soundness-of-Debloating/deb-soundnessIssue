@@ -1,0 +1,30 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '*'
+target5: invalid option -- 'ë'
+target5: invalid option -- 'û'
+target5: invalid option -- '('
+target5: invalid option -- ')'
+grep-2.4.2.c.reduced.c:6982:34: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:6982:34 in 
+grep-2.4.2.c.reduced.c:6982:28: runtime error: load of null pointer of type 'char *'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:6982:28 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==22146==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x559e74e8234f bp 0x7fffcbde2b20 sp 0x7fffcbde2980 T22146)
+==22146==The signal is caused by a READ memory access.
+==22146==Hint: address points to the zero page.
+    #0 0x559e74e8234f in enlist /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6982:28
+    #1 0x559e74e81f4b in addlists /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7143:11
+    #2 0x559e74e5a724 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:7559:19
+    #3 0x559e74e57084 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6711:5
+    #4 0x559e74e6dae0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #5 0x559e74e36fdb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #6 0x7f51545c6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f51545c6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x559e74e0e594 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x38594) (BuildId: 1bf274f7014ea001a67902eef7ffdb226afc2c8e)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6982:28 in enlist
+==22146==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 22145 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

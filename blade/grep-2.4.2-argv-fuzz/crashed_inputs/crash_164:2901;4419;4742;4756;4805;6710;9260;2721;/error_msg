@@ -1,0 +1,33 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_165
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+_int_realloc (av=av@entry=0x7fc7109d5c80 <main_arena>, oldp=oldp@entry=0x561e101262c0, oldsize=oldsize@entry=134464, nb=nb@entry=262160) at ./malloc/malloc.c:4839
+#0  _int_realloc (av=av@entry=0x7fc7109d5c80 <main_arena>, oldp=oldp@entry=0x561e101262c0, oldsize=oldsize@entry=134464, nb=nb@entry=262160) at ./malloc/malloc.c:4839
+#1  0x00007fc710860909 in __GI___libc_realloc (oldmem=0x561e101262d0, bytes=262144) at ./malloc/malloc.c:3485
+#2  0x0000561e0eed2f2d in xrealloc_1 (p=0x561e101262d0, n=262144) at ./grep-2.4.2.c.reduced.c:2901
+#3  0x0000561e0eecfdf9 in addtok (t=CAT) at ./grep-2.4.2.c.reduced.c:4419
+#4  0x0000561e0eed2fae in branch () at ./grep-2.4.2.c.reduced.c:4742
+#5  0x0000561e0eecfd50 in regexp (toplevel=1) at ./grep-2.4.2.c.reduced.c:4756
+#6  0x0000561e0eecf9a9 in dfaparse (s=0x561e0eed7220 <afl_init_argv.in_buf> ",,+", 'a' <repeats 197 times>..., len=32633, d=0x561e0eef1890 <dfa_1>) at ./grep-2.4.2.c.reduced.c:4805
+#7  0x0000561e0eed179e in dfacomp (s=0x561e0eed7220 <afl_init_argv.in_buf> ",,+", 'a' <repeats 197 times>..., len=32633, d=0x561e0eef1890 <dfa_1>, searchflag=1) at ./grep-2.4.2.c.reduced.c:6710
+#8  0x0000561e0eed2516 in Gcompile (pattern=0x561e0eed7220 <afl_init_argv.in_buf> ",,+", 'a' <repeats 197 times>..., size=32633) at ./grep-2.4.2.c.reduced.c:9260
+#9  0x0000561e0eecf597 in main (argc=2, argv=0x561e0eeef8c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2721

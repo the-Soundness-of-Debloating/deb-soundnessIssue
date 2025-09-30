@@ -1,0 +1,65 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.asan.out
+grep: @è: Bad file descriptor
+grep: @è: Bad file descriptor
+grep: 7: Bad file descriptor
+grep: 7: Bad file descriptor
+grep: 	: Bad file descriptor
+grep: 	: Bad file descriptor
+grep: ÿ: Bad file descriptor
+grep: ÿ: Bad file descriptor
+grep: :: Bad file descriptor
+grep: :: Bad file descriptor
+grep: : Bad file descriptor
+grep: : Bad file descriptor
+grep: bbbbbbbbbbbbbbbbb: Bad file descriptor
+grep: bbbbbbbbbbbbbbbbb: Bad file descriptor
+grep: Ô: Bad file descriptor
+grep: Ô: Bad file descriptor
+grep: ..........ÿÿÿ.................................5...-..........dpuUtrÿÿÿ\[n]^: Bad file descriptor
+grep: ..........ÿÿÿ.................................5...-..........dpuUtrÿÿÿ\[n]^: Bad file descriptor
+grep: Ô: Bad file descriptor
+grep: Ô: Bad file descriptor
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3213396==ERROR: AddressSanitizer: SEGV on unknown address 0x621100001501 (pc 0x558124bea254 bp 0x7ffe39e71ab0 sp 0x7ffe39e717f0 T0)
+==3213396==The signal is caused by a WRITE memory access.
+    #0 0x558124bea254 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7102:18
+    #1 0x558124c10a96 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21586:23
+    #2 0x558124c105c6 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21498:17
+    #3 0x558124c07c5d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21774:19
+    #4 0x558124c07461 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23012:24
+    #5 0x7f92ccb80d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f92ccb80e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x558124b19504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.asan.out+0x24504) (BuildId: a2ae109b33f210f524c41039eed5165c10dcc66e)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7102:18 in fts_read
+==3213396==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3213394 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+grep: : Bad file descriptor
+grep: : Bad file descriptor
+grep: 	ss“\ss: Bad file descriptor
+grep: 	ss“\ss: Bad file descriptor
+ThreadSanitizer:DEADLYSIGNAL
+==3298434==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x5617c1208fa2 bp 0x7ffd02b7eda0 sp 0x7ffd02b7eb58 T3298434)
+==3298434==The signal is caused by a READ memory access.
+==3298434==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_write1 <null> (reduced.tsan.out+0xbafa2) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #1 fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:7102:18 (reduced.tsan.out+0xd743a) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #2 grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21586:23 (reduced.tsan.out+0xf0db2) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #3 grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21498:17 (reduced.tsan.out+0xf0b59) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #4 grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:21774:19 (reduced.tsan.out+0xea422) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23012:24 (reduced.tsan.out+0xe9ec0) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x22504) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.19-argv-fuzz/bins/reduced.tsan.out+0xbafa2) (BuildId: 2d6dfa9bc1f4f6c9a83dc787b3d1020dfc9f2acd) in __tsan_write1
+==3298434==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3298433 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,86 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=1639565)
+  Read of size 8 at 0x7b20000000f8 by main thread:
+    #0 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 (reduced.tsan.out+0xef363) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16115:15 (reduced.tsan.out+0xef492) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16114:22 (reduced.tsan.out+0xef47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16114:22 (reduced.tsan.out+0xef47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #4 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16193:33 (reduced.tsan.out+0xeeda3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #5 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #6 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #7 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xef24d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #8 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeec95) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #9 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #10 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16316:11 (reduced.tsan.out+0xe0fcc) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #11 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdffd1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #12 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xde6e0) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #13 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xde47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #14 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #15 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+  Previous write of size 8 at 0x7b20000000f8 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4e8c3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 re_dfa_add_node posix/regex_internal.c:1433:19 (libc.so.6+0xf5b7b) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 in nsubtoks
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=1639565)
+  Read of size 8 at 0x7b20000000f0 by main thread:
+    #0 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 (reduced.tsan.out+0xef363) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16115:15 (reduced.tsan.out+0xef492) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16114:22 (reduced.tsan.out+0xef47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16193:33 (reduced.tsan.out+0xeeda3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #4 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #5 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #6 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xef24d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #7 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeec95) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #8 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #9 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16316:11 (reduced.tsan.out+0xe0fcc) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #10 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdffd1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #11 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xde6e0) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #12 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xde47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #13 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #14 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+  Previous write of size 8 at 0x7b20000000f0 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4e8c3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 re_dfa_add_node posix/regex_internal.c:1433:19 (libc.so.6+0xf5b7b) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 in nsubtoks
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=1639565)
+  Read of size 8 at 0x7b20000000e8 by main thread:
+    #0 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 (reduced.tsan.out+0xef363) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 nsubtoks /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16115:15 (reduced.tsan.out+0xef492) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16193:33 (reduced.tsan.out+0xeeda3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xe0f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #5 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xef24d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #6 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeec95) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #7 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16273:7 (reduced.tsan.out+0xeebf1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #8 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16316:11 (reduced.tsan.out+0xe0fcc) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #9 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdffd1) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #10 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xde6e0) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #11 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xde47d) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #12 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #13 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+  Previous write of size 8 at 0x7b20000000e8 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4e8c3) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #1 re_dfa_add_node posix/regex_internal.c:1433:19 (libc.so.6+0xf5b7b) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7 (reduced.tsan.out+0xf0cfa) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe9f85) (BuildId: ca5c4c9edbb5babd8b3db82d253a471a1730e09f)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16091:9 in nsubtoks
+==================
+grep: unbalanced (
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1639564 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

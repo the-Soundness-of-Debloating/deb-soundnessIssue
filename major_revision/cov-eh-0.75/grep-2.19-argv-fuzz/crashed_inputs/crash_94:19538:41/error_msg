@@ -1,0 +1,25 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep: invalid option -- '^'
+grep-2.19.c.reduced.c:19538:41: runtime error: member access within null pointer of type 'must' (aka 'struct must')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19538:41 in 
+grep-2.19.c.reduced.c:19538:41: runtime error: load of null pointer of type 'char **'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:19538:41 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==429515==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x564218d24af8 bp 0x7ffe50173aa0 sp 0x7ffe50172ef0 T429515)
+==429515==The signal is caused by a READ memory access.
+==429515==Hint: address points to the zero page.
+    #0 0x564218d24af8 in dfamust /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41
+    #1 0x564218d08672 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18818:7
+    #2 0x564218d082bc in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #3 0x564218d38cb0 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7
+    #4 0x564218d2a33a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #5 0x7f4eed140d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f4eed140e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x564218cb8734 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x3c734) (BuildId: ac39b4c09d29105563097ba948cba8dedcd8b52a)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:19538:41 in dfamust
+==429515==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 429514 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

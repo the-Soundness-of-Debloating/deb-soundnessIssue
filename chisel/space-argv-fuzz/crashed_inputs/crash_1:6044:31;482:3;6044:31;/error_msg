@@ -1,0 +1,18 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1018456==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x55955b8f538e bp 0x7ffff054d3f0 sp 0x7ffff054d390 T0)
+==1018456==The signal is caused by a READ memory access.
+==1018456==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55955b8f538e in prnfile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:6044:31
+    #1 0x55955b8f4228 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:482:3
+    #2 0x7f1b5f657d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f1b5f657e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55955b834364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/bins/reduced.asan.out+0x1f364) (BuildId: a9dd8ab892ebc7773c3d570e6ca61dba783c78ea)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-argv-fuzz/./space.c.reduced.c:6044:31 in prnfile
+==1018456==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1018455 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

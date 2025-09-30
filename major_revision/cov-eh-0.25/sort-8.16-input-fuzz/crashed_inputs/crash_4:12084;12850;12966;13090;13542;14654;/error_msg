@@ -1,0 +1,47 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/bins/reduced.nosan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/sort-8.16-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140151389787968) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140151389787968) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140151389787968) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140151389787968, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f7789d1e476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f7789d047f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f7789d7ceca in __malloc_assert (
+    assertion=assertion@entry=0x7f7789eba988 "(old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)", file=file@entry=0x7f7789eb568c "malloc.c", line=line@entry=2617, function=function@entry=0x7f7789ebb1f8 <__PRETTY_FUNCTION__.8> "sysmalloc") at ./malloc/malloc.c:307
+#6  0x00007f7789d7f937 in sysmalloc (nb=nb@entry=4112, av=av@entry=0x7f7789ef6c80 <main_arena>) at ./malloc/malloc.c:2617
+#7  0x00007f7789d808dd in _int_malloc (av=av@entry=0x7f7789ef6c80 <main_arena>, bytes=bytes@entry=4096) at ./malloc/malloc.c:4407
+#8  0x00007f7789d81262 in __GI___libc_malloc (bytes=bytes@entry=4096) at ./malloc/malloc.c:3321
+#9  0x00007f7789d5aba4 in __GI__IO_file_doallocate (fp=0x7f7789ef7780 <_IO_2_1_stdout_>) at ./libio/filedoalloc.c:101
+#10 0x00007f7789d69ce0 in __GI__IO_doallocbuf (fp=fp@entry=0x7f7789ef7780 <_IO_2_1_stdout_>) at ./libio/libioP.h:947
+#11 0x00007f7789d68f60 in _IO_new_file_overflow (f=0x7f7789ef7780 <_IO_2_1_stdout_>, ch=-1) at ./libio/fileops.c:744
+#12 0x00007f7789d676d5 in _IO_new_file_xsputn (n=1, data=<optimized out>, f=<optimized out>) at ./libio/libioP.h:947
+#13 _IO_new_file_xsputn (f=0x7f7789ef7780 <_IO_2_1_stdout_>, data=<optimized out>, n=1) at ./libio/fileops.c:1196
+#14 0x00007f7789d66289 in __GI_fwrite_unlocked (buf=0x5560f39855a2, size=1, count=1, fp=<optimized out>) at ./libio/libioP.h:947
+#15 0x00005560f3355fc6 in write_line (line=0x5560f39855e0, fp=0x7f7789ef7780 <_IO_2_1_stdout_>, output_file=0x0) at ./sort-8.16.c.reduced.c:12084
+#16 0x00005560f3356826 in write_unique (line=0x5560f39855e0, tfp=0x7f7789ef7780 <_IO_2_1_stdout_>, temp_output=0x0) at ./sort-8.16.c.reduced.c:12850
+#17 0x00005560f3357309 in mergelines_node (node=0x5560f39856e0, total_lines=9, tfp=0x7f7789ef7780 <_IO_2_1_stdout_>, temp_output=0x0) at ./sort-8.16.c.reduced.c:12966
+#18 0x00005560f3356f9b in merge_loop (queue=0x7ffeb52209a8, total_lines=9, tfp=0x7f7789ef7780 <_IO_2_1_stdout_>, temp_output=0x0) at ./sort-8.16.c.reduced.c:13090
+#19 0x00005560f3356711 in sortlines (lines=0x5560f3985600, nthreads=0, total_lines=9, node=0x5560f39856e0, queue=0x7ffeb52209a8, tfp=0x7f7789ef7780 <_IO_2_1_stdout_>, temp_output=0x0)
+    at ./sort-8.16.c.reduced.c:13170
+#20 0x00005560f3353f53 in sort (files=0x5560f3985318, nfiles=0, output_file=0x0, nthreads=0) at ./sort-8.16.c.reduced.c:13542
+#21 0x00005560f3353479 in main (argc=2, argv=0x7ffeb5220dc8) at ./sort-8.16.c.reduced.c:14654

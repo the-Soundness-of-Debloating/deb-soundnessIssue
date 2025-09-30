@@ -1,0 +1,21 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make-3.79.c.reduced.c:11172:15: runtime error: applying non-zero offset 1 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:11172:15 in 
+make-3.79.c.reduced.c:12707:13: runtime error: store to null pointer of type 'struct stringlist *'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:12707:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3818162==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x559e308a0b2f bp 0x7fffe94a9570 sp 0x7fffe94a9410 T3818162)
+==3818162==The signal is caused by a WRITE memory access.
+==3818162==Hint: address points to the zero page.
+    #0 0x559e308a0b2f in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52
+    #1 0x559e3089ed00 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7fe3a74f1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fe3a74f1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x559e308695c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x165c4) (BuildId: 37a82cc5b4e843d12e1696b73a4a747832f52480)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52 in decode_switches
+==3818162==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3818158 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

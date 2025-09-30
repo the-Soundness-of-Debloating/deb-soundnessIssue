@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1693208==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x563844000000 (pc 0x7efdd1d30449 bp 0x000000000024 sp 0x7fff5eb3a7f0 T1693208)
+==1693208==The signal is caused by a READ memory access.
+    #0 0x7efdd1d30449 in arena_for_chunk malloc/arena.c:162:47
+    #1 0x7efdd1d30449 in arena_for_chunk malloc/arena.c:160:1
+    #2 0x7efdd1d30449 in __libc_free malloc/malloc.c:3390:16
+    #3 0x56384562e083 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4915:7
+    #4 0x56384563470f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13
+    #5 0x563845636625 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10
+    #6 0x7efdd1cb4d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7efdd1cb4e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x5638455fd694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: 712be70f50e9f63efde890b7bda4bb1c420ecabb)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV malloc/arena.c:162:47 in arena_for_chunk
+==1693208==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1693207 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

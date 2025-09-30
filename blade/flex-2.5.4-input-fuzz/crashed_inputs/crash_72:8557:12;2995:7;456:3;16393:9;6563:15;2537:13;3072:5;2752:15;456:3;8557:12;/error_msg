@@ -1,0 +1,24 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_158
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2488500)
+  Read of size 4 at 0x7b9000018000 by main thread:
+    #0 mk1tbl /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8557:12 (reduced.tsan.out+0xde080) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #1 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2995:7 (reduced.tsan.out+0xd7c49) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:456:3 (reduced.tsan.out+0xd5977) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+
+  Previous write of size 8 at 0x7b9000018000 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x556f3) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #1 flex_realloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:16393:9 (reduced.tsan.out+0xe2975) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #2 reallocate_array /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:6563:15 (reduced.tsan.out+0xdbe8e) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #3 increase_max_dfas /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2537:13 (reduced.tsan.out+0xdbd8a) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #4 snstods /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3072:5 (reduced.tsan.out+0xdc5ba) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #5 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2752:15 (reduced.tsan.out+0xd7197) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+    #6 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:456:3 (reduced.tsan.out+0xd5977) (BuildId: 0ea5b0afde79075202e16022f78837de8602ead3)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8557:12 in mk1tbl
+==================
+ThreadSanitizer: main thread finished with ignores enabled
+  One of the following ignores was not ended (in order of probability)
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2488499 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_158

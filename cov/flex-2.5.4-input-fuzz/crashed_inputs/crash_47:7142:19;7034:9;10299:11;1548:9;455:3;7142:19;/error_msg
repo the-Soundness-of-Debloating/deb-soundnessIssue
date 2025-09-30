@@ -1,0 +1,19 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_61
+ThreadSanitizer:DEADLYSIGNAL
+==1659356==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b907586e4c0 (pc 0x55ab1c25da48 bp 0x7ffe929405e0 sp 0x7ffe929405a0 T1659356)
+==1659356==The signal is caused by a READ memory access.
+    #0 mkposcl /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7142:19 (reduced.tsan.out+0xeea48) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+    #1 mkclos /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7034:9 (reduced.tsan.out+0xee9b1) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+    #2 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10299:11 (reduced.tsan.out+0xdd1cc) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+    #3 readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9 (reduced.tsan.out+0xd7183) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3 (reduced.tsan.out+0xd59ac) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x29354) (BuildId: 3283490c902b1be74661306a8742944cfd97969d)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7142:19 in mkposcl
+==1659356==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1659355 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_61

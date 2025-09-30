@@ -1,0 +1,21 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_108
+ThreadSanitizer:DEADLYSIGNAL
+==2708900==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55cfce570031 bp 0x39327ffca6b617b0 sp 0x7ffca6b61710 T2708900)
+==2708900==The signal is caused by a WRITE memory access.
+==2708900==Hint: address points to the zero page.
+    #0 __tsan::VectorClock::ReleaseStore(__tsan::VectorClock**) const <null> (reduced.tsan.out+0xcb031) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out+0xcb031) (BuildId: b511e54d13d7a2f7241362d67a15ee4e6c1c07c1) in __tsan::VectorClock::ReleaseStore(__tsan::VectorClock**) const
+==2708900==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 2708899 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr7051.adl_fuzzed/gr7051.adl_108
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.lsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/input/radamsa_fuzzed/gr12261.adl_fuzzed/gr12261.adl_296
+LeakSanitizer:DEADLYSIGNAL
+==3538250==ERROR: LeakSanitizer: BUS on unknown address (pc 0x5605137f0031 bp 0x393237fe86c7a0b0 sp 0x7ffe86c7a070 T0)
+==3538250==The signal is caused by a READ memory access.
+==3538250==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+LeakSanitizer:DEADLYSIGNAL
+LeakSanitizer: nested bug in the same thread, aborting.

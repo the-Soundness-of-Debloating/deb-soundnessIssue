@@ -1,0 +1,48 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_128
+=================================================================
+==2990469==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55d238f058c0 at pc 0x55d238ebcca1 bp 0x7ffced5d0290 sp 0x7ffced5d0288
+READ of size 2 at 0x55d238f058c0 thread T0
+    #0 0x55d238ebcca0 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9573:15
+    #1 0x55d238eb6bca in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #2 0x55d238eb5f46 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #3 0x7f91bf86dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f91bf86de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x55d238df6324 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/bins/reduced.asan.out+0x3f324) (BuildId: 2eec670882d565640c8c2dd5890ba215ab0c2f21)
+
+0x55d238f058c0 is located 1010 bytes to the right of global variable 'yy_nxt' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:11843' (0x55d238f03f20) of size 5550
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9573:15 in yyparse
+Shadow bytes around the buggy address:
+  0x0abac71d8ac0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8ad0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8ae0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8af0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8b00: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+=>0x0abac71d8b10: f9 f9 f9 f9 f9 f9 f9 f9[f9]f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8b20: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8b30: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abac71d8b40: f9 f9 f9 f9 f9 f9 f9 f9 00 03 f9 f9 00 00 04 f9
+  0x0abac71d8b50: f9 f9 f9 f9 00 00 00 00 00 04 f9 f9 f9 f9 f9 f9
+  0x0abac71d8b60: 02 f9 f9 f9 02 f9 f9 f9 00 02 f9 f9 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2990469==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2990468 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_128

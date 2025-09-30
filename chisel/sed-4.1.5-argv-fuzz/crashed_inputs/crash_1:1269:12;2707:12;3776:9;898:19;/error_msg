@@ -1,0 +1,99 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3933879==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7f987bd489cf bp 0x000000000000 sp 0x7ffd9a67be60 T0)
+==3933879==The signal is caused by a READ memory access.
+==3933879==Hint: address points to the zero page.
+    #0 0x7f987bd489cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55d200443463 in inchar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1269:12
+    #2 0x55d200440a81 in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2707:12
+    #3 0x55d200440584 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #4 0x55d200440149 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #5 0x7f987bcead8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f987bceae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55d200380334 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.asan.out+0x1f334) (BuildId: d7b870f264a80097da9041205bfed4f704d85f92)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==3933879==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3933878 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==615781==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7f57d5d729cf bp 0x000000000000 sp 0x7ffe0964a6b0 T615781)
+==615781==The signal is caused by a READ memory access.
+==615781==Hint: address points to the zero page.
+    #0 0x7f57d5d729cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55fcefabf8f5 in inchar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1269:12
+    #2 0x55fcefabae7c in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2707:12
+    #3 0x55fcefabab3e in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #4 0x55fcefaba598 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #5 0x7f57d5d14d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f57d5d14e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55fcefa92474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x12474) (BuildId: a5391999d90b66ba89ca6623db339b78476b2332)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==615781==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 615780 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1685700==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000074 (pc 0x7f876c5989cf bp 0x000000000000 sp 0x7ffc12f28040 T1685700)
+==1685700==The signal is caused by a READ memory access.
+==1685700==Hint: address points to the zero page.
+    #0 0x7f876c5989cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5627427ddba3 in inchar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1269:12
+    #2 0x5627427d64cf in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2707:12
+    #3 0x5627427d569f in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #4 0x5627427d4e5a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #5 0x7f876c53ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f876c53ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56274274e2e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1e2e4) (BuildId: c9f1864479179bd23e2b7a5321a96d36afd22571)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==1685700==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1685699 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2578507==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7fb70c6259cf bp 0x000000000000 sp 0x7fff3368a750 T2578507)
+==2578507==The signal is caused by a READ memory access.
+==2578507==Hint: address points to the zero page.
+    #0 _IO_getc <null> (libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 inchar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1269:12 (reduced.tsan.out+0xd007c) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #2 compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2707:12 (reduced.tsan.out+0xcdf33) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #3 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9 (reduced.tsan.out+0xcdcf5) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19 (reduced.tsan.out+0xcda11) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x21364) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==2578507==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2578506 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2984611==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000074 (pc 0x7fb78f8109cf bp 0x000000000000 sp 0x7ffd10435080 T0)
+==2984611==The signal is caused by a READ memory access.
+==2984611==Hint: address points to the zero page.
+    #0 0x7fb78f8109cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55c381164353 in inchar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1269:12
+    #2 0x55c38116319c in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2707:12
+    #3 0x55c381162fe4 in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9
+    #4 0x55c381162e31 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19
+    #5 0x7fb78f7b2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fb78f7b2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55c381135444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x5444) (BuildId: 14d332df30decfc0880e0a47a2cb05f3e56cde33)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==2984611==ABORTING

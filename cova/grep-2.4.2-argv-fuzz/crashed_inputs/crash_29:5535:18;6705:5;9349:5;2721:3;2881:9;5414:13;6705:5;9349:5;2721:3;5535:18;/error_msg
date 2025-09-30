@@ -1,0 +1,58 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1147428==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000002b6c at pc 0x55e9d751ed44 bp 0x7fff5b7becf0 sp 0x7fff5b7bece8
+READ of size 4 at 0x602000002b6c thread T0
+    #0 0x55e9d751ed43 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5535:18
+    #1 0x55e9d752cbe7 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #2 0x55e9d7538492 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #3 0x55e9d7518aa6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7f9674dfdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f9674dfde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55e9d74573f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x223f4) (BuildId: 50072aebbebd9db6462b305f603287d161ab2ba8)
+
+0x602000002b6c is located 4 bytes to the left of 8-byte region [0x602000002b70,0x602000002b78)
+allocated by thread T0 here:
+    #0 0x55e9d74dce1e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0xa7e1e) (BuildId: 50072aebbebd9db6462b305f603287d161ab2ba8)
+    #1 0x55e9d75210c4 in xmalloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2881:9
+    #2 0x55e9d751d5e0 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5414:13
+    #3 0x55e9d752cbe7 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #4 0x55e9d7538492 in Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9349:5
+    #5 0x55e9d7518aa6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #6 0x7f9674dfdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5535:18 in dfaanalyze
+Shadow bytes around the buggy address:
+  0x0c047fff8510: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8520: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8530: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8540: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8550: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fd
+=>0x0c047fff8560: fa fa fd fa fa fa 00 fa fa fa 00 fa fa[fa]00 fa
+  0x0c047fff8570: fa fa 00 fa fa fa 00 fa fa fa 00 fa fa fa fa fa
+  0x0c047fff8580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8590: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff85a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff85b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1147428==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1147427 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

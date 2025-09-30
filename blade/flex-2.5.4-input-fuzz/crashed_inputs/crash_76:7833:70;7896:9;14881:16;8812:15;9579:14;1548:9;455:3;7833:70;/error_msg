@@ -1,0 +1,20 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.lsan.out error -dl -Ca /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_94
+LeakSanitizer:DEADLYSIGNAL
+==2556215==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000010 (pc 0x558fe1727fea bp 0x7fff218a3310 sp 0x7fff218a32e0 T0)
+==2556215==The signal is caused by a READ memory access.
+==2556215==Hint: address points to the zero page.
+    #0 0x558fe1727fea in findsym /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7833:70
+    #1 0x558fe17280b0 in ndlookup /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7896:9
+    #2 0x558fe1729f08 in flexscan /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:14881:16
+    #3 0x558fe17288e5 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:8812:15
+    #4 0x558fe17289a9 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:9579:14
+    #5 0x558fe172130a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1548:9
+    #6 0x558fe1720e2a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #7 0x7fa4afb4cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7fa4afb4ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x558fe16f3464 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/bins/reduced.lsan.out+0x11464) (BuildId: e6065ed38fa617db478eb1d7745247060a83b15d)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:7833:70 in findsym
+==2556215==ABORTING

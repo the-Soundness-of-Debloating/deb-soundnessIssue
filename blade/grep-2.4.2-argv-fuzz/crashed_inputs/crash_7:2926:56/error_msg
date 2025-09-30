@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+grep-2.4.2.c.reduced.c:2926:56: runtime error: left shift of 1 by 31 places cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2926:56 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2700656==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00fefffffffd (pc 0x7f2b08350795 bp 0x00ff00000005 sp 0x7ffe5e959380 T2700656)
+==2700656==The signal is caused by a READ memory access.
+    #0 0x7f2b08350795 in __libc_realloc (/lib/x86_64-linux-gnu/libc.so.6+0xa5795) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55f3df13904c in xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9
+    #2 0x55f3df12a194 in state_index /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5125:11
+    #3 0x55f3df127c27 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5724:3
+    #4 0x55f3df1311c1 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #5 0x55f3df136a07 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #6 0x55f3df122a83 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #7 0x7f2b082d4d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f2b082d4e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55f3df0fa4c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 9231921cf048fbec2201cbbf770d1d346be9fab5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xa5795) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __libc_realloc
+==2700656==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2700655 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

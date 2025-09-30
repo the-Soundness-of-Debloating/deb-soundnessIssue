@@ -1,0 +1,31 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.ubsan.out
+grep-2.19.c.reduced.c:13854:29: runtime error: null pointer passed as argument 2, which is declared to never be null
+grep-2.19.c.reduced.c:1170:56: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:13854:29 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==842057==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f19a3ebf80c bp 0x7ffc2746fcd0 sp 0x7ffc2746fc78 T842057)
+==842057==The signal is caused by a READ memory access.
+==842057==Hint: address points to the zero page.
+    #0 0x7f19a3ebf80c  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139
+    #1 0x5648ce2c13d3 in find_pred /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:13854:17
+    #2 0x5648ce2bf829 in parse_bracket_exp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:14324:58
+    #3 0x5648ce298a09 in lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15584:21
+    #4 0x5648ce2c17f3 in atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21
+    #5 0x5648ce2c151c in closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7
+    #6 0x5648ce2c14f6 in branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11
+    #7 0x5648ce298c68 in regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7
+    #8 0x5648ce296fd9 in dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7
+    #9 0x5648ce293699 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7
+    #10 0x5648ce2932ea in GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7
+    #11 0x5648ce2cadeb in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22453:7
+    #12 0x5648ce2b7acf in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7
+    #13 0x7f19a3d37d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #14 0x7f19a3d37e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #15 0x5648ce23a7d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/grep-2.19-argv-fuzz/bins/reduced.ubsan.out+0x467d4) (BuildId: fac08c8915bcaae971acf96521406dbc0114848d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139 
+==842057==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 842056 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

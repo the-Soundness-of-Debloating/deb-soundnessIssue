@@ -1,0 +1,58 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==156732==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f00f2500160 at pc 0x55cdac0a9285 bp 0x7ffdd68a71b0 sp 0x7ffdd68a6970
+WRITE of size 72 at 0x7f00f2500160 thread T0
+    #0 0x55cdac0a9284 in unpoison_glob_t(void*, __sanitizer::__sanitizer_glob_t*) asan_interceptors.cpp.o
+    #1 0x55cdac0a9134 in __interceptor_glob (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x56134) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a)
+    #2 0x55cdac163792 in multi_glob /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18552:15
+    #3 0x55cdac15cc97 in set_default_suffixes /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:24667:15
+    #4 0x55cdac159036 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11591:3
+    #5 0x7f00f415ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f00f415ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55cdac07f424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c424) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a)
+
+Address 0x7f00f2500160 is located in stack of thread T0 at offset 96 in frame
+    #0 0x55cdac16340f in multi_glob /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18487
+
+  This frame has 3 object(s):
+    [32, 96) 'gl' (line 18491)
+    [128, 136) 'memname' (line 18492) <== Memory access at offset 96 partially underflows this variable
+    [160, 168) 'arname' (line 18495) <== Memory access at offset 96 partially underflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow asan_interceptors.cpp.o in unpoison_glob_t(void*, __sanitizer::__sanitizer_glob_t*)
+Shadow bytes around the buggy address:
+  0x0fe09e497fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e497fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e497ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e498000: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe09e498010: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0fe09e498020: f1 f1 f1 f1 00 00 00 00 00 00 00 00[f2]f2 f2 f2
+  0x0fe09e498030: 00 f2 f2 f2 00 f3 f3 f3 00 00 00 00 00 00 00 00
+  0x0fe09e498040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e498050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e498060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe09e498070: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==156732==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 156731 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,67 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==1318974==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55d3fb43d060 at pc 0x55d3faa75392 bp 0x7fffc95a02d0 sp 0x7fffc95a02c8
+READ of size 1 at 0x55d3fb43d060 thread T0
+    #0 0x55d3faa75391 in try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:19
+    #1 0x55d3faa7a7d5 in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12414:7
+    #2 0x55d3faa63acd in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12710:7
+    #3 0x55d3faa608e4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #4 0x7f1c39be5d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f1c39be5e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55d3fa98e474 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2d474) (BuildId: f17361d7d5b214662fd461ed7f3b9fe688365893)
+
+0x55d3fb43d060 is located 0 bytes to the right of global variable 'afl_init_argv.in_buf' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./argv-fuzz-inl.h:50' (0x55d3fb4249c0) of size 100000
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:19 in try_variable_definition
+Shadow bytes around the buggy address:
+  0x0abaff67f9b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaff67f9c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaff67f9d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaff67f9e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0abaff67f9f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0abaff67fa00: 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9 f9 f9
+  0x0abaff67fa10: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaff67fa20: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaff67fa30: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaff67fa40: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0abaff67fa50: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1318974==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1318973 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==495131==ERROR: MemorySanitizer: SEGV on unknown address 0x555fdbf2b000 (pc 0x555fda567058 bp 0x7fffb255c270 sp 0x7fffb255c000 T495131)
+==495131==The signal is caused by a READ memory access.
+    #0 0x555fda567058 in try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:19
+    #1 0x555fda57419e in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12414:7
+    #2 0x555fda53e8a8 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12710:7
+    #3 0x555fda536c12 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #4 0x7f581c2a2d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f581c2a2e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x555fda481414 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/bins/reduced.msan.out+0x21414) (BuildId: fafa4d625c9a61433fbf26a28d511e942e067ce1)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:19 in try_variable_definition
+==495131==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 495130 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

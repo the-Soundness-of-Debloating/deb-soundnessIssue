@@ -1,0 +1,15 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000112,sig:11,src:000426+000343,time:6327911,execs:343117,op:splice,rep:4
+ThreadSanitizer:DEADLYSIGNAL
+==1963913==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000060 (pc 0x7f8c16863893 bp 0x7ffc78ca34c0 sp 0x7ffc78ca27e8 T1963913)
+==1963913==The signal is caused by a WRITE memory access.
+==1963913==Hint: address points to the zero page.
+    #0 memcpy <null> (libc.so.6+0xc4893) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 __interceptor_memcpy <null> (reduced.tsan.out+0x59dec) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #2 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3694:32 (reduced.tsan.out+0xcfaa2) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0xc4893) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in memcpy
+==1963913==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1963912 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

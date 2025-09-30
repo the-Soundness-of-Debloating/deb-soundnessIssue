@@ -1,0 +1,32 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_1_fuzzed/input_1_147
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055868e2571c1 in cwexec (kws=0x55868f962250, text=0x55868f96711c "struct trie\n ", len=12, kwsmatch=0x7fff75546f68) at ./grep-2.4.2.c.reduced.c:8699
+8699	          end += (int )*(delta + (int )((unsigned char )*end));
+#0  0x000055868e2571c1 in cwexec (kws=0x55868f962250, text=0x55868f96711c "struct trie\n ", len=12, kwsmatch=0x7fff75546f68) at ./grep-2.4.2.c.reduced.c:8699
+#1  0x000055868e256b01 in kwsexec (kws=0x55868f962250, text=0x55868f96711c "struct trie\n ", size=12, kwsmatch=0x7fff75546f68) at ./grep-2.4.2.c.reduced.c:8895
+#2  0x000055868e257846 in EGexecute (buf=0x55868f96711c "struct trie\n ", size=12, endp=0x7fff75546fe0) at ./grep-2.4.2.c.reduced.c:9390
+#3  0x000055868e25a004 in grepbuf (
+    beg=0x55868f967000 "Before an alternative\nstore_op2 (op, loc, arg1, arg2)\nstore_op2 (op, loc, arg1, arg2)\nsyntax & RE_NO_BK_PARENS ? *next == ')'\nre_opcode_t op;\nstatic void\nsyntax & RE_NO_BK_PARENS ? *next == ')'\n      "..., lim=0x55868f967128 " ") at ./grep-2.4.2.c.reduced.c:1324
+#4  0x000055868e259940 in grep (fd=3, file=0x55868e260c47 <afl_init_argv.in_buf+23> "train_input/grep0.dat", stats=0x55868e2606d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1522
+#5  0x000055868e2510dc in grepfile (file=0x55868e260c47 <afl_init_argv.in_buf+23> "train_input/grep0.dat", stats=0x55868e2606d8 <stats_base>) at ./grep-2.4.2.c.reduced.c:1737
+#6  0x000055868e250a8f in main (argc=5, argv=0x55868e2792d0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2750

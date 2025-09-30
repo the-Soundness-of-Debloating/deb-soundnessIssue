@@ -1,0 +1,16 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/bins/reduced.msan.out
+chown: invalid option -- '€'
+==2389691==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55c33ca13ba7 in leave_dir /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4199:19
+    #1 0x55c33ca109c8 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4899:13
+    #2 0x55c33ca19f3a in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13
+    #3 0x55c33ca1e28e in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10
+    #4 0x7f142399bd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7f142399be3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x55c33c9793d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/bins/reduced.msan.out+0x1f3d4) (BuildId: 64af86f787570447105e46f97982a42000cfa004)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4199:19 in leave_dir
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2389690 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

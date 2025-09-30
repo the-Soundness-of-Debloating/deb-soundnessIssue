@@ -1,0 +1,26 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1597149==ERROR: ThreadSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x56502ca53edb bp 0x7ffd6ef26180 sp 0x7ffd6ef260a0 T1597149)
+==1597149==The signal is caused by a READ memory access.
+==1597149==Hint: address points to the zero page.
+    #0 apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2968:16 (reduced.tsan.out+0xd2edb) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+    #1 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3934:5 (reduced.tsan.out+0xd14fe) (BuildId: d0419f7e392c48a9c6a66e1da007c6f25a0345c4)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2968:16 in apply_relative_time
+==1597149==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1597148 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2393837==ERROR: LeakSanitizer: SEGV on unknown address 0x0000000000a0 (pc 0x5601d852893c bp 0x7ffdf78d33e0 sp 0x7ffdf78d33e0 T0)
+==2393837==The signal is caused by a READ memory access.
+==2393837==Hint: address points to the zero page.
+    #0 0x5601d852893c in apply_relative_time /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2968:16
+    #1 0x5601d8527722 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3934:5
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:2968:16 in apply_relative_time
+==2393837==ABORTING

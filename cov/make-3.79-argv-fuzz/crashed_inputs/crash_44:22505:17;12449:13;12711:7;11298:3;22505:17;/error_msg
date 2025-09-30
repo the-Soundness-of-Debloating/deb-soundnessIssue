@@ -1,0 +1,26 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.msan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+MemorySanitizer:DEADLYSIGNAL
+==1298724==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x5591e923dfa3 bp 0x7ffe2d952660 sp 0x7ffe2d952520 T1298724)
+==1298724==The signal is caused by a READ memory access.
+==1298724==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5591e923dfa3 in lookup_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22505:17
+    #1 0x5591e926d919 in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12449:13
+    #2 0x5591e923c6b8 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12711:7
+    #3 0x5591e923682a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3
+    #4 0x7f5ffd601d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f5ffd601e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5591e91843f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.msan.out+0x213f4) (BuildId: 3e1438383ad0d2ba6dbba97b092fc2d84d45709c)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22505:17 in lookup_variable
+==1298724==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1298723 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

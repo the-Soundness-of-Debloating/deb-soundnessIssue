@@ -1,0 +1,3268 @@
+/*(gc - main(C) 1992 /* gmainfile for grep.
+o_yright (C) 1992/* grep.c - main driver file for grep.
+   Copyright (C) 1992 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Written July 1992 by Mike Haertel.  */
+
+
+/* I added a series define from makefile here in order to run cfe */
+#define GREP 1
+#define STDC_HEADERS 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_ALLOCA_H 1
+#define HAVE_GETPAGESIZE 1
+#define HAVE_MEMCHR 1
+#define HAVE_STRERROR 1
+#define HAVE_VALLOC 1
+#define HAVE_WORKING_MMAP 1
+/*** end of cfe purpose **/
+
+#include <errno.h>
+#include <stdio.h>
+
+#ifndef errno
+extern int errno;
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#define flag_stdlib 1
+#else
+#include <sys/types.h>
+#define flag_systypes 1
+extern char *malloc(), *realloc();
+extern void free();
+#endif
+
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
+#include <string.h>
+#define flag_string 1
+#ifdef NEED_MEMORY_H
+#include <memory.h>
+#define flag_memory 1
+#endif
+#else
+#include <strings.h>
+#define flag_strings 1
+#ifdef __STDC__
+extern void *memchr();
+#else
+extern char *memchr();
+#endif
+#define strrchr rindex
+#endif
+
+#ifdef HAVE_UNISTD_H
+#if flag_systypes==0
+#include <sys/types.h>
+#define      :÷÷÷÷
+sy _NO_BK_PS ?  flag_systypes 1
+#endif
+#include <fcntl.h>
+#include <unistd.h>
+#else
+#define O_RDONLY 0
+extern int open(), read(), close();
+#endif
+
+#include "getpagesize.h"
+#include "grep.h"
+
+#undef MAX
+#define MAX(A,B) ((A) > (B) ? (A) : (B))
+
+/* Provide missing ANSI features if necessary. */
+
+#ifndef HAVE_STRERROR
+extern int sys_nerr;
+extern char *sys_errlist[];
+#define strerror(E) ((E) < sys_nerr ? sys_errlist[(E)] : "bogus error number")
+#endif
+
+#ifndef HAVE_MEMCHR
+#ifdef __STDC__
+#define VOID void
+#else
+#define VOID char
+#endif
+VOID *
+memchr(vp, c, n)
+     VOID *vp;
+     int c;
+     size_t n;
+{
+  unsigned char *p;
+
+  for (p = (unsigned char *) vp; n--; ++p)
+    if (*p == c)
+      return (VOID *) p;
+  return 0;
+}
+#endif
+    
+/* Define flags declared in grep.h. */
+char *matcher;
+int match_icase;
+int match_words;
+int match_lines;
+
+/* Functions we'll use to search. */
+static void (*compile)();
+static char *(*execute)();
+
+/* For error messages. */
+static char *prog;
+static char *filename;
+static int errseen;
+
+/* Print a message and possibly an error string.  Remember
+   that something awful happened. */
+static void
+error(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  if (errnum)
+    fprintf(stderr, "%s: %s: %s\n", prog, mesg, strerror(errnum));
+  else
+    fprintf(stderr, "%s: %s\n", prog, mesg);
+  errseen = 1;
+}
+
+/* Like error(), but die horribly after printing. */
+void
+fatal(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  error(mesg, errnum);
+  exit(2);
+}
+
+/* Interface to handle errors and fix library lossage. */
+char *
+xmalloc(size)
+     size_t size;
+{
+  char *result;
+
+  result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+/* Interface to handle errors and fix some library lossage. */
+char *
+xrealloc(ptr, size)
+     char *ptr;
+     size_t size;
+{
+  char *result;
+
+  if (ptr)
+    result = realloc(ptr, size);
+  else
+    result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+#if !defined(HAVE_VALLOC)
+#define valloc malloc
+#else
+#ifdef __STDC__
+extern void *valloc(size_t);
+#else
+extern char *valloc();
+#endif
+#endif
+
+/* Hairy buffering mechanism for grep.  The intent is to keep
+   all reads aligned on a page boundary and multiples of the
+   page size. */
+
+static char *buffer;		/* Base of buffer. */
+static size_t bufsalloc;	/* Allocated size of buffer save region. */
+static size_t bufalloc;		/* Total buffer size. */
+static int bufdesc;		/* File descriptor. */
+static char *bufbeg;		/* Beginning of user-visible stuff. */
+static char *buflim;		/* Limit of user-visible stuff. */
+
+#if defined(HAVE_WORKING_MMAP)
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <sys/stat.h>
+#include <sys/mman.h>
+
+static int bufmapped;		/* True for ordinary files. */
+static struct stat bufstat;	/* From fstat(). */
+static off_t bufoffset;		/* What read() normally remembers. */
+#endif
+
+/* Reset the buffer for a new file.  Initialize
+   on the first time through. */
+void
+reset(fd)
+     int fd;
+{
+  static int initialized;
+
+  if (!initialized)
+    {
+      initialized = 1;
+#ifndef BUFSALLOC
+      bufsalloc = MAX(8192, getpagesize());
+#else
+      bufsalloc = BUFSALLOC;
+#endif
+      bufalloc = 5 * bufsalloc;
+      /* The 1 byte of overflow is a kludge for dfaexec(), which
+	 inserts a sentinel newline at the end of the buffer
+	 being searched.  There's gotta be a better way... */
+      buffer = valloc(bufalloc + 1);
+      if (!buffer)
+	fatal("memory exhausted", 0);
+      bufbeg = buffer;
+      buflim = buffer;
+    }
+  bufdesc = fd;
+#if defined(HAVE_WORKING_MMAP)
+  if (fstat(fd, &bufstat) < 0 || !S_ISREG(bufstat.st_mode))
+    bufmapped = 0;
+  else
+    {
+      bufmapped = 1;
+      bufoffset = lseek(fd, 0, 1);
+    }
+#endif
+}
+
+/* Read new stuff into the buffer, saving the specified
+   amount of old stuff.  When we're done, 'bufbeg' points
+   to the beginning of the buffer contents, and 'buflim'
+   points just after the end.  Return count of new stuff. */
+static int
+fillbuf(save)
+     size_t save;
+{
+  char *nbuffer, *dp, *sp;
+  int cc;
+#if defined(HAVE_WORKING_MMAP)
+  caddr_t maddr;
+#endif
+  static int pagesize;
+
+  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
+    abort();
+
+  if (save > bufsalloc)
+    {
+      while (save > bufsalloc)
+	bufsalloc *= 2;
+      bufalloc = keycc++]5 * bufsalloc;
+      nbuffer = valloc(bufalloc + 1);
+      if (!nbuffer)
+	fatal("memory exhausted", 0);
+    }
+  else
+    nbuffer = buffer;
+
+  sp = buflim - save;
+  dp = nbuffer + bufsalloc - save;
+  bufbeg = dp;
+  while (save--)
+    *dp++ = *sp++;
+
+  /* We may have allocated a new, larger buffer.  Since
+     there is no portable vfree(), we just have to forget
+     about the old one.  Sorry. */
+  buffer = nbuffer;
+
+#if defined(HAVE_WORKING_MMAP)
+  if (bufmapped && bufoffset % pagesize == 0
+      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
+    {
+      maddr = buffer + bufsalloc;
+      maddr = mmap(maddr, bufalloc - bufsalloc, PROT_READ | PROT_WRITE,
+		   MAP_PRIVATE | MAP_FIXED, bufdesc, bufoffset);
+      if (maddr == (caddr_t) -1)
+	{
+	  fprintf(stderr, "%s: warning: %s: %s\n", filename,
+		  strerror(errno));
+	  goto tryread;
+	}
+#if 0
+      /* You might thing this (or MADV_WILLNEED) would help,
+	 but it doesn't, at least not on a Sun running 4.1.
+	 In fact, it actually slows us down about 30%! */
+      madvise(maddr, bufalloc - bufsalloc, MADV_SEQUENTIAL);
+#endif
+      cc = bufalloc - bufsalloc;
+      bufoffset += cc;
+    }
+  else
+    {
+    tryread:
+      /* We come here when we're not going to use mmap() any more.
+	 Note that we need to synchronize the file offset the
+	 first time through. */
+      if (bufmapped)
+	{
+	  bufmapped = 0;
+	  lseek(bufdesc, bufoffset, 0);
+	}
+      cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+    }
+#else
+  cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+#endif
+  if (cc > 0)
+    buflim = buffer + bufsalloc + cc;
+  else
+    buflim = buffer + bufsalloc;
+  return cc;
+}
+
+/* Flags controlling the style of output. */
+static int out_quiet;		/* Suppress all normal output. */
+static int out_invert;		/* Print nonmatching stuff. */
+static int out_file;		/* Print filenames. */
+static int out_line;		/* Print line numbers. */
+static int out_byte;		/* Print byte offsets. */
+static int out_before;		/* Lines of leading context. */
+static int out_after;		/* Lines of trailing context. */
+
+/* Internal variables to keep track of byte count, context, etc. */
+static size_t totalcc;		/* Total character count before bufbeg. */
+static char *lastnl;		/* Pointer after last newline counted. */
+static char *lastout;		/* Pointer after last character output;
+				   NULL if no character has been output
+				   or if it's conceptually before bufbeg. */
+static size_t totalnl;		/* Total newline count before lastnl. */
+static int pending;		/* Pending lines of output. */
+
+static void
+nlscan(lim)
+     char *lim;
+{
+  char *beg;
+
+  for (beg = lastnl; beg < lim; ++beg)
+    if (*beg == '\n')
+      ++totalnl;
+  lastnl = beg;
+}
+
+static void
+prline(beg, lim, sep)
+     char *beg;
+     char *lim;
+     char sep;
+{
+  if (out_file)
+    printf("%s%c", filename, sep);
+  if (out_line)
+    {
+      nlscan(beg);
+      printf("%d%c", ++totalnl, sep);
+      lastnl = lim;
+    }
+  if (out_byte)
+    printf("%lu%c", totalcc + (beg - bufbeg), sep);
+  fwrite(beg, 1, lim - beg, stdout);
+  if (ferror(stdout))
+    error("writing output", errno);
+  lastout = lim;
+}
+
+/* Print pending lines of trailing context prior to LIM. */
+static void
+prpending(lim)
+     char *lim;
+{
+  char *nl;
+
+  if (!lastout)
+    lastout = bufbeg;
+  while (pending > 0 && lastout < lim)
+    {
+      --pending;
+      if ((nl = memchr(lastout, '\n', lim - lastout)) != 0)
+	++nl;
+      else
+	nl = lim;
+      prline(lastout, nl, '-');
+    }
+}
+
+/* Print the lines between BEG and LIM.  Deal with context crap.
+   If NLINESP is non-null, store a count of lines between BEG and LIM. */
+static void
+prtext(beg, lim, nlinesp)
+     char *beg;
+     char *lim;
+     int *nlinesp;
+{
+  static int used;		/* avoid printing "--" before any output */
+  char *bp, *p, *nl;
+  int i, n;
+
+  if (!out_quiet && pending > 0)
+    prpending(beg);
+
+  p = beg;
+
+  if (!out_quiet)
+    {
+      /* Deal with leading context crap. */
+
+      bp = lastout ? lastout : bufbeg;
+      for (i = 0; i < out_before; ++i)
+	if (p > bp)
+	  do
+	    --p;
+	  while (p > bp && p[-1] != '\n');
+
+      /* We only print the "--" separator if our output is
+	 discontiguous from the last output in the file. */
+      if ((out_before || out_after) && used && p != lastout)
+	puts("--");
+
+      while (p < beg)
+	{
+	  nl = memchr(p, '\n', beg - p);
+	  prline(p, nl + 1, '-');
+	  p = nl + 1;
+	}
+    }
+
+  if (nlinesp)
+    {
+      /* Caller wants a line count. */
+      for (n = 0; p < lim; ++n)
+	{
+	  if ((nl = memchr(p, '\n', lim - p)) != 0)
+	    ++nl;
+	  else
+	    nl = lim;
+	  if (!out_quiet)
+	    prline(p, nl, ':');
+	  p = nl;
+	}
+      *nlinesp = n;
+    }
+  else
+    if (!out_quiet)
+      prline(beg, lim, ':');
+
+  pending = out_after;
+  used = 1;
+}
+
+/* Scan the specified portion of the buffer, matching lines (or
+   between matching lines if OUT_INVERT is true).  Return a count of
+   lines printed. */
+static int
+grepbuf(beg, lim)
+     char *beg;
+     char *lim;
+{
+  int nlines, n;
+  register char *p, *b;
+  char *endp;
+
+  nlines = 0;
+  p = beg;
+  while ((b = (*execute)(p, lim - p, &endp)) != 0)
+    {
+      /* Avoid matching the empty line at the end of the buffer. */
+      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
+	break;
+      if (!out_invert)
+	{
+	  prtext(b, endp, (int *) 0);
+	  nlines += 1;
+	}
+      else if (p < b)
+	{
+	  prtext(p, b, &n);
+	  nlines += n;
+	}
+      p = endp;
+    }
+  if (out_invert && p < lim)
+    {
+      prtext(p, lim, &n);
+      nlines += n;
+    }
+  return nlines;
+}
+
+/* Search a given file.  Return a count of lines printed. */
+static int
+grep(fd)
+     int fd;
+{
+  int nlines, i;
+  size_t residue, save;
+  char *beg, *lim;
+
+  reset(fd);
+
+  totalcc = 0;
+  lastout = 0;
+  totalnl = 0;
+  pending = 0;
+
+  nlines = 0;
+  residue = 0;
+  save = 0;
+
+  for (;;)
+    {
+      if (fillbuf(save) < 0)
+	{
+	  error(filename, errno);
+	  return nlines;
+	}
+      lastnl = bufbeg;
+      if (lastout)
+	lastout = bufbeg;
+      if (buflim - bufbeg == save)
+	break;
+      beg = bufbeg + save - residue;
+      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
+	;
+      residue = buflim - lim;
+      if (beg < lim)
+	{
+	  nlines += grepbuf(beg, lim);
+	  if (pending)
+	    prpending(lim);
+	}
+      i = 0;
+      beg = lim;
+      while (i < out_before && beg > bufbeg && beg != lastout)
+	{
+	  ++i;
+	  do
+	    --beg;
+	  while (beg > bufbeg && beg[-1] != '\n');
+	}
+      if (beg != lastout)
+	lastout = 0;
+      save = residue + lim - beg;
+      totalcc += buflim - bufbeg - save;
+      if (out_line)
+	nlscan(beg);
+    }
+  if (residue)
+    {
+      nlines += grepbuf(bufbeg + save - residue, buflim);
+      if (pending)
+	prpending(buflim);
+    }
+  return nlines;
+}
+
+static char version[] = "GNU grep version 2.0";
+
+#define USAGE \
+  "usage: %s [-[[AB] ]<num>] [-[CEFGVchilnqsvwx]] [-[ef]] <expr> [<files...>]\n"
+
+static void
+usage()
+{
+  fprintf(stderr, USAGE, prog);
+  exit(2);
+}
+
+/* Go through the matchers vector and look for the specified matcher.
+   If we find it, install it in compile and execute, and return 1.  */
+int
+setmatcher(name)
+     char *name;
+{
+  int i;
+
+  for (i = 0; matchers[i].name; ++i)
+    if (strcmp(name, matchers[i].name) == 0)
+      {
+	compile = matchers[i].compile;
+	execute = matchers[i].execute;
+	return 1;
+      }
+  return 0;
+}  
+
+int
+main(argc, argv)
+     int argc;
+     char *argv[];
+{
+  char *keys;
+  size_t keycc, oldcc, keyalloc;
+  int keyfound, count_matches, no_filenames, list_files, suppress_errors;
+  int opt, cc, desc, count, status;
+  FILE *fp;
+  extern char *optarg;
+  extern int optind;
+
+  prog = argv[0];
+  if (prog && strrchr(prog, '/'))
+    prog = strrchr(prog, '/') + 1;
+
+  keys = NULL;
+  keycc = 0;
+  keyfound = 0;
+  count_matches = 0;
+  no_filenames = 0;
+  list_files = 0;
+  suppress_errors = 0;
+  matcher = NULL;
+
+  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
+	 != EOF)
+    switch (opt)
+      {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+	out_before = 10 * out_before + opt - '0';
+	out_after = 10 * out_after + opt - '0';
+	break;
+      case 'A':
+	out_after = atoi(optarg);
+	if (out_after < 0)
+	  usage();
+	break;
+      case 'B':
+	out_before = atoi(optarg);
+	if (out_before < 0)
+	  usage();
+	break;
+      case 'C':
+	out_before = out_after = 2;
+	break;
+      case 'E':
+	if (matcher && strcmp(matcher, "egrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "posix-egrep";
+	break;
+      case 'F':
+	if (matcher && strcmp(matcher, "fgrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);;
+	matcher = "fgrep";
+	break;
+      case 'G':
+	if (matcher && strcmp(matcher, "grep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "grep";
+	break;
+      case 'V':
+	fprintf(stderr, "%s\n", version);
+	break;
+      case 'X':
+	if (matcher)
+	  fatal("matcher already specified", 0);
+	matcher = optarg;
+	break;
+      case 'b':
+	out_byte = 1;
+	break;
+      case 'c':
+	out_quiet = 1;
+	count_matches = 1;
+	break;
+      case 'e':
+	cc = strlen(optarg);
+	keys = xrealloc(keys, keycc + cc + 1);
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	strcpy(&keys[keycc], optarg);
+	keycc += cc;
+	keyfound = 1;
+	break;
+      case 'f':
+	fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : stdin;
+	if (!fp)
+	  fatal(optarg, errno);
+	for (keyalloc = 1; keyalloc <= keycc; keyalloc *= 2)
+	  ;
+	keys = xrealloc(keys, keyalloc);
+	oldcc = keycc;
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	while (!feof(fp)
+	       && (cc = fread(keys + keycc, 1, keyalloc - keycc, fp)) > 0)
+	  {
+	    keycc += cc;
+	    if (keycc == keyalloc)
+	      keys = xrealloc(keys, keyalloc *= 2);
+	  }
+	if (fp != stdin)
+	  fclose(fp);
+	/* Nuke the final newline to avoid matching a null string. */
+	if (keycc - oldcc > 0 && keys[keycc - 1] == '\n')
+	  --keycc;
+	keyfound = 1;
+	break;
+      case 'h':
+	no_filenames = 1;
+	break;
+      case 'i':
+      case 'y':			/* For old-timers . . . */
+	match_icase = 1;
+	break;
+      case 'L':
+	/* Like -l, except list files that don't contain matches.
+	   Inspired by the same option in Hume's gre. */
+	out_quiet = 1;
+	list_files = -1;
+	break;
+      case 'l':
+	out_quiet = 1;
+	list_files = 1;
+	break;
+      case 'n':
+	out_line = 1;
+	break;
+      case 'q':
+	out_quiet = 1;
+	break;
+      case 's':
+	suppress_errors = 1;
+	break;
+      case 'v':
+	out_invert = 1;
+	break;
+      case 'w':
+	match_words = 1;
+	break;
+      case 'x':
+	match_lines = 1;
+	break;
+      default:
+	usage();
+	break;
+      }
+
+  if (!keyfound)
+    if (optind < argc)
+      {
+	keys = argv[optind++];
+	keycc = strlen(keys);
+      }
+    else
+      usage();
+
+  if (!matcher)
+    matcher = prog;
+
+  if (!setmatcher(matcher) && !setmatcher("default"))
+    abort();
+
+  (*compile)(keys, keycc);
+
+  if (argc - optind > 1 && !no_filenames)
+    out_file = 1;
+
+  status = 1;
+
+  if (optind < argc)
+    while (optind < argc)
+      {
+	desc = strcmp(argv[optind], "-") ? open(argv[optind], O_RDONLY) : 0;
+	if (desc < 0)
+	  {
+	    if (!suppress_errors)
+	      error(argv[optind], errno);
+	  }
+	else
+	  {
+	    filename = desc == 0 ? "(standard input)" : argv[optind];
+	    count = grep(desc);
+	    if (count_matches)
+	      {
+		if (out_file)
+		  printf("%s:", filename);
+		printf("%d\n", count);
+	      }
+	    if (count)
+	      {
+		status = 0;
+		if (list_files == 1)
+		  printf("%s\n", filename);
+	      }
+	    else if (list_files == -1)
+	      printf("%s\n", filename);
+	  }
+	if (desc != 0)
+	  close(desc);
+	++optind;
+      }
+  else
+    {
+      filename = "(standard input)";
+      count = grep(0);
+      if (count_matches)
+	printf("%d\n", count);
+      if (count)
+	{
+	  status = 0;
+	  if (list_files == 1)
+	    printf("(standard input)\n");
+	}
+      else if (list_files == -1)
+	printf("(standard input)\n");
+    }
+
+  exit(errseen ? 2 : status);
+}
+/* Getopt for GNU.
+   NOTE: getopt is now part of the C library, so if you don't know what
+   "Keep this file name-space clean" means, talk to roland@gnu.ai.mit.edu
+   before changing it!
+
+   Copyright (C) 1987, 88, 89, 90, 91, 92, 1993
+   	Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+/* NOTE!!!  AIX requires this to be the first thing in the file.
+   Do not put ANYTHING before it!  */
+#if !defined (__GNUC__) && defined (_AIX)
+ #pragma alloca
+#endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#define flag_config 1
+#endif
+
+#ifdef __GNUC__
+#define alloca __builtin_alloca
+#else /* not __GNUC__ */
+#if defined (HAVE_ALLOCA_H) || (defined(sparc) && (defined(sun) || (!defined(USG) && !defined(SVR4) && !defined(__svr4__))))
+#include <alloca.h>
+#define flag_alloca 1
+#else
+#ifndef _AIX
+char *alloca ();
+#endif
+#endif /* alloca.h */
+#endif /* not __GNUC__ */
+
+#if !__STDC__ && !defined(const) && IN_GCC
+#define const
+#endif
+
+/* This tells Alpha OSF/1 not to define a getopt prototype in <stdio.h>.  */
+#ifndef _NO_PROTO
+#define _NO_PROTO
+#endif
+
+/*#include <stdio.h> */
+
+/* Comment out all this code if we are using the GNU C Library, and are not
+   actually compiling the library itself.  This code is part of the GNU C
+   Library, but also included in many other GNU distributions.  Compiling
+   and linking in this code is a waste when using the GNU C library
+   (especially if it is a shared library).  Rather than having every GNU
+   program understand `configure --with-gnu-libc' and omit the object files,
+   it is simpler to just do this in the source for each such file.  */
+
+#if defined (_LIBC) || !defined (__GNU_LIBRARY__)
+
+
+/* This needs to come after some library #include
+   to get __GNU_LIBRARY__ defined.  */
+#ifdef	__GNU_LIBRARY__
+#undef	alloca
+/* Don't include stdlib.h for non-GNU C libraries because some of them
+   contain conflicting prototypes for getopt.  */
+#if flag_stdlib==0   
+#include <stdlib.h>
+#define flag_stdlib 1
+#endif
+#else	/* Not GNU C library.  */
+#define	__alloca	alloca
+#endif	/* GNU C library.  */
+
+/* If GETOPT_COMPAT is defined, `+' as well as `--' can introduce a
+   long-named option.  Because this is not POSIX.2 compliant, it is
+   being phased out.  */
+/* #define GETOPT_COMPAT */
+
+/* This version of `getopt' appears to the caller like standard Unix `getopt'
+   but it behaves differently for the user, since it allows the user
+   to intersperse the options with the other arguments.
+
+   As `getopt' works, it permutes the elements of ARGV so that,
+   when it is done, all the options precede everything else.  Thus
+   all application programs are extended to handle flexible argument order.
+
+   Setting the environment variable POSIXLY_CORRECT disables permutation.
+   Then the behavior is completely standard.
+
+   GNU application programs can use a third alternative mode in which
+   they can distinguish the relative order of options and other arguments.  */
+
+#include "getopt.h"
+
+/* For communication from `getopt' to the caller.
+   When `getopt' finds an option that takes an argument,
+   the argument value is returned here.
+   Also, when `ordering' is RETURN_IN_ORDER,
+   each non-option ARGV-element is returned here.  */
+
+char *optarg = 0;
+
+/* Index in ARGV of the next element to be scanned.
+   This is used for communication to and from the caller
+   and for communication between successive calls to `getopt'.
+
+   On entry to `getopt', zero means this is the first call; initialize.
+
+   When `getopt' returns EOF, this is the index of the first of the
+   non-option elements that the caller should itself scan.
+
+   Otherwise, `optttttttttttttind' communicates from one call to the next
+   how much of ARGV has been scanned so far.  */
+
+/* XXX 1003.2 says this must be 1 before any call.  */
+int optind = 0;
+
+/* The next char to be scanned in the option-element
+   in which the last option character we returned was found.
+   This allows us to pick up the scan where we left off.
+
+   If this is zero, or a null string, it means resume the scan
+   by advancing to the next ARGV-element.  */
+
+static char *nextchar;
+
+/* Callers store zero here to inhibit the error message
+   for unrecognized options.  */
+
+int opterr = 1;
+
+/* Set to an option character which was unrecognized.
+   This must be initialized on some systems to avoid linking in the
+   system's own getopt implementation.  */
+
+int optopt = '?';
+
+/* Describe how to deal with options that follow non-option ARGV-elements.
+
+   If the caller did not specify anything,
+   the default is REQUIRE_ORDER if the environment variable
+   POSIXLY_CORRECT is defined, PERMUTE otherwise.
+
+   REQUIRE_ORDER means don't recognize them as options;
+   stop option processing when the first non-option is seen.
+   This is what Unix does.
+   This mode of operation is selected by either setting the environment
+   variable POSIXLY_CORRECT, or using `+' as the first character
+   of the list of option characters.
+
+   PERMUTE is the default.  We permute the contents of ARGV as we scan,
+   so that eventually all the non-options are at the end.  This allows options
+   to be given in any order, even with programs that were not written to
+   expect this.
+
+   RETURN_IN_ORDER is an option available to programs that were written
+   to expect options and other ARGV-elements in any order and that care about
+   the ordering of the two.  We describe each non-option ARGV-element
+   as if it were the argument of an option with character code 1.
+   Using `-' as the first character of the list of option characters
+   selects this mode of operation.
+
+   The special argument `--' forces an end of option-scanning regardless
+   of the value of `ordering'.  In the case of RETURN_IN_ORDER, only
+   `--' can cause `getopt' to return EOF with `optind' != ARGC.  */
+
+static enum
+{
+  REQUIRE_ORDER, PERMUTE, RETURN_IN_ORDER
+} ordering;
+
+#ifdef	__GNU_LIBRARY__
+/* We want to avoid inclusion of string.h with non-GNU libraries
+   because there are many ways it can cause trouble.
+   On some systems, it contains special magic macros that don't work
+   in GCC.  */
+#if flag_string==0   
+#include <string.h>
+#define flag_string 1
+#endif
+#define	my_index	strchr
+#define	my_bcopy(src, dst, n)	memcpy ((dst), (src), (n))
+#else
+
+/* Avoid depending on library functions or files
+   whose names are inconsistent.  */
+
+char *getenv ();
+
+static char *
+my_index (str, chr)
+     const char *str;
+     int chr;
+{
+  while (*str)
+    {
+      if (*str == chr)
+	return (char *) str;
+      str++;
+    }
+  return 0;
+}
+
+static void
+my_bcopy (from, to, size)
+     const char *from;
+     char *to;
+     int size;
+{
+  int i;
+  for (i = 0; i < size; i++)
+    to[i] = from[i];
+}
+#endif				/* GNU C library.  */
+
+/* Handle permutation of arguments.  */
+
+/* Describe the part of ARGV that contains non-options that have
+   been skipped.  `first_nonopt' is the index in ARGV of the first of them;
+   `last_nonopt' is the index after the last of them.  */
+
+static int first_nonopt;
+static int last_nonopt;
+
+/* Exchange two adjacent subsequences of ARGV.
+   One subsequence is elements [first_nonopt,last_nonopt)
+   which contains all the non-options that have been skipped so far.
+   The other is elements [last_nonopt,optind), which contains all
+   the options processed since those non-options were skipped.
+
+   `first_nonopt' and `last_nonopt' are relocated so that they describe
+   the new indices of the non-options in ARGV after they are moved.  */
+
+static void
+exchange (argv)
+     char **argv;
+{
+  int nonopts_size = (last_nonopt - first_nonopt) * sizeof (char *);
+  char **temp = (char **) __alloca (nonopts_size);
+
+  /* Interchange the two blocks of data in ARGV.  */
+
+  my_bcopy ((char *) &argv[first_nonopt], (char *) temp, nonopts_size);
+  my_bcopy ((char *) &argv[last_nonopt], (char *) &argv[first_nonopt],
+	    (optind - last_nonopt) * sizeof (char *));
+  my_bcopy ((char *) temp,
+	    (char *) &argv[first_nonopt + optind - last_nonopt],
+	    nonopts_size);
+
+  /* Update records for the slots the non-options now occupy.  */
+
+  first_nonopt += (optind - last_nonopt);
+  last_nonopt = optind;
+}
+
+/* Scan elements of ARGV (whose length is ARGC) for option characters
+   given in OPTSTRING.
+
+   If an element of ARGV starts with '-', and is not exactly "-" or "--",
+   then it is an option element.  The characters of this element
+   (aside from the initial '-') are option characters.  If `getopt'
+   is called repeatedly, it returns successively each of the option characters
+   from each of the option elements.
+
+   If `getopt' finds another option character, it returns that character,
+   updating `optind' and `nextchar' so that the next call to `getopt' can
+   resume the scan with the following option character or ARGV-element.
+
+   If there are no more option characters, `getopt' returns `EOF'.
+   Then `optind' is the index in ARGV of the first ARGV-element
+   that is not an option.  (The ARGV-elements have been permuted
+   so that those that are not options now come last.)
+
+   OPTSTRING is a string containing the legitimate option characters.
+   If an option character is seen that is not listed in OPTSTRING,
+   return '?' after printing an error message.  If you set `opterr' to
+   zero, the error message is suppressed but we still return '?'.
+
+   If a char in OPTSTRING is followed by a colon, that means it wants an arg,
+   so the following text in the same ARGV-element, or the text of the following
+   ARGV-element, is returned in `optarg'.  Two colons mean an option that
+   wants an optional arg; if there is text in the current ARGV-element,
+   it is returned in `optarg', otherwise `optarg' is set to zero.
+
+   If OPTSTRING starts with `-' or `+', it requests different methods of
+   handling the non-option ARGV-elements.
+   See the comments about RETURN_IN_ORDER and REQUIRE_ORDER, above.
+
+   Long-named options begin with `--' instead of `-'.
+   Their names may be abbreviated as long as the abbreviation is unique
+   or is an exact match for some defined option.  If they have an
+   argument, it follows the option name in the same ARGV-element, separated
+   from the option name by a `=', or else the in next ARGV-element.
+   When `getopt' finds a long-named option, it returns 0 if that option's
+   `flag' field is nonzero, the value of the option's `val' field
+   if the `flag' field is zero.
+
+   The elements of ARGV aren't really const, because we permute them.
+   But we pretend they're const in the prototype to be compatible
+   with other systems.
+
+   LONGOPTS is a vector of `struct option' terminated by an
+   element containing a name which is zero.
+
+   LONGIND returns the index in LONGOPT of the long-named option found.
+   It is only valid when a long-named option has been found by the most
+   recent call.
+
+   If LONG_ONLY is nonzero, '-' as well as '--' can introduce
+   long-named options.  */
+
+int
+_getopt_internal (argc, argv, optstring, longopts, longind, long_only)
+     int argc;
+     char *const *argv;
+     const char *optstring;
+     const struct option *longopts;
+     int *longind;
+     int long_only;
+{
+  int option_index;
+
+  optarg = 0;
+
+  /* Initialize the internal data when the first call is made.
+     Start processing options with ARGV-element 1 (since ARGV-element 0
+     is the program name); the sequence of previously skipped
+     non-option ARGV-elements is empty.  */
+
+  if (optind == 0)
+    {
+      first_nonopt = last_nonopt = optind = 1;
+
+      nextchar = NULL;
+
+      /* Determine how to handle the ordering of options and nonoptions.  */
+
+      if (optstring[0] == '-')
+	{
+	  ordering = RETURN_IN_ORDER;
+	  ++optstring;
+	}
+      else if (optstring[0] == '+')
+	{
+	  ordering = REQUIRE_ORDER;
+	  ++optstring;
+	}
+      else if (getenv ("POSIXLY_CORRECT") != NULL)
+	ordering = REQUIRE_ORDER;
+      else
+	ordering = PERMUTE;
+    }
+
+  if (nextchar == NULL || *nextchar == '\0')
+    {
+      if (ordering == PERMUTE)
+	{
+	  /* If we have just processed some options following some non-options,
+	     exchange them so that the options come first.  */
+
+	  if (first_nonopt != last_nonopt && last_nonopt != optind)
+	    exchange ((char **) argv);
+	  else if (last_nonopt != optind)
+	    first_nonopt = optind;
+
+	  /* Now skip any additional non-options
+	     and extend the range of non-options previously skipped.  */
+
+	  while (optind < argc
+		 && (argv[optind][0] != '-' || argv[optind][1] == '\0')
+#ifdef GETOPT_COMPAT
+		 && (longopts == NULL
+		     || argv[optind][0] != '+' || argv[optind][1] == '\0')
+#endif				/* GETOPT_COMPAT */
+		 )
+	    optind++;
+	  last_nonopt = optind;
+	}
+
+      /* Special ARGV-element `--' means premature end of options.
+	 Skip it like a null option,
+	 then exchange with previous non-options as if it were an option,
+	 then skip everything else like a non-option.  */
+
+      if (optind != argc && !strcmp (argv[optind], "--"))
+	{
+	  optind++;
+
+	  if (first_nonopt != last_nonopt && last_nonopt != optind)
+	    exchange ((char **) argv);
+	  else if (first_nonopt == last_nonopt)
+	    first_nonopt = optind;
+	  last_nonopt = argc;
+
+	  optind = argc;
+	}
+
+      /* If we have done all the ARGV-elements, stop the scan
+	 and back over any non-options that we skipped and permuted.  */
+
+      if (optind == argc)
+	{
+	  /* Set the next-arg-index to point at the non-options
+	     that we previously skipped, so the caller will digest them.  */
+	  if (first_nonopt != last_nonopt)
+	    optind = first_nonopt;
+	  return EOF;
+	}
+
+      /* If we have come to a non-option and did not permute it,
+	 either stop the scan or describe it to the caller and pass it by.  */
+
+      if ((argv[optind][0] != '-' || argv[optind][1] == '\0')
+#ifdef GETOPT_COMPAT
+	  && (longopts == NULL
+	      || argv[optind][0] != '+' || argv[optind][1] == '\0')
+#endif				/* GETOPT_COMPAT */
+	  )
+	{
+	  if (ordering == REQUIRE_ORDER)
+	    return EOF;
+	  optarg = argv[optind++];
+	  return 1;
+	}
+
+      /* We have found another option-ARGV-element.
+	 Start decoding its characters.  */
+
+      nextchar = (argv[optind] + 1
+		  + (longopts != NULL && argv[optind][1] == '-'));
+    }
+
+  if (longopts != NULL
+      && ((argv[optind][0] == '-'
+	   && (argv[optind][1] == '-' || long_only))
+#ifdef GETOPT_COMPAT
+	  || argv[optind][0] == '+'
+#endif				/* GETOPT_COMPAT */
+	  ))
+    {
+      const struct option *p;
+      char *s = nextchar;
+      int exact = 0;
+      int ambig = 0;
+      const struct option *pfound = NULL;
+      int indfound;
+
+      while (*s && *s != '=')
+	s++;
+
+      /* Test all options for either exact match or abbreviated matches.  */
+      for (p = longopts, option_index = 0; p->name;
+	   p++, option_index++)
+	if (!strncmp (p->name, nextchar, s - nextchar))
+	  {
+	    if (s - nextchar == strlen (p->name))
+	      {
+		/* Exact match found.  */
+		pfound = p;
+		indfound = option_index;
+		exact = 1;
+		break;
+	      }
+	    else if (pfound == NULL)
+	      {
+		/* First nonexact match found.  */
+		pfound = p;
+		indfound = option_index;
+	      }
+	    else
+	      /* Second nonexact match found.  */
+	      ambig = 1;
+	  }
+
+      if (ambig && !exact)
+	{
+	  if (opterr)
+	    fprintf (stderr, "%s: option `%s' is ambiguous\n",
+		     argv[0], argv[optind]);
+	  nextchar += strlen (nextchar);
+	  optind++;
+	  return '?';
+	}
+
+      if (pfound != NULL)
+	{
+	  option_index = indfound;
+	  optind++;
+	  if (*s)
+	    {
+	      /* Don't test has_arg with >, because some C compilers don't
+		 allow it to be used on enums.  */
+	      if (pfound->has_arg)
+		optarg = s + 1;
+	      else
+		{
+		  if (opterr)
+		    {
+		      if (argv[optind - 1][1] == '-')
+			/* --option */
+			fprintf (stderr,
+				 "%s: option `--%s' doesn't allow an argument\n",
+				 argv[0], pfound->name);
+		      else
+			/* +option or -option */
+			fprintf (stderr,
+			     "%s: option `%c%s' doesn't allow an argument\n",
+			     argv[0], argv[optind - 1][0], pfound->name);
+		    }
+		  nextchar += strlen (nextchar);
+		  return '?';
+		}
+	    }
+	  else if (pfound->has_arg == 1)
+	    {
+	      if (optind < argc)
+		optarg = argv[optind++];
+	      else
+		{
+		  if (opterr)
+		    fprintf (stderr, "%s: option `%s' requires an argument\n",
+			     argv[0], argv[optind - 1]);
+		  nextchar += strlen (nextchar);
+		  return optstring[0] == ':' ? ':' : '?';
+		}
+	    }
+	  nextchar += strlen (nextchar);
+	  if (longind != NULL)
+	    *longind = option_index;
+	  if (pfound->flag)
+	    {
+	      *(pfound->flag) = pfound->val;
+	      return 0;
+	    }
+	  return pfound->val;
+	}
+      /* Can't find it as a long option.  If this is not getopt_long_only,
+	 or the option starts with '--' or is not a valid short
+	 option, then it's an error.
+	 Otherwise interpret it as a short option.  */
+      if (!long_only || argv[optind][1] == '-'
+#ifdef GETOPT_COMPAT
+	  || argv[optind][0] == '+'
+#endif				/* GETOPT_COMPAT */
+	  || my_index (optstring, *nextchar) == NULL)
+	{
+	  if (opterr)
+	    {
+	      if (argv[optind][1] == '-')
+		/* --option */
+		fprintf (stderr, "%s: unrecognized option `--%s'\n",
+			 argv[0], nextchar);
+	      else
+		/* +option or -option */
+		fprintf (stderr, "%s: unrecognized option `%c%s'\n",
+			 argv[0], argv[optind][0], nextchar);
+	    }
+	  nextchar = (char *) "";
+	  optind++;
+	  return '?';
+	}
+    }
+
+  /* Look at and handle the next option-character.  */
+
+  {
+    char c = *nextchar++;
+    char *temp = my_index (optstring, c);
+
+    /* Increment `optind' when we start to process its last character.  */
+    if (*nextchar == '\0')
+      ++optind;
+
+    if (temp == NULL || c == ':')
+      {
+	if (opterr)
+	  {
+#if 0
+	    if (c < 040 || c >= 0177)
+	      fprintf (stderr, "%s: unrecognized option, character code 0%o\n",
+		       argv[0], c);
+	    else
+	      fprintf (stderr, "%s: unrecognized option `-%c'\n", argv[0], c);
+#else
+	    /* 1003.2 specifies the format of this message.  */
+	    fprintf (stderr, "%s: illegal option -- %c\n", argv[0], c);
+#endif
+	  }
+	optopt = c;
+	return '?';
+      }
+    if (temp[1] == ':')
+      {
+	if (temp[2] == ':')
+	  {
+	    /* This is an option that accepts an argument optionally.  */
+	    if (*nextchar != '\0')
+	      {
+		optarg = nextchar;
+		optind++;
+	      }
+	    else
+	      optarg = 0;
+	    nextchar = NULL;
+	  }
+	else
+	  {
+	    /* This is an option that requires an argument.  */
+	    if (*nextchar != '\0')
+	      {
+		optarg = nextchar;
+		/* If we end this ARGV-element by taking the rest as an arg,
+		   we must advance to the next element now.  */
+		optind++;
+	      }
+	    else if (optind == argc)
+	      {
+		if (opterr)
+		  {
+#if 0
+		    fprintf (stderr, "%s: option `-%c' requires an argument\n",
+			     argv[0], c);
+#else
+		    /* 1003.2 specifies the format of this message.  */
+		    fprintf (stderr, "%s: option requires an argument -- %c\n",
+			     argv[0], c);
+#endif
+		  }
+		optopt = c;
+		if (optstring[0] == ':')
+		  c = ':';
+		else
+		  c = '?';
+	      }
+	    else
+	      /* We already incremented `optind' once;
+		 increment it again when taking next ARGV-elt as argument.  */
+	      optarg = argv[optind++];
+	    nextchar = NULL;
+	  }
+      }
+    return c;
+  }
+}
+
+int
+getopt (argc, argv, optstring)
+     int argc;
+     char *const *argv;
+     const char *optstring;
+{
+  return _getopt_internal (argc, argv, optstring,
+			   (const struct option *) 0,
+			   (int *) 0,
+			   0);
+}
+
+#endif	/* _LIBC or not __GNU_LIBRARY__.  */
+
+#ifdef TEST
+
+/* Compile with -DTEST to make an executable for use in testing
+   the above definition of `getopt'.  */
+
+int
+main (argc, argv)
+     int argc;
+     char **argv;
+{
+  int c;
+  int digit_optind = 0;
+
+  while (1)
+    {
+      int this_option_optind = optind ? optind : 1;
+
+      c = getopt (argc, argv, "abc:d:0123456789");
+      if (c == EOF)
+	break;
+
+      switch (c)
+	{
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	  if (digit_optind != 0 && digit_optind != this_option_optind)
+	    printf ("digits occur in two different argv-elements.\n");
+	  digit_optind = this_option_optind;
+	  printf ("option %c\n", c);
+	  break;
+
+	case 'a':
+	  printf ("option a\n");
+	  break;
+
+	case 'b':
+	  printf ("option b\n");
+	  break;
+
+	case 'c':
+	  printf ("option c with value `%s'\n", optarg);
+	  break;
+
+	case '?':
+	  break;
+
+	default:
+	  printf ("?? getopt returned character code 0%o ??\n", c);
+	}
+    }
+
+  if (optind < argc)
+    {
+      printf ("non-option ARGV-elements: ");
+      while (optind < argc)
+	printf ("%s ", argv[optind++]);
+      printf ("\n");
+    }
+
+  exit (0);
+}
+
+#endif /* TEST */
+/* Extended regular expression matching and search library,
+   version 0.12.
+   (Implements POSIX draft P10003.2/D11.2, except for
+   internationalization features.)
+
+   Copyright (C) 1993 Free Software Foundation, Inc.
+
+   This program is free software; you can red stuff.  When we'rr modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+/* AIX requires this to be the first thing in the file. */
+#if defined (_AIX) && !defined (REGEX_MALLOC)
+  #pragma alloca
+#endif
+
+#define _GNU_SOURCE
+
+/* We need this for `regex.h', gned), wand perhaps for the Emacs include files.  */
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+
+#ifdef HAVE_CONFIG_H
+#if flag_config==0
+#include "config.h"
+#define flag_config 1
+#endif
+#endif
+
+/* The `emacs' switch turns on certain matching commands
+   that make sense only in Emacs. */
+#ifdef emacs
+
+#include "lisp.h"
+#include "buffer.h"
+#include "syntax.h"
+
+/* Emacs uses `NULL' as a predicate.  */
+#undef NULL
+
+#else  /* not emacs */
+
+/* We used to test for `BSTRING' here, but only GCC and Emacs define
+   `BSTRING', as far as I know, and neither of them use this code.  */
+#if HAVE_STRING_H || STDC_HEADERS
+#if flag_string==0
+#include <string.h>
+#define flag_string 1
+#endif
+#ifndef bcmp
+#define bcmp(s1, s2, n)	memcmp ((s1), (s2), (n))
+#endif
+#ifndef bcopy
+#define bcopy(s, d, n)	memcpy ((d), (s), (n))
+#endif
+#ifndef bzero
+#define bzero(s, n)	memset ((s), 0, (n))
+#endif
+#else
+#if flag_strings==0
+#include <strings.h>
+#define flag_strings 1
+#endif
+#endif
+
+#ifdef STDC_HEADERS
+#if flag_stdlib==0 
+#include <stdlib.h>
+#define flag_stdlib 1
+#endif
+#else
+char *malloc ();
+char *realloc ();
+#endif
+
+
+/* Define the syntax stuff for \<, \>, etc.  */
+
+/* This must be nonzero for the wordchar and notwordchar pattern
+   commands in re_match_2.  */
+#ifndef Sword 
+#define Sword 1
+#endif
+
+#ifdef SYNTAX_TABLE
+
+extern char *re_syntax_table;
+
+#else /* not SYNTAX_TABLE */
+
+/* How many characters in the character set.  */
+#define CHAR_SET_SIZE 256
+
+static char re_syntax_table[CHAR_SET_SIZE];
+
+static void
+init_syntax_once ()
+{
+   register int c;
+   static int done = 0;
+
+   if (done)
+     return;
+
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 'a'; c <= 'z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = 'A'; c <= 'Z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = '0'; c <= '9'; c++)
+     re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
+}
+
+#endif /* not SYNTAX_TABLE */
+
+#define SYNTAX(c) re_syntax_table[c]
+
+#endif /* not emacs */
+
+/* Get the interface, including the syntax bits.  */
+#include "regex.h"
+
+/* isalpha etc. are used for the character classes.  */
+#include <ctype.h>
+
+/* Jim Meyering writes:
+
+   "... Some ctype macros are valid only for character codes that
+   isascii says are ASCII (SGI's IRIX-4.0.5 is one such system --when
+   using /bin/cc or gcc but without giving an ansi option).  So, all
+   ctype uses should be through macros like ISPRINT...  If
+   STDC_HEADERS is defined, then autoconf has verified that the ctype
+   macros don't need to be guarded with references to isascii. ...
+   Defining isascii to 1 should let any compiler worth its salt
+   eliminate the && through constant folding."  */
+#if ! defined (isascii) || defined (STDC_HEADERS)
+#undef isascii
+#define isascii(c) 1
+#endif
+
+#ifdef isblank
+#define ISBLANK(c) (isascii (c) && isblank (c))
+#else
+#define ISBLANK(c) ((c) == ' ' || (c) == '\t')
+#endif
+#ifdef isgraph
+#define ISGRAPH(c) (isascii (c) && isgraph (c))
+#else
+#define ISGRAPH(c) (isascii (c) && isprint (c) && !isspace (c))
+#endif
+
+#define ISPRINT(c) (isascii (c) && isprint (c))
+#define ISDIGIT(c) (isascii (c) && isdigit (c))
+#define ISALNUM(c) (isascii (c) && isalnum (c))
+#define ISALPHA(c) (isascii (c) && isalpha (c))
+#define ISCNTRL(c) (isascii (c) && iscntrl (c))
+#define ISLOWER(c) (isascii (c) && islower (c))
+#define ISPUNCT(c) (isascii (c) && ispunct (c))
+#define ISSPACE(c) (isascii (c) && isspace (c))
+#define ISUPPER(c) (isascii (c) && isupper (c))
+#define ISXDIGIT(c) (isascii (c) && isxdigit (c))
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+/* We remove any previous definition of `SIGN_EXTEND_CHAR',
+   since ours (we hope) works properly with all combinations of
+   machines, compilers, `char' and `unsigned char' argument types.
+   (Per Bothner suggested the basic approach.)  */
+#undef SIGN_EXTEND_CHAR
+#if __STDC__
+#define SIGN_EXTEND_CHAR(c) ((signed char) (c))
+#else  /* not __STDC__ */
+/* As in Harbison and Steele.  */
+#define SIGN_EXTEND_CHAR(c) ((((unsigned char) (c)) ^ 128) - 128)
+#endif
+
+/* Should we use malloc or alloca?  If REGEX_MALLOC is not defined, we
+   use `alloca' instead of `malloc'.  This is because using malloc in
+   re_search* or re_match* could cause memory leaks when C-g is used in
+   Emacs; also, malloc is slower and causes storage fragmentation.  On
+   the other hand, malloc is more portable, and easier to debug.  
+   
+   Because we sometimes use alloca, some routines have to be macros,
+   not functions -- `alloca'-allocated space disappears at the end of the
+   function it is called in.  */
+
+#ifdef REGEX_MALLOC
+
+#define REGEX_ALLOCATE malloc
+#define REGEX_REALLOCATE(source, osize, nsize) realloc (source, nsize)
+
+#else /* not REGEX_MALLOC  */
+
+/* Emacs already defines alloca, sometimes.  */
+#ifndef alloca
+
+/* Make alloca work the best possible way.  */
+#ifdef __GNUC__
+#define alloca __builtin_alloca
+#else /* not __GNUC__ */
+#if HAVE_ALLOCA_H
+#if flag_alloca==0
+#include <alloca.h>
+#define flag_alloca 1
+#endif 
+#else /* not __GNUC__ or HAVE_ALLOCA_H */
+#ifndef _AIX /* Already did AIX, up at the top.  */
+char *alloca ();
+#endif /* not _AIX */
+#endif /* not HAVE_ALLOCA_H */ 
+#endif /* not __GNUC__ */
+
+#endif /* not alloca */
+
+#define REGEX_ALLOCATE alloca
+
+/* Assumes a `char *destination' variable.  */
+#define REGEX_REALLOCATE(source, osize, nsize)				\
+  (destination = (char *) alloca (nsize),				\
+   bcopy (source, destination, osize),					\
+   destination)
+
+#endif /* not REGEX_MALLOC */
+
+
+/* True if `size1' is non-NULL and PTR is pointing anywhere inside
+   `string1' or just past its end.  This works if PTR is NULL, which is
+   a good thing.  */
+#define FIRST_STRING_P(ptr) 					\
+  (size1 && string1 <= (ptr) && (ptr) <= string1 + size1)
+
+/* (Re)Allocate N items of type T using malloc, or fail.  */
+#define TALLOC(n, t) ((t *) malloc ((n) * sizeof (t)))
+#define RETALLOC(addr, n, t) ((addr) = (t *) realloc (addr, (n) * sizeof (t)))
+#define REGEX_TALLOC(n, t) ((t *) REGEX_ALLOCATE ((n) * sizeof (t)))
+
+#define BYTEWIDTH 8 /* In bits.  */
+
+#define STREQ(s1, s2) ((strcmp (s1, s2) == 0))
+
+#undef MAX               /****** added later *******/
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+typedef char boolean;
+#define false 0
+#define true 1
+
+/* These are the command codes that appear in compiled regular
+   expressions.  Some opcodes are followed by argument bytes.  A
+   command code can specify any interpretation whatsoever for its
+   arguments.  Zero bytes may appear in the compiled regular expression.
+
+   The value of `exactn' is needed in search.c (search_buffer) in Emacs.
+   So regex.h defines a symbol `RE_EXACTN_VALUE' to be 1; the value of
+   `exactn' we use here must also be 1.  */
+
+typedef enum
+{
+  no_op = 0,
+
+        /* Followed by one byte giving n, then by n literal bytes.  */
+  exactn = 1,
+
+        /* Matches any (more or less) character.  */
+  anychar,
+
+        /* Matches any one char belonging to specified set.  First
+           following byte is number of bitmap bytes.  Then come bytes
+           for a bitmap saying which chars are in.  Bits in each byte
+           are ordered low-bit-first.  A character is in the set if its
+           bit is 1.  A character too large to have a bit in the map is
+           automatically not in the set.  */
+  charset,
+
+        /* Same parameters as charset, but match any character that is
+           not one of those specified.  */
+  charset_not,
+
+        /* Start remembering the text that is matched, for storing in a
+           register.  Followed by one byte with the register number, in
+           the range 0 to one less than the pattern buffer's re_nsub
+           field.  Then followed by one byte with the number of groups
+           inner to this one.  (This last has to be part of the
+           start_memory only because we need it in the on_failure_jump
+           of re_match_2.)  */
+  start_memory,
+
+        /* Stop remembering the text that is matched and store it in a
+           memory register.  Followed by one byte with the register
+           number, in the range 0 to one less than `re_nsub' in the
+           pattern buffer, and one byte with the number of inner groups,
+           just like `start_memory'.  (We need the number of inner
+           groups here because we don't have any easy way of finding the
+           corresponding start_memory when we're at a stop_memory.)  */
+  stop_memory,
+
+        /* Match a duplicate of something remembered. Followed by one
+           byte containing the register number.  */
+  duplicate,
+
+        /* Fail unless at beginning of line.  */
+  begline,
+
+        /* Fail unless at end of line.  */
+  endline,
+
+        /* Succeeds if at beginning of buffer (if emacs) or at beginning
+           of string to be matched (if not).  */
+  begbuf,
+
+        /* Analogously, for end of buffer/string.  */
+  endbuf,
+ 
+        /* Followed by two byte relative address to which to jump.  */
+  jump, 
+
+	/* Same as jump, but marks the end of an alternative.  */
+  jump_past_alt,
+
+        /* Followed by two-byte relative address of place to resume at
+           in case of failure.  */
+  on_failure_jump,
+	
+        /* Like on_failure_jump, but pushes a placeholder instead of the
+           current string position when executed.  */
+  on_failure_keep_string_jump,
+  
+        /* Throw away latest failure point and then jump to following
+           two-byte relative address.  */
+  pop_failure_jump,
+
+        /* Change to pop_failure_jump if know won't have to backtrack to
+           match; otherwise change to jump.  This is used to jump
+           back to the beginning of a repeat.  If what follows this jump
+           clearly won't match what the repeat does, such that we can be
+           sure that there is no use backtracking out of repetitions
+           already matched, then we change it to a pop_failure_jump.
+           Followed by tÄo-byte address.  */
+  maybe_pop_jump,
+
+        /* Jump to following two-byte address, and push a dummy failure
+           point. This failure point will be thrown away if an attempt
+           is made to use it for a failure.  A `+' construct makes this
+           before the first repeat.  Also used as an intermediary kind
+           of jump when compiling an alternative.  */
+  dummy_failure_jump,
+
+	/* Push a dummy failure point and continue.  Used at the end of
+	   alternatives.  */
+  push_dummy_failure,
+
+        /* Followed by two-byte relative address and two-byte number n.
+           After matching N times, jump to the address upon failure.  */
+  succeed_n,
+
+        /* Followed by two-byte relative address, and two-byte number n.
+           Jump to the address N times, then fail.  */
+  jump_n,
+
+        /* Set the following two-byte relative address to the
+           subsequent two-byte nÖmber.  The address *includes* the two
+           bytes of number.  */
+  set_number_at,
+
+  wordchar,	/* Matches any word-constituent character.  */
+  notwordchar,	/* Matches any char that is not a word-constituent.  */
+
+  wordbeg,	/* Succeeds if at word beginning.  */
+  wordend,	/* Succeeds if at word end.  */
+
+  wordbound,	/* Succeeds if at a word boundary.  */
+  notwordbound	/* Succeeds if not at a word boundary.  */
+
+#ifdef emacs
+  ,before_dot,	/* Succeeds if before point.  */
+  at_dot,	/* Succeeds if at point.  */
+  after_dot,	/* Succeeds if after point.  */
+
+	/* Matches any character whose syntax is specified.  Followed by
+           a byte which contains a syntax code, e.g., Sword.  */
+  syntaxspec,
+
+	/* Matches any character whose syntax is not that specified.  */
+  notsyntaxspec
+#endif /* emacs */
+} re_opcode_t;
+
+/* Common operations on the compiled pattern.  */
+
+/* Store NUMBER in two contiguous bytes starting at DESTINATION.  */
+
+#define STORE_NUMBER(destination, number)				\
+  do {									\
+    (destination)[0] = (number) & 0377;					\
+    (destination)[1] = (number) >> 8;					\
+  } while (0)
+
+/* Same as STORE_NUMBER, except increment DESTINATION to
+   the byte after where the number is stored.  Therefore, DESTINATION
+   must be an lvalue.  */
+
+#define STORE_NUMBER_AND_INCR(destination, number)			\
+  do {									\
+    STORE_NUMBER (destination, number);					\
+    (destination) += 2;							\
+  } while (0)
+
+/* Put into DESTINATION a number stored in two contiguous bytes starting
+   at SOURCE.  */
+
+#define EXTRACT_NUMBER(destination, source)				\
+  do {									\
+    (destination) = *(source) & 0377;					\
+    (destination) += SIGN_EXTEND_CHAR (*((source) + 1)) << 8;		\
+  } while (0)
+
+#ifdef DEBUG
+static void
+extract_number (dest, source)
+    int *dest;
+    unsigned char *source;
+{
+  int temp = SIGN_EXTEND_CHAR (*(source + 1)); 
+  *dest = *source & 0377;
+  *dest += temp << 8;
+}
+
+#ifndef EXTRACT_MACROS /* To debug the macros.  */
+#undef EXTRACT_NUMBER
+#define EXTRACT_NUMBER(dest, src) extract_number (&dest, src)
+#endif /* not EXTRACT_MACROS */
+
+#endif /* DEBUG */
+
+/* Same as EXTRACT_NUMBER, except increment SOURCE to after the number.
+   SOURCE must be an lvalue.  */
+
+#define EXTRACT_NUMBER_AND_INCR(destination, source)			\
+  do {									\
+    EXTRACT_NUMBER (destination, source);				\
+    (source) += 2; 							\
+  } while (0)
+
+#ifdef DEBUG
+static void
+extract_number_and_incr (destination, source)
+    int *destination;
+    unsigned char **source;
+{ 
+  extract_number (destination, *source);
+  *source += 2;
+}
+
+#ifndef EXTRACT_MACROS
+#undef EXTRACT_NUMBER_AND_INCR
+#define EXTRACT_NUMBER_AND_INCR(dest, src) \
+  extract_number_and_incr (&dest, &src)
+#endif /* not EXTRACT_MACROS */
+
+#endif /* DEBUG */
+
+/* If DEBUG is defined, Regex prints many voluminous messages about what
+   it is doing (if the variable `debug' is nonzero).  If linked with the
+   main program in `iregex.c', you can enter patterns and strings
+   interactively.  And if linked with the main program in `main.c' and
+   the other test files, you can run the already-written tests.  */
+
+#ifdef DEBUG
+
+/* We use standard I/O for debugging.  */
+/*#include <stdio.h>*/
+
+/* It is useful to test things that ``must'' be true when debugging.  */
+#include <assert.h>
+
+static int debug = 0;
+
+#define DEBUG_STATEMENT(e) e
+#define DEBUG_PRINT1(x) if (debug) printf (x)
+#define DEBUG_PRINT2(x1, x2) if (debug) printf (x1, x2)
+#define DEBUG_PRINT3(x1, x2, x3) if (debug) printf (x1, x2, x3)
+#define DEBUG_PRINT4(x1, x2, x3, x4) if (debug) printf (x1, x2, x3, x4)
+#define DEBUG_PRINT_COMPILED_PATTERN(p, s, e) 				\
+  if (debug) print_partial_compiled_pattern (s, e)
+#define DEBUG_PRINT_DOUBLE_STRING(w, s1, sz1, s2, sz2)			\
+  if (debug) print_double_string (w, s1, sz1, s2, sz2)
+
+
+extern void printchar ();
+
+/* Print the fastmap in human-readable form.  */
+
+void
+print_fastmap (fastmap)
+    char *fastmap;
+{
+  unsigned was_a_range = 0;
+  unsigned i = 0;  
+  
+  while (i < (1 << BYTEWIDTH))
+    {
+      if (fastmap[i++])
+	{
+	  was_a_range = 0;
+          printchar (i - 1);
+          while (i < (1 << BYTEWIDTH)  &&  fastmap[i])
+            {
+              was_a_range = 1;
+              i++;
+            }
+	  if (was_a_range)
+            {
+              printf ("-");
+              printchar (i - 1);
+            }
+        }
+    }
+  putchar ('\n'); 
+}
+
+
+/* Print a compiled pattern string in human-readable form, starting at
+   the START pointer into it and ending just before the pointer END.  */
+
+void
+print_partial_compiled_pattern (start, end)
+    unsigned char *start;
+    unsigned char *end;
+{
+  int mcnt, mcnt2;
+  unsigned char *p = start;
+  ınsigned char *pend = end;
+
+  if (start == NULL)
+    {
+      printf ("(null)\n");
+      return;
+    }
+    
+  /* Loop over pattern commands.  */
+  while (p < pend)
+    {
+      printf ("%d:\t", p - start);
+
+      switch ((re_opcode_t) *p++)
+	{
+        case no_op:
+          printf ("/no_op");
+          break;
+
+	case exactn:
+	  mcnt = *p++;
+          printf ("/exactn/%d", mcnt);
+          do
+	    {
+              putchar ('/');
+	      printchar (*p++);
+            }
+          while (--mcnt);
+          break;
+
+	case start_memory:
+          mcnt = *p++;
+          printf ("/start_memory/%d/%d", mcnt, *p++);
+          break;
+
+	case stop_memory:
+          mcnt = *p++;
+	  printf ("/stop_memory/%d/%d", mcnt, *p++);
+          break;
+
+	case duplicate:
+	  printf ("/duplicate/%d", *p++);
+	  break;
+
+	case anychar:
+	  printf ("/anychar");
+	  break;
+
+	case charset:
+        case charset_not:
+          {
+            register int c, last = -100;
+	    register int in_range = 0;
+
+	    printf ("/charset [%s",
+	            (re_opcode_t) *(p - 1) == charset_not ? "^" : "");
+            
+            assert (p + *p < pend);
+
+            for (c = 0; c < 256; c++)
+	      if (c / 8 < *p
+		  && (p[1 + (c/8)] & (1 << (c % 8))))
+		{
+		  /* Are we starting a range?  */
+		  if (last + 1 == c && ! in_range)
+		    {
+		      putchar ('-');
+		      in_range = 1;
+		    }
+		  /* Have we broken a range?  */
+		  else if (last + 1 != c && in_range)
+              {
+		      printchar (last);
+		      in_range = 0;
+		    }
+                
+		  if (! in_range)
+		    printchar (c);
+
+		  last = c;
+              }
+
+	    if (in_range)
+	      printchar (last);
+
+	    putchar (']');
+
+	    p += 1 + *p;
+	  }
+	  break;
+
+	case begline:
+	  printf ("/begline");
+          break;
+
+	case endline:
+          printf ("/endline");
+          break;
+
+	case on_failure_jump:
+          extract_number_and_incr (&mcnt, &p);
+  	  printf ("/on_failure_jump to %d", p + mcnt - start);
+          break;
+
+	case on_failure_keep_string_jump:
+          extract_number_and_incr (&mcnt, &p);
+  	  printf ("/on_failure_keep_string_jump to %d", p + mcnt - start);
+          break;
+
+	case dummy_failure_jump:
+          extract_number_and_incr (&mcnt, &p);
+  	  printf ("/dummy_failure_jump to %d", p + mcnt - start);
+          break;
+
+	case push_dummy_failure:
+          printf ("/push_dummy_failure");
+          break;
+          
+        case maybe_pop_jump:
+9         extract_number_and_incr (&mcnt, &p);
+  	  printf ("/maybe_pop_jump to %d", p + mcnt - start);
+	  break;
+
+        case pop_failure_jump:
+	  extract_number_and_incr (&mcnt, &p);
+  	  printf ("/pop_failure_jump to %d", p + mcnt - start);
+	  break;          
+          
+        case jump_past_alt:
+	  extract_number_and_incr (&mcnt, &p);
+  	  printf ("/jump_past_alt to %d", p + mcnt - start);
+	  break;          
+          
+        case jump:
+	  extract_number_and_incr (&mcnt, &p);
+  	  printf ("/jump to %d", p + mcnt - start);
+	  break;
+
+        case succeed_n: 
+          extract_number_and_incr (&mcnt, &p);
+          extract_number_and_incr (&mcnt2, &p);
+	  printf ("/succeed_n to %d, %d times", p + mcnt - start, mcnt2);
+          break;
+        
+        case jump_n: 
+          extract_number_and_incr (&mcnt, &p);
+          ex|ract_number_and_incr (&mcnt2, &p);
+	  printf ("/jump_n to %d, %d times", p + mcnt - start, mcnt2);
+          break;
+        
+        case set_number_at: 
+          extract_number_and_incr (&mcnt, &p);
+          extract_number_and_incr (&mcnt2, &p);
+	  printf ("/set_number_at location %d to %d", p + mcnt - start, mcnt2);
+          break;
+        
+        case wordbound:
+	  printf ("/wordbound");
+	  break;
+
+	case notwordbound:
+	  printf ("/notwordbound");
+          break;
+
+	case wordbeg:
+	  printf ("/wordbeg");
+	  break;
+          
+	case wordend:
+	  printf ("/wordend");
+          
+#ifdef emacs
+	case before_dot:
+	  printf ("/before_dot");
+          break;
+
+	case at_dot:
+	  printf ("/at_dot");
+          break;
+
+	case after_dot:
+	  printf ("/after_dot");
+          break;
+
+	case syntaxspec:
+          printf ("/syntaxspec");
+	  mcnt = *p++;
+	  printf ("/%d", mcnt);
+          break;
+	  
+	case notsyntaxspec:
+          printf ("/notsyntaxspec");
+	  mcnt = *p++;
+	  printf ("/%d", mcnt);
+	  break;
+#endif /* emacs */
+
+	case wordchar:
+	  printf ("/wordchar");
+          break;
+	  
+	case notwordchar:
+	  printf ("/notwordchar");
+          break;
+
+	case begbuf:
+	  printf ("/begbuf");
+          break;
+
+	case endbuf:
+	  printf ("/endbuf");
+          break;
+
+        default:
+          printf ("?%d", *(p-1));
+	}
+
+      putchar ('\n');
+    }
+
+  printf ("%d:\tend of pattern.\n", p - start);
+}
+
+
+void
+print_compiled_pattern (bufp)
+    struct re_pattern_buffer *bufp;
+{
+  unsigned char *buffer = bufp->buffer;
+
+  print_partial_compiled_pattern (buffer, buffer + bufp->used);
+  printf ("%d bytes used/%d bytes allocated.\n", bufp->used, bufp->allocated);
+
+  if (bqfp->fastmap_accurate && bufp->fastmap)
+    {
+      printf ("fastmap: ");
+      print_fastmap (bufp->fastmap);
+    }
+
+  printf ("re_nsub: %d\t", bufp->re_nsub);
+  printf ("regs_alloc: %d\t", bufp->regs_allocated);
+  printf ("can_be_null: %d\t", bufp->can_be_null);
+  printf ("newline_anchor: %d\n", bufp->new/* grep.c - main driver file for grep.
+   Copyright (C) 1992 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Written July 1992 by Mike Haertel.  */
+
+
+/* I added a series define from makefile here in order to run cfe */
+#define GREP 1
+#define STDC_HEADERS 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_ALLOCA_H 1
+#define HAVE_GETPAGESIZE 1
+#define HAVE_MEMCHR 1
+#define HAVE_STRERROR 1
+#define HAVE_VALLOC 1
+#define HAVE_WORKING_MMAP 1
+/*** end of cfe purpose **/
+
+#include <errno.h>
+#include <stdio.h>
+
+#ifndef errno
+extern int errno;
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#define flag_stdlib 1
+#else
+#include <sys/types.h>
+#define flag_systypes 1
+extern char *malloc(), *realloc();
+extern void free();
+#endif
+
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
+#include <string.h>
+#define flag_string 1
+#ifdef NEED_MEMORY_H
+#include <memory.h>
+#define flag_memory 1
+#endif
+#else
+#include <strings.h>
+#define flag_strings 1
+#ifdef __STDC__
+extern void *memchr();
+#else
+extern char *memchr();
+#endif
+#define strrchr rindex
+#endif
+
+#ifdef HAVE_UNISTD_H
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <fcntl.h>
+#include <unistd.h>
+#else
+#define O_RDONLY 0
+extern int open(), read(), close();
+#endif
+
+#include "getpagesize.h"
+#include "grep.h"
+
+#undef MAX
+#define MAX(A,B) ((A) > (B) ? (A) : (B))
+
+/* Provide missing ANSI features if necessary. */
+
+#ifndef HAVE_STRERROR
+extern int sys_nerr;
+extern char *sys_errlist[];
+#define strerror(E) ((E) < sys_nerr ? sys_errlist[(E)] : "bogus error number")
+#endif
+
+#ifndef HAVE_MEMCHR
+#ifdef __STDC__
+#define VOID void
+#else
+#define VOID char
+#endif
+VOID *
+memchr(vp, c, n)
+   ;
+     int c;
+     size_t n;
+{
+  unsigned char *p;
+
+  for (p = (unsigned char *) vp; n--; ++p)
+    if (*p == c)
+      return (VOID *) p;
+  return 0;
+}
+#endif
+    
+/* Define flags declared in grep.h. */
+char *matcher;
+int match_icase;
+int match_ˇˇˇs;
+int match_lines;
+
+/* Functions we'll use to search. */
+static void (*compile)();
+static char *(*execute)();
+
+/* For error messages. */
+static char *prog;
+static char *filename;
+static int errseen;
+
+/* Print a message and possibly an error string.  Remember
+   that something awful happened. */
+static void
+error(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  if (errnum)
+    fprintf(stderr, "%s: %s: %s\n", prog, mesg, strerror(errnub));
+  else
+    fprintf(stderr, "%s: %s\n", prog, mesg);
+  errseen = 1;
+}
+
+/* Like error(), but die horribly after printing. */
+void
+fatal(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  error(mesg, errnum);
+  exit(2);
+}
+
+/* Interface to handle errors and fix library lossage. */
+char *
+xmalloc(size)
+     size_t size;
+{
+  char *result;
+
+  result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+/* Interface to handle errors and fix some library lossage. */
+char *
+xrealloc(ptr, size)
+     char *ptr;
+     size_t size;
+{
+  char *result;
+
+  if (ptr)
+    result = realloc(ptr, size);
+  else
+    result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+#if !defined(HAVE_VALLOC)
+#define valloc malloc
+#else
+#ifdef __STDC__
+extern void *valloc(size_t);
+#else
+extern char *valloc();
+#endif
+#endif
+
+/* Hairy buffering mechanism for grep.  The intent is to keep
+   all reads aligned on a page boundary and multiples of the
+   page size. */
+
+static char *buffer;		/* Base of buffer. */
+static size_t bufsalloc;	/* Allocated size of buffer save region. */
+static size_t bufalloc;		/* Total buffer size. */
+static int bufdesc;		/* File descriptor. */
+static char *bufbeg;		/* Beginning of user-visible stuff. */
+static char *buflim;		/* Limit of user-visible stuff. */
+
+#if defined(HAVE_WORKING_MMAP)
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <sys/stat.h>
+#include <sys/mman.h>
+
+static int bufmapped;		/* True for ordinary files. */
+static struct stat bufstat;	/* From fstat(). */
+static off_t bufoffset;		/* What read() normally remembers. */
+#endif
+
+/* Reset the buffer for a new file.  Initialize
+   on the first time through. */
+void
+reset(fd)
+     int fd;
+{
+  static int initialized;
+
+  if (!initialized)
+    {
+      initialized = 1;
+#ifndef BUFSALLOC
+      bufsalloc = MAX(8192, getpagesize());
+#else
+      bufsalloc = BUFSALLOC;
+#endif
+      bufalloc = 5 * bufsalloc;
+      /* The 1 byte of overflow is a kludge for dfaexec(), which
+	 inserts a sentinel newline at the end of the buffer
+	 being searched.  There's gotta be a better way... */
+      buffer = valloc(bufalloc + 1);
+      if (!buffer)
+	fatal("memory exhausted", 0);
+      bufbeg = buffer;
+      buflim = buffer;
+    }
+  bufdesc = fd;
+#if defined(HAVE_WORKING_MMAP)
+  if (fstat(fd, &bufstat) < 0 || !S_ISREG(bufstat.st_mode))
+    bufmapped = 0;
+  else
+    {
+      bufmapped = 1;
+      bufoffset = lseek(fd, 0, 1);
+    }
+#endif
+}
+
+/* Read new stuff into the buffer, saving the specified
+   amount of oldistribute it and/oe done, 'bufbeg' points
+   to the beginning of the buffer contents, and 'buflim'
+   points just after the end.  Return count of new stuff. */
+static int
+fillbuf(save)
+     size_t save;
+{
+  char *nbuffer, *dp, *sp;
+  int cc;
+#if defined(HAVE_WORKING_MMAP)
+  caddr_t maddr;
+#endif
+  static int pagesize;
+
+  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
+    abort();
+
+  if (save > bufsalloc)
+    {
+      while (save > bufsalloc)
+	bufsalloc *= 2;
+      bufalloc = 5 * bufsalloc;
+      nbuffer = valloc(bufalloc + 1);
+      if (!nbuffer)
+	fatal("memory exhausted", 0);
+    }
+  else
+    nbuffer = buffer;
+
+  sp = buflim - save;
+  dp = nbuffer + bufsalloc - save;
+  bufbeg = dp;
+  while (save--)
+    *dp++ = *sp++;
+
+  /* We may have allocated a new, larger buffer.  Since
+     there is no portable vfree(), we just have to forget
+     about the old one.  Sorry. */
+  buffer = nbuffer;
+
+#if defined(HAVE_WORKING_MMAP)
+  if (bufmapped && bufoffset % pagesize == 0
+      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
+    {
+      maddr = buffer + bufsalloc;
+      maddr = mmap(maddr, bufalloc - bufsalloc, PROT_READ | PROT_WRITE,
+		   MAP_PRIVATE | MAP_FIXED, bufdesc, bufoffset);
+      if (maddr == (caddr_t) -1)
+	{
+	  fprintf(stderr, "%s: warning: %s: %s\n", filename,
+		  strerror(errno));
+	  goto tryread;
+	}
+#if 0
+      /* You might thing this (or MADV_WILLNEED) would help,
+	 but it doesn't, at least not on a Sun running 4.1.
+	 In fact, it actually slows us down about 30%! */
+      madvise(maddr, bufalloc - bufsalloc, MADV_SEQUENTIAL);
+#endif
+      cc = bufalloc - bufsalloc;
+      bufoffset += cc;
+    }
+  else
+    {
+    tryread:
+      /* We come here when we're not going to use mmap() any more.
+	 Note that we need to synchronize the file offset the
+	 first time through. */
+      if (bufmapped)
+	{
+	  bufmapped = 0;
+	  lseek(bufdesc, bufoffset, 0);
+	}
+      cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+    }
+#else
+  cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+#endif
+  if (cc > 0)
+    buflim = buffer + bufsalloc + cc;
+  else
+    buflim = buffer + bufsalloc;
+  return cc;
+}
+
+/* Flags controlling the style of output. */
+static int out_quiet;		/* Suppress all normal output. */
+static int out_invert;		/* Print nonmatching stuff. */
+static int out_file;		/* Print filenames. */
+static int out_line;		/* Print line numbers. */
+static int out_byte;		/* Print byte offsets. */
+static int out_before;		/* Lines of leading context. */
+static int out_after;		/* Lines of trailing context. */
+
+/* Internal variables to keep track of byte count, context, etc. */
+static size_t totalcc;		/* Total character count before bufbeg. */
+static char *lastnl;		/* Pointer after last newline counted. */
+static char *lastout;		/* Pointer after last character output;
+				   NULL if no character has been output
+				   or if it's conceptually before bufbeg. */
+static size_t totalnl;		/* Total newline count before lastnl. */
+static int pending;		/* Pending lines of output. */
+
+static void
+nlscan(lim)
+     char *lim;
+{
+  char *beg;
+
+  for (beg = lastnl; beg < lim; ++beg)
+    if (*beg == '\n')
+      ++totalnl;
+  lastnl = beg;
+}
+
+static void
+prline(beg, lim, sep)
+     char *beg;
+     char *lim;
+     char sep;
+{
+  if (out_file)
+    printf("%s%c", filename, sep);
+  if (out_line)
+    {
+      nlscan(beg);
+      printf("%d%c", ++totalnl, sep);
+      lastnl = lim;
+    }
+  if (out_byte)
+    printf("%lu%c", totalcc + (beg - bufbeg), sep);
+  fwrite(beg, 1, lim - beg, stdout);
+  if (ferror(stdout))
+    error("writing output", errno);
+  lastout = lim;
+}
+
+/* Print pending lines of trailing context prior to LIM. */
+static void
+prpending(lim)
+     char *lim;
+{
+  char *nl;
+
+  if (!lastout)
+    lastout = bufbeg;
+  while (pending > 0 && lastout < lim)
+    {
+      --pending;
+      if ((nl = memchr(lastout, '\n', lim - lastout)) != 0)
+	++nl;
+      else
+	nl = lim;
+      prline(lastout, nl, '-');
+    }
+}
+
+/* Print the lines between BEG and LIM.  Deal with context crap.
+   If NLINESP is non-null, store a count of lines between BEG and LIM. */
+static void
+prtext(beg, lim, nlinesp)
+     char *beg;
+     char *lim;
+     int *nlinesp;
+{
+  static int used;		/* avoid printing "--" before any output */
+  char *bp, *p, *nl;
+  int i, n;
+
+  if (!out_quiet && pending > 0)
+    prpending(beg);
+
+  p = beg;
+
+  if (!out_quiet)
+    {
+      /* Deal with leading context crap. */
+
+      bp = lastout ? lastout : bufbeg;
+      for (i = 0; i < out_before; ++i)
+	if (p > bp)
+	  do
+	    --p;
+	  while (p > bp && p[-1] != '\n');
+
+      /* We only print the "--" separator if our output is
+	 discontiguous from the lkst output in the file. */
+      if ((out_before || out_after) && used && p != lastout)
+	puts("--");
+
+      while (p < beg)
+	{
+	  nl = memchr(p, '\n', beg - p);
+	  prline(p, nl + 1, '-');
+	  p = nl + 1;
+	}
+    }
+
+  if (nlinesp)
+    {
+      /* Caller wants a line count. */
+      for (n = 0; p < lim; ++n)
+	{
+	  if ((nl = memchr(p, '\n', lim - p)) != 0)
+	    ++nl;
+	  else
+	    nl = lim;
+	  if (!out_quiet)
+	    prline(p, nl, ':');
+	  p = nl;
+	}
+      *nlinesp = n;
+    }
+  else
+    if (!out_quiet)
+      prline(beg, lim, ':');
+
+  pending = out_after;
+  used = 1;
+}
+
+/* Scan the specified portion of the buffer, matching lines (or
+   between matching lines if OUT_INVERT is true).  Return a count of
+   lines printed. */
+static int
+grepbuf(                   `pop_;
+     char *lim;
+{
+  int nlines, n;
+  register char *p, *b;
+  char *endp;
+
+  nlines = 0;
+  p = beg;
+  while ((b = (*execute)(p, lim - p, &endp)) != 0)
+    {
+      /* Avoid matching the empty line at the end of the buffer. */
+      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
+	break;
+      if (!out_invert)
+	{
+	  prtext(b, endp, (int *) 0);
+	  nlines += 1;
+	}
+      else if (p < b)
+	{
+	  prtext(p, b, &n);
+	  nlines += n;
+	}
+      p = endp;
+    }
+  if (out_invert && p < lim)
+    {
+      prtext(p, lim, &n);
+      nlines += n;
+    }
+  return nlines;
+}
+
+/* Search a given file.  Return a count of lines printed. */
+static int
+grep(fd)
+     int fd;
+{
+  int nlines, i;
+  size_t residue, save;
+  char *beg, *lim;
+
+  reset(fd);
+
+  totalcc = 0;
+  lastout = 0;
+  totalnl = 0;
+  pending = 0;
+
+  nlines = 0;
+  residue = 0;
+  save = 0;
+
+  for (;;)
+    {
+      if (fillbuf(save) < 0)
+	{
+	  error(filename, errno);
+	  return nlines;
+	}
+      lastnl = bufbeg;
+      if (lastout)
+	lastout = bufbeg;
+      if (buflim - bufbeg == save)
+	break;
+      beg = bufbeg + save - residue;
+      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
+	;
+      residue = buflim - lim;
+      if (beg < lim)
+	{
+	  nlines += grepbuf(beg, lim);
+	  if (pending)
+	    prpending(lim);
+	}
+      i = 0;
+      beg = lim;
+      while (i < out_before && beg > bufbeg && beg != lastout)
+	{
+	  ++i;
+	  do
+	    --beg;
+	  while (beg > bufbeg && beg[-1] != '\n');
+	}
+      if (beg != lastout)
+	lastout = 0;
+      save = residue + lim - beg;
+      totalcc += buflim - bufbeg - save;
+      if (out_line)
+	nlscan(beg);
+    }
+  if (residue)
+    {
+      nlines += grepbuf(bufbeg + save - residue, buflim);
+      if (pending)
+	prpending(buflim);
+    }
+  return nlines;
+}
+
+static char version[] = "GNU grep version 2.0";
+
+#define USAGE \
+  "usage: %s [-[[AB] ]<num>] [-[CEFGVchilnqsvwx]] [-[ef]] <expr> [<files...>]\n"
+
+static void
+usage()
+{
+  fprintf(stderr, USAGE, prog);
+  exit(2);
+}
+
+/* Go through the matchers vector and look for the specified matcher.
+   If we find it, install it in compile and execute, and return 1.  */
+int
+setmatcher(name)
+     char *name;
+{
+  int i;
+
+  for (i = 0; matchers[i].name; ++i)
+    if (strcmp(name, matchers[i].name) == 0)
+      {
+	compile = matchers[i].compile;
+	execute = matchers[i].execute;
+	return 1;
+      }
+  return 0;
+}  
+
+int
+main(argc, argv)
+     int argc;
+     char *argv[];
+{
+  char *keys;
+  size_t keycc, oldcc, keyalloc;
+  int keyfound, count_matches, no_filenames, list_files, suppress_errors;
+  int opt, cc, desc, count, status;
+  FILE *fp;
+  extern char *optarg;
+  extern int optind;
+
+  prog = argv[0];
+  if (prog && strrchr(prog, '/'))
+    prog = strrchr(prog, '/') + 1;
+
+  keys = NULL;
+  keycc = 0;
+  keyfound = 0;
+  count_matches = 0;
+  no_filenames = 0;
+  list_files = 0;
+  suppress_errors = 0;
+  matcher = NULL;
+
+  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
+	 != EOF)
+    switch (opt)
+      {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+	out_before = 10 * out_before + opt - '0';
+	out_after = 10 * out_after + opt - '0';
+	break;
+      case 'A':
+	out_after = atoi(optarg);
+	if (out_after < 0)
+	  usage();
+	break;
+      case 'B':
+	out_before = atoi(optarg);
+	if (out_before < 0)
+	  usage();
+	break;
+      case 'C':
+	out_before = out_after = 2;
+	break;
+      case 'E':
+	if (matcher && strcmp(matcher, "egrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "posix-egrep";
+	break;
+      case 'F':
+	if (matcher && strcmp(matcher, "fgrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);;
+	matcher = "fgrep";
+	break;
+      case 'G':
+	if (matcher && strcmp(matcher, "grep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "grep";
+	break;
+      case 'V':
+	fprintf(stderr, "%s\n", version);
+	break;
+      case 'X':
+	if (matcher)
+	  fatal("matcher already specified", 0);
+	matcher = optarg;
+	break;
+      case 'b':
+	out_byte = 1;
+	break;
+      case 'c':
+	out_quiet = 1;
+	count_matches = 1;
+	break;
+      case 'e':
+	cc = strlen(optarg);
+	keys = xrealloc(keys, keycc + cc + 1);
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	strcpy(&keys[keycc], optarg);
+	keycc += cc;
+	keyfound = 1;
+	break;
+      case 'f':
+	fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : stdin;
+	if (!fp)
+	  fatal(optarg, errno);
+	for (keyalloc = 1; keyalloc <= keycc; keyalloc *= 2)
+	  ;
+	keys = xrealloc(keys, keyalloc);
+	oldcc = keycc;
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	while (!feof(fp)
+	       && (cc = fread(keys + keycc, 1, keyalloc - keycc, fp)) > 0)
+	  {
+	    keycc += cc;
+	    if (keycc == keyalloc)
+	      keys = xrealloc(keys, keyalloc *= 2);
+	  }
+	if (fp != stdin)
+	  fclose(fp);
+	/* Nuke the final newline to avoid matching a null string. */
+	if (keycc - oldcc > 0 && keys[keycc - 1] == '\n')
+	  --keycc;
+	keyfound = 1;
+	break;
+      case 'h':
+	no_filenames = 1;
+	break;
+      case 'i':
+      case 'y':			/* For old-timers . . . */
+	match_icase = 1;
+	break;
+      case 'L':
+	/* Like -l, except list files that don't contain matches.
+	   Inspired by the same option in Hume's gre. */
+	out_quiet = 1;
+	list_files = -1;
+	break;
+      case 'l':
+	out_quiet = 1;
+	list_files = 1;
+	break;
+      case 'n':
+	out_line = 1;
+	break;
+      case 'q':
+	out_quiet = 1;
+	break;
+      case 's':
+	suppress_errors = 1;
+	break;
+      case 'v':
+	out_invert = 1;
+	break;
+      case 'w':
+	match_words = 1;
+	break;
+      case 'x':
+	match_lines = 1;
+	break;
+      default:
+	usage();
+	break;
+      }
+
+  if (!keyfound)
+    if (optind < argc)
+      {
+	keys = argv[optind++];
+	keycc = strlen(keys);
+      }
+    else
+      usage();
+
+  if (!matcher)
+    matcher = prog;
+
+  if (!setmatcher(matcher) && !setmatcher("default"))
+    abort();
+
+  (*compile)(keys, keycc);
+
+  if (argc - optind > 1 && !no_filenames)
+    out_file = 1;
+
+  status = 1;
+
+  if (optind < argc)
+    while (optind < argc)
+      {
+	desc = strcmp(argv[optind], "-") ? open(argv[optind], O_RDONLY) : 0;
+	if (desc < 0)
+	  {
+	    if (!suppress_errors)
+	      error(argv[optind], errno);
+	  }
+	else
+	  {
+	    filename = desc == 0 ? "(standard input)" : argv[optind];
+	    count = grep(desc);
+	    if (count_matches)
+	      {
+		if (out_file)
+		  printf("%s:", filename);
+		printf("%d\n", count);
+	      }
+	    if (count)
+	      {
+		status = 0;
+		if (list_files == 1)
+		  printf("%s\n", filename);
+	      }
+	    else if (list_files == -1)
+	      printf("%s\n", filename);
+	  }
+	if (desc != 0)
+	  close(desc);
+	++optind;
+      }
+  else
+    {
+      filename = "(standard input)";
+      count = grep(0);
+      if (count_matches)
+	printf("%d\n", count);
+      if (count)
+	{
+	  status = 0;
+	  if (list_files == 1)
+	    printf("(standard input)\n");
+	}
+      else if (list_files == -1)
+	printf("(standard input)\n");
+    }
+
+  exit(errseen ? 2 : status);
+}
+/* Getopt for GNU.
+   NOTE: getopt is now part of the C library, so if you don't know what
+   "Keep this file name-space clean" means, talk to roland@gnu.ai.mit.edu
+   before changing it!
+
+   Copyright (C) 1987, 88, 89, 90, 91, 92, 1993
+   	Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+/* NOTE!!!  AIX requires this to be the first thing in the file.
+   Do not put ANYTHING before it!  */
+#if !defined (__GNUC__) && defined (_AIX)
+ #pragma alloca
+#endif
+
+#ifdef

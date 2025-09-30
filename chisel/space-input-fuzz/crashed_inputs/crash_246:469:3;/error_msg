@@ -1,0 +1,48 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.asan.out '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000000*.adl' /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000000,sig:11,src:000000,time:8540,execs:4539,op:havoc,rep:1
+=================================================================
+==1014586==ERROR: AddressSanitizer: global-buffer-overflow on address 0x555d8379db05 at pc 0x555d82db0e55 bp 0x7fff0a535ff0 sp 0x7fff0a5357b8
+WRITE of size 129 at 0x555d8379db05 thread T0
+    #0 0x555d82db0e54 in strcpy (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.asan.out+0x8ee54) (BuildId: 0a035a96c5b9b1e68ce51d4945475a13a1df6ce4)
+    #1 0x555d82e010a5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:469:3
+    #2 0x7f94f3571d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f94f3571e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x555d82d41364 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.asan.out+0x1f364) (BuildId: 0a035a96c5b9b1e68ce51d4945475a13a1df6ce4)
+
+0x555d8379db05 is located 59 bytes to the left of global variable 'Keywords' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:269' (0x555d8379db40) of size 2646
+0x555d8379db05 is located 0 bytes to the right of global variable 'GLOBLE_FILENAME' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/./space.c.reduced.c:272' (0x555d8379daa0) of size 101
+SUMMARY: AddressSanitizer: global-buffer-overflow (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.asan.out+0x8ee54) (BuildId: 0a035a96c5b9b1e68ce51d4945475a13a1df6ce4) in strcpy
+Shadow bytes around the buggy address:
+  0x0aac306ebb10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0aac306ebb60:[05]f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x0aac306ebb70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebb90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebba0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0aac306ebbb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1014586==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 151: 1014585 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/space-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000000*

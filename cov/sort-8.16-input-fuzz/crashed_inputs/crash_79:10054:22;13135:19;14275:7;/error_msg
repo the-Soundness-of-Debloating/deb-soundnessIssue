@@ -1,0 +1,37 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file23_fuzzed/file23_499
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==219868==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x7ff1a436eff0 (pc 0x5609d0a41253 bp 0x7ffebe832940 sp 0x7ffebe832660 T219868)
+==219868==The signal is caused by a WRITE memory access.
+    #0 0x5609d0a41253 in fillbuf___7 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:10054:22
+    #1 0x5609d0a3f82e in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13135:19
+    #2 0x5609d0a3e4ac in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7
+    #3 0x7ff1a43d0d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7ff1a43d0e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x5609d0a135f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out+0xc5f4) (BuildId: 8c74d5fecdf2b9a5fa868b6219f34ae936b50db4)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:10054:22 in fillbuf___7
+==219868==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 167: 219867 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file23_fuzzed/file23_499
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.tsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/input/radamsa_fuzzed/file19_fuzzed/file19_171
+ThreadSanitizer:DEADLYSIGNAL
+==1984742==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b17ffffffe0 (pc 0x55da9546dd5a bp 0x7ffe715bb660 sp 0x7ffe715bb490 T1984742)
+==1984742==The signal is caused by a WRITE memory access.
+==1984742==WARNING: Can't read from symbolizer at fd 4
+==1984742==WARNING: Can't read from symbolizer at fd 4
+==1984742==WARNING: Can't read from symbolizer at fd 4
+    #0 fillbuf___7 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:10054:22 (reduced.tsan.out+0xd0d5a) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #1 sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:13135:19 (reduced.tsan.out+0xd01be) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/./sort-8.16.c.reduced.c:14275:7 (reduced.tsan.out+0xcf864) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+    #3 <null> <null> (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 <null> <null> (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #5 <null> <null> (reduced.tsan.out+0x21444) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6)
+
+ThreadSanitizer can not provide additional info.
+==1984742==WARNING: Can't read from symbolizer at fd 4
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sort-8.16-input-fuzz/bins/reduced.tsan.out+0xd0d5a) (BuildId: 2182964ac50b7e035b6b49485d6f65760d52abb6) 
+==1984742==ABORTING
+timeout: the monitored command dumped core

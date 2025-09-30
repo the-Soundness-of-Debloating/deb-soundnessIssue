@@ -1,0 +1,52 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.ubsan.out
+sort: invalid option -- ''
+sort: invalid option -- '"'
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- '*'
+sort: invalid option -- ''
+sort: invalid option -- ''
+sort: invalid option -- '-'
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1877466==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f19a76fd6a1 bp 0x7ffcda172eb0 sp 0x7ffcda172db0 T1877466)
+==1877466==The signal is caused by a READ memory access.
+==1877466==Hint: address points to the zero page.
+    #0 0x7f19a76fd6a1 in __dcigettext intl/dcigettext.c:621:10
+    #1 0x563832b2c5ba in gettext_quote /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:3863:25
+    #2 0x563832b288e1 in quotearg_buffer_restyled /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:3988:20
+    #3 0x563832b207a2 in quotearg_n_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:4926:15
+    #4 0x563832b1ffe8 in quote_n /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:5014:25
+    #5 0x563832b20ce6 in quote /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:5024:11
+    #6 0x563832b267d1 in parse_field_count /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13707:17
+    #7 0x563832b2468d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14306:17
+    #8 0x7f19a76ebd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #9 0x7f19a76ebe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #10 0x563832af5754 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.ubsan.out+0x11754) (BuildId: 3e772c13c7cd1f56ba1e3d37306c949e7dd79151)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV intl/dcigettext.c:621:10 in __dcigettext
+==1877466==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1877464 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

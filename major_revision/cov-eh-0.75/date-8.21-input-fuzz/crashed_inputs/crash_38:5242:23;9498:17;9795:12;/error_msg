@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000113,sig:04,src:000555,time:4691481,execs:662776,op:havoc,rep:4
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '97: 66666'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '1666 00266'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '96166666'
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out: invalid date '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111š5N[9V
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2025665==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7fb1fa20d0bc bp 0x7ffebb29c6e0 sp 0x7ffebb29c678 T2025665)
+==2025665==The signal is caused by a READ memory access.
+==2025665==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7fb1fa20d0bc  string/../sysdeps/x86_64/multiarch/strlen-evex.S:77
+    #1 0x7fb1fa09ff58 in __add_to_environ stdlib/setenv.c:131:14
+    #2 0x56395b4d0384 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5242:23
+    #3 0x56395b4da47c in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9498:17
+    #4 0x56395b4d9fa4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9795:12
+    #5 0x7fb1fa084d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7fb1fa084e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x56395b49b624 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x14624) (BuildId: 2c50ff3723806d02fe3505f7aa894b1ca8e1b326)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strlen-evex.S:77 
+==2025665==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2025663 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

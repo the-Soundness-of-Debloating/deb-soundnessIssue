@@ -1,0 +1,85 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==2411860==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000000120 at pc 0x5624bdebbf09 bp 0x7ffc77d2db70 sp 0x7ffc77d2db68
+WRITE of size 1 at 0x606000000120 thread T0
+    #0 0x5624bdebbf08 in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24619:26
+    #1 0x5624bdeb928b in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15
+    #2 0x5624bdeb660d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #3 0x7f1e4c948d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x7f1e4c948e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x5624bddd7584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out+0x29584) (BuildId: 3597cc36fc2b1011562f9af0c363aced83e2dda9)
+
+0x606000000120 is located 0 bytes to the right of 64-byte region [0x6060000000e0,0x606000000120)
+allocated by thread T0 here:
+    #0 0x5624bde5d3d6 in __interceptor_realloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out+0xaf3d6) (BuildId: 3597cc36fc2b1011562f9af0c363aced83e2dda9)
+    #1 0x5624bdebe04c in xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30548:13
+    #2 0x5624bdea2971 in xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30562:13
+    #3 0x5624bdebe151 in x2nrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30587:13
+    #4 0x5624bdebc401 in x2realloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30604:13
+    #5 0x5624bdebbe75 in add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24613:19
+    #6 0x5624bdeb928b in decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15
+    #7 0x5624bdeb660d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7
+    #8 0x7f1e4c948d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24619:26 in add_exclude_file
+Shadow bytes around the buggy address:
+  0x0c0c7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff8000: fa fa fa fa 00 00 00 00 00 00 00 00 fa fa fa fa
+  0x0c0c7fff8010: fd fd fd fd fd fd fd fd fa fa fa fa 00 00 00 00
+=>0x0c0c7fff8020: 00 00 00 00[fa]fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2411860==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2411859 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input19_fuzzed/input19_12
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=1498529)
+  Write of size 1 at 0x7b1000000040 by main thread:
+    #0 add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24619:26 (reduced.tsan.out+0xeba2b) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #1 decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15 (reduced.tsan.out+0xe90f1) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #2 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7 (reduced.tsan.out+0xe6ff0) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+
+  Previous write of size 8 at 0x7b1000000040 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4e8e3) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #1 xnrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30548:13 (reduced.tsan.out+0xed338) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #2 xrealloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30562:13 (reduced.tsan.out+0xd8d5a) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #3 x2nrealloc_inline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30587:13 (reduced.tsan.out+0xed438) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #4 x2realloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:30604:13 (reduced.tsan.out+0xebd7a) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #5 add_exclude_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24613:19 (reduced.tsan.out+0xeb9e4) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #6 decode_options /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:22484:15 (reduced.tsan.out+0xe90f1) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #7 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23204:7 (reduced.tsan.out+0xe6ff0) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:24619:26 in add_exclude_file
+==================
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out: foo.taXxf: No such file or directory
+/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out: Error is not recoverable: exiting now
+ThreadSanitizer: reported 1 warnings
+timeout: the monitored command dumped core
+./verify.sh: line 305: 1498527 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input19_fuzzed/input19_43

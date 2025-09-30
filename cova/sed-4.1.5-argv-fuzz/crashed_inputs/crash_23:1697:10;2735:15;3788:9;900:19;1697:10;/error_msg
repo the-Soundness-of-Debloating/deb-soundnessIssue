@@ -1,0 +1,46 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+sed: unrecognized option '---3_0.sed'
+sed: invalid option -- 'a'
+sed: invalid option -- 'a'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- '-'
+sed: invalid option -- 't'
+sed: invalid option -- '/'
+sed: invalid option -- '.'
+sed: unrecognized option '---3_0.sed'
+sed: invalid option -- 'a'
+sed: invalid option -- 'a'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- 'ë'
+sed: invalid option -- '-'
+sed: invalid option -- 't'
+sed: invalid option -- '/'
+sed: invalid option -- 'd'
+LeakSanitizer:DEADLYSIGNAL
+==911109==ERROR: LeakSanitizer: SEGV on unknown address 0x000400000010 (pc 0x55f5301f16eb bp 0x7ffc992b02e0 sp 0x7ffc992b02c0 T0)
+==911109==The signal is caused by a READ memory access.
+    #0 0x55f5301f16eb in next_cmd_entry /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1697:10
+    #1 0x55f5301ed5ff in compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:2735:15
+    #2 0x55f5301ec5ed in compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3788:9
+    #3 0x55f5301ec134 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:900:19
+    #4 0x7f9ab9f5ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f9ab9f5ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55f5301be5a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x65a4) (BuildId: a14815e68cb808f97ef2b3e01bffe78985124407)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:1697:10 in next_cmd_entry
+==911109==ABORTING

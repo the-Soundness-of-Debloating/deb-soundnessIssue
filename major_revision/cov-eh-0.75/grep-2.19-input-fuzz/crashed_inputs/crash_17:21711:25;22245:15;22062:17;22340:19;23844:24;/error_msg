@@ -1,0 +1,33 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/bins/reduced.ubsan.out 'ye ' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/input/radamsa_fuzzed/file0_fuzzed/file0_384
+grep-2.19.c.reduced.c:18696:68: runtime error: null pointer passed as argument 2, which is declared to never be null
+grep-2.19.c.reduced.c:1038:59: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:18696:68 in 
+grep-2.19.c.reduced.c:11137:31: runtime error: applying non-zero offset 94402717639280 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:11137:31 in 
+grep-2.19.c.reduced.c:11270:37: runtime error: applying non-zero offset 94402717639312 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:11270:37 in 
+grep-2.19.c.reduced.c:11302:41: runtime error: applying non-zero offset 94402717639376 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:11302:41 in 
+grep-2.19.c.reduced.c:11808:33: runtime error: applying non-zero offset 94402717639584 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:11808:33 in 
+grep-2.19.c.reduced.c:11855:39: runtime error: applying non-zero offset 94402717639600 to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:11855:39 in 
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/bins/reduced.lsan.out a /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_198
+LeakSanitizer:DEADLYSIGNAL
+==805379==ERROR: LeakSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7f0461463597 bp 0x7ffc6a9921c0 sp 0x7ffc6a992128 T0)
+==805379==The signal is caused by a READ memory access.
+    #0 0x7f0461463597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x560ada2d262e in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x560ada2d1dae in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x560ada2d1a96 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x560ada2ce69d in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x560ada2ce451 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7f04612ddd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f04612dde3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x560ada2936f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-input-fuzz/bins/reduced.lsan.out+0x76f4) (BuildId: d41a90bfd16b35952297995d51dd37b4b6a75f15)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==805379==ABORTING

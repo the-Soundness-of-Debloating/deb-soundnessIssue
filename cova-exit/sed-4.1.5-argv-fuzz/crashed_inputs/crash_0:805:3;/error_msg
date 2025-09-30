@@ -1,0 +1,64 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+argv-fuzz-inl.h:60:5: runtime error: index 1000 out of bounds for type 'char *[1000]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior argv-fuzz-inl.h:60:5 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1547035==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x564a456b6000 (pc 0x564a44cb4020 bp 0x7ffd46596800 sp 0x7ffd46596720 T1547035)
+==1547035==The signal is caused by a WRITE memory access.
+    #0 0x564a44cb4020 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x564a44cb3631 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:805:3
+    #2 0x7f17c8e5ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f17c8e5ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x564a44c8b5f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x485f4) (BuildId: 674d73d80635b60850c32b4bb22ce3e1b8ef524c)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1547035==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1547033 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1862348==ERROR: MemorySanitizer: SEGV on unknown address 0x562fbe7a7000 (pc 0x562fbcd875f1 bp 0x7fff1966f760 sp 0x7fff1966f6b0 T1862348)
+==1862348==The signal is caused by a WRITE memory access.
+    #0 0x562fbcd875f1 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x562fbcd85c37 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:805:3
+    #2 0x7fce7d918d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fce7d918e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x562fbccff3a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.msan.out+0x1f3a4) (BuildId: da2dce761ff4bf4b61b46c885affb6008e80328d)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==1862348==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1862347 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2026380==ERROR: ThreadSanitizer: SEGV on unknown address 0x55c3cfc82000 (pc 0x55c3ce89b2a5 bp 0x7ffc05d468b0 sp 0x7ffc05d46830 T2026380)
+==2026380==The signal is caused by a WRITE memory access.
+    #0 afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13 (reduced.tsan.out+0xce2a5) (BuildId: 76a7f70dc3e6555151bdd078d407bf672d19ad51)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:805:3 (reduced.tsan.out+0xcda2d) (BuildId: 76a7f70dc3e6555151bdd078d407bf672d19ad51)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x21434) (BuildId: 76a7f70dc3e6555151bdd078d407bf672d19ad51)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==2026380==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2026379 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2381170==ERROR: LeakSanitizer: SEGV on unknown address 0x555d83f4b000 (pc 0x555d835bf441 bp 0x7ffe84dee5f0 sp 0x7ffe84dee5d0 T0)
+==2381170==The signal is caused by a WRITE memory access.
+    #0 0x555d835bf441 in afl_init_argv /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13
+    #1 0x555d835bef41 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:805:3
+    #2 0x7ff39b8fdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7ff39b8fde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x555d835915b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x65b4) (BuildId: abf9444a1401743fcc9e0e3c979f37369f01f28e)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova-exit/sed-4.1.5-argv-fuzz/./argv-fuzz-inl.h:60:13 in afl_init_argv
+==2381170==ABORTING

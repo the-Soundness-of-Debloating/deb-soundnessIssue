@@ -1,0 +1,36 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-argv-fuzz/input/radamsa_fuzzed/input_9_fuzzed/input_9_19
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=140597542905664) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=140597542905664) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=140597542905664) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=140597542905664, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007fdf6a9e3476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007fdf6a9c97f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007fdf6aa2a676 in __libc_message (action=action@entry=do_abort, fmt=fmt@entry=0x7fdf6ab7cb77 "%s\n") at ../sysdeps/posix/libc_fatal.c:155
+#6  0x00007fdf6aa41cfc in malloc_printerr (str=str@entry=0x7fdf6ab7f790 "double free or corruption (out)") at ./malloc/malloc.c:5664
+#7  0x00007fdf6aa43e70 in _int_free (av=0x7fdf6abbbc80 <main_arena>, p=0x555bb896ad30, have_lock=<optimized out>) at ./malloc/malloc.c:4588
+#8  0x00007fdf6aa46453 in __GI___libc_free (mem=<optimized out>) at ./malloc/malloc.c:3391
+#9  0x0000555bb7624860 in dfaanalyze (d=0x555bb7653408 <dfa_1>, searchflag=1) at ./grep-2.4.2.c.reduced.c:5726
+#10 0x0000555bb762781e in dfacomp (s=0x555bb7638d23 <afl_init_argv.in_buf+3> "'Include|n({2}''.lud)", len=21, d=0x555bb7653408 <dfa_1>, searchflag=1) at ./grep-2.4.2.c.reduced.c:6712
+#11 0x0000555bb762ac33 in Ecompile (pattern=0x555bb7638d23 <afl_init_argv.in_buf+3> "'Include|n({2}''.lud)", size=21) at ./grep-2.4.2.c.reduced.c:9349
+#12 0x0000555bb762124f in main (argc=4, argv=0x555bb76513c0 <afl_init_argv[ret]>) at ./grep-2.4.2.c.reduced.c:2721

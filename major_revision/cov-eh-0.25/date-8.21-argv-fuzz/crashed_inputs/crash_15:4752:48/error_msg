@@ -1,0 +1,24 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.ubsan.out
+date-8.21.c.reduced.c:4752:48: runtime error: null pointer passed as argument 2, which is declared to never be null
+date-8.21.c.reduced.c:808:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4752:48 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3124786==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fed24d9f80c bp 0x7ffc6c5f0b50 sp 0x7ffc6c5f0908 T3124786)
+==3124786==The signal is caused by a READ memory access.
+==3124786==Hint: address points to the zero page.
+    #0 0x7fed24d9f80c  string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139
+    #1 0x55c908b52620 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:4752:17
+    #2 0x55c908b43792 in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5025:14
+    #3 0x55c908b3a67a in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:3504:16
+    #4 0x55c908b47d1e in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:5329:15
+    #5 0x55c908b4fd35 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/./date-8.21.c.reduced.c:9827:24
+    #6 0x7fed24c17d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fed24c17e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55c908b0e634 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/date-8.21-argv-fuzz/bins/reduced.ubsan.out+0x15634) (BuildId: 1af85365cd1837342f5c0bbde6e9d93d79f5e384)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/strcmp-evex.S:139 
+==3124786==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3124785 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

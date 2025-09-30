@@ -1,0 +1,61 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/bins/reduced.tsan.out
+grep: invalid option -- '['
+grep: invalid option -- '['
+grep: invalid option -- '?'
+grep: invalid option -- ''
+grep: invalid option -- 'ˇ'
+grep: invalid option -- 'ˇ'
+grep: invalid option -- 'ˇ'
+grep: invalid option -- '.'
+grep: invalid option -- 'è'
+grep: invalid option -- ' '
+grep: invalid option -- 'p'
+grep: invalid option -- ' '
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '='
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- '.'
+grep: invalid option -- ' '
+grep: invalid option -- ' '
+grep: invalid option -- '-'
+grep: invalid option -- '^'
+grep: invalid option -- '^'
+grep: invalid option -- '^'
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=497245)
+  Read of size 1 at 0x7b0800000080 by main thread:
+    #0 lex /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 (reduced.tsan.out+0xddd75) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15983:21 (reduced.tsan.out+0xeb598) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #2 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeb285) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #3 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xeb253) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #4 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16305:7 (reduced.tsan.out+0xde515) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #5 atom /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16053:35 (reduced.tsan.out+0xeb83d) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #6 closure /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16172:7 (reduced.tsan.out+0xeb285) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #7 branch /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16291:11 (reduced.tsan.out+0xeb253) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #8 regexp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16316:11 (reduced.tsan.out+0xde55c) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #9 dfaparse /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:16354:7 (reduced.tsan.out+0xdd561) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #10 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:18817:7 (reduced.tsan.out+0xdbc70) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #11 GEAcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:12883:7 (reduced.tsan.out+0xdba0f) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #12 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xed33a) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #13 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+  Previous write of size 8 at 0x7b0800000080 by main thread:
+    #0 free <null> (reduced.tsan.out+0x4eb34) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #1 re_string_destruct posix/regex_internal.c:920:5 (libc.so.6+0x1052d9) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 re_compile_internal posix/regcomp.c:810:3 (libc.so.6+0x1052d9)
+    #3 Ecompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:22462:7 (reduced.tsan.out+0xed33a) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:23807:7 (reduced.tsan.out+0xe6d28) (BuildId: 758c94e422b447d36475c3c84c56bdf961405e03)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/grep-2.19-argv-fuzz/./grep-2.19.c.reduced.c:15281:35 in lex
+==================
+grep: unbalanced (
+timeout: the monitored command dumped core
+./verify.sh: line 110: 497244 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

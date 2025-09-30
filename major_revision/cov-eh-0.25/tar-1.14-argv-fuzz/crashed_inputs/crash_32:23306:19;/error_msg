@@ -1,0 +1,67 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==2605105==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f36371b1fa4 bp 0x7fff8dd274f0 sp 0x7fff8dd273d8 T0)
+==2605105==The signal is caused by a READ memory access.
+==2605105==Hint: address points to the zero page.
+    #0 0x7f36371b1fa4 in ferror_unlocked libio/ferror_u.c:36:10
+    #1 0x55da50f787fa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23306:19
+    #2 0x7f3637151d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f3637151e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x55da50e99584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out+0x29584) (BuildId: 3597cc36fc2b1011562f9af0c363aced83e2dda9)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV libio/ferror_u.c:36:10 in ferror_unlocked
+==2605105==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2605104 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.asan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000001*
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2629178==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7faeac203fa4 bp 0x7ffee844bd80 sp 0x7ffee844bc08 T2629178)
+==2629178==The signal is caused by a READ memory access.
+==2629178==Hint: address points to the zero page.
+    #0 0x7faeac203fa4 in ferror_unlocked libio/ferror_u.c:36:10
+    #1 0x559ab50be729 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23306:19
+    #2 0x7faeac1a3d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7faeac1a3e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x559ab4fdc504 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.msan.out+0x20504) (BuildId: ed727e775e1a43e1dbf0d77b10547dae70ed0ada)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV libio/ferror_u.c:36:10 in ferror_unlocked
+==2629178==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2629177 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000007*
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2665312==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f7a4fc91fa4 bp 0x7ffe75939790 sp 0x7ffe759396f8 T2665312)
+==2665312==The signal is caused by a READ memory access.
+==2665312==Hint: address points to the zero page.
+    #0 ferror_unlocked libio/ferror_u.c:36:10 (libc.so.6+0x89fa4) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23306:19 (reduced.tsan.out+0xe7280) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+    #2 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #4 _start <null> (reduced.tsan.out+0x22524) (BuildId: d3c376d25f1c11a2d680c78e087159e12f5dca93)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV libio/ferror_u.c:36:10 in ferror_unlocked
+==2665312==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 305: 2665311 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000004*
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==2678662==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f97c279efa4 bp 0x7ffc08cb1de0 sp 0x7ffc08cb1d88 T0)
+==2678662==The signal is caused by a READ memory access.
+==2678662==Hint: address points to the zero page.
+    #0 0x7f97c279efa4 in ferror_unlocked libio/ferror_u.c:36:10
+    #1 0x5633e38d4b46 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/./tar-1.14.c.reduced.c:23306:19
+    #2 0x7f97c273ed8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #3 0x7f97c273ee3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #4 0x5633e3897834 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.lsan.out+0xb834) (BuildId: 5f61b36fd78da75f753cb7f5bb6909770f2b308c)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV libio/ferror_u.c:36:10 in ferror_unlocked
+==2678662==ABORTING

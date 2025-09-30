@@ -1,0 +1,67 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==37035==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f87057070a0 at pc 0x5605ff19b47d bp 0x7ffc2881d120 sp 0x7ffc2881d118
+WRITE of size 4 at 0x7f87057070a0 thread T0
+    #0 0x5605ff19b47c in copyset /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2951:16
+    #1 0x5605ff199451 in dfastate /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5997:9
+    #2 0x5605ff19cef2 in build_state /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6395:3
+    #3 0x5605ff19bef2 in dfaexec /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6592:7
+    #4 0x5605ff1a8e03 in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9434:13
+    #5 0x5605ff1b0fe6 in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #6 0x5605ff1b0555 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1522:17
+    #7 0x5605ff18e643 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #8 0x5605ff18de59 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2750:18
+    #9 0x7f8706d15d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f8706d15e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x5605ff0cd3d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/bins/reduced.asan.out+0x213d4) (BuildId: 5c4a519ee49cb69a007cc3462c5055d1adc745ac)
+
+Address 0x7f87057070a0 is located in stack of thread T0 at offset 12448 in frame
+    #0 0x5605ff19797f in dfastate /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5740
+
+  This frame has 8 object(s):
+    [32, 4128) 'grps' (line 5741)
+    [4256, 12448) 'labels' (line 5742) <== Memory access at offset 12448 overflows this variable
+    [12704, 12712) 'pos' (line 5744)
+    [12736, 12768) 'matches' (line 5745)
+    [12800, 12832) 'intersect' (line 5747)
+    [12864, 12896) 'leftovers' (line 5749)
+    [12928, 12944) 'follows' (line 5751)
+    [12960, 12976) 'tmp' (line 5752)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2951:16 in copyset
+Shadow bytes around the buggy address:
+  0x0ff160ad8dc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff160ad8dd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff160ad8de0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff160ad8df0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ff160ad8e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0ff160ad8e10: 00 00 00 00[f2]f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2
+  0x0ff160ad8e20: f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2 f2
+  0x0ff160ad8e30: f2 f2 f2 f2 00 f2 f2 f2 00 00 00 00 f2 f2 f2 f2
+  0x0ff160ad8e40: 00 00 00 00 f2 f2 f2 f2 00 00 00 00 f2 f2 f2 f2
+  0x0ff160ad8e50: 00 00 f2 f2 00 00 f3 f3 00 00 00 00 00 00 00 00
+  0x0ff160ad8e60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==37035==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 37034 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

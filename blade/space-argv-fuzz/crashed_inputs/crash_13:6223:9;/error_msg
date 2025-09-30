@@ -1,0 +1,15 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2070275==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000074 (pc 0x7fca99bc19cf bp 0x000000000000 sp 0x7ffded03dc80 T2070275)
+==2070275==The signal is caused by a READ memory access.
+==2070275==Hint: address points to the zero page.
+    #0 0x7fca99bc19cf in _IO_getc (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5624476642f0 in readfil3 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/space-argv-fuzz/./space.c.reduced.c:6223:9
+    #2 0x56244764006b in ioctl_table_fill() msan_interceptors.cpp.o
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x879cf) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in _IO_getc
+==2070275==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2070274 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

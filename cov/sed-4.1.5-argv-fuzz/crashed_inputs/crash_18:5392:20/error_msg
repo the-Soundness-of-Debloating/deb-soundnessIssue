@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+sed-4.1.5.c.reduced.c:5392:20: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:5392:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1577227==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f7712cda454 bp 0x7ffc32e7fc20 sp 0x7ffc32e7fbc8 T1577227)
+==1577227==The signal is caused by a READ memory access.
+==1577227==Hint: address points to the zero page.
+    #0 0x7f7712cda454 in ferror (/lib/x86_64-linux-gnu/libc.so.6+0x87454) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55a4a8b1059c in ck_getline /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:6904:13
+    #2 0x55a4a8b1b7c1 in read_file_line /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4228:9
+    #3 0x55a4a8b0cda7 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4700:15
+    #4 0x55a4a8b08436 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #5 0x55a4a8b07848 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #6 0x7f7712c7cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f7712c7ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55a4a8adf574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x2a574) (BuildId: f8a36511d25695c83c0593c1783befcadb47ca1c)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87454) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in ferror
+==1577227==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1577226 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

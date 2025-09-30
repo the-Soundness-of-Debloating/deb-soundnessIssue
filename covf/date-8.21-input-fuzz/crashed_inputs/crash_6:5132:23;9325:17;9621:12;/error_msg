@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000111,sig:04,src:000603,time:4269023,execs:649337,op:havoc,rep:4
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1771351==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x7ff08d4b8ebc bp 0x7ffdce92d0a0 sp 0x7ffdce92d038 T1771351)
+==1771351==The signal is caused by a READ memory access.
+==1771351==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x7ff08d4b8ebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7ff08d34bf58  (/lib/x86_64-linux-gnu/libc.so.6+0x44f58) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x56522786407b in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5132:23
+    #3 0x56522786e1fd in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x56522786dda7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7ff08d330d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7ff08d330e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56522782d604 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x16604) (BuildId: a91b3731ce99723d239402417b5bad9c17874a8d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1771351==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1771350 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

@@ -1,0 +1,30 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000013,sig:11,src:000114,time:687157,execs:214984,op:havoc,rep:14
+grep-2.4.2.c.reduced.c:8718:15: runtime error: member access within misaligned address 0xaeaeaeaeaeaeaeae for type 'struct trie', which requires 8 byte alignment
+0xaeaeaeaeaeaeaeae: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:8718:15 in 
+grep-2.4.2.c.reduced.c:8718:15: runtime error: load of misaligned address 0xaeaeaeaeaeaeaeae for type 'unsigned int', which requires 8 byte alignment
+0xaeaeaeaeaeaeaeae: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:8718:15 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3029910==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55db47e9e821 bp 0x7fff79a62a30 sp 0x7fff79a623e0 T3029910)
+==3029910==The signal is caused by a READ memory access.
+==3029910==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55db47e9e821 in cwexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8718:9
+    #1 0x55db47e9b4b4 in kwsexec /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8894:13
+    #2 0x55db47ea0dcb in EGexecute /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9389:13
+    #3 0x55db47ed089b in grepbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1324:9
+    #4 0x55db47ecf8c7 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1612:16
+    #5 0x55db47e6471f in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #6 0x55db47e63f4c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2749:18
+    #7 0x7f76abcaad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x7f76abcaae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #9 0x55db47e3a5c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out+0x515c4) (BuildId: ba59659aa3047ce0ef9774cf341eb1a7ceb06f2d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:8718:9 in cwexec
+==3029910==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 3029909 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/grep-2.4.2-input-fuzz/result/symcc_result/reduced/result_0/nosan/crashes/id:000013*

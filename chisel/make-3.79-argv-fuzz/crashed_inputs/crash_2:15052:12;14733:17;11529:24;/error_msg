@@ -1,0 +1,21 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3367680==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x55582a54b3f0 bp 0x7ffca5746ed0 sp 0x7ffca5746688 T0)
+==3367680==The signal is caused by a READ memory access.
+==3367680==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55582a54b3f0 in __sanitizer::internal_strlen(char const*) (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0xc53f0) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9)
+    #1 0x55582a5043f6 in fopen (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0x7e3f6) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9)
+    #2 0x55582a57b646 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15052:12
+    #3 0x55582a5793b2 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14733:17
+    #4 0x55582a577070 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11529:24
+    #5 0x7f1d4073ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f1d4073ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55582a4af354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0x29354) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0xc53f0) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9) in __sanitizer::internal_strlen(char const*)
+==3367680==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3367679 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

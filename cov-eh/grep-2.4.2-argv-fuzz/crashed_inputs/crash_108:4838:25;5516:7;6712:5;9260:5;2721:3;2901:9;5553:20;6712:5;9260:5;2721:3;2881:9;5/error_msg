@@ -1,0 +1,33 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=701074)
+  Write of size 8 at 0x7b0400000428 by main thread:
+    #0 memcpy <null> (reduced.tsan.out+0x58cfe) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #1 copy /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:4838:25 (reduced.tsan.out+0xd236b) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5516:7 (reduced.tsan.out+0xd0cff) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7259) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdc52d) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce325) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+
+  Previous write of size 8 at 0x7b0400000428 by main thread:
+    #0 realloc <null> (reduced.tsan.out+0x4d793) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #1 xrealloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2901:9 (reduced.tsan.out+0xd23f5) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5553:20 (reduced.tsan.out+0xd116f) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7259) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdc52d) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce325) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+
+  Location is heap block of size 8 at 0x7b0400000420 allocated by main thread:
+    #0 malloc <null> (reduced.tsan.out+0x4d441) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #1 xmalloc_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2881:9 (reduced.tsan.out+0xd1da5) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #2 dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5641:16 (reduced.tsan.out+0xd1912) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #3 dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6712:5 (reduced.tsan.out+0xd7259) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #4 Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5 (reduced.tsan.out+0xdc52d) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3 (reduced.tsan.out+0xce325) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/grep-2.4.2-argv-fuzz/bins/reduced.tsan.out+0x58cfe) (BuildId: f9bd14b629054fa5d8421e258c0550e63656d1f7) in __interceptor_memcpy
+==================
+ThreadSanitizer: reported 1 warnings
+timeout: the monitored command dumped core
+./verify.sh: line 110: 701073 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

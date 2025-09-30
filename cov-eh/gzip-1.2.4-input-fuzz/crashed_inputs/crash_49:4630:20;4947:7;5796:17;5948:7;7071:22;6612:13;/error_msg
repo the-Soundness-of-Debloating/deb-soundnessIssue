@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_2/ubsan/crashes/id:000010,sig:11,src:000000+000024,time:2864,execs:1912,op:splice,rep:12
+gzip-1.2.4.c.reduced.c:4630:9: runtime error: index 22034 out of bounds for type 'uch[573]' (aka 'unsigned char[573]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:4630:9 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3423783==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x561234411e62 (pc 0x561233a4515e bp 0x7ffef5b39660 sp 0x7ffef5b39320 T3423783)
+==3423783==The signal is caused by a WRITE memory access.
+    #0 0x561233a4515e in build_tree___0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4630:20
+    #1 0x561233a443a3 in flush_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4947:7
+    #2 0x561233a4cf7c in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5796:17
+    #3 0x561233a4ddae in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5948:7
+    #4 0x561233a4f403 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:7071:22
+    #5 0x561233a4f078 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6612:13
+    #6 0x7fce0b4efd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fce0b4efe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x561233a10524 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x17524) (BuildId: e129558d5b46f370cf80a6ffdee03ccdc06eb3fb)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4630:20 in build_tree___0
+==3423783==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3423782 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_2/ubsan/crashes/id:000010*

@@ -1,0 +1,30 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- '?'
+target5: invalid option -- '''
+target5: invalid option -- '''
+target5: invalid option -- '''
+grep-2.4.2.c.reduced.c:5642:23: runtime error: member access within misaligned address 0x00ff00000022 for type 'position_set' (aka 'struct __anonstruct_position_set_36'), which requires 8 byte alignment
+0x00ff00000022: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:5642:23 in 
+grep-2.4.2.c.reduced.c:5642:23: runtime error: store to misaligned address 0x00ff00000022 for type 'position *' (aka 'struct __anonstruct_position_35 *'), which requires 8 byte alignment
+0x00ff00000022: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:5642:23 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2740609==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x00ff00000022 (pc 0x562063ded6a2 bp 0x7ffddbebe0f0 sp 0x7ffddbebd870 T2740609)
+==2740609==The signal is caused by a WRITE memory access.
+    #0 0x562063ded6a2 in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5642:29
+    #1 0x562063df71c1 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #2 0x562063dfca07 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #3 0x562063de8a83 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7fbad1aa7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fbad1aa7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x562063dc04c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x134c4) (BuildId: 9231921cf048fbec2201cbbf770d1d346be9fab5)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5642:29 in dfaanalyze
+==2740609==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2740608 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

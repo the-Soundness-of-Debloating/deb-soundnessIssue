@@ -1,0 +1,20 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_139
+ThreadSanitizer:DEADLYSIGNAL
+==653621==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x55995d58723a bp 0x7fffe1aa0b10 sp 0x7fffe1aa0a48 T653621)
+==653621==The signal is caused by a READ memory access.
+==653621==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_write4 <null> (reduced.tsan.out+0xc223a) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #1 mkechar /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3590:27 (reduced.tsan.out+0xdde6e) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #2 sympartition /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:3306:9 (reduced.tsan.out+0xdc654) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #3 ntod /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:2779:5 (reduced.tsan.out+0xd688d) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:454:3 (reduced.tsan.out+0xd5965) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x29324) (BuildId: d83432c47e995e234955cd82d018981765d5126f)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out+0xc223a) (BuildId: d83432c47e995e234955cd82d018981765d5126f) in __tsan_write4
+==653621==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 653620 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.tsan.out error -l -Cre /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_2_fuzzed/file_2_139

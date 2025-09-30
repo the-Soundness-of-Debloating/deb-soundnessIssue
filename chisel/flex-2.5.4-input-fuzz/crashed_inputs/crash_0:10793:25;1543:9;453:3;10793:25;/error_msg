@@ -1,0 +1,52 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0
+=================================================================
+==2884130==ERROR: AddressSanitizer: global-buffer-overflow on address 0x5619f7240160 at pc 0x5619f721ae2b bp 0x7ffc169f7b50 sp 0x7ffc169f7b48
+READ of size 2 at 0x5619f7240160 thread T0
+    #0 0x5619f721ae2a in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10793:25
+    #1 0x5619f721545a in readin /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:1543:9
+    #2 0x5619f7214efa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:453:3
+    #3 0x7f8000325d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f8000325e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x5619f71552f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.asan.out+0x3c2f4) (BuildId: 528dc54a7ef6e0dbc7b61defda81a98f8ae28c1e)
+
+0x5619f7240160 is located 32 bytes to the left of global variable '.str.211' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:5503' (0x5619f7240180) of size 15
+  '.str.211' is ascii string '#define %s %d
+'
+0x5619f7240160 is located 28 bytes to the right of global variable '.str.210' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:5460' (0x5619f7240120) of size 36
+  '.str.210' is ascii string 'if ( yy_current_buffer->yy_at_bol )'
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/./flex-2.5.4.c.reduced.c:10793:25 in yyparse
+Shadow bytes around the buggy address:
+  0x0ac3bee3ffd0: 00 00 05 f9 f9 f9 f9 f9 00 00 03 f9 f9 f9 f9 f9
+  0x0ac3bee3ffe0: 00 00 00 00 00 00 f9 f9 f9 f9 f9 f9 00 00 00 00
+  0x0ac3bee3fff0: 00 00 00 02 f9 f9 f9 f9 00 00 00 f9 f9 f9 f9 f9
+  0x0ac3bee40000: 00 07 f9 f9 00 00 04 f9 f9 f9 f9 f9 00 00 01 f9
+  0x0ac3bee40010: f9 f9 f9 f9 00 04 f9 f9 00 00 00 00 00 04 f9 f9
+=>0x0ac3bee40020: f9 f9 f9 f9 00 00 00 00 04 f9 f9 f9[f9]f9 f9 f9
+  0x0ac3bee40030: 00 07 f9 f9 00 01 f9 f9 05 f9 f9 f9 04 f9 f9 f9
+  0x0ac3bee40040: 00 05 f9 f9 00 02 f9 f9 00 00 03 f9 f9 f9 f9 f9
+  0x0ac3bee40050: 06 f9 f9 f9 00 00 00 00 00 00 00 00 f9 f9 f9 f9
+  0x0ac3bee40060: 00 07 f9 f9 00 03 f9 f9 00 00 00 00 00 00 f9 f9
+  0x0ac3bee40070: f9 f9 f9 f9 00 07 f9 f9 00 00 00 00 00 02 f9 f9
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==2884130==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2884129 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/bins/reduced.asan.out error -Crem /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/flex-2.5.4-input-fuzz/input/radamsa_fuzzed/file_0_fuzzed/file_0_0

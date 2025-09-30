@@ -1,0 +1,32 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000095,sig:04,src:000234+000732,time:1920084,execs:285346,op:splice,rep:7
+date-8.21.c.reduced.c:5363:16: runtime error: signed integer overflow: 60 * 641285275480868096 cannot be represented in type 'long'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:5363:16 in 
+/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out: time  is out of range
+/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out: time  is out of range
+/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out: time  is out of range
+/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out: time  is out of range
+/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out: time  is out of range
+date-8.21.c.reduced.c:4668:53: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4668:53 in 
+date-8.21.c.reduced.c:4668:42: runtime error: load of null pointer of type 'const char'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior date-8.21.c.reduced.c:4668:42 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1770084==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55a24c40a040 bp 0x7ffe4cd9c3c0 sp 0x7ffe4cd9c0c0 T1770084)
+==1770084==The signal is caused by a READ memory access.
+==1770084==Hint: address points to the zero page.
+    #0 0x55a24c40a040 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37
+    #1 0x55a24c3fa60c in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4921:14
+    #2 0x55a24c3effba in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+    #3 0x55a24c3ff055 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #4 0x55a24c4071fd in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #5 0x55a24c406da7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #6 0x7f5f51264d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f5f51264e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55a24c3c6604 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.ubsan.out+0x16604) (BuildId: a91b3731ce99723d239402417b5bad9c17874a8d)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37 in lookup_word
+==1770084==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1770083 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

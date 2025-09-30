@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3414619==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55bddde76f99 bp 0x7ffeab601d90 sp 0x7ffeab601c60 T0)
+==3414619==The signal is caused by a WRITE memory access.
+==3414619==Hint: address points to the zero page.
+    #0 0x55bddde76f99 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52
+    #1 0x55bddde75dd7 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7f2724b44d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f2724b44e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55bddddae354 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.asan.out+0x29354) (BuildId: efcf91aef1db36d55d56076789e7bbf486b5efe9)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52 in decode_switches
+==3414619==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3414618 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==292104==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55b6a3a7fef2 bp 0x7ffc12a74da0 sp 0x7ffc12a74c70 T292104)
+==292104==The signal is caused by a WRITE memory access.
+==292104==Hint: address points to the zero page.
+    #0 decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52 (reduced.tsan.out+0xd5ef2) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #1 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3 (reduced.tsan.out+0xd5156) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+    #2 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 _start <null> (reduced.tsan.out+0x23394) (BuildId: 0dfa32a865b7e09e6181bdc70c8725f0fa38a5ce)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52 in decode_switches
+==292104==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 292103 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==601713==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55b6838328d3 bp 0x7fffe826cc20 sp 0x7fffe826cba0 T0)
+==601713==The signal is caused by a WRITE memory access.
+==601713==Hint: address points to the zero page.
+    #0 0x55b6838328d3 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52
+    #1 0x55b68383217d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11223:3
+    #2 0x7fbac5e8ed8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fbac5e8ee3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55b6838015a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/bins/reduced.lsan.out+0x85a4) (BuildId: af35362ada0832d26698cb4d04d5df30e89bd732)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12707:52 in decode_switches
+==601713==ABORTING

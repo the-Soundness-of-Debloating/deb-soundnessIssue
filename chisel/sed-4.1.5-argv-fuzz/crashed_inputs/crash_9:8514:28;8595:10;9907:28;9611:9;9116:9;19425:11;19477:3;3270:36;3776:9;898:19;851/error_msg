@@ -1,0 +1,24 @@
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2579604==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b0400020074 (pc 0x564d32b7e44f bp 0x7ffd229f9610 sp 0x7ffd229f95d0 T2579604)
+==2579604==The signal is caused by a READ memory access.
+    #0 calc_state_hash /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8514:28 (reduced.tsan.out+0xd444f) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #1 re_acquire_state_context /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8595:10 (reduced.tsan.out+0xd43ac) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #2 create_initial_state /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9907:28 (reduced.tsan.out+0xd1e9d) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #3 re_compile_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9611:9 (reduced.tsan.out+0xcfb6a) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #4 re_compile_pattern /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:9116:9 (reduced.tsan.out+0xcf950) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #5 compile_regex_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19425:11 (reduced.tsan.out+0xcff82) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #6 compile_regex /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:19477:3 (reduced.tsan.out+0xcfeed) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #7 compile_program /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3270:36 (reduced.tsan.out+0xce58b) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #8 compile_file /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:3776:9 (reduced.tsan.out+0xcdcf5) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #9 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:898:19 (reduced.tsan.out+0xcda11) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+    #10 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #12 _start <null> (reduced.tsan.out+0x21364) (BuildId: 44c567ebea5847c79d25e7389361f504fa192e95)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:8514:28 in calc_state_hash
+==2579604==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2579603 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

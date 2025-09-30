@@ -1,0 +1,16 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.msan.out
+==1281795==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x564a304c35b8 in fadvise /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:8508:9
+    #1 0x564a304d9823 in stream_open /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:9236:7
+    #2 0x564a304d5d27 in xfopen /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:9249:11
+    #3 0x564a304cb628 in sort /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:13469:13
+    #4 0x564a304c6d1c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:14656:7
+    #5 0x7f58fc0b5d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f58fc0b5e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x564a3042f4a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.msan.out+0x1f4a4) (BuildId: 41780a43ab66b65360908d8f52e7e7dda36dfff3)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/./sort-8.16.c.reduced.c:8508:9 in fadvise
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1281794 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

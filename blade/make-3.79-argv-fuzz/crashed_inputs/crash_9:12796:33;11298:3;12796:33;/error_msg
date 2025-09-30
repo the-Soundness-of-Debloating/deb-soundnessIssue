@@ -1,0 +1,17 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==382571==ERROR: AddressSanitizer: SEGV on unknown address 0x6045f5f5fbc0 (pc 0x5630b59e5999 bp 0x7ffc23c8d290 sp 0x7ffc23c8d0c0 T0)
+==382571==The signal is caused by a WRITE memory access.
+    #0 0x5630b59e5999 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12796:33
+    #1 0x5630b59e243d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3
+    #2 0x7f000ed34d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f000ed34e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x5630b5909424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c424) (BuildId: 32e0b06f0b74b093797264e55c83330c38e4f89a)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12796:33 in decode_switches
+==382571==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 382569 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

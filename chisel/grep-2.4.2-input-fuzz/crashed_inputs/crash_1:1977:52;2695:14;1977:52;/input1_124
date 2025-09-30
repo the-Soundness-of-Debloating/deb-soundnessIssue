@@ -1,0 +1,1730 @@
+/* grep.c - main driver file for grep.
+   Copyright (C) 1992 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Written July 1992 by Mike Haertel.  */
+
+
+/* I added a series define from makefile here in order to run cfe */
+#define GREP 1
+#define STDC_HEADERS 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_ALLOCA_H 1
+#define HAVE_GETPAGESIZE 1
+#define HAVE_MEMCHR 1
+#define HAVE_STRERROR 1
+#define HAVE_VALLOC 1
+#define HAVE_WORKING_MMAP 1
+/*** end of cfe purpose **/
+
+#include <errno.h>
+#include <stdio.h>
+
+#ifndef errno
+extern int errno;
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#define flag_stdlib 1
+#else
+#include <sys/types.h>
+#define flag_systypes 1
+extern char *malloc(), *realloc();
+extern void free();
+#endif
+
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
+#include <string.h>
+#define flag_string 1
+#ifdef NEED_MEMORY_H
+#include <memory.h>
+#define flag_memory 1
+#endif
+#else
+#include <strings.h>
+#define flag_strings 1
+#ifdef __STDC__
+extern void *memchr();
+#else
+extern char *memchr();
+#endif
+#define strrchr rindex
+#endif
+
+#ifdef HAVE_UNISTD_H
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <fcntl.h>
+#include <unistd.h>
+#else
+#define O_RDONLY 0
+extern int open(), read(), close();
+#endif
+
+#include "getpagesize.h"
+#include "grep.h"
+
+#undef MAX
+#define MAX(A,B) ((A) > (B) ? (A) : (B))
+
+/* Provide missing ANSI features if necessary. */
+
+#ifndef HAVE_STRERROR
+extern int sys_nerr;
+extern char *sys_errlist[];
+#define strerror(E) ((E) < sys_nerr ? sys_errlist[(E)] : "bogus error number")
+#endif
+
+#ifndef HAVE_MEMCHR
+#ifdef __STDC__
+#define VOID void
+#else
+#define VOID char
+#endif
+VOID *
+memchr(vp, c, n)
+     VOID *vp;
+     int c;
+     size_t n;
+{
+  unsigned char *p;
+
+  for (p = (unsigned char *) vp; n--; ++p)
+    if (*p == c)
+      return (VOID *) p;
+  return 0;
+}
+#endif
+    
+/* Define flags declared in grep.h. */
+char *matcher;
+ine terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+   Written July 1992 by Mike Haertel.  */
+
+
+/* I added a series define from makefile here in order to run cfe */
+#define GREP 1
+#define STDC_HEADERS 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_ALLOCA_H 1
+#define HAVE_GETPAGESIZE 1
+#define HAVE_MEMCHR 1
+#define HAVE_STRERROR 1
+#define HAVE_VALLOC 1
+#define HAVE_WORKING_MMAP 1
+/*** end of cfe purpose **/
+
+#include <errno.h>
+#include <stdio.h>
+
+#ifndef errno
+extern int errno;
+#endif
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#define flag_stdlib 1
+#else
+#include <sys/types.h>
+#define flag_systypes 1
+extern char *malloc(), *realloc();
+extern void free();
+#endif
+
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
+#include <string.h>
+#define flag_string 1
+#ifdef NEED_MEMORY_H
+#include <memory.h>
+#define flag_memory 1
+#endif
+#else
+#include <strings.h>
+#define flag_strings 1
+#ifdef __STDC__
+extern void *memchr();
+#else
+extern char *memchr();
+#endif
+#define strrchr rindex
+#endif
+
+#ifdef HAVE_UNISTD_H
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <fcntl.h>
+#include <unistd.h>
+#else
+#define O_RDONLY 0
+extern int open(), read(), close();
+#endif
+
+#include "getpagesize.h"
+#include "grep.h"
+
+#undef MAX
+#define MAX(A,B) ((A) > (B) ? (A) : (B))
+
+/* Provide missing ANSI features if necessary. */
+
+#ifndef HAVE_STRERROR
+extern int sys_nerr;
+extern char *sys_errlist[];
+#define strerror(E) ((E) < sys_nerr ? sys_errlist[(E)] : "bogus error number")
+#endif
+
+#ifndef HAVE_MEMCHR
+#ifdef __STDC__
+#define VOID void
+#else
+#define VOID char
+#endif
+VOID *
+memchr(vp, c, n)
+     VOID *vp;
+     int c;
+     size_t n;
+{
+  unsigned char *p;
+
+  for (p = (unsigned char *) vp; n--; ++p)
+    if (*p == c)
+      return (VOID *) p;
+  return 0;
+}
+#endif
+    
+/* Define flags declared in grep.h. */
+char *matcher;
+int match_icase;
+int match_words;
+int match_lines;
+
+/* Functions we'll use to search. */
+static void (*compile)();
+static char *(*execute)();
+
+/* For error messages. */
+static char *prog;
+static char *filename;
+static int errseen;
+
+/* Print a message and possibly an error string.  Remember
+   that something awful happened. */
+static void
+error(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  if (errnum)
+    fprintf(stderr, "%s: %s: %s\n", prog, mesg, strerror(errnum));
+  else
+    fprintf(stderr, "%s: %s\n", prog, mesg);
+  errseen = 1;
+}
+
+/* Like error(), but die horribly after printing. */
+void
+fatal(mesg, errnum)
+#ifdef __STDC__
+     const
+#endif
+     char *mesg;
+     int errnum;
+{
+  error(mesg, errnum);
+  exit(2);
+}
+
+/* Interface to handle errors and fix library lossage. */
+char *
+xmalloc(size)
+     size_t size;
+{
+  char *result;
+
+  result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+/* Interface to handle errors and fix some library lossage. */
+char *
+xrealloc(ptr, size)
+     char *ptr;
+     size_t size;
+{
+  char *result;
+
+  if (ptr)
+    result = realloc(ptr, size);
+  else
+    result = malloc(size);
+  if (size && !result)
+    fatal("memory exhausted", 0);
+  return result;
+}
+
+#if !defined(HAVE_VALLOC)
+#define valloc malloc
+#else
+#ifdef __STDC__
+extern void *valloc(size_t);
+#else
+extern char *valloc();
+#endif
+#endif
+
+/* Hairy buffering mechanism for grep.  The intent is to keep
+   all reads aligned on a page boundary and multiples of the
+   page size. */
+
+static char *buffer;		/* Base of buffer. */
+static size_t bufsalloc;	/* Allocated size of buffer save region. */
+static size_t bufalloc;		/* Total buffer size. */
+static int bufdesc;		/* File descriptor. */
+static char *bufbeg;		/* Beginning of user-visible stuff. */
+static char *buflim;		/* Limit of user-visible stuff. */
+
+#if defined(HAVE_WORKING_MMAP)
+#if flag_systypes==0
+#include <sys/types.h>
+#define flag_systypes 1
+#endif
+#include <sys/stat.h>
+#include <sys/mman.h>
+
+static int bufmapped;		/* True for ordinary files. */
+static struct stat bufstat;	/* From fstat(). */
+static off_t bufoffset;		/* What read() normally remembers. */
+#endif
+
+/* Reset the buffer for a new file.  Initialize
+   on the first time through. */
+void
+reset(fd)
+     int fd;
+{
+  static int initialized;
+
+  if (!initialized)
+    {
+      initialized = 1;
+#ifndef BUFSALLOC
+      bufsalloc = MAX(8192, getpagesize());
+#else
+      bufsalloc = BUFSALLOC;
+#endif
+      bufalloc = 5 * bufsalloc;
+      /* The 1 byte of overflow is a kludge for dfaexec(), which
+	 inserts a sentinel newline at the end of the buffer
+	 being searched.  There's gotta be a better way... */
+      buffer = valloc(bufalloc + 1);
+      if (!buffer)
+	fatal("memory exhausted", 0);
+      bufbeg = buffer;
+      buflim = buffer;
+    }
+  bufdesc = fd;
+#if defined(HAVE_WORKING_MMAP)
+  if (fstat(fd, &bufstat) < 0 || !S_ISREG(bufstat.st_mode))
+    bufmapped = 0;
+  else
+    {
+      bufmapped = 1;
+      bufoffset = lseek(fd, 0, 1);
+    }
+#endif
+}
+
+/* Read new stuff into the buffer, saving the specified
+   amount of old stuff.  When we're done, 'bufbeg' points
+   to the beginning of the buffer contents, and 'buflim'
+   points just after the end.  Return count of new stuff. */
+static int
+fillbuf(save)
+     size_t save;
+{
+  char *nbuffer, *dp, *sp;
+  int cc;
+#if defined(HAVE_WORKING_MMAP)
+  caddr_t maddr;
+#endif
+  static int pagesize;
+
+  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
+    abort();
+
+  if (save > bufsalloc)
+    {
+      while (save > bufsalloc)
+	bufsalloc *= 2;
+      bufalloc = 5 * bufsalloc;
+      nbuffer = valloc(bufalloc + 1);
+      if (!nbuffer)
+	fatal("memory exhausted", 0);
+    }
+  else
+    nbuffer = buffer;
+
+  sp = buflim - save;
+  dp = nbuffer + bufsalloc - save;
+  bufbeg = dp;
+  while (save--)
+    *dp++ = *sp++;
+
+  /* We may have allocated a new, larger buffer.  Since
+     there is no portable vfree(), we just have to forget
+     about the old one.  Sorry. */
+  buffer = nbuffer;
+
+#if defined(HAVE_WORKING_MMAP)
+  if (bufmapped && bufoffset % pagesize == 0
+      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
+    {
+      maddr = buffer + bufsalloc;
+      maddr = mmap(maddr, bufalloc - bufsalloc, PROT_READ | PROT_WRITE,
+		   MAP_PRIVATE | MAP_FIXED, bufdesc, bufoffset);
+      if (maddr == (caddr_t) -1)
+	{
+	  fprintf(stderr, "%s: warning: %s: %s\n", filename,
+		  strerror(errno));
+	  goto tryread;
+	}
+#if 0
+      /* You might thing this (or MADV_WILLNEED) would help,
+	 but it doesn't, at least not on a Sun running 4.1.
+	 In fact, it actually slows us down about 30%! */
+      madvise(maddr, bufalloc - bufsalloc, MADV_SEQUENTIAL);
+#endif
+      cc = bufalloc - bufsalloc;
+      bufoffset += cc;
+    }
+  else
+    {
+    tryread:
+      /* We come here when we're not going to use mmap() any more.
+	 Note that we need to synchronize the file offset the
+	 first time through. */
+      if (bufmapped)
+	{
+	  bufmapped = 0;
+	  lseek(bufdesc, bufoffset, 0);
+	}
+      cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+    }
+#else
+  cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
+#endif
+  if (cc > 0)
+    buflim = buffer + bufsalloc + cc;
+  else
+    buflim = buffer + bufsalloc;
+  return cc;
+}
+
+/* Flags controlling the style of output. */
+static int out_quiet;		/* Suppress all normal output. */
+static int out_invert;		/* Print nonmatching stuff. */
+static int out_file;		/* Print filenames. */
+static int out_line;		/* Print line numbers. */
+static int out_byte;		/* Print byte offsets. */
+static int out_before;		/* Lines of leading context. */
+static int out_after;		/* Lines of trailing context. */
+
+/* Internal variables to keep track of byte count, context, etc. */
+static size_t totalcc;		/* Total character count before bufbeg. */
+static char *lastnl;		/* Pointer after last newline counted. */
+static char *lastout;		/* Pointer after last character output;
+				   NULL if no character has been output
+				   or if it's conceptually before bufbeg. */
+static size_t totalnl;		/* Total newline count before lastnl. */
+static int pending;		/* Pending lines of output. */
+
+static void
+nlscan(lim)
+     char *lim;
+{
+  char *beg;
+
+  for (beg = lastnl; beg < lim; ++beg)
+    if (*beg == '\n')
+      ++totalnl;
+  lastnl = beg;
+}
+
+static void
+prline(beg, lim, sep)
+     char *beg;
+     char *lim;
+     char sep;
+{
+  if (out_file)
+    printf("%s%c", filename, sep);
+  if (out_line)
+    {
+      nlscan(beg);
+      printf("%d%c", ++totalnl, sep);
+      lastnl = lim;
+    }
+  if (out_byte)
+    printf("%lu%c", totalcc + (beg - bufbeg), sep);
+  fwrite(beg, 1, lim - beg, stdout);
+  if (ferror(stdout))
+    error("writing output", errno);
+  lastout = lim;
+}
+
+/* Print pending lines of trailing context prior to LIM. */
+static void
+prpending(lim)
+     char *lim;
+{
+  char *nl;
+
+  if (!lastout)
+    lastout = bufbeg;
+  while (pending > 0 && lastout < lim)
+    {
+      --pending;
+      if ((nl = memchr(lastout, '\n', lim - lastout)) != 0)
+	++nl;
+      else
+	nl = lim;
+      prline(lastout, nl, '-');
+    }
+}
+
+/* Print the lines between BEG and LIM.  Deal with context crap.
+   If NLINESP is non-null, store a count of lines between BEG and LIM. */
+static void
+prtext(beg, lim, nlinesp)
+     char *beg;
+     char *lim;
+     int *nlinesp;
+{
+  static int used;		/* avoid printing "--" before any output */
+  char *bp, *p, *nl;
+  int i, n;
+
+  if (!out_quiet && pending > 0)
+    prpending(beg);
+
+  p = beg;
+
+  if (!out_quiet)
+    {
+      /* Deal with leading context crap. */
+
+      bp = lastout ? lastout : bufbeg;
+      for (i = 0; i < out_before; ++i)
+	if (p > bp)
+	  do
+	    --p;
+	  while (p > bp && p[-1] != '\n');
+
+      /* We only print the "--" separator if our output is
+	 discontiguous from the last output in the file. */
+      if ((out_before || out_after) && used && p != lastout)
+	puts("--");
+
+      while (p < beg)
+	{
+	  nl = memchr(p, '\n', beg - p);
+	  prline(p, nl + 1, '-');
+	  p = nl + 1;
+	}
+    }
+
+  if (nlinesp)
+    {
+      /* Caller wants a line count. */
+      for (n = 0; p < lim; ++n)
+	{
+	  if ((nl = memchr(p, '\n', lim - p)) != 0)
+	    ++nl;
+	  else
+	    nl = lim;
+	  if (!out_quiet)
+	    prline(p, nl, ':');
+	  p = nl;
+	}
+      *nlinesp = n;
+    }
+  else
+    if (!out_quiet)
+      prline(beg, lim, ':');
+
+  pending = out_after;
+  used = 1;
+}
+
+/* Scan the specified portion of the buffer, matching lines (or
+   between matching lines if OUT_INVERT is true).  Return a count of
+   lines printed. */
+static int
+grepbuf(beg, lim)
+     char *beg;
+     char *lim;
+{
+  int nlines, n;
+  register char *p, *b;
+  char *endp;
+
+  nlines = 0;
+  p = beg;
+  while ((b = (*execute)(p, lim - p, &endp)) != 0)
+    {
+      /* Avoid matching the empty line at the end of the buffer. */
+      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
+	break;
+      if (!out_invert)
+	{
+	  prtext(b, endp, (int *) 0);
+	  nlines += 1;
+	}
+      else if (p < b)
+	{
+	  prtext(p, b, &n);
+	  nlines += n;
+	}
+      p = endp;
+    }
+  if (out_invert && p < lim)
+    {
+      prtext(p, lim, &n);
+      nlines += n;
+    }
+  return nlines;
+}
+
+/* Search a given file.  Return a count of lines printed. */
+static int
+grep(fd)
+     int fd;
+{
+  int nlines, i;
+  size_t residue, save;
+  char *beg, *lim;
+
+  reset(fd);
+
+  totalcc = 0;
+  lastout = 0;
+  totalnl = 0;
+  pending = 0;
+
+  nlines = 0;
+  residue = 0;
+  save = 0;
+
+  for (;;)
+    {
+      if (fillbuf(save) < 0)
+	{
+	  error(filename, errno);
+	  return nlines;
+	}
+      lastnl = bufbeg;
+      if (lastout)
+	lastout = bufbeg;
+      if (buflim - bufbeg == save)
+	break;
+      beg = bufbeg + save - residue;
+      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
+	;
+      residue = buflim - lim;
+      if (beg < lim)
+	{
+	  nlines += grepbuf(beg, lim);
+	  if (pending)
+	    prpending(lim);
+	}
+      i = 0;
+      beg = lim;
+      while (i < out_before && beg > bufbeg && beg != lastout)
+	{
+	  ++i;
+	  do
+	    --beg;
+	  while (beg > bufbeg && beg[-1] != '\n');
+	}
+      if (beg != lastout)
+	lastout = 0;
+      save = residue + lim - beg;
+      totalcc += buflim - bufbeg - save;
+      if (out_line)
+	nlscan(beg);
+    }
+  if (residue)
+    {
+      nlines += grepbuf(bufbeg + save - residue, buflim);
+      if (pending)
+	prpending(buflim);
+    }
+  return nlines;
+}
+
+static char version[] = "GNU grep version 2.0";
+
+#define USAGE \
+  "usage: %s [-[[AB] ]<num>] [-[CEFGVchilnqsvwx]] [-[ef]] <expr> [<files...>]\n"
+
+static void
+usage()
+{
+  fprintf(stderr, USAGE, prog);
+  exit(2);
+}
+
+/* Go through the matchers vector and look for the specified matcher.
+   If we find it, install it in compile and execute, and return 1.  */
+int
+setmatcher(name)
+     char *name;
+{
+  int i;
+
+  for (i = 0; matchers[i].name; ++i)
+    if (strcmp(name, matchers[i].name) == 0)
+      {
+	compile = matchers[i].compile;
+	execute = matchers[i].execute;
+	return 1;
+      }
+  return 0;
+}  
+
+int
+main(argc, argv)
+     int argc;
+     char *argv[];
+{
+  char *keys;
+  size_t keycc, oldcc, keyalloc;
+  int keyfound, count_matches, no_filenames, list_files, suppress_errors;
+  int opt, cc, desc, count, status;
+  FILE *fp;
+  extern char *optarg;
+  extern int optind;
+
+  prog = argv[0];
+  if (prog && strrchr(prog, '/'))
+    prog = strrchr(prog, '/') + 1;
+
+  keys = NULL;
+  keycc = 0;
+  keyfound = 0;
+  count_matches = 0;
+  no_filenames = 0;
+  list_files = 0;
+  suppress_errors = 0;
+  matcher = NULL;
+
+  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
+	 != EOF)
+    switch (opt)
+      {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+	out_before = 10 * out_before + opt - '0';
+	out_after = 10 * out_after + opt - '0';
+	break;
+      case 'A':
+	out_after = atoi(optarg);
+	if (out_after < 0)
+	  usage();
+	break;
+      case 'B':
+	out_before = atoi(optarg);
+	if (out_before < 0)
+	  usage();
+	break;
+      case 'C':
+	out_before = out_after = 2;
+	break;
+      case 'E':
+	if (matcher && strcmp(matcher, "egrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "posix-egrep";
+	break;
+      case 'F':
+	if (matcher && strcmp(matcher, "fgrep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);;
+	matcher = "fgrep";
+	break;
+      case 'G':
+	if (matcher && strcmp(matcher, "grep") != 0)
+	  fatal("you may specify only one of -E, -F, or -G", 0);
+	matcher = "grep";
+	break;
+      case 'V':
+	fprintf(stderr, "%s\n", version);
+	break;
+      case 'X':
+	if (matcher)
+	  fatal("matcher already specified", 0);
+	matcher = optarg;
+	break;
+      case 'b':
+	out_byte = 1;
+	break;
+      case 'c':
+	out_quiet = 1;
+	count_matches = 1;
+	break;
+      case 'e':
+	cc = strlen(optarg);
+	keys = xrealloc(keys, keycc + cc + 1);
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	strcpy(&keys[keycc], optarg);
+	keycc += cc;
+	keyfound = 1;
+	break;
+      case 'f':
+	fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : stdin;
+	if (!fp)
+	  fatal(optarg, errno);
+	for (keyalloc = 1; keyalloc <= keycc; keyalloc *= 2)
+	  ;
+	keys = xrealloc(keys, keyalloc);
+	oldcc = keycc;
+	if (keyfound)
+	  keys[keycc++] = '\n';
+	while (!feof(fp)
+	       && (cc = fread(keys + keycc, 1, keyalloc - keycc, fp)) > 0)
+	  {
+	    keycc += cc;
+	    if (keycc == keyalloc)
+	      keys = xrealloc(keys, keyalloc *= 2);
+	  }
+	if (fp != stdin)
+	  fclose(fp);
+	/* Nuke the final newline to avoid matching a null string. */
+	if (keycc - oldcc > 0 && keys[keycc - 1] == '\n')
+	  --keycc;
+	keyfound = 1;
+	break;
+      case 'h':
+	no_filenames = 1;
+	break;
+      case 'i':
+      case 'y':			/* For old-timers . . . */
+	match_icase = 1;
+	break;
+      case 'L':
+	/* Like -l, except list files that don't contain matches.
+	   Inspired by the same option in Hume's gre. */
+	out_quiet = 1;
+	list_files = -1;
+	break;
+      case 'l':
+	out_quiet = 1;
+	list_files = 1;
+	break;
+      case 'n':
+	out_line = 1;
+	break;
+      case 'q':
+	out_quiet = 1;
+	break;
+      case 's':
+	suppress_errors = 1;
+	break;
+      case 'v':
+	out_invert = 1;
+	break;
+      case 'w':
+	match_words = 1;
+	break;
+      case 'x':
+	match_lines = 1;
+	break;
+      default:
+	usage();
+	break;
+      }
+
+  if (!keyfound)
+    if (optind < argc)
+      {
+	keys = argv[optind++];
+	keycc = strlen(keys);
+      }
+    else
+      usage();
+
+  if (!matcher)
+    matcher = prog;
+
+  if (!setmatcher(matcher) && !setmatcher("default"))
+    abort();
+
+  (*compile)(keys, keycc);
+
+  if (argc - optind > 1 && !no_filenames)
+    out_file = 1;
+
+  status = 1;
+
+  if (optind < argc)
+    while (optind < argc)
+      {
+	desc = strcmp(argv[optind], "-") ? open(argv[optind], O_RDONLY) : 0;
+	if (desc < 0)
+	  {
+	    if (!suppress_errors)
+	      error(argv[optind], errno);
+	  }
+	else
+	  {
+	    filename = desc == 0 ? "(standard input)" : argv[optind];
+	    count = grep(desc);
+	    if (count_matches)
+	      {
+		if (out_file)
+		  printf("%s:", filename);
+		printf("%d\n", count);
+	      }
+	    if (count)
+	      {
+		status = 0;
+		if (list_files == 1)
+		  printf("%s\n", filename);
+	      }
+	    else if (list_files == -1)
+	      printf("%s\n", filename);
+	  }
+	if (desc != 0)
+	  close(desc);
+	++optind;
+      }
+  else
+    {
+      filename = "(standard input)";
+      count = grep(0);
+      if (count_matches)
+	printf("%d\n", count);
+      if (count)
+	{
+	  status = 0;
+	  if (list_files == 1)
+	    printf("(standard input)\n");
+	}
+      else if (list_files == -1)
+	printf("(standard input)\n");
+    }
+
+  exit(errseen ? 2 : status);
+}
+/* Getopt for GNU.
+   NOTE: getopt is now part of the C library, so if you don't know what
+   "Keep this file name-space clean" means, talk to roland@gnu.ai.mit.edu
+   before changing it!
+
+   Copyright (C) 1987, 88, 89, 90, 91, 92, 1993
+   	Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+/* NOTE!!!  AIX requires this to be the first thing in the file.
+   Do not put ANYTHING before it!  */
+#if !defined (__GNUC__) && defined (_AIX)
+ #pragma alloca
+#endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#define flag_config 1
+#endif
+
+#ifdef __GNUC__
+#define alloca __builtin_alloca
+#else /* not __GNUC__ */
+#if defined (HAVE_ALLOCA_H) || (defined(sparc) && (defined(sun) || (!defined(USG) && !defined(SVR4) && !defined(__svr4__))))
+#include <alloca.h>
+#define flag_alloca 1
+#else
+#ifndef _AIX
+char *alloca ();
+#endif
+#endif /* alloca.h */
+#endif /* not __GNUC__ */
+
+#if !__STDC__ && !defined(const) && IN_GCC
+#define const
+#endif
+
+/* This tells Alpha OSF/1 not to define a getopt prototype in <stdio.h>.  */
+#ifndef _NO_PROTO
+#define _NO_PROTO
+#endif
+
+/*#include <stdio.h> */
+
+/* Comment out all this code if we are using the GNU C Library, and are not
+   actually compiling the library itself.  This code is part of the GNU C
+   Library, but also included in many other GNU distributions.  Compiling
+   and linking in this code is a waste when using the GNU C library
+   (especially if it is a shared library).  Rather than having every GNU
+   program understand `configure --with-gnu-libc' and omit the object files,
+   it is simpler to just do this in the source for each such file.  */
+
+#if defined (_LIBC) || !defined (__GNU_LIBRARY__)
+
+
+/* This needs to come after some library #include
+   to get __GNU_LIBRARY__ defined.  */
+#ifdef	__GNU_LIBRARY__
+#undef	alloca
+/* Don't include stdlib.h for non-GNU C libraries because some of them
+   contain conflicting prototypes for getopt.  */
+#if flag_stdlib==0   
+#include <stdlib.h>
+#define flag_stdlib 1
+#endif
+#else	/* Not GNU C library.  */
+#define	__alloca	alloca
+#endif	/* GNU C library.  */
+
+/* If GETOPT_COMPAT is defined, `+' as well as `--' can introduce a
+   long-named option.  Because this is not POSIX.2 compliant, it is
+   being phased out.  */
+/* #define GETOPT_COMPAT */
+
+/* This version of `getopt' appears to the caller like standard Unix `getopt'
+   but it behaves differently for the user, since it allows the user
+   to intersperse the options with the other arguments.
+
+   As `getopt' works, it permutes the elements of ARGV so that,
+   when it is done, all the options precede everything else.  Thus
+   all application programs are extended to handle flexible argument order.
+
+   Setting the environment variable POSIXLY_CORRECT disables permutation.
+   Then the behavior is completely standard.
+
+   GNU application programs can use a third alternative mode in which
+   they can distinguish the relative order of options and other arguments.  */
+
+#include "getopt.h"
+
+/* For communication from `getopt' to the caller.
+   When `getopt' finds an option that takes an argument,
+   the argument value is returned here.
+   Also, when `ordering' is RETURN_IN_ORDER,
+   each non-option ARGV-element is returned here.  */
+
+char *optarg = 0;
+
+/* Index in ARGV of the next element to be scanned.
+   This is used for communication to and from the caller
+   and for communication between successive calls to `getopt'.
+
+   On entry to `getopt', zero means this is the first call; initialize.
+
+   When `getopt' returns EOF, this is the index of the first of the
+   non-option elements that the caller should itself scan.
+
+   Otherwise, `optind' communicates from one call to the next
+   how much of ARGV has been scanned so far.  */
+
+/* XXX 1003.2 says this must be 1 before any call.  */
+int optind = 0;
+
+/* The next char to be scanned in the option-element
+   in which the last option character we returned was found.
+   This allows us to pick up the scan where we left off.
+
+   If this is zero, or a null string, it means resume the scan
+   by advancing to the next ARGV-element.  */
+
+static char *nextchar;
+
+/* Callers store zero here to inhibit the error message
+   for unrecognized options.  */
+
+int opterr = 1;
+
+/* Set to an option character which was unrecognized.
+   This must be initialized on some systems to avoid linking in the
+   system's own getopt implementation.  */
+
+int optopt = '?';
+
+/* Describe how to deal with options that follow non-option ARGV-elements.
+
+   If the caller did not specify anything,
+   the default is REQUIRE_ORDER if the environment variable
+   POSIXLY_CORRECT is defined, PERMUTE otherwise.
+
+   REQUIRE_ORDER means don't recognize them as options;
+   stop option processing when the first non-option is seen.
+   This is what Unix does.
+   This mode of operation is selected by either setting the environment
+   variable POSIXLY_CORRECT, or using `+' as the first character
+   of the list of option characters.
+
+   PERMUTE is the default.  We permute the contents of ARGV as we scan,
+   so that eventually all the non-options are at the end.  This allows options
+   to be given in any order, even with programs that were not written to
+   expect this.
+
+   RETURN_IN_ORDER is an option available to programs that were written
+   to expect options and other ARGV-elements in any order and that care about
+   the ordering of the two.  We describe each non-option ARGV-element
+   as if it were the argument of an option with character code 1.
+   Using `-' as the first character of the list of option characters
+   selects this mode of operation.
+
+   The special argument `--' forces an end of option-scanning regardless
+   of the value of `ordering'.  In the case of RETURN_IN_ORDER, only
+   `--' can cause `getopt' to return EOF with `optind' != ARGC.  */
+
+static enum
+{
+  REQUIRE_ORDER, PERMUTE, RETURN_IN_ORDER
+} ordering;
+
+#ifdef	__GNU_LIBRARY__
+/* We want to avoid inclusion of string.h with non-GNU libraries
+   because ther¿ÿÇº@	€¥  €
+‘* €¢  € nĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€
+  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ v˜Òà€¢  €
+Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€¥à € Ğ¿ÄĞ
+?ş€ ÒMÀÒJ?ş€¥à € €¢`.ĞMà.€¢@€ ”% € % € "”% ‘/`€¢  € Ğ¿Ä€¢ € €¥à "€ ÒJ  Ğ
+  ÒMÀ€ €¢`
+ĞMà
+€¢@€ ”% €  € ”% Ô L€Š @€ 	”%  ’ @ 
+ˆ”¿ı€ ´ ”%  ’ @ 
+”¿ú¢`ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€	¦  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ v,Òà€¢  €	›Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€¦  €   ’ ”$@@ 
+P– ª  ‘/`€¢  €	R¢`ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€	d  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ uêÒà€¢  €	YĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ ’ ” @ 
+– €	¢`¨ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€	'  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ u­Òà€¢  €	Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€Ô Ğ¿Ä€¢ €ğ´  ĞÀ – $@ "Òà€¢ 	€ /” 	%  @€¢€€ì  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ urÒà€¢  €áĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ "Ôà€¢ 
+¿ÿ×€¢€¨ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€¶  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ u<Òà€¢  €«Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€’ ¢`Ğ¿ÄĞJ  €¢ ^€   Ğ*@ Ò¿ÄĞJ@ €¢ ^€ Ğ¿Ä`Ğ'¿ÄĞ¿ÄĞ'¿ÀĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€o  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ tõÒà€¢  €dĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€  Ğ,@ ¢` ’  @ tÉ”  Ğş€¢ € 
+Ğ¿ÄÒ L€Ša € €¢ Ğ` Ğ,`Ğ¿Ä€¢ €3° €*€¥à ä
+   € Ğ'¿Ä ÿäÀÔ L€Š €  ÿ€¢ \€ €¢ ]Ğ¿Ä€¢ € ° €€¥à ò
+   € Ğ'¿Ä`ÿòÀ€¹`ÿ€¢ ]€ €¦  Ğ¿À’ Ğ¿Ä€¢ 	€¸€¦  € 	 ÿ€¢ -€ Ğ¿ÄĞJ  €¢ ]€°  ÿ€¢ -€ Ò¿ÄşÔ D€¢ 
+
+€ ıĞJş€¢ [€ ıÔ D€¢ 
+
+€ 
+Ğ¿ÄĞJı€¢ [€ Ğ¿ÄĞJş€¢ ^€ Ğ¿ÄĞJ  €¢ ]€ ¿ÄÒ¿ÄĞJ@ €¢ -€ Ğ LĞJ`€¢ ]€ €¢@€Õ 	 Ğ'¿Ä¿Ä’ ” Ö L@ 	-˜ €¢  "¿ÿĞ¿Ä€Ï° Ğ L€Š €m ÿ€¢ [€k´  Ò¿ÄĞJ@ €¢ :€f ÿ€¢@€¹ 	 Ğ'¿ÄĞ¿Ä€¢ €¯²  ’¿ØĞ¿Ä€¢ €®€¥à ä
+   € Ğ'¿Ä ÿäÀ ÿ€¢ :€ €¢ ]€ Ğ¿Ä€¢ € 	`ÿ€¢ €  ²`
+ ÿ¿ÿèä*@`ÿ ¿ØÀ,  ÿ€¢ :€& Ğ¿ÄĞJ  €¢ ]€!    ‚@ sÎ’ Ğ€  `?ÿĞ/¿·   ‚@ sÇ’ Ø€  `?ÿĞ/¿¯   ‚@ sÀ’ à€  `?ÿĞ/¿§   ‚@ s¹’ è€  `?ÿĞ/¿Ÿ ;  ‚@ s²’`ğ€  `?ÿĞ/¿—   ‚@ s«’ ø€  `?ÿĞ/¿ 1  ‚@ s¤’! €  `?ÿĞ/¿‡   ‚@ s’¡€  `?ÿĞ/¿   ‚@ s–’¡€  `?ÿĞ/¿w 5  ‚@ s’¡€  `?ÿĞ/¿o %  ‚@ sˆ’¡ €  `?ÿĞ/¿g 3  ‚@ s’a(€  `?ÿĞ/¿_   ‚@ sz’ Ø€¢  € ? @ su’¡ €¢  € : @ sp’! €¢  € 5 @ sk’`ğ€¢  € 0   ‚@ se’ Ğ€¢  € * @ s`’a(€¢  € % @ s[’¡€¢  €     ‚@ sU’¡€¢  €    ‚@ sO’¡€¢  €    ‚@ sI’ ø€¢  €    ‚@ sC’ è€¢  €    ‚@ s=’ à€¢  2€û° Ğ¿Ä€¢ €ğ Ğ'¿ÄĞ¿Ä€¢ €ç–  Ğ¿·´   Ä˜ Ò¿¯° 	Ô¿§ˆ 
+Ğ¿Ÿ‚ Ò¿—º 	Ô¿² 
+Ğ¿‡¤ Ò¿  	Ô¿w 
+Ğ¿o† Ò¿g„ 	Ô¿_š 
+€¦  € €¦  Ğ
+À€Š € R”
+àÿ€¦  € €¡  Ğ
+À€Š € K”
+àÿ€¡  € €¢à € E€¢à	€ D”
+àÿ€ ` € €§` Ğ
+À€Š  € =”
+àÿ€§` € €¦` Ğ
+À€Š € 6”
+àÿ€¦` € €¤  Ğ
+À
+ €¢  € .”
+àÿ€¤  € €¤  Ğ
+À€Š € '”
+àÿ€¤  € €£à Ğ
+À
+ W€¢  € ”
+àÿ€£à € € à Ğ
+À€Š € ”
+àÿ€ à € €   Ğ
+À€Š € ”
+àÿ€   € €£` Ğ
+À€Š € 
+”
+àÿ€£` "€ –àĞ
+À€Š €"€ –à”
+àÿ•2 
+à’ “*@Ğ@
+ 	Ğ,@
+–à€¢àÿ¿ÿ¡€¦  ¿ş?´ ² 
+ ÿ€¢ ÿ€ 	Ò¿Äÿ² 
+ ÿ€¢ ÿ¿ÿü’ÿÒ'¿ÄĞ` Ğ,`Ğ` Ğ,`¿ş+´  ´  •2 
+ ’ “*@Ğ@
+ 	¿ş"Ğ,@
+Ğÿ” Š ÿ€  € Ğ
+?ÿ’Š ÿ€ Ğ,ÿ” @Ğ
+?ÿ€¢  ¿ÿù¿ÿĞÿ€#¢@  Ò L€Š@2€ 9Ğà€q€¥`   Ô L€Š€€ Í€¥  €j€¥` Ğ L€Š( €x€Š$ €d€¥`    Ò L€Š@€pĞ L€]€¥`   " Ô L’
+€€¢@€÷€¥` 0€TĞ¿Ä€¢ €° €° ä
+   Ğ'¿Ä ÿ’?Ù€¢`U€B  W “*`Ğ 	Â       Ò L€Š@€9€¥à Ğà Ğ&àÔ¿¼” Ô'¿¼Ò¿èĞ¿ä€¢@€ Ğ¿è‘*`“*`’@Ğ¿à@ r…“*`€¢  €ôĞ'¿àĞ¿ä‘* Ğ'¿äĞ¿èÔ¿à“* ’@“*`ĞÀ $ÀĞ"€	Ò¿èÔ¿à‘*` 	‘* €¥  € ”€ĞÀ %€ € Ğ" À" Ò¿èÔ¿à‘*` 	‘* ”€ĞÀ $@Ğ" Ô¿èÒ¿à‘*  
+‘* ’@Ğ¿¼€¢ ÿ€ GĞ"`Ò¿èÔ¿à‘*` 	‘* ”€ĞÀ $@ Ğ" ĞÀ – $@ Òà€¢ 	€ -” 	%  @€¢€€°  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ r6Òà€¢  €¥Ğ&À ’ €¤ 	€ $@€¥  € ¢ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿÙ€¢€ Ğ,@ ¢`Ò¿¼Ò,@ ¢`À,@ ¢`Ğ¿è Ğ'¿è¬  ¨  ¦ €[ª    Ô L€Š€€§€¥à Ğ¿è€¢  € €¥    €€Š€€Ÿ€¥à €m° € AĞ¿èĞÀ – $@ Òà€¢ 	€ /” 	3  @€¢€€\  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ qâÒà€¢  €QĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ Ğ,@ ¢`” ”$@
+ ’ @ ø”¿ıĞ¿è€¢  € 	Ğ¿è  €Ò L€Š@€X€¥` €"° ?ÿĞ'¿èÔ¿à“* ’@“*`ÖÀ Ğ€	¦À”€	Ğ €¢  € ¬À€ ¬¿ÿ¬  Ò¿èÔ¿à‘*` 	‘* ”€ÖÀ Ğ ¨Àä €¤ ÿ€ãª  Ò Ô¿¼"€Ğ*À	ĞÀ – $@ Òà€¢ 	€ /” 	3  @€¢€€ñ  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ qwÒà€¢  €æĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ Ğ,@ ¢`ä,@ ¢`Ò¿¼€˜"@  !Ô L€Š€€î€¥à Ğ L€Š$ €î€¥` ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€«  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ q1Òà€¢  € Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€”$@ ’ ” @ W– ª  €¥  € ¢`”$@ ’ @ A”¿ı¬ ĞÀ – $@ Òà€¢ 	€ -” 	%  @€¢€€f  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ pìÒà€¢  €[Ğ&À ’ €¤ 	€ $@€¥  € ¢ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿÙ€¢€¢`¨  €¦ Ò L€Šb €i  " ’
+@€¢@€dÒ¿ÄşÔ D€¢ 
+€ °?ÿ€¢@€]€¥à °?ÿ ?ÿĞ¿Ä€¢ € 	–?ÿ  Ò L€Š@€% € ° 	€ $€¥à ä
+   € Ğ'¿Ä ÿäÀ  Ä€ 
+” €€¥à ä
+   € Ğ'¿Ä ÿäÀ ÿĞ
+ 
+€Š € €¦  &€ °  ‘.  ‘* ’ ÿ 	°?ĞĞ¿Ä€¢ ¿ÿé    ÿ€¢ ,2€ .  Ğ¿Ä€¢ € $€¥à ä
+   € Ğ'¿Ä ÿäÀ  Ä€ 
+” €â€¥à ä
+   € Ğ'¿Ä ÿäÀ ÿĞ
+ 
+€Š € €¤  &€    ‘,  ‘* ’ ÿ 	 ?ĞĞ¿Ä€¢ ¿ÿé   €¤  € €¦    €  #ÿ€¦  €   #ÿ€¤ €   €¦ € Ô L  Ò L€Š@€  ÿ€¢ \¿ÿšĞ¿Ä€¢ €°€¥à ä
+   € Ğ'¿Ä ÿäÀ ÿ€¢ }€ 	€¥    Ô L€Š€€ « €¦° 
+€ 	€¤  Ğ L€Š  €—€Š €  €¤  ¨ € >€¤ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€Œ  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ pÒà€¢  €Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ ’ ”$@@ 9– ¿ıã¢`€ ¤ 
+¤ ĞÀ – $@ Òà€¢ 	€ /” 	;  @€¢€€M² Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ oÓÒà€¢  €BĞ&À ’ €¦@	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€¤ € ”`”"€€ ” ”"€”¿ı ’ – @ ˜ ¢` ’ ” – @ û˜ €¤ ¿ı”¢`”%  ?ÿ ’ ” @ Ù– ¢` ’ ”$@– @ ê˜ ¿ı„¢` €¢ €õÖ'¿Ää
+   €¥à € Ğ'¿Ä ÿäÀ  Ò L€Š@€$€¥` Ğ¿ÄÔ D€¢ 
+€€¥` ĞJ?ÿ€¢ \€€¥` 0€¨ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€Ö  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ o\Òà€¢  €ËĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ƒ ¨ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ o$Òà€¢  €“Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€K ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€g  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ níÒà€¢  €\Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€0  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ n¶Òà€¢  €%Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ İ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€ù  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ nÒà€¢  €îĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ ¦ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€Â  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ nHÒà€¢  €·Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ o ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€‹  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ nÒà€¢  €€Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€€ 8 
+ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€T  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ mÚÒà€¢  €IĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ Ğ,@ €	¢`  Ò L€Š@€ Y€¥` ²¿Ğ`ÿÔ¿¼€¢ 
+€Ğ¿àĞ'¿ÈĞ¿äĞ'¿ÌĞ¿èĞ'¿Ğ¿È@ \’`ÿ‘* €¢  € G€¥` ¨ ĞÀ – $@ Òà€¢ 	€ /” 	%  @€¢€€  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ m‰Òà€¢  € øĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ Ğ,@ ¢`ò,@ € ¶¢`Ğ L€Š ¿ö\€¥  €¥à €  ÿäÀ€¥` "€ 6¨ Ò@ @	 €¢ 2€ 0¨ €¢`ÿ€ ,Ò¿ÄĞJ@ €¢ *€ (€¢ ^€ &Ô L€Š € €¢ \€ Ğ L€ ĞJ`Ğ¿ÄĞJ  €¢ +€ €¢ ?€ Ğ L€Š" € Q  Ò L€Š@€ Ğ¿ÄĞJ  €¢ {"€ ¨ € HĞÀ Ò¿ÄĞJ@ €¢ \2€ CĞÀ ĞJ`€¢ {2€ ?ĞÀ ¨ ĞÀ – $@ Òà€¢ 	€ /” 	3  @€¢€€ ‰  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ mÒà€¢  € ~Ğ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ Ğ,@ ¢`À,@ ¢`ªÿĞÀ – $@ Òà€¢ 	€ /” 	3  @€¢€€ N  Ğà‘*   @€¢ 	€ Ğ&àÒ&àĞÀ @ lÔÒà€¢  € CĞ&À ’ €¤ 	€ $@¢ 	$À€¥  € ¦ 	%€¬ 	€¥  € ’% ĞÀ ¨@€¥` € ’%@ĞÀ ª@ÖÀ $@ Ôà€¢ 
+¿ÿ×€¢€ä,@ ¢`Ğ@  Ğ-@ Ğ¿Ä€¢ ¿õ   €¥  €  ”$@’ @  ã”¿ıĞ¿è€¢  € ° @ l‡Ğ¿àĞÀ $@Ğ&à€ °  € ° € 	° € ° € ° € ° ° Çàè   V„ CØ F  XÄ X´ XÄ XÄ XÄ XÄ XÄ Wh Wh Wh Wh Wh Wh Wh Wh Wh XÄ XÄ R8 XÄ S X´ XÄ XÄ TÌ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ QX XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ U¨ XÄ Sğ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ XÄ Px XÄ XÄ XÄ K I C8 XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ 0ü XÔ XÔ XÔ C  C 2( 2 XÔ XÔ 74 XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ 2 XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ 8 CŒ XÔ /à XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ XÔ Cl CPĞ*@ Ô*`•: ÃàÔ*`Ğ*@ Ô*`•: Ô*`Ö*`—:àÃàÖ*`ã¿’ ” €¦À	€ –à–ÿÿ¶ÿÿĞÀ €¦À	¿ÿüĞ*À ÿÿç Çàè  ã¿’ ” – €§ 	€ ˜ ˜?ÿ¸?ÿĞ  €§ 	¿ÿüĞ+  ÿÿÛ Çàè  ’ş€¢@€ †  ÄJÿ„ \€  „`?ÿ† ÄJ@ €  (€ 
+    €Š€2€  € à 2€  ÄJ@ €  |€    €Š€2€  € à 2€  Ãà   ÄJ  „ \€  „`?ÿ– „ € €	€ †  †   €Š€€ ’  € ÄJ  €¢à € € à €    ÄHÀ €  )"€ ’    €Š€€ €¢à ÄJ  €  |"€ ’ 0€ 	€ € à €    ÄHÀ €  |"€ ’ Ãà 	Ä †€¿ÿ,€   Ğ  …(à„ €…( „ Ä  € €	€ †€ÿÿ€  ¿ÿ÷…(à  Ãà   Ä  € €	2€ Æ¿ş€ 2 Ú€ Ä  „  € À€ Ä"    @€ŠÀ€ (  € &  €¢ 8€ "  ‚ €¢  € „
+ ÿÄ
+€…8 €¢  € ’ „
+ ÿ€ Ä
+€„
+ ÿ…8 „ €¢  € Ö€ „
+ ÿ€ Æ
+€†
+ ÿ„ „¡ø„ À…(@„À €¢ ¿ÿäÄ*@   Ãà   ã¿€æ Ğ ä  ¨€ª ¬  œ¿è `€¢  € Ğ'¿à€°?ş Ğ'¿äÀ'¿è ’  @ jã”! Ò   ’@   *@€ ûĞ& 2€ Ò€ Ô “2 ’@	“*`   *€ 	Ğ& ª Ğ¿è?ÿĞ'¿èÒ¿à‘* ä@Ò€ €¢`€ â¤   Y"è“*`Ğ 	Â     Ğ € ê   Ò  € ×Ğ,À	Ğ€ ‘* ¢‚?ÿ€ Ò¤ ” €¤` €  `‘: Ò€€¤` €  `
+?ø$@‘:@€Š 2€ Ô,À¢„ÿ¿ÿğ€¤` € ½ª  Ğ€ £* €¤`ÿ4€ 	â€  Ğ,À¢`€¤`ÿ$¿ÿşĞ,Àâ€ ‘,`¢‚?ÿ€ ¬¤ ” €¤` €  `‘: Ò€€¤` €  `
+?ø$@‘:@€Š "€ Ô,À¢„ÿ¿ÿğ€¤` € —ª  ¢    Ç! ÒJ €¢`"€ Ò,À¢`€¤`ÿ$¿ÿûÒJ € Šª  ¢    Ç”! ’ ĞJ€€¢ 2€ Ò,À¢`€¤`ÿ$¿ÿûĞJ€€ |ª  ¢   Ğ,À¢`€¤`ÿ$¿ÿşĞ,ÀĞ €Š @2€ Ğ € nÀ,à
+€¢  € lª  € {°  â€ ĞL ‘* ¢@¤ €¤` € c¤€Ğ€ €¢ € €¢ € ^€¤€¤ â€ ĞL ‘* ¢@¤ Ô¿è€¢  € S¤€Ğ¿à“* ’@Ğü€¢ € M€¤€¿ÿ€ JĞ'¿èâ€ ĞL ‘* ¢@¤ €€¢ € #Ò¿èĞ¿ä€¢@€ Ö¿à  Â @ j.Òc¼Ô¿ä€¢€8€ D°?ş‘* œ#€  ` Ò¿à@ j,•* €¤  ¿ÿ!à'¿àĞ¿ä‘* Ğ'¿äÒ¿èÖ¿à•*`€Ğ"À
+’`€ Ò'¿èĞ     	Ğ& €¥  € €¤€¤ € ¬  ¤ Ò€ ĞL ‘* ’@€¢` € ¤ ¤¿ü¿ÿÃ¬ € ¤ € ¤ @ iß   ª  ¤ €¤€¿ÿ€¤€Ğ¿è€¢  ¿ÿ€¤€Ô “2 ’@	“*`   *€ 	Ğ& °  Çàè   f  c4 d´ cD c° fˆ fˆ c( f  f  f  f  dü dü e„ e„ dü dü dü f  fT dü f€ dH d| f  f  f  f €¢  €   Ä †(€  †ÀÆ" Ô"@ Ö"`€ 	Ø"`Æ   „(ÀÄ" À"@ À"`À"`Ãà   ã¿€˜ ø# \ú# `Ø# d ’  ”  – @  š Çà‘è ã¿ˆ¦ ° à \ê `è dúàâà¤€€¦  € ™ €¦ 4€ —°?ÿ€¢?ÿ€ €¢ €  8 4€  $€Ğà€¢  € €§` ĞÀ Ğ
+  €¢ 
+€ 	€§` €¤  € €¦  4€ ‚°?ÿ  €§` € €§` Ğà‘2 €Š € 
+€§` ÿşm €¢?ş€ €§` € r°?ş€§` € K€¦ € J€¤  Ğà€¢  € E€¤  € 3”  €¦ € –  €¢ € &€”$ €¦ € &À€ ’ ’@€¤` € €¤ 
+€ "ÀĞ
+@ Ğ@ĞO@€¢  € ’` ?ÿ€¤ 
+€ "ÀĞ
+@ Ğ@ĞO@€¢  ¿ÿø’`€ "À ?ÿ€¤ 
+€ "ÀĞ
+@ ĞO@€¢  ¿ÿù’`"À€ ° €¦  € €¦ &€ Ğ@& ĞÀ€¤` € 
+ ÿĞ@@ĞJ  €¢  € €¤  €¤  € €¦ 2€ 
+ê# \€§` "€ ê# \Ğà€¢  6€ °?ÿê# \è# ` ’ ” – ˜ @  š €¢  € €¢?ş¿ÿš€¤  "€ 
+°?ÿ$€    ?ÿ¿ÿ•° ¿ÿ“°?ÿ°?ÿÇàè  ã¿ˆ˜ ø# \Ø# ` ’  ”  – @  š Çà‘è ã¿@ğ' Dò' Hô' Lø' Tú' XÆ `ä  Ğ €Ğ'¿ĞÄ Ä'¿ÌĞ  Ğ'¿È´!®! À'¿´À'¿¨œ¿è `€¢  €MĞ'¿à Ğ'¿äÀ'¿è’ Ğ`€¢  € :Ô¿È‘*  
+?øœ#€– `Ö'¿Äœ#€˜ `Ø'¿Àœ#€š `Ú'¿¼œ#€„ `Ä'¿¸œ#€’ `Ò'¿°œ#€” `Ô'¿¬œ#€¬ `œ#€– `Ö'¿¤œ#€˜ `Ø'¿ Ú¿Ä€£` €$Ä¿À€   €!Ğ¿¼€¢  €Ò¿¸€¢` €€¥  €Ô¿°€¢  €Ö¿¬€¢à €Ø¿¤€£  €Ú¿ €£` €ÿ°?şÄ X€   €úÒ LÔ T@
+€ €€ö°?ÿ° Ö¿È€¦ € ”?ÿ0  7ÿÿš#ÿ;ÿÿ˜#ÿ=ÿÿ–#ÿ“. Ğ¿¸Ô" 	Ğ¿¼Ô" 	Ğ¿ÀÔ" 	Ğ¿ÄÔ" 	Ğ€	 
+ 
+ 
+ Ğ%€	° Ò¿È€¦ 	
+¿ÿï“. Ô T€¢  € Ú HÖ H€¢à € Ø L¶ Ø' TÀ' HÀ' LÚ HÄ Lº@Ğ TÀ€ À€ Ğ'¿Ø†@Æ'¿Ô€ ² ú'¿Ô²ÀÒ L²&@	Ô L€¢  € 	Ö X€¢À
+€ Ú XØ H¦ € ê¿ÔÚ X¦ÀÄ L¦$Àª Ğ¿Ğ€¤€2€!Ò€ €¤À€ YĞ¿è€¢  € ;Ô L€¢  € 
+’  Ö HØ¿¨€¢À€ À
+€£ € Ú¿Ô’ Ú¿Ô@€  `?ÿ@Ä¿´€   € ’ €¢  € Ğ¿¨€¤À8€ 
+” €¢` €Ğ¿èÒ¿Ô€¥@	€€¢  ” Ô'¿´æ'¿¨Ö¿È€¢€€° ‘. Ø¿ÄÒ Ú¿°Ò#@Ä¿ÀÒ €Ô¿¬Ò"€° Ö¿È€¦ 
+¿ÿõ‘. €÷Ğ¿èØ¿´€£  € Ğ \æ¿¨Ú H€¤À
+€ ª €¤À(€ ê¿Ô€ ° Ô¿°Ò€Ö¿ÄÒ"ÀØ¿¬Ò Ú¿ÀÒ#@° Ä¿È€¦ 
+¿ÿõ‘. Ğ \€¢  € ·Ô DÒ ‘2`€Š € ³Ú X‘2`€Š € !Ö DÖ¿Èà€¢ *€  Ø \Ğ#  @ gÇ‘* Ú \Ğ#`Ğ@ @ gÂ‘* ’ Ä \Ò  Ğ  €¢  €8€¢` €6Ò DĞ`  ’* 	  ’@Ô D€ "Ò" Ğà‘2 
+ €¢ € Ò \Ø¿È’ Ú \Ğ@ €¢ 	:€ Ò \Ò#@ Ğ`@ g“*`Ä \Ğ  Ò € Ğ  @ g—“*`’ Ğ \Ò" Ğ €¢  €€¢` € °?şÒ \Ğ@ €¢  € Ô XĞ`Ô"  Ö¿Ô€¥@€ Ò`Ø H€ $À$ÀÚ L Ğ"@ ° ˜?ÿÄ HĞ L€ <– €Ô¿ÄĞ€	€¢?ÿ€ Ú¿ÀĞ@	€¢?ÿ€ 	Ğ \Ä \Ô  “. Ğ  Ø" 	€ +Ø"€	Ô Ú L€£` € 
+“. Ä¿ÄĞ €	Ú H€£@€ €¢ € " ‘. Ä¿ÄĞ €" Ú L Ğ"€	Ä \Ô  Ğ L€¢  € 
+“. Ú¿ÀĞ@	Ä H€ €€ €¢ € " ‘. Ú¿ÀĞ@" Ä L Ğ"€	° Ò \Ğ@ Ô¿È€¢ 
+8€  
+€¦ 
+¿ÿ¿“. ğ¿ÈÖ \ĞÀ €¦ € Ú X–?ÿØ \Ô “. Ğ Ö" 	Ö"€	° Ğ  €¦ 
+¿ÿøØ \Ú XÄ¿Ô€¥@€ ’$ÀÔ L&À
+€Š°"@Ö H€‡°"@€¢`€¤   c “*`Ğ 	Â     ğ€ Ø¿Ì€£  € ¤ € €¤À€Ğ¿è¦ ª €¤À¿ÿû€¥@ĞÀ Ú¿ÌÒK@ĞL€ ¤ €¢@€÷¦à°†?ÿ¿ÿõ€¤À€ ” €ñĞ¿è¦ ª €¤À¿ÿû€¥@ÒLÀ ĞL€ ¤ €¢@€å¦à°†?ÿ¿ÿ÷€¤À” €¦€¿ş§    “* Ğ€	  ” €¢€¿ÿúĞ%€	¿şĞ¿Ğ€ÒĞ¿è¦ ª €¤À¿ÿû€¥@Ä DĞ  €Š @€ Ô DĞ¿Ì€¢  € Ò¿ÌĞÀ € ĞJ@ĞLÀ €¢ 
+€¼Ô DĞ €Š €€ Ö¿Ì€¢à "€ 	ĞLÀ ĞÀ ĞJÀ€¢  € €¦€€¯Ğ¿è€¢  €¬Ğ¿è€¦€€¤”     “* Ğ€	  ” €¢€¿ÿúĞ%€	¿şe¦àĞ¿ÿ €  `?ÿ€¤À€ 
+” €¥@"€“Ğ¿è¦ ª €¤À¿ÿû€¥@Ø¿Ì€£  "€ ĞÀ ĞÀ Ğ ’
+ ÿĞ€ ‘* €¢@€ 	‘2` Ğ
+ ’
+`‘: 	€Š 2€ ” Ğ€  €¢  €u¤€€¦€€n”     “* Ğ€	  ” €¢€¿ÿúĞ%€	¿ş/¦àä'¿ÜĞ€ ‘* Ğ€‘2 €¢ 2€ Ğ€ ¿ÜÒ¿Ğ@ ê” Ô€ •* ‘* Ö€
+0  ’*À	’@Ò%€
+Ğ€ •* Ğ€
+‘2 €¢  € Ú¿ÄÒ@
+€¢ÿ€  €  	Ğ€ ‘* Ä¿ÄĞ €Ò¿¼Ğ"@
+Ğ€ ‘* Ô¿Äæ"€Ô€ •* Ğ€
+   	Ğ%€
+Ò€ “*`Ô€	  *€Ğ%€	€¦¡€ğî€ €î´ Ğ€ •* Ğ€
+‘2 €¢  € Ö¿ÀÒÀ
+€¢ÿ€  €  	Ğ€ ‘* Ø¿ÀĞ Ú¿¸Ğ#@
+Ğ€ ‘* Ä¿Àæ €Ò€ “*`Ô€	  *€€¦€€ Ğ%€	Ğ€ ’?ÿŠ`ÿ€ ‘* Ğ€‘2 €Š "¿ÿú’ÿ
+`ÿ€¢  € ®
+`ÿ´!®! Ğ€ ‘* Ğ€‘2 €Š €  Ğ¿ı€¢ 2¿ı¹¤  Ò¿Ğ€¢ 	€¯”  Ğ'¿Ü°  Ò
+   €¢`€ 	Ğ'¿Ü€¢`€ 
+€¢`€ Ğ¿Ü€  €¢`€ Ğ¿Ü” Ğ¿Üğ
+  ĞJ ‘* ° Ğ¿Ü €¢  € Ğ'¿Ü Ğ'¿ÜĞ¿Ü €¦  €ŒĞ'¿Ü’ Ğ
+@ €¢ 2¿ıŒ¤ Ğ
+`€¢ 2¿ıˆ¤ Ò
+`Ğ€ €¢@2¿ıƒ¤ •*`Ò€
+‘2`€Š €   *@Ğ%€
+Ö€ Ğ À€¢À€ Ğ¿Ü•*àØ¿¼Ğ 
+Ú¿ÄĞ#@
+Ä¿¸Ò €
+€¢@€ Ğ¿ÀÒ" 
+–àĞ€ Ò  	€¢À
+¿ÿñ•*àĞ¿Ü Ğ'¿Üğ
+  ĞJ ‘* ° Ğ¿Ü Ğ'¿ÜÔ¿äĞ¿è”"€’%À’`‘*` 	 €¢€€ %Ô¿È)  Â’¿ÿ‘*` 	¤ ’%À’`‘*` 	¢  @ e†Ò#¼Ô¿ä€¢€€ó‘* œ#€  ` Ò¿à@ e…•* €¤  €êà'¿àĞ¿ä‘* Ğ'¿äÒ¿äĞ¿è’"@€¢@
+¿ÿê €¦€€ š Ô¿èÖ¿à“* ™+`Ä¿ÄĞ €Ğ"À	” Ô'¿èÖ¿à“* Ä¿ÀĞ €Ğ"À	’ Ò'¿èÖ¿à“*`Ğ€Ğ"À	” š`€£@¿ÿéÔ'¿èÒ¿èÔ¿à‘*`ô"€’`Ò'¿èÔ¿à‘*`î"€”`Ô'¿èÖ¿à•* Ğ¿Ü Ğ"À
+`Ğ'¿èÔ¿à‘* æ"€’`€.Ò'¿èÔ€ ‘* Ö¿ÄÒÀ€¢ÿ€'¤ Ø¿ÀĞ €¢?ÿ€"  	Ú L€£` € 	˜  Ä H€ €€  €€¤ € Ğ L˜ Ğ L€¢  € –  ‘* Ú¿ÀÒ@Ä H€ €	€ €£ Ö L €€¢ 	–`?ÿ€£ € ‘* Ø¿À€ â â¿Ô©* €¤ €    €¤ € Ú¿ÀĞ@€¤ € €¤   ¢ €¤ ¿ü¹€¤À€ °%@€¥@€ìĞ¿è¦ ª €¤À¿ÿû€¥@°%@$@€¦ 4€ ° Ä¿Ì€   €  ’ ” @ e– € €¢  ’ @ dš” €¢  €Ñ  ¿ÿÒ¦ÀĞ L€¢  € Ò H€ €¤À	€¤À€ Ô T€¢  2€ ĞLÿÿÖ DĞà€ ‘2 €¢ 
+€½Ğ¿èØ D€ Ğ Ú¿Ø€¤À€ 
+€¤ÀÄ DĞ  ‘2 €Š ¿üyĞ¿Ğ€®Ğ¿è2€ ĞLÀ ĞNÀ €¢ 
+€ Ğ¿è€§€¢  €¢ 
+€£Ğ¿èÒ DĞ
+`€Š ¿ügĞ¿Ğ€œĞ¿èÔ L€¢  € Ö H€ €¤À€¤À¿ü\Ğ¿ĞØ T€£  €Ğ¿è¿üVĞ¿ĞÚ¿Ø€¤À¿üRĞ¿Ğ€‡Ğ¿èğ€ ĞL ‘* ° Ô¿äĞ¿è”"€’%À’`‘*` 	 €¢€€ &¤ 9  ÂÄ¿È’ ¿ÿ‘*` 	¨ ’%À’`‘*` 	¢  @ dwÒ#¼Ô¿ä€¢€€ä‘* œ#€  ` Ò¿à@ dv•* €¤  €Ûà'¿àĞ¿ä‘* Ğ'¿äÒ¿äĞ¿è’"@€¢@
+¿ÿê €¦€€ š Ô¿èÖ¿à“* ™+`Ä¿ÄĞ €Ğ"À	” Ô'¿èÖ¿à“* Ä¿ÀĞ €Ğ"À	’ Ò'¿èÖ¿à“*`Ğ€Ğ"À	” š`€£@¿ÿéÔ'¿èÔ¿èÒ¿à‘* ô"@” Ô'¿èÒ¿à‘* î"@’ Ò'¿èÖ¿à“*`€Ğ"À	 Ğ'¿èÒ¿à‘* € ŠÀ"@ğ€ ĞL ‘* ° ¤ ä'¿Ü Ô¿Ğ€¢ 
+€ ’ Ğ
+  €¢  2€ Ò¿Ü`Ğ'¿Ü’ Ö¿Ğ€¢@:€ Ò¿ÜĞ
+@ €¢  ¿ÿø`Ò¿ÜØ¿Ğ€¢@€ Ô¿äĞ
+@ €¢ € Ğ¿èÔ
+`®
+ ÿĞ
+`€¦¡€ ®À´
+ ÿÔ¿äĞ¿è”"€’%À’`‘*` 	 €¢€€ %Ú¿È9  Â’ÿ‘*` 	¨ ’%À’`‘*` 	¢  @ cîÒ#¼Ô¿ä€¢€€[‘* œ#€  ` Ò¿à@ cí•* €¤  €Rà'¿àĞ¿ä‘* Ğ'¿äÒ¿äĞ¿è’"@€¢@
+¿ÿê €¦€€ š Ô¿èÖ¿à“* ™+`Ä¿ÄĞ €Ğ"À	” Ô'¿èÖ¿à“* Ä¿ÀĞ €Ğ"À	’ Ò'¿èÖ¿à“*`Ğ€Ğ"À	” š`€£@¿ÿéÔ'¿èÔ¿èÒ¿à‘* ô"@” Ô'¿èÒ¿à‘* î"@’ Ò'¿èÖ¿à“*`€Ğ"À	 Ğ'¿èÒ¿à‘* æ"@” ¿û`Ô'¿èğ€ ĞL ‘* ° ¤  Ò¿Ğ€¢ 	€ ” € Ğ€  Ö¿Ğ€¢ € 	Ø¿ĞĞ
+€ ?û
+ ÿ€¢ (¿ÿ÷” Ø¿Ğ€¢€€ 9 Ò
+€ €¢`€ Ú DĞ`€Š € 2€¢`	2€ 1¤¿şĞ
+€ €¢ 	€ ’ 
+Ò
+ €Ğ'¿Ü” Ğ
+ €¢ € Ö¿ÜĞ
+ €¢ 	€  Ö¿ÜÔ
+à¿ı
+ ÿ€¢ € 
+ ÿ €  ”`?ÿĞ
+à‘* ’
+`ÿ
+ ÿ€¢@€ 
+‘2` Ğ
+ ’
+`‘: 	€Š € €  
+”`?ÿ€¢  2€ ¤¿ş Ğ,¿ı¤¿şĞ¿ÿ€¢ €  € ,Ğ,¿ÿÒ¿èÔ¿àıĞ'¿è‘* Ğ€’üÒ'¿è“*`Ø€	– €¢À*€ ğ€ •*àĞ¿è?ÿĞ'¿èÒ¿à‘* Ğ@Ä¿ Ğ €
+Ğ¿è?ÿĞ'¿èÒ¿à‘* Ğ@Ò¿¤Ğ"@
+Ğ¿è?ÿĞ'¿èÒ¿à‘* Ğ@Ú¿¤–ÿÿ€¢À¿ÿæĞ#@
+ğ€ ĞL ‘* ° ¤ ¿úÕ¤€Ô¿äĞ¿è”"€’%À’`‘*` 	 €¢€€ %Ä¿È1  Â’ ¿ÿ‘*` 	¨ ’%À’`‘*` 	¢  @ cÒ#¼Ô¿ä€¢€€ o‘* œ#€  ` Ò¿à@ c•* €¤  € fà'¿àĞ¿ä‘* Ğ'¿äÒ¿äĞ¿è’"@€¢@
+¿ÿê €¦€€ š Ô¿èÖ¿à“* ™+`Ä¿ÄĞ €Ğ"À	” Ô'¿èÖ¿à“* Ä¿ÀĞ €Ğ"À	’ Ò'¿èÖ¿à“*`Ğ€Ğ"À	” š`€£@¿ÿéÔ'¿èÒ¿èÔ¿à‘*`ô"€’`Ò'¿èÔ¿à‘*`î"€`Ğ'¿èÔ¿à‘* À"€`Ğ'¿èÔ¿à‘* À"€’`¿ÿ›Ò'¿èÔ¿äĞ¿è”"€’%À’`‘*` 	 €¢€€ (Ğ¿È1  Â’?ÿ‘*` 	¨ ’%À’`‘*` 	¢  @ b¢Ò#¼Ô¿ä€¢€€ ‘* œ#€  ` Ò¿à@ b¡•* €¤  € à'¿àĞ¿ä‘* € Ğ'¿ä€ò°?şÒ¿äĞ¿è’"@€¢@
+¿ÿç €¦€€ š Ô¿èÖ¿à“* ™+`Ä¿ÄĞ €Ğ"À	” Ô'¿èÖ¿à“* Ä¿ÀĞ €Ğ"À	’ Ò'¿èÖ¿à“*`Ğ€Ğ"À	” š`€£@¿ÿéÔ'¿èÒ¿èÔ¿à‘*`ô"€’`Ò'¿èÔ¿à‘*`î"€`Ğ'¿èÔ¿à‘* À"€`Ğ'¿èÔ¿à‘* À"€’`¿úÒ'¿èğ ĞL ‘* ° €¦  € °?ÿ¤ ğ,€ ‘> Ğ, ¿ú¤ ¿úĞ¿ĞÀ, ¿şÀ, ğ ĞL ‘* °† € °?ÿğ, ‘> ¿ÿĞ, ¿ùô¤ ğ€ ĞL ‘* ° ¤ €Ğ'¿Üğ€ ĞL ‘* ° ¤ Ğ¿Üğ*  Ò¿Ü‘> ¿ùâĞ*`Ğ L€¢  € Ò H€ €¤À	€¤À¿ùÚĞ¿ĞÔ T€¢  ¿ù×€¤€Ö¿Ø€¤À¿ùÓ€¤€  Ç”! ÿÿ€¢ € ’ÿÿ€ ĞNÀ ÿÿ€¢@2€ ĞLÿÿĞOÿĞJ€ €  ’`?ÿ  Ç€¤À€ ”! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ€ €  `?ÿ€¢@¿ù¯Ğ¿Ğ€ äĞ¿èØ L€£  € Ú H€ €¤À€¤À€ ÚÄ T€   € ×Ğ¿Ø€¤À€ Ô  Ç”! ÿÿ€¢ € ’ÿÿ€ ĞNÀ ÿÿ€¢@2€ ĞLÿÿĞOÿĞJ€ €  ’`?ÿ  Ç€¤À€ ”! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ€ €  `?ÿ€¢@€ ³Ğ¿è¿ùzĞ¿Ğ  Ç€¤À€ ’! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ@€¢ 2€ ¢Ğ¿èÒ L€¢` € Ô H€ €¤À
+€¤À¿ùbĞ¿ĞÖ T€¢à ¿ù_€¤€  Ç”! ÿÿ€¢ € ’ÿÿ€ ĞNÀ ÿÿ€¢@2€ ĞLÿÿĞOÿĞJ€€¢ ¿ùMĞ¿Ğ€ ‚Ğ¿èØ L€£  € Ú H€¤À€ Ä T€ yĞ¿è€¤À€ uÄ T€   € r  Ç”! ÿÿ€¢ € ’ÿÿ€ ĞNÀ ÿÿ€¢@2€ ĞLÿÿĞOÿĞJ€€¢ € cĞ¿è  Ç€¤À€ ’! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ@€¢ ¿ùĞ¿ĞĞ¿Ø€¤À¿ùĞ¿Ğ€ NĞ¿è€ LĞ¿è¦ ª €¤À¿ÿû€¥@  Ç€¤À€ ’! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ@€¢ € 8Ğ¿è€¦€€ 0”     “* Ğ€	  ” €¢€¿ÿúĞ%€	¿øñ¦à€ 'Ğ¿è¦ ª €¤À¿ÿû€¥@  Ç€¤À€ ’! € ĞNÀ ÿÿ€¤À2€ ĞLÀ ĞOÿĞJ@€¢ € €¦€€ ”     “* Ğ€	  ” €¢€¿ÿúĞ%€	¿øÍ¦à@ `õ   Ğ¿è€¢  € j?ÿĞ'¿èÒ¿à‘* Ğ@€¢  2€ ¦ Ò¿èÿĞ'¿èÔ¿à‘* ä€şĞ'¿è‘* î€’ıÒ'¿è“*`ô€	– €¢À
+€ €¤  •*àĞ¿è?ÿĞ'¿èÒ¿à‘* Ğ@Ğ%€
+Ğ¿è?ÿĞ'¿è‘* Ğ@Ò¿ÀĞ"@
+Ğ¿è?ÿĞ'¿èÒ¿à‘* Ğ@Ø¿Ä–ÿÿ€¢À¿ÿèĞ# 
+€¤  ¿ÿÈÚ¿Ğ€¤€€ )Ä HĞ€ €¢ € 	’  €¢ € 
+€¢ € 	 € €¤À€¢ € Ä H’  Ğ'¿Üğ
+  ĞJ ‘* ° Ğ¿Ü  €¢` € Ğ'¿ÜĞ
+  €¢ ¿ÿ§Ğ¿è€¢` € Ä HĞ¿ÜĞ
+  €¢ ¿ÿŸĞ¿è€¤À
+¿øeĞ¿Ğ€¤À(¿øbê¿Ô¿øa€¤€Ğ¿´€¢  ¿ø£æ¿¨°?ÿÇàè   md r s sØ sØ t° u  y { {d {Ü | ü ü }À |0 T ì ‚ ƒ˜ …$ …l …œ ‰$ ‰¸ ‡ˆ ˆD …ä †¼ã¿ˆĞ   Ğ'¿ì€¢ € [’  	Ò
+  €¢`€ F€¢`2€ I¿ì Ğ'¿ìà
+  ÒJ “*`  „ 	€ GĞ'¿ì€ Ô¿ì Ğ'¿ìà
+  ĞJ ‘*   Ğ¿ì Ğ'¿ì’  	Ğ
+?ı€¢ € $Ô¿ì’ 
+Ğ
+ı€¢ €  
+’ı@  5” ‘* €¢  € .Ğ¿ì Ğ'¿ìĞ
+  €¢ ¿ÿáĞ¿ìĞ¿ìà
+?şĞJ?ÿ‘*   Ò¿ì 	’@@  !” ‘* €¢  € Ğ¿ì€ °  ı¿ÿïĞ'¿ì € Ğ'¿ìĞ¿ì Ğ&  € ° ’ @  3” ‘* €¢  "€ °  Ò¿ì€¢@
+¿ÿª 	°  Çàè  ã¿ˆğ'¿ì €¢ € ’ Ğ
+@ €¢ € ¿ì’ @  ” ‘* €¢  € Ò¿ì€ °  Ğ¿ì Ğ'¿ì’ Ô
+@ ĞJ`‘* ”€’` 	 
+Ğ'¿ìÒ¿ì€¢@*¿ÿæĞ
+@ ° Çàè  ã¿ˆĞ  Ğ'¿ìÒ
+   €¢`€ EĞ'¿ì  c#ü“*`Ğ 	Â     Ğ¿ìà
+  ¿ì’ ÿÿe” – ¡, Ô€‘2 €¢ 2€ /‘*à“*à0  *€ 	Ğ&€€ (‘*àĞ¿ìÔ
+  ÒJ “*` ”‚€	€ Ğ'¿ì€ *°  Ğ¿ì Ğ'¿ìÔ
+  ĞJ ‘* ”€Ğ¿ì €¢  € Ğ'¿ì?üĞ'¿ìÔ
+  ĞJ ‘* ”€Ğ¿ì €€ Ğ'¿ìĞ¿ìĞ
+  ‘* Ğ€‘2 €¢  € 	Ğ¿ì€ 	°  Ğ¿ì ¿ÿüĞ'¿ìĞ¿ìĞ&  ° Çàè   è Ğ Ğ Ğ Ğ Ü Ğ ° è è è è , Ğ Ğ Ğ Ğ Ğ Ğ Ğ T Ğ Ø Ğ Ğ è è è è€¢  € ˜ Ä  Æ
+@ ĞJÀÄJÀ’`€¢ € ˜ €  ”‚¿ÿ2¿ÿöÄ    Ãà   ã¿– Ğà  ’* 	  *@ @  	Ğ"à  Â ’ ÿçsÔ£t  Â’cx‘* ğ@Çàè  ã¿€¦  € 
+!  Ç  ÇĞ" €¢  2€ ,°  1  ‚€ )°!0Ğ" €¢  2€ !  Ç@ _> È€¢  € Ğ$" !  Ç "  ÈĞ$ @ _5! €¢  € Ğ$ 1  € °#¨!  Ç " Ğ  @  	Ğ$ @ ^Ü ’   Â Ô£tÿç>–   Â’cx‘* ğ@Çàè  ã¿@ ^Í ˜   Ç" ’ ” –  ÿõjš  8 ±2 Çàè  ã¿€ €   ì€ ¤"Ü  @¤"ÆÀ&  À& À& € € À& @ ^ü! €¢  € Ğ& € 5°      Ä¦ Ğ €Š € â @ _ € Ğ,@ Ğ,@  €¤ ÿ(¿ÿõĞ € € À& € €  @ ¤¿¿¤¡ Ğ €  	Ò  @ *@Ğ& “6 ’
+`“*`Ô   *€ 	Ğ& @ ^‚ ’  ” ÿæå– €¢ "€  ° Çàè  ã¿`@ ^t ¤ Ğ ‘2 €Š € ¢  €  @  ¢ Ğ  Ğ'¿ÀĞ Ğ'¿ÄĞ Ğ'¿ÈĞ Ğ'¿ÌĞ Ğ'¿ĞĞ Ğ'¿ÔĞ Ğ'¿ØÒ  ‘*   ”*@
+”€“7 ’
+`“*` € *€ 	  ’* 	  ’@€¤` € Ò'¿Üô'¿à¡. @ ^‘ Ğ'¿ä@ ^ ’ Ò'¿èĞ¿ä€¢  € €¢` € ¿À€ %° ¿À€¤` € š  š¿à’ ” –  ÿôÔ˜ €¤` € ° €¦  € –  €¢À€ Ú¿äØ¿è“*à•*àĞ@
+Ğ&À	’À	Ğ 
+–à€¢À
+¿ÿøĞ"`@ ^IĞ¿ä@ ^GĞ¿è±6 Çàè  ã¿€¦ €   Â@ ^J   #x“. ğ 	€¦  €   ‚°!P@ ^ €¦à €   €¤ €  ’ @ ^/”ÿÿÀ€ À*?ÿ@ ]ú’ Çà‘è ã¿Ğ  €¢  "€ À&  @ ^   À&  À& À& Ğ €¢  "€ À& @ ^   À& Ò   *@Ğ& Ğ €¢  "€ À& @ ^
+   À& Çàè  ã¿ @ ^	’ °’  €   @ #¨Çàè  ã¿@ ^ °’  €   @ “#¨Çàè  ã¿ @ ^’ °’  €   @ ˆ#¨Çàè  ‡2 ‡(à
+ „ …(€Ğ@Ãà€•2 •* 
+ „ …(€Æ@
+„€ÃàÄ"@
+•2 •* 
+ „ …(€Æ@
+„(ÀÃàÄ"@
+”  ‡* Ä ” €¢ ¿ÿüÄ"@Ãà   †  …(à† à€ à¿ÿıÀ" Ãà   ’  ‡*`Ä „8 ’`€¢`¿ÿûÄ" Ãà   ”  …* Æ Ä@€ À€ ” €   €¢ ¿ÿø…*  Ãà   ã¿¢ °    Ç’ € Ğ" •. Ò   ÿÿç’€	€¢  € (  Ç° Ğb Ğ €¦ ¿ÿôĞb   ÇĞ" Ò Ğ €¢@€   ÇÒ" Ô`Ğ`‘* €¢€¿ÿıĞ"`!  ÇĞ" Ò Ğ  ÿÿŠ“*`Ò" Ğ"@   ÇÒ" Ğ` Ğ"`•. Ò@  ÿÿ£’€	Çàè    Ç„ Ä â@  ÇĞ ¢0  ÇÃàÒ ¢P  Ä„ Ğ
+ 
+ €  Ãà@    Ä„ Ğ
+ Ãà
+   Ä„ Ğ
+ ‘2 Ãà
+   Ä„ Ğ
+ ‘2 Ãà
+   Ä„ Ğ
+ Ãà‘2   Ä„ Ğ
+ ‘2 Ãà
+   Ä„ Ğ
+ ‘2 Ãà
+   Ä„ Ğ
+ 
+ €  Ãà@    Ä„ Ğ
+ 
+ W€  Ãà@    Ä„ Ğ
+ 
+ €  Ãà@    Ä„ Ğ
+ ‘2 Ãà
+ ã¿@ \í ”   ÇĞ"€€¢ 
+€   Ç @ ]#Òbp€  € °`?ÿ°  Çàè  ã¿h”       ÇĞ"€€¢  €e  ÇĞbpğ
+   Ğ"bp  ÇĞb€?ÿĞ"b€’?ö€¢`r€.  i#d“*`Ğ 	Â     €¢  €'  Ç  ÇĞ"€€¢  €F”   ‚@ ‰"€A” €¢  €  Ç  ÇĞ"0€Š €   Ç  ÇĞ"€¢?ÿ€ €¢!€ €¢!€  Ç  Ç!Ğ"b€2°!€¢  €  Ç  ÇÔ"0€Š € F  Ç  ÇÒ"€€¢` € @  €Š€€ €¢` €   ÇĞ"p€ ĞJ    ÇĞ"€€¢ €   ÇÒ"pĞJ@ €¢ \€   ÇĞJ`€¢ )€ +  Ç  ÇÒ"0   €Š@€ 	  ÇĞ"€€¢  €   ÇĞ"p€ ĞJ  Ğ"€€¢ €   ÇÒ"pĞJ@ €¢ \€   ÇĞJ`€¢ |€   Ç  ÇĞ"0€Š( €Ä  ÇĞ"€€¢  €À  ÇĞ"pĞJ  €¢ 
+€¼  Ç  Ç!Ğ"b€â°!€¢  €³  ÇÒ"0  €Š@€¯  ÇÀ""   Ç!Ğ"b€Ô°!€¢  €¥  Ç!Ğ"b€Í°!€¢  €  Ç!Ğ"b€Æ°!€¢  €—  Ç!Ğ"b€¿°!€¢  €  Ç!Ğ"b€¸°!  ÇÒ"0€Šd €ˆ  Ç‘2`
+ €¢€€ƒ  Ç€Š`€   Ç  ÇĞ" €¢  €{  Ç  Ç!Ğ"b€¡°!€¢  €s  Ç  ÇĞ"0€Š €   Ç  ÇĞ" €¢  €i  Ç  Ç!	Ğ"b€°!	  ÇÒ"0€Šd €_  Ç‘2`
+ €¢€€Z  Ç€Š`€   Ç  ÇĞ" €¢  €R  Ç  Ç!
+Ğ"b€x°!
+  ÇĞ"0€Š" €G‘2  
+ €¢€€C  Ç  Ç  ÇÀ""ĞÀ"bÀ  ÇĞ"€€¢  € 
+  Ç  ‚" €¢  €_  ‚@ "   ÇĞbpğ
+   Ğ"bp  ÇĞb€?ÿĞ"b€  Ä Ğ €Š € )  Ç?ĞĞ"bÀ!  Ç+  ‚ ¨" %  Ç  Ä¦ € ¢ 	‘*` 	‘*  ?ĞĞ$bÀĞ"€€¢  € Ğ¢p€¥  €7°?ÿ@ tb Ğ¢pğ
+   Ğ$¢pĞ"€?ÿĞ$"€Ğ €Š ¿ÿèÒbÀ€ €¦ ,€¦ ,€   ‚@ b"8€¦ ,€ '  Ç!  Ç+  ‚ ¨" %  Ç  Ä¦ € #  Ç‘*` 	‘*  ?ĞĞ$bĞĞ"€€¢  € Ğ¢p€¥  €
+°?ÿ@ Gb Ğ¢pğ
+   Ğ$¢pĞ"€?ÿĞ$"€Ğ €Š ¿ÿèÒbĞ€   Ç  ÇÒbÀÒ""Ğ  ÇÒ"0  €Š@€ €¦ }€¦ \€   ‚@ ,"8  ÇĞ"€€¢  € 
+  Ç  ‚" €¢  €â  ‚@  "   ÇĞbpğ
+   Ğ"bp  ÇĞb€?ÿĞ"b€€¦ }€   ‚@ "8  ÇÀ""   Ç!Ğ"b€Ì°!  ÇĞ"0€Š$ 2€œ  Ç‘2  
+ €¢€€–  Ç€   Ç  ÇĞ"0€Š$ 2€  Ç€¢  2€Œ  Ç€Š( €ˆ  Ç Ğ"b   Ç!Ğ"b€­°!  ÇĞ"0‘2  
+ €¢€€z  Ç  ÇĞb° Ğ"b°  Ç Ğ"b   Ç!Ğ"b€™°!  ÇÒ"0‘2` 
+ €¢€€f  Ç  ÇĞ"°€¢  2€   Ç  €€Š@€]  Ç  ÇĞb°?ÿĞ"b°  ÇÀ""   Ç!Ğ"b€}°!€¢  €O  Ç ¿ĞÿıU ÿı[   ÇĞ"0€Š @€   Ç 
+ÿı9’   ÇĞ"0€Š €€   ’¿Ğÿı1     Ç€UÀ"" €¢  €4  Çÿı;¿Ğ     Ä¢ Ğ €Š €  ÿı’¿Ğ  €¤ ÿ$¿ÿùĞ €¦ W2¿ÿë  Çÿı1¿Ğ¿ÿç  Ç€¢  €  Çÿı"¿Ğ  ÇĞ"€€¢  € 
+  Ç  ‚"P€¢  €9  ‚@ w"P  ÇĞbpğ
+   Ğ"bp  ÇĞb€?ÿ€¦ ^€ Ğ"b€€¢  2€ 
+  Ç  ‚"P€¢  €$  ‚@ b"P  ÇĞbpğ
+   Ğ"bp  ÇĞb€?ÿĞ"b€ € Ğ'¿ÌÀ'¿Ì;  Ç-  Ç5  ‚ ²"P/  Ç€¦ [€ H€¦ \Ğb0€Š € C  Â¤  ’cÀĞ@€¢  € =  Â¦#À)  Ç+  Ç9  ‚ ¶"P‘, ÿı|ĞÀ€¢  € +   ±,   Â¢#ÄÒ@ŸÂ@  €¢  €  ÿü¯’¿Ğ  €¤ ÿ$¿ÿ÷Ò@¡, @ ZUĞÀÒ"p 	Ğ%"p@ ZPĞÀÒb€’"@€¢` € Ò%b€€¦à € Ø°?ÿ@ "PĞ"pä
+   Ğ%"pĞb€?ÿ€ ‘Ğ%b€¤ ‘, ĞÀ€¢  ¿ÿÎ‘, €¦ \€ Ğ¢€Ğb0€Š € Ğ¢€€¢  € Ğâp€¦` € »°?ÿ@ ø¢PĞâpğ
+   Ğ%âpĞ¢€?ÿĞ%¢€Ğ¢€€¢  € Ğâp€¦` "€ «°?ÿ@ è¢PĞâpä
+   Ğ%âpĞ¢€?ÿ€¤ -€ @Ğ%¢€€¢  €   Ç€¦` "€ š°?ÿ@ ×¢P  ÇÒ"pà
+@ ’`Ò#"p  ÇÔâ€¿ÿ€¤ ]€ Ğ"â€ÿĞ#"p€ )Ô"â€€¤ \€ Ğ¢€Ğb0€Š € Ğ¢€€¢  € Ğâp€¦` "€ |°?ÿ@ ¹¢PĞâpà
+   Ğ%âpĞ¢€?ÿĞ%¢€Ğ¢€€¢  € Ğâp€¦` "€ l°?ÿ@ ©¢PĞâpä
+   Ğ%âpĞ¢€?ÿ€ Ğ%¢€  €¦ 4€ "° ¢¿Ğ)  Ç  Ä¦  ÿü’ Ğ"P€¢  "€ ° Ğ €Š € €Š @ Z& ÿü’ € 	° "€ ° @ Y¾ ÿü’¿Ğ° €¦ ¿ÿè ° €¦ ]¿ÿ.€¦ [Ğ¿Ì€¢  ¿şÔ ¿Ğÿü   ÇĞ"0€Š! ¿şÍ 
+¿şÉ’   ÇÀ""   ÇĞ"P€¢  € '  Ä¢ Ğ €Š € " ¿Ğÿûş  ÿûà’ Ğ €Š €    @ Yğ ÿûØ’ € !  Ç@ YŠ ÿûÒ’¿Ğ!  Çÿü¿Ğ°!€ 	ğ$"  €¤ ¿ü  Ç@ Y¯   °?ÿÇàè    h ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ šœ ¦¬ ¦¬ ¦¬  ° ¡  œà ( ¦¬ ¦¬ ¡p ¦¬ ¦¬ ›Ü ›Ü ›Ü ›Ü ›Ü ›Ü ›Ü ›Ü ›Ü ¦¬ ¦¬ œ ¦¬ œ0 œ„ ¦¬ ¦¬ œh ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¡Ü ¦¬ ¦¬ ¦¬ ¢@ š ¦¬ šD ¦¬ ¦¬ ¦¬ œL ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¦¬ ¡Ü ¦¬ ¦¬ ¦¬ „  4ã¿  ÇĞ" Ò Ğ €¢@€   ÇÒ" Ô`Ğ`‘* €¢€¿ÿıĞ"`!  ÇĞ" Ò Ğ ÿû(“*`Ò" Ğ"`  ÇÔ" Ğ Ö “* ğ"À	 ’? €¢`€ Ğ"   j",“*`Ğ 	Â       ÇĞbğ€ 
+?ÿ  ÇÒ" Ğ` Ğ"`  ÇĞbğ Ğ"bğ  Ç  ÇÔb Ò"ğĞ €¢@4€ Ò" Çàè   ©ô ©à ©à ©à ©à ©à ©à ©à ª ª ª ©à ©Ğ ©Ğ ©Ğã¿  ÇĞ"à€¢ ÿ€ €¢!€ !  Ç€¢!€ €¢!€ €¢!€ €¢!€ 	€¢!€ €¢!€ €¢!€ 	Ğ"à!  ÇÿÿšĞ"àÿû·   € Ğ$"à€¢!€    ÿû°   Ğ$"à@  ¯  Ğ"à€¢!€   ‚@ R"`ÿû¥     Ç€ Ğ"bàÿÿ! Çàè  ã¿    ÇĞ" Ò ‘,  	Ğ?ü€¢!€ 	€¢!
+€ 	€¢!€ ° €¢!€    € ° ÿÿì?ÿ€ 
+° ÿÿè?ÿ°  ÿÿä$  ° Çàè  ã¿   €¤ € #  ÇĞb ’ Ğ “*`ÿÿRĞ 	  €¤ ¿ÿùĞb Çàè  ã¿ÿÿ—     Ç’ Ğ"à>ø€¢ € G/  Ç-  Ç+  Ç¨ 	Ğbà€¢!€ 5Ğâ ÿÿ¼Ğ ¢ Ğâ Ğ ¤" Ğ¢Ğ€¢  € ĞbÀÿÿ/!
+ĞbÀ€¢  €   ÿÿ)!  ĞbÀ€¤ 6€ Ğ¢Ğ'  Ç ÿÿÅ’ ÿÿ!  ĞâÀ€¤ ¿ÿù Ğ¢Ğ€¤ € '  Ç ÿÿ·’ ÿÿ!ÿÿ!  ĞâĞ€¤ ¿ÿ÷ 0€ ÿÿĞ"àÿû#   Ğ%"à  ÇĞbà>ø€¢ ¿ÿÁĞbàÇàè  ã¿ÿÿ®     ÇĞ"à€¢!€ €¢!€ €¢  € !  Çÿÿ£   ÿşë!Ğ"à€¢!€ €¢!€ €¢  ¿ÿö   Çàè  ã¿ÿÿå     ÇĞ"à€¢!€ !  Çÿúö   ÿÿÜĞ$"à€¦  €    ÿşĞ!€ Ğ"àÿşÌ!Ğ"à€¢!¿ÿñ   Çàè  ã¿  Çô""   Ç  Çğ""pğ"b`  Çò""€  Ç?ÿĞ"b  Ç Ğ"b   ÇÀ""°  ÇĞ"@€¢  €      ‚@ w"pÿúÊ!  ÇĞ$"à  ÇĞ Ğ"bğÿÿÆ Ğ"à€¢?ÿ"€ Ğ    ‚@ h"ˆĞ  ÿş›8 ÿş™!Ğ  €¢  €  ÿş“!Ğ   Ğ&  Çàè  – ˜ 	€ ”  ‡* ĞÀ Ä Ä"@’@ Ä Ä"`” Äà€¢€&¿ÿõÒ  ÄàÃàÄ# œ¿€– 	”  Äà€¢€€ ˜ ÄÀ Æ  Ä €
+€ À:€ ÄàÒà” €¢€	€ …* ĞÀ Æ  Ä € À*¿ÿù” Äà€¢€6€ Ä  ÒÀ ‘* Æ  Ä@€ À2€ Ä  „@Æ  Ğ †À€ Æ  Ä# hÄ Ä# lÄà„  €¢€€ Ä"àĞÀ ‡* Ä Ä# `’ Ä`Ä# dÄ hÄ" Ä lÄ"`” Ä `Ä# hÄ dÄ# lÄà€¢€&¿ÿïĞÀ Ãàœ#¿€ã¿ˆ  ¸ º  ‚  À' Ä € B€ @µ/`ÆÀ …(`òÀÄ À€¦@(€ Æ  ğ Æ  …. ò À† À„ÀÄ  Ä à€ º`…/`öÀ µ(`Ä ÀòÀ€ €€ ğ Æ  …. ò À† À„ÀÄ  Ä à‚ `° € ğ' ò  ±. Æ  µ/`Ä ÀÄ&@²@† ÀÄ àÄ&`º`ò ğ  ….`° ÆÀ …(`† ÀÄ Æ à„€Ä& ‚ `²`ò' Ä €§@6€ Ä Äà€ @&¿ÿ¼ö  € Ä ğ  µ.àÆ  ³/`Ä ÀÄ& ° † ÀÄ àÄ& º`¶àö' Ä €§@&¿ÿñö € Äàğ  µ.àÆÀ ³(`Ä ÀÄ& ° † ÀÄ àÄ& ‚ `¶àö' Äà€ @&¿ÿñö Çàè  – 	”  Äà€¢€€ ˜ ÄÀ Æ  Ä €
+€ À"€ ÄàÒà” €¢€	€ …* ĞÀ Æ  Ä € À2¿ÿù” Äà€¢€€ „ ¿ÿ€¢€€ Ä"àÒÀ ‘* † 	Ä àÄ"@Ä àÄ à” Äà€¢€&¿ÿ÷ÒÀ Ãà   ã¿¢ ¤  €  ´@  €  ¶@  °  Ğ`€¦ € – Ô@ ‘. ’€Ğ€Ò` 	° €¦ ¿ÿù¤€°  Ğ`(€¦ 6€ >Ò`(Ş`$  ‘.  “* ĞÀ	€¤€2€ 1° ’À	Ô`Ğ`€¢€€ *† 
+ĞJ`€¦€2€ '° ĞJ`€¦À2€ #° „  € €
+6€ Ğ`Ú@ Ò`$‘.  ‘* ’@Ø`—( @’ Ô Ğ`€¢€2€ Ğ`Ò@Ğ €¢@2€ Ğ`„  € €¿ÿò—( Ğ`€ €€ º   ° €¦ ¿ÿÊ‘. Ò`(– 	Ğ`,€¢@€ ” ‘* Ğ$`,€¢À¿ÿı” “* ’@Ğ`$ÿød“*`Ğ$`$Ğ`$¡.   ¡, ä" Ğ`ÿøQ‘* Ò`$’@Ğ"`Ò`$’ 	 ÿşŒ’`Ğ`$ ô* Ğ`$ ö* Ğ`$ À* Ğ`$ À* Ğ`$ À" „  Ğ`€ €6€ Ğ`(‘.  ‡* ›. š@‘.  ™* Ö@ •( ĞÀ
+Ò`‘* Ğ@€¢  6€ XÒ@ À
+€¦  € Ô €Š @€ €¦à € €¦  €Š € €¦à € €Š €Š 2€ 4Ò`$€¦  € €Š @€ €¦à € €¦  €Š € €¦à € €Š €Š 2€ %Ò`$€¦  € €Š €€ €¦à € €¦  €Š  € €¦à € €Š €Š 2€ Ò`$€¦  € €Š €€ €¦à € Ğ`$€Š  € €¦à € €Š 2€ Ò`$€ Ğ`$€Š "€ Ğ`$Ò`$’@Ğ
+` 
+Ğ*`Ğ`$“+`” 	Ğ €¢  2€ „  Ò@ ‘( Ğ@Ò`‘* Ğ@€ Ğ" ‘( Ğ@Ò`‘* Ğ@€¢!2€ „  Ğ`$ ’ ÿÒ* Ğ`$ ’ Ò* „  Ğ`€ €&¿ÿÖ@ Ğ`( Ğ$`(Çàè  ã¿xĞ`ÿ÷°‘* ¢ €    À$@  Ğ`€¤ ¿ÿü‘, € `   •, ØÀ
+Ò`‘+ Ğ@€¢ ÿ€ W€¢!€ U€¢!4€ T  Ø'¿à’À
+Ğ`Ğ'¿äĞ'¿ìĞÀ
+Ğ'¿ØĞ`Ğ'¿Ü¿Øÿş£’ Ğ¿à‘* Ğ@€¢  € A ?ÿĞ¿à‘* ’ Ò$@Ğ¿àÒ`‘* Ğ@’>ş€¢`€ “*`  n! Ğ 	Â     Ğ¿ì€ 
+ ÏĞ¿ì€ 
+ ¯Ğ¿ì€ 
+
+ òĞ¿ì€ 
+ ôĞ¿ì€ 
+ öĞ¿ì
+ ùĞ'¿ì   Ò¿à– 	Ğ`0” “*`€  	Ò€‘, Ğ@Ğ'¿èĞ'¿ØĞ¿ìĞ'¿Ü¿Øÿı©’   Ö¿àÔ`0‘*à€Ğ €¤ ¿ÿï‘*à ?ÿ  Ğ €¤ &¿ÿ Ö  @ U; Çàè   ¸$ ¸0 ¸< ¸H ¸T ¸`ã¿pò& 4Ğ ÿ÷4‘* Ğ'¿Ô¦ Ğ ÿ÷/‘* Ğ'¿Ğ¨ Ğ ÿ÷*‘* º Ğ ‘* ´@Ğ ÿ÷#‘* ¸ ¤ Ğ ÿ÷‘* ¶ Ğ ‘* ®ÀĞ ÿ÷‘* ª € ¬  À%@¬ Ğ €¥€¿ÿü‘- Ğ ÿ÷‘* Ğ'¿àĞ ÿöü’ Ğ& 0€ ø¬  “- Ğ 	’? €¢`€ Ö“*`  o#”Ğ 	Â      Ğ$À ¦àÀ$€ À%  ¤ € ä¨ Ğ?üĞ'¿ìô'¿è² € 3¢  Ò@“*`Ô 0¿è’@
+ÿı‚”¿àÒ¿ä’ÿĞ@‘* Ğ@€¢@€ ” Ò@
+“*`Ğ@	‘* Ğ%@	Ò¿ä’ÿĞ@
+‘* Ğ@€¢@6¿ÿöÒ@
+¡,`Ğ@Ö 0•* ‘* Ò@ĞÀ
+ÿöĞ“*`Ò@Ô 0“*`Ğ"€	‘,`Ò@“*`Ô 0¿àÿüş’@
+¢`Ğ¿ü€¤@¿ÿÍ¡,`Ğ “- Ğ 	€¢!
+€ £ € ¡Ğ$ÿüĞ?üĞ'¿ìô'¿èĞ¿ü‘* ²À€ 3¢  Ò@“*`Ô 0¿è’@
+ÿı=”¿àÒ¿ä’ÿĞ@‘* Ğ@€¢@€ ” Ò@
+“*`Ğ@	‘* Ğ%@	Ò¿ä’ÿĞ@
+‘* Ğ@€¢@6¿ÿöÒ@
+¡,`Ğ@Ö 0•* ‘* Ò@ĞÀ
+ÿö‹“*`Ò@Ô 0“*`Ğ"€	‘,`Ò@“*`Ô 0¿àÿü¹’@
+¢`Ğ¿ø€¤@¿ÿÍ¡,`Ğÿø€¢  "€ Ğ?üĞ?øÒ?ü 	€ Ğ%?ø‘* ´€Ğÿü€¢  € ¨?üĞ¿øÒ¿ü€  	Ğ¿ø‘* ²ÀĞ¿ü¢‚?ÿ,€ Ğ¿ø‘,`ÒÀÒ&@’@ÀĞ ¢„ÿ¿ÿùĞ"`Ğ¿ø‘* ®ÀĞ¿üĞ$¿ø¤¿üĞÿü€¢  € ’  Ğÿø€  € ’@  Ğ?øÒ?ü 	Ğ%?ø¨?üĞ¿øÒ¿ü 	Ğ$¿ø¤¿üĞÿü€¢  € ’  Ğÿø€¢  "€ Ò$ÿø’ Ò$ÿø€ ¦ÿüĞ •- ’ ¦àĞ 
+!€  `?ÿĞ"@ ’ Ò$€ Ò%  ¤ ¨ ´¿ø®ÿøì%À ì&€  ÿĞ%àĞ& Ò%@
+ÿö Ô 0“- Ğ"€	¬ Ğ €¥€&¿ÿĞ ¬  Ğ €¥€6€ 7À'¿ä¢¿àÒ ‘- Ğ@€¢ ÿ€ €¢!€ €¢!$€ ¬ ¡- Ğ 0 ÿü8’  ÿş@’ Ô 0€Ğ Ò¿ä€¢ 	6€ •- Ğ€ÿõò“*`Ò 0Ğ"@•- Ò 0¿àÿü$’€	¬ Ğ €¥€&¿ÿÛÒ À'¿ä€ ¬  Ğ€	Ğ'¿Ø’€	Ğ`Ğ'¿Ü¿Øÿü(’¿à¬ Ğ?ü€¥€¿ÿõ“- ¿àÿş’    Ğ¿ä€¤ € ¬  Ö¿à” ‘- ÀÒ 
+`À‘2 ’
+`0€¢ 	2€   ¬ €¥€
+&¿ÿö‘-  Ğ& ,À& (ÿõ° Ğ& $ ’¿à” ÿüì–  @ S¢Ğ¿Ô@ S Ğ¿Ğ@ S @ Sœ @ Sš @ S˜ @ S–Ğ¿àÇàè   º ½T ½T ½T ½T ½T ½T ½T »$ º8 º8 ½T »D ¼ü ¼ü?ÿõ‚bøã€¸ ¶ ô' L  ÅĞ`p€¢  € º   Ğ"`p®    Ä¢ !  ÅĞÀ€Š €  ÿõ‘’ 0®à€¥àÿ$¿ÿùĞÀ 
+  Åÿõ‰’`P?ÿõ#Ø’¿ğÿõŸ@®  Òà$– 	‘/ ”  ‘* ’@Ğ`€¥À6€sĞà²¿ğ?ÿõ#ø´@˜ 
+?ÿõ’cl’@ Ğ"@ ?ÿõ’cØ˜@	?ÿõ’c`’@Ø"@ €‘* ÀÒ •-àĞ@
+?ÿõ–ãøĞ&@’@
+Ğ`Ğ& Ğ@Òà‘* Ğ@€¢ ÿ€ ?ÿõ˜#ØÿõQ’@€ Ğ ”¿ğ?ÿõ’cøĞ€	Òà‘* Ğ@€¢!€5‘* ?ÿ÷’aà 	ÒÀ  	?ÿõ–ãØÿõN’€Ğ €¢ ÿ€ ƒ” Ğà$“/ ’@“*` 	ĞJ €¢  € €Š €€Š  2€ Ğà$ 
+?ÿõ˜#Øÿõ0’@Ğà$?ÿõ–ãl–ÀÖÀ “*à 	ĞJ €¢  € Ô € €Š @€Š 2€ Ğà$¨  ?ÿõ#Ø’¿ğ–@  Å˜ P‘- ÒÀÔ ’
+@
+¨ €¥ ¿ÿúÒ"ÀĞà$“/ ’@“*` 	ĞJ €¢  € Ô € €Š €Š 2€ Ğà$¨  ?ÿõ#Ø’¿ğ–@  Å˜ 0‘- Ò ÔÀ’*€	¨ €¥ ¿ÿúÒ"ÀĞà$“/ ’@“*` 	ĞJ €¢  € Ô € €Š €Š € ¨  ?ÿõ#Ø’¿ğ–@  Å˜ 0‘- ÒÀÔ ’
+@
+¨ €¥ ¿ÿúÒ"À¨  ?ÿõ˜#`˜ Ø  Ğ €¢  € €¥ ?ÿõ#Ø’¿ğ’@¨ €¥ € ‘- Ğ@€¢  "¿ÿû¨ €¥ "€ ¨®à¨  €¥ € ‚?ÿõ°#ø ¿ğ$ ¤ ¢·ğ¬·ô’ < #h Ò"  Ğ Òà‘* Ğ@€¢ ÿ€ “- ÿô—’€	€¢  "€ g¨ †  ¦  ?ÿõ#¸’¿ğ„@?ÿõ#Øš@?ÿö™- –@•,à€Ò@
+ĞÀ’
+@€¢` € Ò €
+† ¦à€¤à(¿ÿö•,à€ à € Jª    ¦  ?ÿõ#Ø’¿ğ˜@?ÿö‡- „@< #˜š@‘,àÖ ’ Ô €	’*€€¢` € Ò#@ “,à*À
+€¢  € Ğ# 	ª ¦à€¤à(¿ÿğ‘,à€£à € ?ÿõ£˜“/` ÿôk’€	“- ?ÿõ–ã¸ ÿôe’€	Ğàÿô3‘* “/`Ğ$@	‘- @ÿúp’@	º`™- Ö€Ô@“*àĞ Ğ"€	”€	?ÿõ’ch’@Ò@ Ğ`Ğ" –à€¥` € Ö%€¨ €¥ &¿ÿĞ €¥ 2€ "®à?ÿö’@	•/`?ÿõ–ã`–ÀĞÀ ÿô:’@
+?ÿõ˜#`˜ ÿô>Ğ  Ğàÿô‘* “/`–·ğĞ"À	”·ô Ğ"€	ÒÀ	?ÿõ”£øĞ@
+Ğ"@ Ğ Ğ"`º`®àÖà$•/ €‘* ÀĞ €¥À&¿ş¤€Ğàÿóè‘* !?ÿõ’#¢¿ğĞ$@	Ğàÿóá‘*  #ˆĞ$@Ğà4€¢  € a¦  ®  Ğà$’ Ğ €¥À€ ¤  Ğ`“-à 	Ò 
+`À‘2 ’
+`0€¢ 	2€ ¦ Ğà$Ğ “-à 	Ò 
+`‘2 ’
+`€¢ 	2€ ¤ ®àÒà$Ğ`€¥À&¿ÿèĞ`Ğà$?ÿõ’c”¿ğ €	 ÿùô’  ’ ”  ÿúî–  €¤à € 	¢  ’ ” ÿúæ–  €     €¤  € ?ÿõ’c”¿ğ ’€	”  ÿúÙ– € š š ®  ” (  Ä’ €¥à
+2€ ĞÀ	Ö L€ 
+à"À
+€Š € ‘-àØ L€ Ú# Ö Lâ"À®à€¥àÿ¿ÿñ€¥à
+€ ®  ®  ’?ÿ‘-àØ L®à€¥àÿ¿ÿüÒ# ®  €¥À6€"®  ¸¿ğ?ÿõ#’ ?ÿõ#d Ò"  ?ÿö” 	’| ’c\’@Ô"@ ?ÿõ”£d”€Ô€ À" ¨  ‘-à” ’·ôĞ@€¥ 6€ ;Ğà4¬·ğ¦   
+š Ò€‘- – Ò@Ğà0” “*` 	Ğ €¤À€ #˜ ?ÿõª#€°¿ğ´#„²#¤   Ğ ¢ Ğ ‘* Ò€•,àĞ@
+Ğ& ’@
+Ğ`Ğ&  ÿù‡’ ¦àš ˜ Ğ Ğ Ôà0‘* €Ğ €¤À¿ÿæ– ¨ •-à·ôĞ 
+€¥ &¿ÿÌ¦  Ğà4€¢  € ¦  ¨  Ğà$’ Ğ €¥ €  ¿ğ?ÿõ¢#€¦#„¤#Ò`•- Ğ@
+Ğ$ ’@
+Ğ`Ğ$  ÿù[’ ¨ Òà$Ğ`€¥ &¿ÿóÒ`¦   ¿ğ?ÿö” “-à 
+ÿó’€	€¢  € ¨  ?ÿõ˜# Ğ €¥ 6€ ¤  ?ÿõ’c¿ğÖ 	 	Ô ‘- ÀÒ 
+`À‘2 ’
+`0€¢ 	2€ ¦ ¨ €¥ 
+¿ÿö‘- ¤  ‘-à  Å?ÿõ–ã\–ÀÖÀ ÒÀĞ 0€Š@€ ¨  ?ÿö™-à’¿ğ–@ 
+š 0¨ €¥ € 	“- @ÔÀĞ@	€Š€"¿ÿù¨ €¥ € ?ÿõ¨  ˜#d˜ Ø  Ğ €¥ € ’ ?ÿõ”#Ğ@
+“-  	Ò 
+`‘2 ’
+`€¢ 	2€ ¤ ¨ ’¿ğ@
+Ğ €¥ &¿ÿòĞ@
+?ÿõ#   ’ ”  ÿùÙ–  €¤à € 	¢  ’ ” ÿùÑ–  €     €¤  € 
+ ?ÿõ”£’ 
+”  ÿùÅ– € š š ¨  ?ÿö…-à’¿ğ’@ (  Ä† ¦  ‘-  Ø@—- ‘; €Š € ”À€¢ 
+2€ Ğ
+€Ğ L€ à" €Š € ‘* Ô L€ Ú"€€¢ ÿ4€ ¦à‘* Ô Lâ"€¦à€¤à¿ÿé‘; ¨ €¥ (¿ÿà¦  ®à€¥À¿şò?ÿõ®  €¥À€ !?ÿõ ·ğ‘-à@ PCĞ ®à€¥À&¿ÿü‘-à!?ÿõ#¢¿ğ@ P:Ğ@ #ˆ@ P7Ğ@Çàè  ã¿Ğ`<€¢#ÿ€  € ¢  ¡,`Ğ €¢  "€ Ğ`H@ P'   € 	Ğ`@Ğ €¢  "€ ¢`@ P   Ğ`HÀ" ¢`Ğ`8€¤@&¿ÿìĞ`@À&`<Ğ`< Ğ&`<Ò`L‘. À"@Ò`$ ‘* ’@ĞJ`€¢  € Ô
+`€Š €€ Ğ`$€ “. €Š  € Ğ`$“. ’@“*` 	Ò
+ ĞJ €¢  € €Š`2€ Ô`L€ Ğ`$€Š`"€ Ğ`$Ô`L“. Ğ€	 Ğ"€	Ğ`$“. ’@“*` 	Ò
+ ĞJ €¢  € €Š`@€ Ğ`$€ “. €Š`€ Ğ`$“. ’@“*` 	Ò
+ ĞJ €¢  € €Š`2€ Ô`L€ Ğ`$€Š`"€ Ğ`$Ô`L“. Ğ€	 Ğ"€	Ğ`$“. ’@“*` 	Ò
+ ĞJ €¢  € €Š`@2€ Ğ`$0€ €Š`€    Ğ`$“. ’@“*` 	Ò
+ ĞJ €¢  € €Š`2€ Ô`L0€ 	€Š`€    Ô`L“. Ğ€	 Ğ"€	ÿñ¥$ ¤  ’ ÿü” ¢  ‘,`– Ğ€Ò`8€¢ 	€ *” 	  	‘* Ğ&`8Ò€€¢@¿ÿü” ’ ’`Ğ`Dÿñ–“*`Ğ&`D Ğ&`@Ò`8Ğ`Hÿñ“*`Ğ&`HÒ`8Ğ`LÿñŠ“*`Ğ&`LÒ`8Ğ`Pÿñ…“*`€ Ğ&`P“, À" 	Ğ`HÀ" 	  Ğ`8€¤ &¿ÿùĞ`@¢`€¤`ÿ¿ÿĞ‘,`Ò`P•. Ğ (Ğ"@
+?ÿĞ$ (Ò`$€‘* ’@Ğ
+`€¢  "€ Ò`@Ğ`H€ ä" 
+‘. ä"@Çàè  ã¿ Ğ& 8À& < ÿñE’ Ğ& D Ğ& @Ğ 8ÿñ?’ Ğ& HĞ 8ÿñF‘* Ğ& LĞ 8ÿñB‘* Ğ& P  ÿÿ’ Çàè  ã¿¤   ÆĞ`€€¢  € °  Ğ"`€’    Å” €† („   Äš ˜ – €¢`
+2€ Ğ
+@€ Ä"€€Š € ‘*`€ Ø"€Ö"€’`€¢`ÿ¿ÿô€¢`
+Ğ 8€¢  € ¢  ÿÿÀ ¢     Ö @ 
+Ğ.€   Å² €‘, ÒÀ€¢` € €¤  Ğ  ‘* â@‘,`ÒÀ€¢` € ° Ğ  ‘* à@‘, ÒÀ€¢` ¿ÿò° € €¤     ¢ €¤  € '€¦ € %•, Ğ HĞ 
+€¢  € !€§  Ò LĞ  ‘* Ò@
+Ğ@€Š@€ €§` € 7’€Ğ $“*` 	ĞJ €¢  €  € .Ğ'@ € ,À'@ ¢ Ô H“, Ğ  Ò€	‘* à@¿ÿÀ° €§  € €¦ € 
+   Ğ?ÿ€¢ 
+€ €¦ Ğ   Ğ'  €¦ € €¤  € °  €  ÿş~’ ¿ÿ©Ö @Ğ?ÿ€¢ 
+¿ÿ¥   €¦à ¿ÿ¢‘,`Ò P¿ÿŸà@Çàè  ã¿  à& ÿğ¤  Ğ&  À& à& ÿğŸ Ğ& À&  À& À& À& À& 4À& 8À& TÇàè  ã¿  ÇĞ"P€¢  € 9   @ N¢ ¢’  2€   Ç  ‚@ 	 "˜  Ç   €¤ € À""P  Ä¤ ÒN Ğ
+@€Š "€ Ğ @ N¬ 	€ Ğ,@Ğ,@  €¤ *¿ÿõÒN ÿÿÉ  ’ ÿöw” @ Nd @ Ÿ À&  À& À& À& À&   Ç Ğ"bP ’ ÿög”  ÿù"’ 0€ ÿÿ¯  ’ ÿö]” @ ‡  ÿù’ Çàè  ã¿@ NBĞ  @ N@Ğ € 	   “, ’@“*` 	@ N8Ğ   Ğ (€¤ &¿ÿ÷Ğ $@ N1Ğ $€ 	   ‘, Ğ@€¢  €   @ N(   Ğ €¤ &¿ÿ÷Ò 0@ N"Ğ 0€    ‘, Ğ@€¢  "€ Ò H@ N  € 
+Ğ 8‘, Ğ@€¢  €   @ N   Ğ 8€¤ &¿ÿîÒ @@ N
+Ğ D@ NĞ H@ NĞ Pğ T€¦  € 
+   à @ MÿĞ @ Mı °”  2¿ÿûà Çàè  ã¿€¦` €    @ MÂ   €¦  € €¤  € ¢  €    @ M¸ ¢ €¦  € ’@@ Mı € °  @ Mõ’`° €¦  € €¦` €  @ M¨’ Çàè  ã¿  ÿÿÙ’ Çà‘è ã¿@ Mš € 	  ’ @ MÔ” €¢  €    ° ĞN  €¢  ¿ÿ÷ °  Çàè  ã¿–  €    @ M´   Çàè  ã¿€¦  € ¢  Ğ €¢  € ¡,`@ M¨Ğ À& ¢`‘,`Ğ €¢  ¿ÿù¡,`Çàè  ã¿€¦  "€ C°  ÿÿÈ ²’  2€ À.@ÿÿä € :°  ´  Ğ €¢  €    ‘. Ğ ÿÿ¾’ €¢  € *´ ‘. Ğ €¢  ¿ÿ÷‘. €    “. Ğ 	Ğ& 
+À& 	‘, Ò €¢` "€ ’ ÿÿ© €¢  € ‘, ¿ÿö  @ MmĞ ´¿ÿ€¦€¿ÿì•, ’  @ M}“*`°’  € 	‘. ò&  € À" @ M\ 0€ °  Çàè  ã¿€¦  € 	€¦` "€ 3°  @ Mk  ’  2€ À$  € ,°  Ğ  €¢  € '’ ¢  “*` € “:`ÒN €¢` € €¢ÀĞJ€€¢@"¿ÿú–à€¢À4€ ¢  ÒN  @ Lô   ”’  ¿ÿğ– €¤` €  ’ ÿÿ”  ’  "€ ° ° ĞN  €¢  ¿ÿİÒ  ° Çàè  ã¿€¦  € €¦` € ¢  € °  ‘,`à@€¤  €    @ Là ”  ÿÿo’ °’  ¿ÿô¢`Çàè  ã¿¨–  € 	€¦` € 1°  @ M °’  2€ À&  € *°  ÿÿH € &°  ¦  Ğ €¢  € !¢  Ğ@€¢  "€ ¦à¥,à“,`Ğ ÿÿ’Ò@	 ’  ¿ÿí ÿÿÆ’ ° ÿÿ0 €¦  ¿ÿã¢`‘,`Ğ@€¢  ¿ÿï“,`¦à‘,àĞ €¢  ¿ÿã¢  Çàè  ã¿Ô Ò Ğ À*  À*@ À*€ ÿÿĞ  Çàè  ã¿  ®"Ğ²  Ğ  @ LØ‘* ª’  €¤  Ğ €¤€€ :¢   Æ ” “, ĞàĞ$@	’@	Ğ Ğ"`Ğ Ğ"`Ğ Ğ"`¤ Ğ €¤€¿ÿô“, € %¤  @ L» §, Ğ$@@ L·  @Ğ$ @ L³ Ğ$ @ L° ’ Ò$ Ğ@€¢  €:   Ô €¢  €6   Ğ €¢  €2€¢` €0¤ À*@ À*  À*€ Ğ@À"  Ğ €¤€¿ÿÜ¬  €"Ğ ‘- à@€¤!
+€ ~ € €¢!€¤!€ €¤@€¤! € ø€¤?ÿ€ z`0€ î€ 	€¢!€¢!6€ ` €¢!€ ’€¤?ÿ0€ å€ ä€¤?ÿ0€€¢ğ0€ å€¤@
+€¢ğ¨ ¢ğ¦ Ğ`@ LÒ €¢  € ¤  Ğ`À*  ĞàÒJ €¢` € – Ğ ” ĞJ €¢@2€ Ğà¤ ÒJÀ€¢` "€ ĞàĞJ€€¢@"¿ÿú¤ ĞàÀ* @ LĞà  @ LĞ – €¤ € ˜ ˜ ¤  €¤€6€ –  Òà’ 	Ğ ÀÒJÿĞJ?ÿ€¢@2€ –  ¤ €¤€€ ”$ Ğà”€’"ÀĞ ’@ÔJ¿ÿĞJÿ€¢€"¿ÿõ¤ –  €¢À€ 
+Ğà”$ ’€Ò
+ 	Ò* –à€¢À¿ÿûĞàÀ* ĞÀ ÿşıÒ   ’  € ª   ÿşMĞÀ @ KûĞÀ € à$À €¤@€ ¡¢ğĞ`€ ˜À*  €¤@€ ›¤  Ğ@ Ğ €¢  "€  Ğ@ £, @ K·Ğ   @ K´ €¤ € ¤ Ğ@ î Ğ@ “, Ğ 	€¢  2¿ÿñĞ@  @ K Ò`€¢  "€ ~² 0€ |` €¤@
+€ y¢ğ¦ ¢ğ¤ Ğ@ ÿş«ÒÀ €¢  € pĞ$@ Ò`ĞJ@ €¢  "€ Ğ ĞàĞJ  €¢  "€ Ğ ÿıè 	 ’  € a   ÿı¾Òà ’  € \   @ K   ” Ğ@ ÿş’ Ğ$@ @ K¨ Ğ@ €¢  € O   Ğ ĞJ  €¢  "€ 	ĞàĞ ÿı¦Òà€¢  € DĞ$ ĞàĞJ  €¢  € Ğ À*  Ğ ÿıšÒà€¢  € 8Ğ$ Ô ĞJ€ €¢  "€ Ğ ÒàĞJ@ €¢  "€ Ğ ÿı‹ 
+€ !Ğ$ € "À*  € &€¤  € $€¤!€    ÿş§ € ¢`ÿş£ Ô`Ò`Ğ`à*  à*@ à*€ Ô`Ò`Ğ`À* À*`À* Ğ@ Ò`ÿıÄ” Ğ$@ €¢  €    ¢`¬ Ğ €¥€&¿şßÒ @ K% €¢  € ¢ @ Kk   ò$  @ K @ Ke Ğ$ @ K’ Ğ TĞ$ à& T¢ € ¤  ÿıĞ@ÿı…Ğ@ @ÿı‚Ğ ÿı€Ğ ÿı~Ğ ¤ Ğ €¤€$¿ÿò¡, @ K/ Çàè  ã¿¤ ÿËw%H°’  € I’   ”    C–ã  Ã@ ¥˜!ÜÀ& ,¢ Ğ Ò " 	€¢  €    @ ï’  Ğ   Ğ$ ” Ø Ğ €¢ 2€ Ò Ğ (   	Ğ" (Ğ Ò  	’* 	Ò" Ğ ’"@Ö "À€¢@4€ Ö" Ğ Ğ" €£  € Ø& 0À#  Ğ 0À" Ğ 0À" Ğ 0À" Ğ 0À" Ğ 0À" Ğ 0À" ÿÿ#ÿĞ& 4?ÿĞ& 8À&%<€ ä&%D@ \ °  Çàè  ã¿0¸ ¶@¸?ÿ€§?ÿ€9î 0´¿¬¿ÀÒ%D€¢` € ¶ÿÿĞÀ € ò
+@òÀ àààĞ'¿ÀÀ'¿€¤  €  ¦ ’`ÿĞ €¢@€ €¤  ˜¿À– 	”¿š “,àà# 	Ğ €¢À€ ‘,àÀ"€	¦à€ à  Ú"€¦àà €¤  €    Ğ €¢À¿ÿï“,à€¤  2€¸?ÿ¢   Ğ Ò " 	€¢ € ¨  @ t’ Ğ  Ğ$ ” Ø Ğ €¢ 2€ Ò Ğ (   	Ğ" (Ğ Ò  	’* 	Ò" Ğ ’"@Ö "À€¢@4€ Ö" Ğ  “  € -Ğ" À$  À$ ¨ ¢ Ğ Ò " 	€¢  € ª   @ J’  Ğ`@Ğ$`” Ø Ğ €¢ 2€ Ò Ğ (   	Ğ" (Ğ Ò  	’* 	Ò" Ğ ’"@Ö "À€¢@4€ Ö" Ğ Ğ" €£  € Ø$ 1  € Ç° (Ğ À"  Ğ À" Ğ î" Ğ À" Ğ À" Ò Ğà Ğ"`Ğ À" ò, À, ¦ÿÿ“,àĞ€	€¢  € ‘,àĞ€	€ à"  Ğ€à" €¤à €  ‘,à’ Ğ€ĞJ €¢  € ” ˜¿–¿ÀĞ 	€¢  2€ ‘,àÒ€	Ğ
+`€ ?ÿÒÀĞ
+` ¦„ÿÿ€ 	Ğ*`“,à”¿ÀĞ€	ĞJ €¢  "¿ÿîĞ 	€¤à € n“,àĞ€	€¢  € €¢ Ò€	Ğ
+`?ÿĞ*`‘* €¢  € ‘,à“,àĞ€	€¢ 2€ ^¸?ÿÒ€	Ğ
+` Ğ*`‘* €¢  € U‘,àĞ€ĞJ €¢?ş€ €¢ € ÿÿ€ B“* à‘* Ğ€€¢  € €¢ € ‘,à€ 7ÿÿ‘,àÖ€äÀ Ô Ö$ Ô"À € -À*àÖ€ÒÀ ä`Ô € Ğ€ à‘* Ğ€€¢  € €¢ € !ÿÿ‘,àÒ€ä`Ğ€ Ò$€ Ğ"`€ À*`‘,àÒ€Ö`äÀ Ğ€ Ô Ò$€ Ğ"`Ö$ Ô"À ĞL €¢ €    ÿĞ*`ĞL 8 €  `?ÿĞ*àÀ, ÿÿ“* Ğ€	€¢  € ÿÿĞ€	€ ä"  ‘* Ğ€ä" ¸?ÿ€§?ÿ¿şÍî ĞÀ €¢  € Ğ ,‘*  Ğ%À Ğ , Ğ& ,ÒàĞ 4€¢@&€ Ò& 4ÒàĞ 8€¢@4€ Ò& 8°  Çàè  ã¿€¦  €    Ğ  ÿÿû’ Ğ ÿÿø’ Ò@ Ğ Ğ"`Ğ&@ Çàè  ã¿€¦  € 0’ Ğ  ÿÿû” Ğ ’ ÿÿ÷” €¦` "€ %Ğ Ô`€¢  "€ ò`Ğ ˜ Ò
+ 
+ ÿ€¢ 	€ – 	€£ :€ Ô Ô€ €¢  "€ ò`Ø Ö
+  ÿ€¢ ¿ÿö€£ €¢  "€ ò`Ò Ğ € Ğ"`€¦` 2¿ÿáÔ`Ğ ô" Çàè  ã¿€¦  € ’ Ğ  ÿÿû” Ğ ’ ÿÿ÷” ğ Ğ€€¦@*€ ò.€Çàè  ã¿€¦` €  € &° ÿÿúÒ@ €¢  €  ÿÿõÒ`€¢  € €¦  € °  € €  Ğ`– Ò 
+ ÿ€¢ 	€ ” 	€¢À
+:€ ğ ğ  €¦  € 	€  Ö`Ô 
+àÿ€¢ 
+¿ÿö€¢À
+€  °@  Çàè  ã¿€¦  €    Ğ  ÿÿû’ Ğ ÿÿø’ Ğ ‘* Ò Ò&@Çàè  ãºˆĞ 4€¢ ÿ€ –  ’¾ğĞ 7Ğ*@–à€¢àÿ$¿ÿşĞ*@€ 
+Ğ ,¾ğ’ ÿÒ* –à€¢àÿ$¿ÿşÒ* Ğ ,€¢ 2€ `Ğ 0Ğ%D€¢  2€ \Ğ 0¤ à 4Ğ Ò " 	€¢ € ¢  @ ¨’ Ğ` Ğ$`” Ø Ğ €¢ 2€ Ò Ğ (   	Ğ" (Ğ Ò  	’* 	Ò" Ğ ’"@Ö "À€¢@4€ Ö" Ğ Ğ" Ø&%<Ğ 4–‚?ÿ€ 
+â 0Ò%<Ğ`Ğ
+ Ğ*@Ğ`–‚ÿÿ¿ÿúâ –  Ğ 4€¢À€ † Ä%<š¾ğØ 7Ô€’à# 	– 	€¢À¿ÿûĞ+@
+Ğ 4Ğ&%@–  ?ÿ€¢À6€ Ô%DØ%<Ğ 4š ”?ÿÒK ĞKÿ€¢@2€ –à"€Ğ&%@–à€¢À
+&¿ÿøÒK € pÔ%D¢’  € 5Ğ'ºìĞ`ÿşó’ºìĞ 4Ğ$`Ğ 4Ğ$`Ğ`Ò`ÿÿ/”¾ğĞ`Ò`ÿş÷Ô 0à`€¤  "€ â`Ğ ÿÿ6Ò`€¢  2€ 
+Ğ@ Ğ`Ò ’" 	Ğ €¢@&€ Ò$ Ğ@ €¢  "€ 
+à Ğ`Ò ’" 	Ğ €¢ 	4€ Ò$ à €¤  2¿ÿçĞ â`€¤` 2¿ÿĞĞ`Ğ 0â €¤` € –  Ğ`Ò`Ğ €¢@4€ Ğ$`Ğ`Ò`€¢ 	4€ Ò$`â`€¤` 2¿ÿôĞ`–  ’ºğ‘*à–à€¢àÿ¿ÿıÀ"@Ğ 0Ğ ÿÿ&’ºğÔ%D€¢  € –  š!<˜ºğ‘*àÒ
+€“*`Ò 	–à€¢àÿ¿ÿúÒ#@€ Ô%D˜!<”ºğ“*àĞ€	–à€¢àÿ¿ÿüĞ# 	Ô%D€¢  € –  ° <’¾ğĞ
+€Ğ
+@Ğ. –à€¢àÿ$¿ÿüĞ
+€0€ 	° <’¾ğĞ
+@Ğ. –à€¢àÿ$¿ÿıĞ
+@Çà‘è  ã¿Ú 4€£` € €£@€ Œ° € ‰€£`€ ˜ <Ò%< ÒJ@ @ GÎ” € ° € °& Ğ%<†@ÂÿşŞ%@‘+` ‘* €¦€€ M°@„@" „ €€¦ 8€ H„@Ğ?ÿÒ ° 	Ğ?ÿÒ €¢` € #° 	Ğ?ÿÒ ° 	Ğ?ÿÒ ° 	Ğ?ÿÒ €¢` € ° 	Ğ?ÿÒ ° 	Ğ?ÿÒ ° 	Ğ?ÿÒ €¢` € ° 	Ğ?ÿÒ ° 	Ğ?ÿÒ ° 	€¦ (¿ÿÜĞ?ÿ€ „@Ğ?ş€¢ 2¿ÿÒ° – €¢À4€ >°& Ò?ıĞÿı€¢@€ €¢À–à€¢À€ 	& ’ ÀÔ
+  Ğ
+@ €¢€"¿ÿù–à€¢À4€ ,°& ¿ÿº° „@Ğ?ÿ€ !Ò Ğ?ÿÒ €¢` €  €ĞN?ş€¢ € ’ – €¢À¿ÿš   Ò?ıĞÿı€¢@€ €¢À–à€¢À€ 	& ’ ÀÔ
+  Ğ
+@ €¢€"¿ÿù–à€¢À¿ÿˆ’  €€¢@¿ÿß° 	°  Çàè  ã¿˜ – Äà4€¦€
+€ d  šá<¶à<ŞåD” ˆ ğà4€¦  €    € [Òà0…( €¦€
+€ P²  € N²"€€ €¡ € „?ÿ€ ˆ Ä	  ÄÀˆ Ä	  ÄÀˆ ú	  „`ÿğÀ€¦  € €¡ *¿ÿôˆ € ˆ ˆ ú	?ÿ„`ÿğÀ€¦  € 2„"€‚?ÿ…/`€ "Æ@€£à € ‚ ÿÄ@ € úÀú@ ô à€¦  € „`ÿÆ € €€ ¸ † € À:€ ô ô€ €¦  € €¢  ø „ ÿ€ À¿ÿ÷€ À€¦  € €¢  Æ Ä À €   € € @ ’ ¿ÿÚğ à€¢  € 
+„"€„"€€ €¿ÿ²€¦` € X°   „"€Æà8€ €4€ ” ²  „"€€  € D° ˆ Ä	?ÿğÀ€¦  2€ ;„"€…( Æ@€ à € 4‚?ÿ€ #Ä À €£à € ‚ ÿÄ@ € úÀú@ ô à€¦  € „`ÿÆ € €€ ¸ † € À:€ ô ô€ €¦  € €¦` ø „ ÿ€ À¿ÿ÷€ À€¦  € €¦` Æ Ä À €   € € @€ € @² ’ € @¿ÿ×ğ à€¦` ¿ÿ¼€¦  € „"€° „"€€ €6¿ÿÁˆ €¤  € ° Ä@ …0 Ä$  Ğ$ Ä`Ä$ Çàè  ã¿  ’ Ğ ,€¢ € ” Ğ%D€¢  €  ÿşŸ €¦à € ° €¦  €    À&À ğ&àĞ 4€ Ğ&à ÿÿ$– ° Çàè  ã¿” ’  @  ó 
+@ F~ Çàè  ã¿€¦  "€ ´ €¦` "€ ²/èö& ø&  ò&  ¿ÿĞ& Ò (   *@€¢  € Ğ& (Ğ $ŸÆÀ ’ € ’ Ò ŸÂ@ Ğ  ’ Ò& `Ğ& Ğ& Ğ  @Ğ"@ Ğ& À"`Ò (  *@Ğ& (Çàè  ã¿€¦  "€ ´ €¦` "€ ²/èö& ø&  ò&  ¿ÿĞ& ú& $Ğ (    	€¢  € Ğ& ( ŸÆÀ ’ € ’ Ò ŸÂ@ Ğ  ’ Ò& `Ğ& Ğ& Ğ  @Ğ"@ Ğ& À"`Ò (  *@Ğ& (Çàè  ã¿Ğ Ò ¢" 	²@‘<`²@²`dĞ  €¦@€ ä ² Ğ (€¢  6€ Ò Ô Ğ $ŸÂ€ ’ € Ğ& ŸÂ@  Ğ&   ä$  Ğ& Ğ$  Ğ  €¢ € —4`–‚ÿÿ€ ’ü“*à”@Ğ Ğ 	–‚ÿÿ¿ÿûĞ" € ’üĞ $ŸÂ€ ’ € # ’  – 	€¢À€ ’ ’ Ğ Ğ
+ Ğ*@–à€¢À&¿ÿüĞ ’ Ğ €¢ 	€  Ğ (‘2 €Š €  Ğ Ğ$ Ğ (€¢  &¿ÿàÔ  Ò  ŸÂ@   Ğ& @Ğ& Ò (  *@Ğ& (Çàè  Ğ €¢  € €¢ 	:¿ÿıĞ Ä  € €	*¿ÿùĞ €  Ãà@  ã¿€ Ö €¢  € ààÔ  Ğ $ŸÂ€ ’ € – Ò  ŸÂ@  – Ğ (   	Ğ& (€¢à € €¢À:¿ÿìĞ (ĞÀ €¢ *¿ÿèĞ (€¢à € €¦` ò& ò& ĞÀ Ğ& € Ö& €    @ E   Çàè  ã¿€ Ö €¢  € ààÔ  Ğ $ŸÂ€ ’ € – Ò  ŸÂ@  – Ğ (   	Ğ& (€¢à € €¢À:¿ÿìĞ (ĞÀ €¢ *¿ÿèĞ (€¢à € €¦` ò& ò& ĞÀ Ğ& € Ö& €    @ Eq   Çàè  ã¿ ÿÅ§’  Çàè  ã¿  ÇĞ#¤€¢  €   Æ   ¤!   Ä¢ Ğ €Š €  @ E† € Ğ,€Ğ,€  €¤ ÿ$¿ÿöĞ   ÇĞ#¤€¢  €   Æ€ !   ÿú     Ç€¢  € Ğ"c€   (ÿÅ|’  Çàè  ã¿  Ç # Ğ T€¢  € D   ÿÿÎ   ä T€¤  €   Ç'  Ç)  ÇĞ€ €¢  € Ğã Ğ$ãâ#€à @ Dé ”  ÿú;’ €¢  "€ ä ÿÅX’  ä €¤  2¿ÿìĞ€   Çä#T€¤  €   Ç'  ÇĞ€ €¢  2€ ä âã€à @ DÎ ”  ÿú ’ €¢  "€ ä ÿÅ=’  ä €¤  2¿ÿîĞ€   ÇÿûûĞ#€€¢  €    ÿÅ1’  Çàè  ã¿ÿÍ+  Ç+ÿçvÒc¤ ’   Çÿå“”£`€¢  "€   ÇÿÅ’    Çÿö2#   ÇĞ# €¢  €   ÇĞ#˜€¢  € I ÿÅ`2¢   Ğ
+"ĞĞ,@   ÇĞ#˜€¢  €   ‚’"ÀĞ
+"ÀĞ,@ Ğ
+`Ğ,`Ğ
+`Ğ,`Ğ
+`Ğ,`  ÇĞ# €¢  €   ‚ ’bÈ@ Dİ” @ D{   @’ @ DÖ”   ÇĞ# €¢  €     ‚@’bà@ DÌ”   ÇĞ#˜€¢  €   ‚”"øĞ
+"øĞ,@’@Ğ
+ Ğ*`Ğ
+ Ğ*`Ğ
+ Ğ*`@ D[@   ’   Ç”£ ÿõ÷– 0€ ’   Ç”£ ÿõñ– ÿÿL   Çàè  ã¿  ÇĞ#”  @ D>’a8€¢  € !  *!  .ÿÌ¡#  Ç#ÿç Òc¤€ 	 ÿÌ™!  Ç!ÿæøÒc¤ ’   Çÿå”£`€¢  "€   ÇÿÄ ’    Çÿõ´#   ÇĞ# €¢  €   ÇĞ#˜€¢  € E ÿÄ˜`2¢   Ğ
+"ĞĞ,@   ÇĞ#˜€¢  € 	  ‚’# Ğ
+# Ğ,@ Ğ
+`Ğ,`Ğ
+`Ğ,`  ÇĞ# €¢  €   ‚ ’c@ Da” @ Cÿ   @’ @ DZ”   ÇĞ# €¢  €     ‚@’c @ DP”   ÇĞ#˜€¢  € 
+  ‚”#8Ğ
+#8Ğ,@’@Ğ
+ Ğ*`Ğ
+ Ğ*`@ Cá@   ’   Ç”£ ÿõ}– 0€ ’   Ç”£ ÿõw– ÿşÒ   Çàè  ã¿xª ¤@€¦ € ½¸ 7  Ç  Ç´#`  ÇĞ#€€¢  € (’ ”$€ÿıN–¿à°’  € ¯’ 
+@ CÏ”$€ ’  "€   € €¦ €¦ €   ÇĞN?ÿ€¢ 
+2¿ÿû°?ÿ  ÇÒ¿àĞ#€¢@€ ò  ã ’ ” –  ˜  ÿôš¿Ü€¢  € ò,  € €¤ ò€ ã ” –  ˜  ÿô‘š¿Ü°’  € …ò,€ ’ 
+@ C¤”$€ ’  "€   € €¦ €¦ € Ğ¿ÜĞN?ÿ€¢ 
+2¿ÿû°?ÿĞ¿Ü€¢  € t € Ğ ’* 	Ò& ˜$  ’ ” –  #  ÆÿÚšb ²’  € ab Ğ Ğ  š"   ÇĞ#˜€¢  €   Ç  ÇĞ# €¢  € Y  ÇĞ#˜€¢  € $ €£@€ S€¤   ÇĞ# €¢  € H€¦` € F  Ä¨   Ç¢#`/  Æ?ÿ¬#ÿ ¦" €¦` € 
+@ÒJ?ÿĞ
+@€Š € €£` €¢`_€ €£` $ €£@€ 4@ÒN Ğ
+@€Š € €£` €¢`_€ ,€£` €  € šÿĞ` 	Ğ$` ’ ”@– ÿÚƒ˜â š €£` € €¦` ˜$ €¦@€ ’ ²`Ğ`
+ Ğ$` ” – ˜# ÿÙ¾š ² ĞàĞ  š" €¦` ¿ÿÇ€¦` €¤ 
+¿ÿJ° € °  €¤ @ Ğ'  Çàè  ã¿ÿıÚ¢ ” %  Ç€¢€€   
+ĞJ€ €¢ 
+€ 
+’   €¤ 	€ Ğ£€ĞL  €¢ 
+2¿ÿû  Ğ£€’ 
+ÿøF”$ 
+€¢  € €¤ ÿÃc’  €¤ *€   ” €¢€
+¿ÿä  ÇÿúĞ#€€¢  €    ÿÃU’  Çàè  ã¿€ €¦ € U¢ '  Ç @  Ä¤ Ğã€’ ”$ ÿü\–¿à°’  € I  ÇĞ#˜€¢  € Ô¿è€¦ €  
+ĞN?ÿ€¢ 
+2€ ;°  
+€¢ :€ =” 
+ĞN 
+€¢ 
+2€ 3° € 7” 
+  ÇĞ# €¢  € 1€¢  € )– €¦  € &€¦ € À
+€ Ò?ÿ€¢ :€ &” 
+Ò
+À
+Ğ
+@€Š 2€ Ğã€€¢`_2€ ” 
+Ğã€’ ”¿ÿÿü&–¿àÔ¿è€¢  € – €¢à € €¢À¿ÿéÀ
+Ò
+ÿÿĞ
+@€Š € €¢`_¿ÿâÀ
+° €¦ ¿ÿ´Ğã€€ °  ” 
+²@ 
+’ 
+@ B”&@
+€¢  €   €¦ € Ğ&€ ĞN?ÿ€¢ 
+€ 
+   °?ÿ€¦ €    ĞN?ÿ€¢ 
+2¿ÿû°?ÿÇàè  Ãà®Àã¿   /  Bÿÿû®ã< $ÒÀÔü€¢¿ÿ€ 	 üĞ  ŸÂ   ?üĞ  €¢?ÿ¿ÿû   Çàè  ã¿Çàè  ã¿ ÿÂ`   Çàè             %s: %s: %s
+    %s: %s
+ memory exhausted        %s: warning: %s: %s
+    %s%c    %d%c    %lu%c   writing output  --      usage: %s [-[[AB] ]<num>] [-[CEFGVchilnqsvwx]] [-[ef]] <expr> [<files...>]
+    0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy  egrep   you may specify only one of -E, -F, or -G       posix-egrep    fgrep   grep    %s
+    matcher already specified       -       r       default (standard input)        %s:    %d
+    (standard input)
+       POSIXLY_CORRECT %s: option `%s' is ambiguous
+   %s: option `--%s' doesn't allow an argument
+    %s: option `%c%s' doesn't allow an argument
+    %s: option `%s' requires an argument
+   %s: unrecognized option `--%s'
+ %s: unrecognized option `%c%s'
+         %s: illegal option -- %c
+       %s: option requires an argument -- %c
+  Unmatched ) or \)       Regular expression too big      Premature end of regular expression    Invalid preceding regular expression    Memory exhausted        Invalid range end       Invalid content of \{\} Unmatched \{    Unmatched ( or \(       Unmatched [ or [^       Invalid back reference  Trailing backslash      Invalid character class name    Invalid collation character    Invalid regular expression      No match        alnum   alpha   blank   cntrl   digit   graph   lower   print   punct   space   upper   xdigit  No previous regular expression  Success :cntrl:]        :graph:]        :print:]        :alnum:]        :punct:]        :space:]        :xdigit:]       :digit:]        :lower:]        :upper:]        :alpha:]        Unfinished \ escape    unfinished repeat count malformed repeat count  Unbalanced [    Unbalanced (    No syntax specified    Unbalanced )    out of memory   gfgrep  gegrep  ggrep   ^\(    \(^\|[^0-9A-Za-z_]\)\(  \)\([^0-9A-Za-z_]\|$\)  \)$    ^(      (^|[^0-9A-Za-z_])(      )([^0-9A-Za-z_]|$)      )$            GNU grep version 2.0                  ?             À   € ` H 0    ğ Ø À ¨ € X 8    Ğ 	ø ˜T 	è ˜p 	Ø ˜„ 	È ˜œ 	¸ ˜´ 	¨ ˜È 	˜ ˜à 	ˆ ˜ø 	x ™ 	h ™0 	X ™L          úH ıä P úH ıä 
+¸ úH ıä   ûü ıä 8 ûü ıä 
+° ûü ıä H  ¸ 
+¨  ¸                    ÿÿÿÿ    ÿÿÿÿ                                                      00¿ÿó     <0¿ÿğ     H0¿ÿí     T0¿ÿê     `0¿ÿç     l0¿ÿä     x0¿ÿá     „0¿ÿŞ     0¿ÿÛ     œ0¿ÿØ     ¨0¿ÿÕ     ´0¿ÿÒ     À0¿ÿÏ     Ì0¿ÿÌ     Ø0¿ÿÉ     ä0¿ÿÆ     ğ0¿ÿÃ     ü0¿ÿÀ    0¿ÿ½    0¿ÿº     0¿ÿ·    ,0¿ÿ´    80¿ÿ±    D0¿ÿ®    P0¿ÿ«    \0¿ÿ¨    h0¿ÿ¥    t0¿ÿ¢    €0¿ÿŸ    Œ0¿ÿœ    ˜0¿ÿ™    ¤0¿ÿ–    °0¿ÿ“    ¼0¿ÿ    È0¿ÿ    Ô0¿ÿŠ    à0¿ÿ‡    ì0¿ÿ„    ø0¿ÿ    0¿ÿ~    0¿ÿ{    0¿ÿx    (0¿ÿu                D @          ` ˜      /    Ü    ğ     è    `       
+  ,                 ¤               
+Ø    
+     L   	   oÿÿş 
+@oÿÿÿ   oÿÿğ 	´                                                                                                            ;   <          I4        values-Xa.c Xt ; O ; V=3.1 ; R=WorkShop Compilers 4.2 30 Oct 1996 C 4.2 /space/respin/usr/src/lib/libc; /ws/on297-tools/SUNWspro/SC4.2/bin/../SC4.2/bin/cc -xO3 -xcg89 -Wa,-cg92 -xspace -W0,-Lt -Xt -Iinc -DTEXT_DOMAIN='"SUNW_OST_OSLIB"' -I/space/respin/proto/root_sparc/usr/include -c  port/gen/values-Xa.c -W0,-xp  @(#)SunOS 5.6 Generic August 1997  GCC: (GNU) 2.95.2 19991024 (release)  GCC: (GNU) 2.95.2 19991024 (release)  GCC: (GNU) 2.95.2 19991024 (release)  .symtab .strtab .shstrtab .interp .hash .dynsym .dynstr .gnu.version .gnu.version_r .rela.got .rela.bss .rela.plt .init .text .fini .rodata .data .eh_frame .ctors .dtors .plt .got .dynamic .bss .stab.index .stab.indexstr .comment                                                     Ô   Ô                     #        è   è  (                )           P               1       `  `  T                  9oÿÿÿ    	´  	´   Š                Foÿÿş    
+@  
+@   P                U       
+  
+                  _       
+¨  
+¨   0               i       
+Ø  
+Ø                 s       Ü  Ü                     y       ø  ø  öø                         ğ ğ                     …          3                         @ @  L                  “                                    ” ”                     ¤       œ œ                     «       ¤ ¤  8                 °       Ü Ü   (                 µ                            ¾            ¨                  Ã                $                Ï            $  ;                  Ş            _   •                              ô   ç                              <  p      Ö         	            +¬  :                                     Ô            è                      `           	´           
+@           
+           
+¨           
+Ø      	     Ü      
+     ø           ğ                      @                      ”           œ           ¤           Ü                                                                                                                             ÿñ    l           @          œ         - D         9 t         O          b ,         m `         w 8         ƒ €          H         œ ”         ª          ÿñ   °         ÿñ   ª          ÿñ            ÿñ    Œ          · ”         Í ˜         ƒ ä          Œ         Ú           ç          ª          ÿñ   õ         ÿñ   ü           ª          ÿñ           ÿñ           ÿñ    Œ          Œ   p     0        " P        *          9         A p        K €        T `        [          b °        i Ğ        q À        { `        …         ‘ À  `    ™ @        ¢     H    © ğ        °         ¸ h      ¿         È          Ñ °        Ú à        â          ê l   ´    ô          ü              ø     p         À          Ğ        *    à    2          : €        E ø  8    J H       R 0   (    X         ` #Ä   <    i $    0    r $0   ¸    { `        ‡ P        ” 0         @        ¦ p       ® -ô   ´    ¿          Ï x   D    Ü .¼  0x    ê _ì   €    û `l   °     _4        _h   @    ! al   à    / _¨   D    : _H        D a   P    [ Œ€  Œ    u p   L    „    ˜    œ ¤  Ì    º          Æ •È   ,    Î •ô   (    Ø –   ,    ã –H        ê –h   $    ñ –Œ   $    ø –°   $      –Ô         –ô   (     —   <     —X   Ü    %          ) @        9 0        E P        O ˜T       X ˜p       a ˜„       j ˜œ       s ˜´       } ˜È       † ˜à        ˜ø       ˜ ™       ¡ ™0       ª ™L       ³ À   `    ½ ™d   H    È €        Ğ p        × ™¬  „    Û          å         í À        ô Ğ        û °         ©0  8    	 ğ         ªh   Ô     à         ­´   l     «<   ˆ    ( «Ä   D    1 ¬  D    9 ­L   h    @ `        I ¯    P    N ¯P      U °l  à    [ ²L   °    b ²ü  0    n 0        z P        † p        – Í      ¢ Ğ    l    ³ €        ¼ €        Ê ÚĞ  `    Ò Ö   ”    Ü Ö˜       æ Ö°   L    î Öü        ô ×   L    ı ×h       Ø„   ä     Ùh   `     ÙÈ   Ü     Ú¤   ,    &         0 çÈ   @    8 è   Ğ    B èØ   H    L é    °    U éĞ   @    ^ î   L    e ğL      l úH  ´    u ıä        ûü  è    ˆ    ´    ‘ ¸  Ô    š          ¤ øp   ¬    ¬ €        ² ù  ,    »          Á         Ë `        Ñ           ª          ÿñ  Ú    8    â ÓX   P    ê Ô   d"       à   8      $è  ä    % ·,  ì    0      ÿñ  9 ì   @"     K t       ] ğ     ÿñ  d         j á0  D    s ø       †        š gä  ˜    ¦         ¹    ğ     Í ôœ   ¬    Ş (  h     ò ®    à    û `        4   h      õH  |    ( h       /    	    D j|   0    M ¤     ÿñ  g Ü      
+  m @   P     ‚ ÔĞ  4    Š ”       ’ L       ¤ X  h"     ¸ óô   ¨    Ç d        Ù p   @     í g\   T    ş |   8"     	 ˜       	 ˆ   ,"     	/ ¼   T    	B              	Z     8"     	m d       	t ü       	z j¬  !Ô    	… óX   x    	 ø   t    	” óĞ   $    	œ ât  T    	¤ ¬   8     	·     l    	À ¸   ,"     	Ó Ä   D"     	ä ˜4        	î Ğ   8     
+  P       
+ L   T    
+ Ü   0     
+, è  ”     
+A ‘   Ô    
+I öÄ   4    
+^ ’   (    
+f ¤     ÿñ  
+r -Ì   (    
+y ô  Ğ    
+~   @    
+‘ ô   h     
+¥ T       
+»     h"     
+Í “H  Œ    
+Õ        
+è   l     
+ı $   h"      X   œ     0   ä"     1 ğ        7 œ       @ ”Ô   |    I <  h     ^ Ñ  L    f ÷¨   °    s H   <     ‡ bL      š         ¦ øX       ¯ Ó¨  (    · l       ¾ T        Ğ .¨       Ş        ë `   ì     ÿ ¤     ÿñ   Ü     ÿñ   ¨     ÿñ  ! ¹  ¸    , l   d     @ x        S ¼       c g°   4    m öø   °    { ¿Ğ  @    „ „        š    €     ® œ  °"     Â •P   x    Ê ¨   ø     Ş ê  ğ    æ ¤       ò ‘ä   <    ú               À   P     % Ì   8    crtstuff.c gcc2_compiled. p.3 __DTOR_LIST__ completed.4 __do_global_dtors_aux __EH_FRAME_BEGIN__ fini_dummy object.11 frame_dummy init_dummy force_to_data __CTOR_LIST__ *ABS* crti.s __do_global_ctors_aux __CTOR_END__ __DTOR_END__ __FRAME_END__ crtn.s .nope values-Xa.c target.c error prog errseen initialized.15 bufdesc bufsalloc bufalloc buffer bufbeg buflim bufstat bufmapped bufoffset pagesize.19 fillbuf filename nlscan lastnl totalnl prline out_file out_line out_byte totalcc lastout prpending pending used.32 prtext out_quiet out_before out_after grepbuf execute out_invert grep version usage compile my_index my_bcopy exchange last_nonopt first_nonopt nextchar ordering done.66 init_syntax_once re_syntax_table re_error_msg regex_compile at_begline_loc_p at_endline_loc_p store_op1 insert_op1 compile_range insert_op2 store_op2 group_in_compile_stack group_match_null_string_p bcmp_translate alt_match_null_string_p common_op_match_null_string_p re_comp_buf xcalloc xmalloc_1 xrealloc_1 tstbit setbit clrbit copyset zeroset notset equal charclass_index dfa syntax_bits_set syntax_bits case_fold is_alpha is_upper is_lower is_digit is_xdigit is_space is_punct is_alnum is_print is_graph is_cntrl prednames looking_at lexleft lexptr lex laststart lasttok minrep maxrep parens addtok depth atom tok regexp nsubtoks copytoks closure branch lexstart copy insert merge delete state_index letters.271 newline.272 initialized.273 build_state build_state_zero sbit.283 sbit_init.284 dfamust icatalloc icpyalloc istrstr ifree freelist enlist comsubs addlists inboth resetmust must0.327 enqueue treefails treedelta hasevery treenext bmexec cwexec Gcompile EGexecute Ecompile Fcompile Fexecute trans.388 kwsinit kwset kwsmusts dfa_1 lastexact regex regs.401 xmalloc dfainit strerror@@SYSVABI_1.3 strchr@@SYSVABI_1.3 _getopt_internal epsclosure _DYNAMIC mmap@@SYSVABI_1.3 re_syntax_options _etext reset kwsalloc fread@@SYSVABI_1.3 strcmp@@SYSVABI_1.3 re_search_2 _exit@@SYSVABI_1.3 strlen@@SYSVABI_1.3 _obstack_begin_1 strcpy@@SYSVABI_1.3 dfaparse optarg atexit@@SYSVABI_1.3 _obstack_newchunk opterr __ctype@@SYSVABI_1.3 re_match _PROCEDURE_LINKAGE_TABLE_ _init toupper@@SYSVABI_1.3 dfafree matcher atoi@@SYSVABI_1.3 memcmp@@SYSVABI_1.3 _obstack_begin exit@@SYSVABI_1.3 memchr@@SYSVABI_1.3 re_set_registers lseek@@SYSVABI_1.3 match_lines read@@SYSVABI_1.3 re_compile_pattern __deregister_frame_info fstat@@SYSVABI_1.3 optind fatal re_match_2 kwsexec _start kwsfree kwsincr fopen@@SYSVABI_1.3 matchers close@@SYSVABI_1.3 valloc@@SUNW_0.7 dfasyntax .rem@@SYSVABI_1.3 errno@@SISCD_2.3 xrealloc free@@SYSVABI_1.3 strncpy@@SYSVABI_1.3 re_comp _obstack_allocated_p regcomp __bss_start getopt main __iob@@SYSVABI_1.3 calloc@@SYSVABI_1.3 _environ@@SYSVABI_1.3 open@@SYSVABI_1.3 regexec abort@@SYSVABI_1.3 strncmp@@SYSVABI_1.3 memset@@SYSVABI_1.3 setmatcher fprintf@@SYSVABI_1.3 _fini _obstack regerror realloc@@SYSVABI_1.3 dfaexec obstack_free malloc@@SYSVABI_1.3 re_compile_fastmap match_words dfaerror dfacomp optopt puts@@SYSVABI_1.3 re_set_syntax _lib_version printf@@SYSVABI_1.3 _edata _GLOBAL_OFFSET_TABLE_ _end dfaanalyze fwrite@@SYSVABI_1.3 .umul@@SYSVABI_1.3 re_max_failures re_search _obstack_free dfastate getpagesize@@SUNW_0.9 getenv@@SYSVABI_1.3 memcpy@@SYSVABI_1.3 regfree fclose@@SYSVABI_1.3 kwsprep match_icase re_exec __register_frame_info tolower@@SYSVABI_1.3 strrchr@@SYSVABI_1.3 

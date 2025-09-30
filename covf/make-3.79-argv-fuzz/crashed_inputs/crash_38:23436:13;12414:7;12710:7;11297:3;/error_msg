@@ -1,0 +1,18 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2789521==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x563724534000 (pc 0x563723b8f2da bp 0x7ffd9b8b9970 sp 0x7ffd9b8b9740 T2789521)
+==2789521==The signal is caused by a READ memory access.
+    #0 0x563723b8f2da in try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:13
+    #1 0x563723b96325 in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12414:7
+    #2 0x563723b77618 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12710:7
+    #3 0x563723b73ce2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #4 0x7f58b9abcd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f58b9abce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x563723b2f724 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x2d724) (BuildId: 9310c5acffc05c1cff015fdec49fbe07fcb90502)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:23436:13 in try_variable_definition
+==2789521==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2789519 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

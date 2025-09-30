@@ -1,0 +1,56 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- '/'
+make: invalid option -- '%'
+make: invalid option -- '\'
+make: invalid option -- '$'
+make: invalid option -- '('
+make: invalid option -- 'x'
+make: invalid option -- 'c'
+make: invalid option -- 'a'
+=================================================================
+==1453773==ERROR: AddressSanitizer: global-buffer-overflow on address 0x564051692100 at pc 0x56405163b7a3 bp 0x7fff422c4ef0 sp 0x7fff422c4ee8
+READ of size 8 at 0x564051692100 thread T0
+    #0 0x56405163b7a2 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14860:27
+    #1 0x564051635baa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11604:24
+    #2 0x7f0c26cd8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f0c26cd8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x564051564444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c444) (BuildId: 827c0a9803d042c90c0630f8f16daaa85ad3d0f7)
+
+0x564051692100 is located 32 bytes to the left of global variable 'default_include_directories' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14725' (0x564051692120) of size 40
+0x564051692100 is located 0 bytes to the right of global variable 'default_makefiles' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14743' (0x5640516920e0) of size 32
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14860:27 in read_all_makefiles
+Shadow bytes around the buggy address:
+  0x0ac88a2ca3d0: 00 00 00 00 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+  0x0ac88a2ca3e0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac88a2ca3f0: 00 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9
+  0x0ac88a2ca400: 00 f9 f9 f9 04 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9
+  0x0ac88a2ca410: 00 f9 f9 f9 04 f9 f9 f9 04 f9 f9 f9 00 00 00 00
+=>0x0ac88a2ca420:[f9]f9 f9 f9 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+  0x0ac88a2ca430: 00 00 f9 f9 00 f9 f9 f9 00 00 f9 f9 00 00 00 00
+  0x0ac88a2ca440: 00 00 00 00 00 00 00 00 00 00 00 00 00 f9 f9 f9
+  0x0ac88a2ca450: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac88a2ca460: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac88a2ca470: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1453773==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1453772 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

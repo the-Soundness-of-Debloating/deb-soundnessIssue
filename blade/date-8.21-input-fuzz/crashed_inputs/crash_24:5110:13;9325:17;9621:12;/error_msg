@@ -1,0 +1,20 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_7
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==3001750==ERROR: AddressSanitizer: SEGV on unknown address 0x5616f05f2e20 (pc 0x5616f04ec6a2 bp 0x5616f05f8e48 sp 0x7fffdb4a0e40 T0)
+==3001750==The signal is caused by a WRITE memory access.
+    #0 0x5616f04ec6a2 in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType) (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out+0x236a2) (BuildId: 654e66d17594b2ea92f356da33ff3e6dc2b63909)
+    #1 0x5616f056fba6 in free (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out+0xa6ba6) (BuildId: 654e66d17594b2ea92f356da33ff3e6dc2b63909)
+    #2 0x5616f05b3fbc in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5110:13
+    #3 0x5616f05bb752 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #4 0x5616f05bb335 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7fb9f9843d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fb9f9843e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5616f04ea3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out+0x213c4) (BuildId: 654e66d17594b2ea92f356da33ff3e6dc2b63909)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/date-8.21-input-fuzz/bins/reduced.asan.out+0x236a2) (BuildId: 654e66d17594b2ea92f356da33ff3e6dc2b63909) in __asan::Allocator::Deallocate(void*, unsigned long, unsigned long, __sanitizer::BufferedStackTrace*, __asan::AllocType)
+==3001750==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3001749 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

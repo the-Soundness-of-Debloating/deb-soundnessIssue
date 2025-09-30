@@ -1,0 +1,62 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/asan/crashes/id:000000,sig:11,src:000036,time:17932,execs:1865,op:havoc,rep:2
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1752617==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56033082ad8b bp 0x7ffe09d53210 sp 0x7ffe09d53050 T0)
+==1752617==The signal is caused by a READ memory access.
+==1752617==Hint: address points to the zero page.
+    #0 0x56033082ad8b in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37
+    #1 0x56033081fb5e in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4921:14
+    #2 0x5603308197b5 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+    #3 0x560330822af3 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #4 0x560330828efa in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #5 0x56033082895c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #6 0x7f7b8f62cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f7b8f62ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x560330758454 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.asan.out+0x23454) (BuildId: 00dd3f5cee5327b17897a7f0892f78e8773831af)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37 in lookup_word
+==1752617==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1752616 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000000,sig:11,src:000036,time:18506,execs:1793,op:havoc,rep:8
+ThreadSanitizer:DEADLYSIGNAL
+==1780598==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x555fde615dc6 bp 0x7ffe53844350 sp 0x7ffe538441b0 T1780598)
+==1780598==The signal is caused by a READ memory access.
+==1780598==Hint: address points to the zero page.
+    #0 lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37 (reduced.tsan.out+0xd7dc6) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #1 yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4921:14 (reduced.tsan.out+0xd2191) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #2 yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16 (reduced.tsan.out+0xcf8cc) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #3 parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15 (reduced.tsan.out+0xd3488) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #4 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17 (reduced.tsan.out+0xd67f7) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xd6513) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x22474) (BuildId: ee1386baa0ca547ff188822af1b98e63a44d5bbc)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37 in lookup_word
+==1780598==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1780597 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000000,sig:11,src:000036,time:16020,execs:921,op:havoc,rep:1
+LeakSanitizer:DEADLYSIGNAL
+==1790234==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x562b156c4890 bp 0x7ffd9a3ca530 sp 0x7ffd9a3ca4c0 T0)
+==1790234==The signal is caused by a READ memory access.
+==1790234==Hint: address points to the zero page.
+    #0 0x562b156c4890 in lookup_word /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37
+    #1 0x562b156c04fa in yylex /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4921:14
+    #2 0x562b156be907 in yyparse /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:3423:16
+    #3 0x562b156c0f30 in parse_datetime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:5217:15
+    #4 0x562b156c383d in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9325:17
+    #5 0x562b156c35b9 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #6 0x7f6e0368dd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7f6e0368de3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x562b15690604 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/bins/reduced.lsan.out+0x7604) (BuildId: e40a22b087b4f155eaef90c76f6dbb3f102e82ea)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/date-8.21-input-fuzz/./date-8.21.c.reduced.c:4668:37 in lookup_word
+==1790234==ABORTING

@@ -1,0 +1,25 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out
+/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out: LeakSanitizer:DEADLYSIGNAL
+==850544==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000040 (pc 0x7fb8a97ed3a2 bp 0x7ffd2b685f20 sp 0x7ffd2b685988 T0)
+==850544==The signal is caused by a READ memory access.
+==850544==Hint: address points to the zero page.
+    #0 0x7fb8a97ed3a2  (/lib/x86_64-linux-gnu/libc.so.6+0x1b13a2) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x7fb8a96b10e1  (/lib/x86_64-linux-gnu/libc.so.6+0x750e1) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #2 0x7fb8a96b3664  (/lib/x86_64-linux-gnu/libc.so.6+0x77664) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fb8a96ba697  (/lib/x86_64-linux-gnu/libc.so.6+0x7e697) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7fb8a96ba774  (/lib/x86_64-linux-gnu/libc.so.6+0x7e774) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fb8a975cff0  (/lib/x86_64-linux-gnu/libc.so.6+0x120ff0) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fb8a975d0e7  (/lib/x86_64-linux-gnu/libc.so.6+0x1210e7) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fb8a975d1d5 in error (/lib/x86_64-linux-gnu/libc.so.6+0x1211d5) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x5562be1de156 in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:540:5
+    #9 0x5562be1dff76 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #10 0x5562be1e062f in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7248:16
+    #11 0x5562be1e03b6 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7076:5
+    #12 0x7fb8a9665d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #13 0x7fb8a9665e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #14 0x5562be1b0424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out+0x5424) (BuildId: 8d041e66b3ece08eedda1b33002b9afe05d1b1bd)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b13a2) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==850544==ABORTING

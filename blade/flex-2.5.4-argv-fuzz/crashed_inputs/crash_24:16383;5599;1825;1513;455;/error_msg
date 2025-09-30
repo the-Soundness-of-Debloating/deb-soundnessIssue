@@ -1,0 +1,38 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/input/radamsa_fuzzed/input_4_fuzzed/input_4_135
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=139959713380160) at ./nptl/pthread_kill.c:44
+#0  __pthread_kill_implementation (no_tid=0, signo=6, threadid=139959713380160) at ./nptl/pthread_kill.c:44
+#1  __pthread_kill_internal (signo=6, threadid=139959713380160) at ./nptl/pthread_kill.c:78
+#2  __GI___pthread_kill (threadid=139959713380160, signo=signo@entry=6) at ./nptl/pthread_kill.c:89
+#3  0x00007f4ae9040476 in __GI_raise (sig=sig@entry=6) at ../sysdeps/posix/raise.c:26
+#4  0x00007f4ae90267f3 in __GI_abort () at ./stdlib/abort.c:79
+#5  0x00007f4ae909eeca in __malloc_assert (
+    assertion=assertion@entry=0x7f4ae91dc988 "(old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)", file=file@entry=0x7f4ae91d768c "malloc.c", line=line@entry=2617, function=function@entry=0x7f4ae91dd1f8 <__PRETTY_FUNCTION__.8> "sysmalloc") at ./malloc/malloc.c:307
+#6  0x00007f4ae90a1937 in sysmalloc (nb=nb@entry=8016, av=av@entry=0x7f4ae9218c80 <main_arena>) at ./malloc/malloc.c:2617
+#7  0x00007f4ae90a28dd in _int_malloc (av=av@entry=0x7f4ae9218c80 <main_arena>, bytes=bytes@entry=8000) at ./malloc/malloc.c:4407
+#8  0x00007f4ae90a3262 in __GI___libc_malloc (bytes=8000) at ./malloc/malloc.c:3321
+#9  0x000055aa11e418f5 in flex_alloc (size=8000) at ./flex-2.5.4.c.reduced.c:16383
+#10 0x000055aa11e3d5d8 in allocate_array (size=2000, element_size=4) at ./flex-2.5.4.c.reduced.c:5599
+#11 0x000055aa11e3d6a5 in set_up_initial_allocations () at ./flex-2.5.4.c.reduced.c:1825
+#12 0x000055aa11e3b909 in flexinit (argc=7, argv=0x55aa11e78308 <afl_init_argv[ret]+24>) at ./flex-2.5.4.c.reduced.c:1513
+#13 0x000055aa11e3b2ee in main (argc=7, argv=0x55aa11e782f0 <afl_init_argv[ret]>) at ./flex-2.5.4.c.reduced.c:455

@@ -1,0 +1,20 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.ubsan.out '^[AEIOU]' /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/input/radamsa_fuzzed/file1_fuzzed/file1_383
+grep-2.19.c.reduced.c:20646:24: runtime error: applying zero offset to null pointer
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.19.c.reduced.c:20646:24 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==3222838==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0xffffffffffffffe0 (pc 0x7f89403b7597 bp 0x7ffc3384af30 sp 0x7ffc3384ad28 T3222838)
+==3222838==The signal is caused by a READ memory access.
+    #0 0x7f89403b7597  string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40
+    #1 0x55dc7202ad1c in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:21711:25
+    #2 0x55dc72029453 in grepdesc /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22245:15
+    #3 0x55dc72028dc6 in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22062:17
+    #4 0x55dc7201a316 in grep_command_line_arg /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:22340:19
+    #5 0x55dc72019e0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/./grep-2.19.c.reduced.c:23844:24
+    #6 0x7f8940231d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7f8940231e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55dc71fa07b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/grep-2.19-input-fuzz/bins/reduced.ubsan.out+0x417b4) (BuildId: a9d7f273dfb66219f647bafb3d52b2f75c72dc48)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memrchr-evex.S:40 
+==3222838==ABORTING

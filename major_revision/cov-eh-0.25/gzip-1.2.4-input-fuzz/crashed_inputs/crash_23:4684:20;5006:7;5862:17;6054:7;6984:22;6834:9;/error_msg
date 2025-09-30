@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -c
+gzip-1.2.4.c.reduced.c:4684:9: runtime error: index 21912 out of bounds for type 'uch[573]' (aka 'unsigned char[573]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior gzip-1.2.4.c.reduced.c:4684:9 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==37061==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x559843e209e8 (pc 0x55984345042e bp 0x7ffc093c6910 sp 0x7ffc093c65d0 T37061)
+==37061==The signal is caused by a WRITE memory access.
+    #0 0x55984345042e in build_tree___0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4684:20
+    #1 0x55984344f673 in flush_block /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5006:7
+    #2 0x55984345824c in deflate /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:5862:17
+    #3 0x55984345907e in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6054:7
+    #4 0x55984345af8b in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #5 0x55984345a50c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #6 0x7fafedb68d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #7 0x7fafedb68e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #8 0x55984341b574 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out+0x18574) (BuildId: a50a3ec66cbabaecdaa7f031e44b0096427a54a8)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:4684:20 in build_tree___0
+==37061==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 37060 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/bins/reduced.ubsan.out -c < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000000* > sample1.gz

@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1605880==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000060 (pc 0x7fdf1b9a7838 bp 0x55a4d615f5b0 sp 0x7ffde6945200 T1605880)
+==1605880==The signal is caused by a READ memory access.
+==1605880==Hint: address points to the zero page.
+    #0 0x7fdf1b9a7838 in _int_free malloc/malloc.c:4582:9
+    #1 0x7fdf1b9aa452 in __libc_free malloc/malloc.c:3391:7
+    #2 0x55a4d3bc0b13 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4915:7
+    #3 0x55a4d3bc719f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13
+    #4 0x55a4d3bc91c4 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10
+    #5 0x7fdf1b92ed8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7fdf1b92ee3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55a4d3b8d6a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x146a4) (BuildId: e16b2cb7791efe9eaa2259b91025496cf8991263)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV malloc/malloc.c:4582:9 in _int_free
+==1605880==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1605879 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

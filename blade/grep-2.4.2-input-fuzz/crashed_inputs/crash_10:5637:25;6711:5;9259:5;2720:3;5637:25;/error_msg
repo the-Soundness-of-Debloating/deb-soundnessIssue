@@ -1,0 +1,16 @@
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.lsan.out -G '?\+.:' /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_2/lsan/crashes/id:000000,sig:11,src:000000+000001,time:257431,execs:60584,op:splice,rep:1
+LeakSanitizer:DEADLYSIGNAL
+==3144427==ERROR: LeakSanitizer: SEGV on unknown address 0x7ffc00000004 (pc 0x55a6133ccd1f bp 0x7ffc1dcbac20 sp 0x7ffc1dcbab20 T0)
+==3144427==The signal is caused by a WRITE memory access.
+    #0 0x55a6133ccd1f in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:5637:25
+    #1 0x55a6133ce1b2 in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:6711:5
+    #2 0x55a6133cef15 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:9259:5
+    #3 0x55a6133cc0d5 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2720:3
+    #4 0x7fc49d9c7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fc49d9c7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55a61339e494 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/bins/reduced.lsan.out+0x5494) (BuildId: 52f4b65cae708be94a061c623ab1a5be9e7308a3)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:5637:25 in dfaanalyze
+==3144427==ABORTING

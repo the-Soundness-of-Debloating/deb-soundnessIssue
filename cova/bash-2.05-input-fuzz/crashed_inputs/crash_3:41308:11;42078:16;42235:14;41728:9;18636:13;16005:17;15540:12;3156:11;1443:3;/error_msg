@@ -1,0 +1,91 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile
+touch: cannot touch 'kpa': No such file or directory
+touch: cannot touch 'kpb': No such file or directory
+touch: cannot touch 'kpc': No such file or directory
+touch: cannot touch 'kpd': No such file or directory
+touch: cannot touch 'kpabc': No such file or directory
+touch: cannot touch 'kpabd': No such file or directory
+touch: cannot touch 'kpabe': No such file or directory
+touch: cannot touch 'kpbb': No such file or directory
+touch: cannot touch 'kpbcd': No such file or directory
+touch: cannot touch 'kpca': No such file or directory
+touch: cannot touch 'kpcb': No such file or directory
+touch: cannot touch 'kpdd': No such file or directory
+touch: cannot touch 'kpde': No such file or directory
+touch: cannot touch 'kpa-b': No such file or directory
+touch: cannot touch 'kpaXb': No such file or directory
+touch: cannot touch '.kpx': No such file or directory
+touch: cannot touch '.kpy': No such file or directory
+mkdir: cannot create directory 'bdir': No such file or directory
+mkdir: cannot create directory 'a*b': No such file or directory
+mkdir: cannot create directory 'man': No such file or directory
+mkdir: cannot create directory 'man/man1': No such file or directory
+touch: cannot touch 'man/man1/bash.1': No such file or directory
+ln: failed to create hard link '/root/tmp/ghi': File exists
+=================================================================
+==1509278==ERROR: AddressSanitizer: stack-buffer-underflow on address 0x7f0be5d19611 at pc 0x55780bd1962a bp 0x7ffd9e60a3b0 sp 0x7ffd9e60a3a8
+READ of size 1 at 0x7f0be5d19611 thread T0
+    #0 0x55780bd19629 in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11
+    #1 0x55780bd267c0 in shell_expand_word_list /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42078:16
+    #2 0x55780bcfb7cf in expand_word_list_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:42235:14
+    #3 0x55780bcfb5f9 in expand_words /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41728:9
+    #4 0x55780bcdb801 in execute_simple_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:18636:13
+    #5 0x55780bcdab24 in execute_command_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:16005:17
+    #6 0x55780bcca716 in execute_command /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:15540:12
+    #7 0x55780bcc902b in reader_loop /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:3156:11
+    #8 0x55780bcc57d3 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:1443:3
+    #9 0x7f0be7817d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #10 0x7f0be7817e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #11 0x55780bc04704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out+0x38704) (BuildId: fc1b6929a9cb7c57a6b7312db8ab883e80b980be)
+
+Address 0x7f0be5d19611 is located in stack of thread T0 at offset 17 in frame
+    #0 0x55780bd16a0f in expand_word_internal /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:40817
+
+  This frame has 9 object(s):
+    [32, 36) 'istring_size' (line 40821) <== Memory access at offset 17 underflows this variable
+    [48, 52) 'istring_index' (line 40822)
+    [64, 68) 'sindex' (line 40826)
+    [80, 84) 'quoted_dollar_at' (line 40827)
+    [96, 100) 'had_quoted_null' (line 40829)
+    [112, 116) 'has_dollar_at' (line 40830)
+    [128, 132) 't_index' (line 40833)
+    [144, 400) 'ifscmap' (line 40834)
+    [464, 466) 'twochars' (line 40835)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-underflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/./bash-2.05.c.reduced.c:41308:11 in expand_word_internal
+Shadow bytes around the buggy address:
+  0x0fe1fcb9b270: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe1fcb9b280: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe1fcb9b290: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe1fcb9b2a0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe1fcb9b2b0: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+=>0x0fe1fcb9b2c0: f1 f1[f1]f1 04 f2 04 f2 04 f2 04 f2 04 f2 04 f2
+  0x0fe1fcb9b2d0: 04 f2 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe1fcb9b2e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0fe1fcb9b2f0: 00 00 f2 f2 f2 f2 f2 f2 f2 f2 02 f3 00 00 00 00
+  0x0fe1fcb9b300: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x0fe1fcb9b310: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1509278==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 1509276 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/bins/reduced.asan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/bash-2.05-input-fuzz/testplans.fine/testfile

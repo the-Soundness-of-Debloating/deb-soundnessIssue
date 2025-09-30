@@ -1,0 +1,58 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/msan/crashes/id:000048,sig:11,src:000048+000095,time:217973,execs:7395,op:splice,rep:3
+MemorySanitizer:DEADLYSIGNAL
+==1356942==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000008 (pc 0x55d1396db2c5 bp 0x7fff0fcfb070 sp 0x7fff0fcfa650 T1356942)
+==1356942==The signal is caused by a READ memory access.
+==1356942==Hint: address points to the zero page.
+    #0 0x55d1396db2c5 in strftime_case____0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23
+    #1 0x55d1396da33e in fprintftime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:7806:11
+    #2 0x55d1396e4180 in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9698:5
+    #3 0x55d1396e3e0e in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9328:19
+    #4 0x55d1396e3225 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f831f5f7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f831f5f7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55d1396413b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.msan.out+0x1f3b4) (BuildId: cb05b597d8c5f67c8670eab941227007fcf0639e)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23 in strftime_case____0
+==1356942==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1356941 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/lsan/crashes/id:000059,sig:11,src:000146,time:367246,execs:25596,op:havoc,rep:1
+LeakSanitizer:DEADLYSIGNAL
+==1362620==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000008 (pc 0x55fc29a7d2a3 bp 0x7ffdb661d280 sp 0x7ffdb661cb80 T0)
+==1362620==The signal is caused by a READ memory access.
+==1362620==Hint: address points to the zero page.
+    #0 0x55fc29a7d2a3 in strftime_case____0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23
+    #1 0x55fc29a7d255 in fprintftime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:7806:11
+    #2 0x55fc29a7ee55 in show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9698:5
+    #3 0x55fc29a7ed97 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9328:19
+    #4 0x55fc29a7eb35 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #5 0x7f5d5d3c8d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7f5d5d3c8e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x55fc29a4c5d4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.lsan.out+0x65d4) (BuildId: c9e299db05868f94060fe886feb5d664d488690b)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23 in strftime_case____0
+==1362620==ABORTING
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/result/afl_result/reduced/result_0/tsan/crashes/id:000006,sig:11,src:000012,time:2530,execs:378,op:havoc,rep:2
+ThreadSanitizer:DEADLYSIGNAL
+==1960702==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000008 (pc 0x5575a65ef805 bp 0x7fff5f02b6c0 sp 0x7fff5f02ae10 T1960702)
+==1960702==The signal is caused by a READ memory access.
+==1960702==Hint: address points to the zero page.
+    #0 strftime_case____0 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23 (reduced.tsan.out+0xd3805) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #1 fprintftime /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:7806:11 (reduced.tsan.out+0xd3744) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #2 show_date /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9698:5 (reduced.tsan.out+0xd59d2) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #3 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9328:19 (reduced.tsan.out+0xd58ce) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xd5624) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x22464) (BuildId: bd7e7dff076785153287e3a0c130f7d89b9afebf)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/date-8.21-input-fuzz/./date-8.21.c.reduced.c:6150:23 in strftime_case____0
+==1960702==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1960701 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input

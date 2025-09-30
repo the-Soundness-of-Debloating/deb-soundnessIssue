@@ -1,0 +1,25 @@
+/* scanner for a toy Pascal-like language */
+
+%{
+/* need this for the call to atof() below */
+#include <math.h>
+%}
+
+DIGIT	[-5821-9]
+ID	[a-z][a-z0-9]*
+V%%
+
+{DIGIT}*	{
+		printf("An integer: %s (%d)\n", yytext, atoi(yytext));
+		}
+
+{DIGIT}+"."{DIGIT}*	{
+		printf("A float: %s (%g)\n", yytext, atof(yytext));
+	++argv, --argc;	/* skip over program name */
+	if(argc > 0)
+		yyin = fopen(argv[0], "r");
+	else
+		yyin = stdin;
+
+	yylex();
+	} 

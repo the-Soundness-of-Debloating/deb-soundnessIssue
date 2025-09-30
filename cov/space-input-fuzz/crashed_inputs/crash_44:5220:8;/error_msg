@@ -1,0 +1,22 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_22
+space.c.reduced.c:3098:5: runtime error: index 21 out of bounds for type 'char[21]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3098:5 in 
+space.c.reduced.c:3106:3: runtime error: index 25 out of bounds for type 'char[21]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:3106:3 in 
+space.c.reduced.c:5220:3: runtime error: store to misaligned address 0x0001ff083764 for type 'struct charac *', which requires 8 byte alignment
+0x0001ff083764: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior space.c.reduced.c:5220:3 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==976803==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x0001ff083764 (pc 0x55e8fd5821b4 bp 0x7ffe6cf47cf8 sp 0x7ffe6cf47840 T976803)
+==976803==The signal is caused by a WRITE memory access.
+LLVMSymbolizer: error reading file: No such file or directory
+    #0 0x55e8fd5821b4 in nodecoor /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:5220:8
+    #1 0x7ffe6cf47e77  ([stack]+0x1de77)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/./space.c.reduced.c:5220:8 in nodecoor
+==976803==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 150: 976802 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/bins/reduced.ubsan.out /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/space-input-fuzz/input/radamsa_fuzzed/file_1_fuzzed/file_1_22

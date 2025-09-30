@@ -1,0 +1,99 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.asan.out
+make: invalid option -- 'Ô'
+make: invalid option -- '∑'
+make: invalid option -- 'ê'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1519115==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fcffd70b384 bp 0x7ffed2434730 sp 0x7ffed24340f8 T0)
+==1519115==The signal is caused by a READ memory access.
+==1519115==Hint: address points to the zero page.
+    #0 0x7fcffd70b384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55ba8df7d48f in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15221:16
+    #2 0x55ba8df78a12 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x55ba8df72faa in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7fcffd6add8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fcffd6ade3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55ba8dea1444 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.asan.out+0x2c444) (BuildId: d48357f6bdcbeb463f6adf2603111e4468a122d0)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==1519115==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1519114 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2465772==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f9cc2ef3384 bp 0x7ffec3611760 sp 0x7ffec3611018 T2465772)
+==2465772==The signal is caused by a READ memory access.
+==2465772==Hint: address points to the zero page.
+    #0 0x7f9cc2ef3384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x558e13fe5c94 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15221:16
+    #2 0x558e13fdec23 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x558e13fd6568 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f9cc2e95d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f9cc2e95e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x558e13f91724 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x2d724) (BuildId: 9310c5acffc05c1cff015fdec49fbe07fcb90502)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==2465772==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2465771 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==2769823==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fc89d783384 bp 0x7fff431d9f40 sp 0x7fff431d9708 T2769823)
+==2769823==The signal is caused by a READ memory access.
+==2769823==Hint: address points to the zero page.
+    #0 0x7fc89d783384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x558fa78ea532 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15221:16
+    #2 0x558fa78dda25 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x558fa78d1008 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7fc89d725d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7fc89d725e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x558fa781d3f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.msan.out+0x213f4) (BuildId: e6069aaf94e4078ad725b12a22deb45a7ec4dc92)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==2769823==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2769822 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2910296==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f4f8e088384 bp 0x7ffddedfd940 sp 0x7ffddedfd488 T2910296)
+==2910296==The signal is caused by a READ memory access.
+==2910296==Hint: address points to the zero page.
+    #0 feof <null> (libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15221:16 (reduced.tsan.out+0xe28ef) (BuildId: 0d39b845c0a0cc05eaba9c6a76cbb8c3ae742b16)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17 (reduced.tsan.out+0xdf40f) (BuildId: 0d39b845c0a0cc05eaba9c6a76cbb8c3ae742b16)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24 (reduced.tsan.out+0xdb979) (BuildId: 0d39b845c0a0cc05eaba9c6a76cbb8c3ae742b16)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23464) (BuildId: 0d39b845c0a0cc05eaba9c6a76cbb8c3ae742b16)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==2910296==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2910295 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out
+make: invalid option -- 'X'
+make: invalid option -- 'X'
+LeakSanitizer:DEADLYSIGNAL
+==3406318==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f1e7fc5b384 bp 0x7ffc0ec4ba80 sp 0x7ffc0ec4b818 T0)
+==3406318==The signal is caused by a READ memory access.
+==3406318==Hint: address points to the zero page.
+    #0 0x7f1e7fc5b384 in feof (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x563b89e16ef3 in read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:15221:16
+    #2 0x563b89e15088 in read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:14825:17
+    #3 0x563b89e130b8 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11603:24
+    #4 0x7f1e7fbfdd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f1e7fbfde3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x563b89dde704 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.lsan.out+0xa704) (BuildId: 3de32f5c6438875dd91170370f4cf10f80ee5fee)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x87384) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in feof
+==3406318==ABORTING

@@ -1,0 +1,30 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/gzip-1.2.4-argv-fuzz/input/radamsa_fuzzed/input1_fuzzed/input1_20 >sample1.gz
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055c73525b54d in updcrc (s=0x55c7352d2001 <error: Cannot access memory at address 0x55c7352d2001>, n=4294580655) at ./gzip-1.2.4.c.reduced.c:1625
+1625	            c = crc_32_tab[((int)c ^ (int)*tmp) & 255] ^ (c >> 8);
+#0  0x000055c73525b54d in updcrc (s=0x55c7352d2001 <error: Cannot access memory at address 0x55c7352d2001>, n=4294580655) at ./gzip-1.2.4.c.reduced.c:1625
+#1  0x000055c73525d78b in file_read (buf=0x55c7352739b0 <window> "", size=65536) at ./gzip-1.2.4.c.reduced.c:6178
+#2  0x000055c73525edf4 in lm_init (pack_level=6, flags___0=0x7ffc6c839d32) at ./gzip-1.2.4.c.reduced.c:5351
+#3  0x000055c73525fbf3 in zip (in=3, out=1) at ./gzip-1.2.4.c.reduced.c:6011
+#4  0x000055c7352607f0 in treat_file (iname=0x55c7352b7e61 <afl_init_argv.in_buf+2961> "train_input/trainc/") at ./gzip-1.2.4.c.reduced.c:7248
+#5  0x000055c73526037a in main (argc=178, argv=0x55c7352cf970 <afl_init_argv[ret]>) at ./gzip-1.2.4.c.reduced.c:6832

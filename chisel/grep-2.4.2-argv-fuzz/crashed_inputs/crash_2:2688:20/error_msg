@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out
+target5: invalid option -- 'â'
+target5: invalid option -- '€'
+target5: invalid option -- '®'
+grep-2.4.2.c.reduced.c:2688:20: runtime error: null pointer passed as argument 1, which is declared to never be null
+grep-2.4.2.c.reduced.c:462:62: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior grep-2.4.2.c.reduced.c:2688:20 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1489109==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7febab4adebc bp 0x7ffe09d1c160 sp 0x7ffe09d1bf58 T1489109)
+==1489109==The signal is caused by a READ memory access.
+==1489109==Hint: address points to the zero page.
+    #0 0x7febab4adebc  (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55ecc3b50a47 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2688:13
+    #2 0x7febab325d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7febab325e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55ecc3b28484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/grep-2.4.2-argv-fuzz/bins/reduced.ubsan.out+0x14484) (BuildId: 383714eab8385c135d5335a5cfbe6d9ce0194020)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1b1ebc) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==1489109==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1489108 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

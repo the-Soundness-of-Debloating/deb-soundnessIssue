@@ -1,0 +1,23 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/bins/reduced.ubsan.out
+sed-4.1.5.c.reduced.c:4646:18: runtime error: member access within null pointer of type 'struct vector'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4646:18 in 
+sed-4.1.5.c.reduced.c:4646:18: runtime error: load of null pointer of type 'struct sed_cmd *'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4646:18 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1728391==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x5638fd723767 bp 0x7ffdcc16d6a0 sp 0x7ffdcc16d5f0 T1728391)
+==1728391==The signal is caused by a READ memory access.
+==1728391==Hint: address points to the zero page.
+    #0 0x5638fd723767 in reset_addresses /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/./sed-4.1.5.c.reduced.c:4646:18
+    #1 0x5638fd715a79 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/./sed-4.1.5.c.reduced.c:4713:7
+    #2 0x5638fd710ed6 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/./sed-4.1.5.c.reduced.c:5850:11
+    #3 0x5638fd71076b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/./sed-4.1.5.c.reduced.c:989:17
+    #4 0x7f434a93cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f434a93ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5638fd6e8554 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/bins/reduced.ubsan.out+0x2a554) (BuildId: c0b1bc5df088ae6743356303baa8c34c6c330a24)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/sed-4.1.5-input-fuzz/./sed-4.1.5.c.reduced.c:4646:18 in reset_addresses
+==1728391==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1728390 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

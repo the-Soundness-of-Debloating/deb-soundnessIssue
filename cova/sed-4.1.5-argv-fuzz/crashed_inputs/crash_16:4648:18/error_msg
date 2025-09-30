@@ -1,0 +1,51 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out
+sed: invalid option -- '-'
+sed: invalid option -- 'N'
+sed: invalid option -- 't'
+sed: invalid option -- '.'
+sed-4.1.5.c.reduced.c:4647:18: runtime error: member access within misaligned address 0x55d25f3a8ca3 for type 'struct vector', which requires 8 byte alignment
+0x55d25f3a8ca3: note: pointer points here
+ 6e  00 2b 00 2a 00 25 30 20  6e 75 6c 6c 20 70 6f 69  6e 74 65 72 20 6f 66 20  74 79 70 65 20 25 31
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4647:18 in 
+sed-4.1.5.c.reduced.c:4647:18: runtime error: load of misaligned address 0x55d25f3a8ca3 for type 'struct sed_cmd *', which requires 8 byte alignment
+0x55d25f3a8ca3: note: pointer points here
+ 6e  00 2b 00 2a 00 25 30 20  6e 75 6c 6c 20 70 6f 69  6e 74 65 72 20 6f 66 20  74 79 70 65 20 25 31
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4647:18 in 
+sed-4.1.5.c.reduced.c:4648:18: runtime error: member access within misaligned address 0x55d25f3a8ca3 for type 'struct vector', which requires 8 byte alignment
+0x55d25f3a8ca3: note: pointer points here
+ 6e  00 2b 00 2a 00 25 30 20  6e 75 6c 6c 20 70 6f 69  6e 74 65 72 20 6f 66 20  74 79 70 65 20 25 31
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4648:18 in 
+sed-4.1.5.c.reduced.c:4648:18: runtime error: load of misaligned address 0x55d25f3a8cb3 for type 'size_t' (aka 'unsigned long'), which requires 8 byte alignment
+0x55d25f3a8cb3: note: pointer points here
+ 69  6e 74 65 72 20 6f 66 20  74 79 70 65 20 25 31 00  25 30 20 6d 69 73 61 6c  69 67 6e 65 64 20 61
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4648:18 in 
+sed-4.1.5.c.reduced.c:4657:18: runtime error: member access within misaligned address 0x6c756e203025002a for type 'struct sed_cmd', which requires 8 byte alignment
+0x6c756e203025002a: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4657:18 in 
+sed-4.1.5.c.reduced.c:4657:18: runtime error: load of misaligned address 0x6c756e203025002a for type 'struct addr *', which requires 8 byte alignment
+0x6c756e203025002a: note: pointer points here
+<memory cannot be printed>
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sed-4.1.5.c.reduced.c:4657:18 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==893819==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address (pc 0x55d25f364e4c bp 0x7ffec02aa380 sp 0x7ffec02aa2c0 T893819)
+==893819==The signal is caused by a READ memory access.
+==893819==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55d25f364e4c in reset_addresses /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4657:9
+    #1 0x55d25f350be9 in read_pattern_space /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4714:7
+    #2 0x55d25f344172 in process_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:5851:11
+    #3 0x55d25f341ea2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:990:17
+    #4 0x7f96ee0a3d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f96ee0a3e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55d25f3195e4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.ubsan.out+0x475e4) (BuildId: f4b0d09166004dac6d7a5ab269caa692df6fbf36)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:4657:9 in reset_addresses
+==893819==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 893818 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,50 @@
+asan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d
+=================================================================
+==3853234==ERROR: AddressSanitizer: global-buffer-overflow on address 0x5614ac89573f at pc 0x5614abed21c8 bp 0x7ffc83a39d50 sp 0x7ffc83a39d48
+WRITE of size 1 at 0x5614ac89573f thread T0
+    #0 0x5614abed21c7 in build_tree /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:1040:22
+    #1 0x5614abed137c in unpack /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:1082:7
+    #2 0x5614abedfaed in treat_stdin /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6984:22
+    #3 0x5614abedf179 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:6834:9
+    #4 0x7fa99a56cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #5 0x7fa99a56ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #6 0x5614abe113b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out+0x223b4) (BuildId: a90f4e11b85fd7b4fa666e43e0140cf6eb4fa177)
+
+0x5614ac89573f is located 1 bytes to the left of global variable 'outbuf' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:153' (0x5614ac895740) of size 18432
+0x5614ac89573f is located 8191 bytes to the right of global variable 'inbuf' defined in '/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:152' (0x5614ac88b700) of size 32832
+SUMMARY: AddressSanitizer: global-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/./gzip-1.2.4.c.reduced.c:1040:22 in build_tree
+Shadow bytes around the buggy address:
+  0x0ac31590aa90: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac31590aaa0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac31590aab0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac31590aac0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  0x0ac31590aad0: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+=>0x0ac31590aae0: f9 f9 f9 f9 f9 f9 f9[f9]00 00 00 00 00 00 00 00
+  0x0ac31590aaf0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac31590ab00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac31590ab10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac31590ab20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0ac31590ab30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==3853234==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 169: 3853233 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/bins/reduced.asan.out -d < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-extend/gzip-1.2.4-input-fuzz/result/afl_result/reduced/result_1/asan/crashes/id:000077* > sample1.tst

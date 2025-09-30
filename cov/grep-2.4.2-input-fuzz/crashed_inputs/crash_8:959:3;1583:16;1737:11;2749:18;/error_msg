@@ -1,0 +1,19 @@
+ubsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000011,sig:11,src:000090+000058,time:623181,execs:368169,op:splice,rep:4
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2209018==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x56407b0ba700 (pc 0x7fcdc75fff0c bp 0x7ffd1e67d2f0 sp 0x7ffd1e67d198 T2209018)
+==2209018==The signal is caused by a WRITE memory access.
+    #0 0x7fcdc75fff0c  (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x56407a6a2058 in fillbuf /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:959:3
+    #2 0x56407a6a15d3 in grep /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1583:16
+    #3 0x56407a6617ef in grepfile /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:1737:11
+    #4 0x56407a6610eb in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/./grep-2.4.2.c.reduced.c:2749:18
+    #5 0x7fcdc747ad8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7fcdc747ae3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x56407a638584 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out+0x33584) (BuildId: 9959e2bed9ebcfd8aba403a4b5a5b2d701799939)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x1aef0c) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) 
+==2209018==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 161: 2209017 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/bins/reduced.ubsan.out -vi include /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/grep-2.4.2-input-fuzz/result/afl_result/reduced/result_0/ubsan/crashes/id:000011*

@@ -1,0 +1,13 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/uniq-8.16-argv-fuzz/bins/reduced.msan.out
+==3858594==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x561675325baa in size_opt /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:6585:9
+    #1 0x5616753250b1 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7219:31
+    #2 0x7fca55e50d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7fca55e50e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x561675293434 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/uniq-8.16-argv-fuzz/bins/reduced.msan.out+0x1f434) (BuildId: b282e24a022176cf41e0b35f2b166e34e1e4d55d)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:6585:9 in size_opt
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 3858591 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

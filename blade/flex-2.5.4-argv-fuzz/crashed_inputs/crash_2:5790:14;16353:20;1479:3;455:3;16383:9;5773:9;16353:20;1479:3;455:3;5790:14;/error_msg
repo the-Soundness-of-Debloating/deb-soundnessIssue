@@ -1,0 +1,58 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.asan.out
+=================================================================
+==543849==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62a00000575d at pc 0x555d0ac18b68 bp 0x7fff65d77790 sp 0x7fff65d77788
+WRITE of size 1 at 0x62a00000575d thread T0
+    #0 0x555d0ac18b67 in copy_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14
+    #1 0x555d0ac0ec2f in set_input_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16353:20
+    #2 0x555d0ac0ad89 in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1479:3
+    #3 0x555d0ac0a13b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #4 0x7f31ea120d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f31ea120e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x555d0ab4a314 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0x3e314) (BuildId: a29ee48ff7ce1f1d0d35e8a802d84e566428bb71)
+
+0x62a00000575d is located 0 bytes to the right of 21853-byte region [0x62a000000200,0x62a00000575d)
+allocated by thread T0 here:
+    #0 0x555d0abcfd3e in __interceptor_malloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.asan.out+0xc3d3e) (BuildId: a29ee48ff7ce1f1d0d35e8a802d84e566428bb71)
+    #1 0x555d0ac18a64 in flex_alloc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16383:9
+    #2 0x555d0ac18aa5 in copy_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5773:9
+    #3 0x555d0ac0ec2f in set_input_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16353:20
+    #4 0x555d0ac0ad89 in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1479:3
+    #5 0x555d0ac0a13b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #6 0x7f31ea120d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14 in copy_string
+Shadow bytes around the buggy address:
+  0x0c547fff8a90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c547fff8aa0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c547fff8ab0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c547fff8ac0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c547fff8ad0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c547fff8ae0: 00 00 00 00 00 00 00 00 00 00 00[05]fa fa fa fa
+  0x0c547fff8af0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c547fff8b00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c547fff8b10: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c547fff8b20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c547fff8b30: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==543849==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 543848 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,43 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out
+chown-8.2.c.reduced.c:4535:13: runtime error: null pointer passed as argument 1, which is declared to never be null
+chown-8.2.c.reduced.c:844:20: note: nonnull attribute specified here
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior chown-8.2.c.reduced.c:4535:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==1692991==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f5bd402510c bp 0x7ffdbc00c2a0 sp 0x7ffdbc00c158 T1692991)
+==1692991==The signal is caused by a WRITE memory access.
+==1692991==Hint: address points to the zero page.
+    #0 0x7f5bd402510c  string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708
+    #1 0x55758f3ee7a4 in fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4535:5
+    #2 0x55758f3e9376 in fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4949:9
+    #3 0x55758f3ef70f in chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13
+    #4 0x55758f3f1625 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10
+    #5 0x7f5bd3e9fd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f5bd3e9fe3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x55758f3b8694 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.ubsan.out+0x12694) (BuildId: 712be70f50e9f63efde890b7bda4bb1c420ecabb)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==1692991==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1692990 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1703888==ERROR: ThreadSanitizer: SEGV on unknown address 0x7b4000010000 (pc 0x7f115480310c bp 0x7ffe05f43440 sp 0x7ffe05f43358 T1703888)
+==1703888==The signal is caused by a WRITE memory access.
+    #0 <null> string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 (libc.so.6+0x1af10c) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #1 __interceptor_memmove <null> (reduced.tsan.out+0x58c5c) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+    #2 fts_load /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4535:5 (reduced.tsan.out+0xd3606) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+    #3 fts_read /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:4949:9 (reduced.tsan.out+0xd1c8d) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+    #4 chown_files /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:6851:13 (reduced.tsan.out+0xd3c12) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/chown-8.2-argv-fuzz/./chown-8.2.c.reduced.c:7261:10 (reduced.tsan.out+0xd4d6b) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+    #6 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #7 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #8 _start <null> (reduced.tsan.out+0x21454) (BuildId: af970f3042a9d1ec7e72a1679dee65f1dc0081e9)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:708 
+==1703888==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1703887 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

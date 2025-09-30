@@ -1,0 +1,16 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.msan.out
+==2769611==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x5624ee7cf9a4 in f_mtime /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20801:9
+    #1 0x5624ee7faf2a in update_file_1 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:19378:18
+    #2 0x5624ee7de9bd in update_file /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18998:15
+    #3 0x5624ee7d0802 in update_goal_chain /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:18770:13
+    #4 0x5624ee7bf1cd in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12236:14
+    #5 0x7efcdc1c5d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x7efcdc1c5e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x5624ee70a3f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.msan.out+0x213f4) (BuildId: e6069aaf94e4078ad725b12a22deb45a7ec4dc92)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:20801:9 in f_mtime
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2769610 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

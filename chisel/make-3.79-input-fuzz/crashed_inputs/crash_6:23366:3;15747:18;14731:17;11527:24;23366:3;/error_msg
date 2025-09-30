@@ -1,0 +1,16 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_6 -k -p -w
+ThreadSanitizer:DEADLYSIGNAL
+==2848426==ERROR: ThreadSanitizer: stack-overflow on address 0x7f830c17e998 (pc 0x55c84f285305 bp 0x7ffe9baf0210 sp 0x7f830c17e9a0 T2848426)
+    #0 try_variable_definition /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23366:3 (reduced.tsan.out+0xda305) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #1 read_makefile /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:15747:18 (reduced.tsan.out+0xd8496) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #2 read_all_makefiles /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:14731:17 (reduced.tsan.out+0xd6abd) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:11527:24 (reduced.tsan.out+0xd53d6) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x23394) (BuildId: 119e1d720057aeae209c9d1b7bb108f286ac08e9)
+
+SUMMARY: ThreadSanitizer: stack-overflow /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/./make-3.79.c.reduced.c:23366:3 in try_variable_definition
+==2848426==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 171: 2848425 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/bins/reduced.tsan.out -e -f /cold/deb-rob/fuzzing-deb-with-sanitizers/chisel/make-3.79-input-fuzz/input/radamsa_fuzzed/makefile-1a_fuzzed/makefile-1a_6 -k -p -w

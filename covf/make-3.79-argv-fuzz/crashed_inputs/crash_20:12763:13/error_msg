@@ -1,0 +1,20 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out
+make: invalid option -- '/'
+make-3.79.c.reduced.c:12763:13: runtime error: store to null pointer of type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior make-3.79.c.reduced.c:12763:13 in 
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==2507441==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55e19028598c bp 0x7ffc923c4e30 sp 0x7ffc923c4c90 T2507441)
+==2507441==The signal is caused by a WRITE memory access.
+==2507441==Hint: address points to the zero page.
+    #0 0x55e19028598c in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12763:37
+    #1 0x55e190281ce2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11297:3
+    #2 0x7f4ce33ffd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #3 0x7f4ce33ffe3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x55e19023d724 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/bins/reduced.ubsan.out+0x2d724) (BuildId: 9310c5acffc05c1cff015fdec49fbe07fcb90502)
+
+UndefinedBehaviorSanitizer can not provide additional info.
+SUMMARY: UndefinedBehaviorSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/covf/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12763:37 in decode_switches
+==2507441==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2507439 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

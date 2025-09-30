@@ -1,0 +1,74 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.asan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_0
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1378923==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f103d6f80dd bp 0x7ffcdb0683b0 sp 0x7ffcdb067b10 T0)
+==1378923==The signal is caused by a READ memory access.
+==1378923==Hint: address points to the zero page.
+    #0 0x7f103d6f80dd in __getdelim (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x55bddd9a61ea in __interceptor_getline (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.asan.out+0x6c1ea) (BuildId: f0ac3300cfc0e9edcc39665d33d49e132f90c830)
+    #2 0x55bddda362b8 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9320:17
+    #3 0x55bddda35bd2 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f103d6a1d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f103d6a1e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55bddd95e4b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.asan.out+0x244b4) (BuildId: f0ac3300cfc0e9edcc39665d33d49e132f90c830)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __getdelim
+==1378923==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1378922 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.msan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_0
+MemorySanitizer:DEADLYSIGNAL
+==1435079==ERROR: MemorySanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f6b88d4e0dd bp 0x7ffe464b7180 sp 0x7ffe464b7020 T1435079)
+==1435079==The signal is caused by a READ memory access.
+==1435079==Hint: address points to the zero page.
+    #0 0x7f6b88d4e0dd in __getdelim (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5588f00c1bd3 in __interceptor_getline (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.msan.out+0x71bd3) (BuildId: da86bbdc5a7d5d45bf4864ee0fce2c01a1c2aee0)
+    #2 0x5588f0129116 in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9320:17
+    #3 0x5588f0128184 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #4 0x7f6b88cf7d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f6b88cf7e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x5588f0070414 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.msan.out+0x20414) (BuildId: da86bbdc5a7d5d45bf4864ee0fce2c01a1c2aee0)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __getdelim
+==1435079==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1435078 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.tsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_0
+ThreadSanitizer:DEADLYSIGNAL
+==1512706==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fe52f7540dd bp 0x7fff4414de60 sp 0x7fff4414dd40 T1512706)
+==1512706==The signal is caused by a READ memory access.
+==1512706==Hint: address points to the zero page.
+    #0 __getdelim <null> (libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 __interceptor_getline <null> (reduced.tsan.out+0x73937) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #2 batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9320:17 (reduced.tsan.out+0xdb7d8) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12 (reduced.tsan.out+0xdb42a) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x224c4) (BuildId: f663b410f43af1804e7d3cc9c6786ea9fd7ad357)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __getdelim
+==1512706==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1512705 Aborted                 timeout -k 0.5 0.5 ${bin} -f $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out -f /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/input/radamsa_fuzzed/input0_fuzzed/input0_0
+LeakSanitizer:DEADLYSIGNAL
+==1568726==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f23266fa0dd bp 0x7fffe3e98940 sp 0x7fffe3e98880 T0)
+==1568726==The signal is caused by a READ memory access.
+==1568726==Hint: address points to the zero page.
+    #0 0x7f23266fa0dd in __getdelim (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #1 0x5593602be01a in batch_convert /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9320:17
+    #2 0x5593602bdd08 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/./date-8.21.c.reduced.c:9621:12
+    #3 0x7f23266a3d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #4 0x7f23266a3e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x559360287684 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/date-8.21-input-fuzz/bins/reduced.lsan.out+0x7684) (BuildId: d22710d484f64ca41029273a411f26eabfa52507)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV (/lib/x86_64-linux-gnu/libc.so.6+0x800dd) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0) in __getdelim
+==1568726==ABORTING

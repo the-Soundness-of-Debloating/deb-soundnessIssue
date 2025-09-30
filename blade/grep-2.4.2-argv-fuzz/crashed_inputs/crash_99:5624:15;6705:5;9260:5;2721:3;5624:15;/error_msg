@@ -1,0 +1,18 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out
+target5: unrecognized option '--------aƒ'
+target5: unrecognized option '--------------G'
+LeakSanitizer:DEADLYSIGNAL
+==2894246==ERROR: LeakSanitizer: SEGV on unknown address 0x00ff00000001 (pc 0x55a2e3152dfa bp 0x7fff8ec9fd00 sp 0x7fff8ec9fc00 T0)
+==2894246==The signal is caused by a WRITE memory access.
+    #0 0x55a2e3152dfa in dfaanalyze /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5624:15
+    #1 0x55a2e31542fe in dfacomp /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:6705:5
+    #2 0x55a2e3155095 in Gcompile /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:9260:5
+    #3 0x55a2e3152116 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:2721:3
+    #4 0x7f96375b6d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f96375b6e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55a2e31244a4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/bins/reduced.lsan.out+0x54a4) (BuildId: 501851d1df848985fbc5c922196b6dbedbbda0ae)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/grep-2.4.2-argv-fuzz/./grep-2.4.2.c.reduced.c:5624:15 in dfaanalyze
+==2894246==ABORTING

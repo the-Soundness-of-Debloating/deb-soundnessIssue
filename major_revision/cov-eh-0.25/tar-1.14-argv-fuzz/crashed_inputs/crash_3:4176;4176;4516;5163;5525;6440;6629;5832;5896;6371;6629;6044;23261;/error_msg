@@ -1,0 +1,51 @@
+nosan:
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.nosan.out...
+Starting program: /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/bins/reduced.nosan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.25/tar-1.14-argv-fuzz/input/radamsa_fuzzed/input6_fuzzed/input6_268
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000557627956fa2 in to_chars (negative=0, value=420, valsize=4, substitute=0x0, where=0x6c <error: Cannot access memory at address 0x6c>, size=8, type=0x557627968283 "mode_t") at ./tar-1.14.c.reduced.c:4176
+4176	          *(where + (size - 1UL)) = (char)'\000';
+#0  0x0000557627956fa2 in to_chars (negative=0, value=420, valsize=4, 
+    substitute=0x0, where=0x6c <error: Cannot access memory at address 0x6c>, 
+    size=8, type=0x557627968283 "mode_t") at ./tar-1.14.c.reduced.c:4176
+#1  0x0000557627957892 in mode_to_chars (v=33188, 
+    p=0x6c <error: Cannot access memory at address 0x6c>, s=8)
+    at ./tar-1.14.c.reduced.c:4516
+#2  0x0000557627957bdb in start_header (st=0x7ffd9c52b0a0)
+    at ./tar-1.14.c.reduced.c:5163
+#3  0x00005576279665f0 in dump_regular_file (fd=-1, st=0x7ffd9c52b0a0)
+    at ./tar-1.14.c.reduced.c:5525
+#4  0x0000557627959464 in dump_file0 (st=0x7ffd9c52b0a0, 
+    p=0x557627ff26a0 "./", 'f' <repeats 129 times>, "oo.t.tar", top_level=0, 
+    parent_device=2050) at ./tar-1.14.c.reduced.c:6440
+#5  0x0000557627958c49 in dump_file (
+    p=0x557627ff26a0 "./", 'f' <repeats 129 times>, "oo.t.tar", top_level=0, 
+    parent_device=2050) at ./tar-1.14.c.reduced.c:6629
+#6  0x000055762796706a in dump_dir0 (
+    directory=0x557627ff95d0 "f\355\272\376\377\255\363\240\201\250\245oo.tar", st=0x7ffd9c52b420, top_level=1, parent_device=0) at ./tar-1.14.c.reduced.c:5832
+#7  0x00005576279663fd in dump_dir (st=0x7ffd9c52b420, top_level=1, 
+    parent_device=0) at ./tar-1.14.c.reduced.c:5896
+#8  0x0000557627959263 in dump_file0 (st=0x7ffd9c52b420, p=0x557627fec480 ".", 
+    top_level=1, parent_device=0) at ./tar-1.14.c.reduced.c:6371
+#9  0x0000557627958c49 in dump_file (p=0x557627fec480 ".", top_level=1, 
+    parent_device=0) at ./tar-1.14.c.reduced.c:6629
+#10 0x0000557627958aa0 in create_archive () at ./tar-1.14.c.reduced.c:6044
+#11 0x0000557627961f82 in main (argc=6, 
+    argv=0x55762798ae80 <afl_init_argv[ret]>) at ./tar-1.14.c.reduced.c:23261

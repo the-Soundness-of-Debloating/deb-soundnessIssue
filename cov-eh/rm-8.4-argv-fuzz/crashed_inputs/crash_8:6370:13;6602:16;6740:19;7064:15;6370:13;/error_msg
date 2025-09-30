@@ -1,0 +1,18 @@
+msan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out
+rm: invalid option -- 'â'
+rm: invalid option -- '€'
+rm: invalid option -- '‰'
+==2049641==WARNING: MemorySanitizer: use-of-uninitialized-value
+    #0 0x55c2cd1e7532 in prompt /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6370:13
+    #1 0x55c2cd1e12a4 in rm_fts /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6602:16
+    #2 0x55c2cd1dfb9a in rm /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6740:19
+    #3 0x55c2cd1e2b0a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:7064:15
+    #4 0x7f3c31782d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f3c31782e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55c2cd14a3c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out+0x1f3c4) (BuildId: c49d3aa917e35651867e1aa996e42f7a2bdb2a9a)
+
+SUMMARY: MemorySanitizer: use-of-uninitialized-value /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/./rm-8.4.c.reduced.c:6370:13 in prompt
+Exiting
+timeout: the monitored command dumped core
+./verify.sh: line 189: 2049638 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/bins/reduced.msan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh/rm-8.4-argv-fuzz/input/radamsa_fuzzed/input6_fuzzed/input6_122

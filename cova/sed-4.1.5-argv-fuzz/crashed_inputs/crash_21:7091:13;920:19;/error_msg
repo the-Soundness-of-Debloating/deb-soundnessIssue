@@ -1,0 +1,57 @@
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out
+sed: invalid option -- '3'
+sed: invalid option -- '2'
+sed: invalid option -- '9'
+sed: invalid option -- '_'
+sed: invalid option -- '0'
+sed: invalid option -- '.'
+sed: invalid option -- 'g'
+sed: invalid option -- 'ë'
+sed: invalid option -- ''
+sed: invalid option -- 'a'
+sed: invalid option -- 'p'
+sed: invalid option -- 'N'
+sed: invalid option -- '-'
+sed: invalid option -- 'g'
+sed: invalid option -- ''
+sed: invalid option -- '~'
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- '@'
+sed: invalid option -- ''
+sed: invalid option -- 'þ'
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- 'ï'
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- ''
+sed: invalid option -- '€'
+sed: invalid option -- ''
+sed: invalid option -- ''
+
+=================================================================
+==906830==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 10 byte(s) in 1 object(s) allocated from:
+    #0 0x560f6547c9ec in __interceptor_calloc (/cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/bins/reduced.lsan.out+0x319ec) (BuildId: a14815e68cb808f97ef2b3e01bffe78985124407)
+    #1 0x560f6547f6d9 in ck_malloc /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:7091:13
+    #2 0x560f6547f1d8 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cova/sed-4.1.5-argv-fuzz/./sed-4.1.5.c.reduced.c:920:19
+    #3 0x7f4540f4bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+
+SUMMARY: LeakSanitizer: 10 byte(s) leaked in 1 allocation(s).

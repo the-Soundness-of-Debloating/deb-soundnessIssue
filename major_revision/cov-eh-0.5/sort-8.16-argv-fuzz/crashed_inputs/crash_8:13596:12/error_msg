@@ -1,0 +1,33 @@
+ubsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.5/sort-8.16-argv-fuzz/bins/reduced.ubsan.out
+sort: invalid option -- ''
+sort: invalid option -- '´'
+sort: invalid option -- '´'
+sort: invalid option -- '´'
+sort: invalid option -- '´'
+sort: invalid option -- '/'
+sort: invalid option -- '¸'
+sort: invalid option -- '¸'
+sort: invalid option -- 'Ð'
+sort: invalid option -- '¸'
+sort: invalid option -- '¸'
+sort: invalid option -- '‘'
+sort: invalid option -- '¸'
+sort: invalid option -- '¸'
+sort-8.16.c.reduced.c:13601:18: runtime error: member access within misaligned address 0x5638e91f2717 for type 'struct keyfield', which requires 8 byte alignment
+0x5638e91f2717: note: pointer points here
+ 61 69 6b 00 31  31 00 20 20 2d 6b 00 31  31 00 20 2d 2d 62 00 00  00 00 00 00 00 00 00 00  00 00 00
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13601:18 in 
+sort-8.16.c.reduced.c:13596:12: runtime error: load of misaligned address 0x5638e91f2757 for type 'struct keyfield *', which requires 8 byte alignment
+0x5638e91f2757: note: pointer points here
+ 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13596:12 in 
+sort-8.16.c.reduced.c:13604:5: runtime error: store to misaligned address 0x5638e91f2757 for type 'struct keyfield *', which requires 8 byte alignment
+0x5638e91f2757: note: pointer points here
+ 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior sort-8.16.c.reduced.c:13604:5 in 
+sort: option '--b' is ambiguous; possibilities: '--batch-size' '--buffer-size'
+./verify.sh: line 110: 1863538 Killed                  timeout -k 0.5 0.5 ${bin} < $input

@@ -1,0 +1,50 @@
+asan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/bins/reduced.asan.out
+uniq: invalid option -- 'â'
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==1136378==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x56467e86c26c bp 0x7ffd9ea532d0 sp 0x7ffd9ea53180 T0)
+==1136378==The signal is caused by a READ memory access.
+==1136378==Hint: address points to the zero page.
+    #0 0x56467e86c26c in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21
+    #1 0x7f6210668d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7f6210668e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x56467e7a94b4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/bins/reduced.asan.out+0x204b4) (BuildId: fe7edc47e31faf3f63cfbc8e95e3f3cf26c6d3e7)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21 in main
+==1136378==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1136377 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/bins/reduced.tsan.out
+uniq: invalid option -- 'â'
+ThreadSanitizer:DEADLYSIGNAL
+==1585942==ERROR: ThreadSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55879dcd8229 bp 0x7ffca31677c0 sp 0x7ffca3167700 T1585942)
+==1585942==The signal is caused by a READ memory access.
+==1585942==Hint: address points to the zero page.
+    #0 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21 (reduced.tsan.out+0xd0229) (BuildId: 19021dd7522cb327e16f9a111fe4ef48e91fd7d8)
+    #1 __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16 (libc.so.6+0x29d8f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #2 __libc_start_main csu/../csu/libc-start.c:392:3 (libc.so.6+0x29e3f) (BuildId: c289da5071a3399de893d2af81d6a30c62646e1e)
+    #3 _start <null> (reduced.tsan.out+0x214c4) (BuildId: 19021dd7522cb327e16f9a111fe4ef48e91fd7d8)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21 in main
+==1585942==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1585941 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/bins/reduced.lsan.out
+uniq: invalid option -- 'â'
+LeakSanitizer:DEADLYSIGNAL
+==1715179==ERROR: LeakSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55602458ab1b bp 0x7ffd4d389360 sp 0x7ffd4d3892f0 T0)
+==1715179==The signal is caused by a READ memory access.
+==1715179==Hint: address points to the zero page.
+    #0 0x55602458ab1b in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21
+    #1 0x7f678201cd8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #2 0x7f678201ce3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #3 0x55602455b654 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/bins/reduced.lsan.out+0x6654) (BuildId: 688974f94f842d6ab25bea2be7d30c2c16973c59)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov-eh-0.75/uniq-8.16-argv-fuzz/./uniq-8.16.c.reduced.c:7241:21 in main
+==1715179==ABORTING

@@ -1,0 +1,52 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.msan.out
+MemorySanitizer:DEADLYSIGNAL
+==1178131==ERROR: MemorySanitizer: SEGV on unknown address 0x72a000010000 (pc 0x56309b541c32 bp 0x7ffca39b9a10 sp 0x7ffca39b99a0 T1178131)
+==1178131==The signal is caused by a WRITE memory access.
+    #0 0x56309b541c32 in copy_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14
+    #1 0x56309b52b0a5 in set_input_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16353:20
+    #2 0x56309b5226da in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1479:3
+    #3 0x56309b520d66 in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #4 0x7f04f0045d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f04f0045e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x56309b49a2c4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.msan.out+0x272c4) (BuildId: fac99cc93b0bd8f6dc7736c36512d7c3806b95a4)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14 in copy_string
+==1178131==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1178125 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==1290092==ERROR: ThreadSanitizer: SEGV on unknown address 0x7bb000010000 (pc 0x5637413f1613 bp 0x7ffe53524240 sp 0x7ffe535241d0 T1290092)
+==1290092==The signal is caused by a WRITE memory access.
+    #0 copy_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14 (reduced.tsan.out+0xe2613) (BuildId: c929a7fe022ae997023aad7a47146e477a0096f8)
+    #1 set_input_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16353:20 (reduced.tsan.out+0xd9810) (BuildId: c929a7fe022ae997023aad7a47146e477a0096f8)
+    #2 flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1479:3 (reduced.tsan.out+0xd6307) (BuildId: c929a7fe022ae997023aad7a47146e477a0096f8)
+    #3 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3 (reduced.tsan.out+0xd59f5) (BuildId: c929a7fe022ae997023aad7a47146e477a0096f8)
+    #4 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 _start <null> (reduced.tsan.out+0x29344) (BuildId: c929a7fe022ae997023aad7a47146e477a0096f8)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14 in copy_string
+==1290092==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 1290091 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+lsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==1393150==ERROR: LeakSanitizer: SEGV on unknown address 0x601000010000 (pc 0x55ee50556512 bp 0x7ffcffb452f0 sp 0x7ffcffb452a0 T0)
+==1393150==The signal is caused by a WRITE memory access.
+    #0 0x55ee50556512 in copy_string /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14
+    #1 0x55ee505521af in set_input_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:16353:20
+    #2 0x55ee5055031b in flexinit /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:1479:3
+    #3 0x55ee5054fe7d in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:455:3
+    #4 0x7f2885988d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f2885988e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55ee50522484 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/bins/reduced.lsan.out+0x11484) (BuildId: 8d56b3868278f556b33f88c22902eab4a66ec81a)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/flex-2.5.4-argv-fuzz/./flex-2.5.4.c.reduced.c:5790:14 in copy_string
+==1393150==ABORTING

@@ -1,0 +1,53 @@
+msan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.msan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+MemorySanitizer:DEADLYSIGNAL
+==2771931==ERROR: MemorySanitizer: SEGV on unknown address (pc 0x55bf0ffb6fa3 bp 0x7fffdd73b150 sp 0x7fffdd73b010 T2771931)
+==2771931==The signal is caused by a READ memory access.
+==2771931==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x55bf0ffb6fa3 in lookup_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22505:17
+    #1 0x55bf0ffe6919 in handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12449:13
+    #2 0x55bf0ffb56b8 in decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12711:7
+    #3 0x55bf0ffaf82a in main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3
+    #4 0x7f7412d60d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #5 0x7f7412d60e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 0x55bf0fefd3f4 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.msan.out+0x213f4) (BuildId: 3e1438383ad0d2ba6dbba97b092fc2d84d45709c)
+
+MemorySanitizer can not provide additional info.
+SUMMARY: MemorySanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22505:17 in lookup_variable
+==2771931==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2771930 Aborted                 timeout -k 0.5 0.5 ${bin} < $input
+tsan:
++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.tsan.out
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+make: invalid option -- '-'
+ThreadSanitizer:DEADLYSIGNAL
+==2910911==ERROR: ThreadSanitizer: SEGV on unknown address (pc 0x55f94df9f0e8 bp 0x7fff733b0390 sp 0x7fff733b0288 T2910911)
+==2910911==The signal is caused by a READ memory access.
+==2910911==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 __tsan_read1 <null> (reduced.tsan.out+0xbb0e8) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+    #1 lookup_variable /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:22505:17 (reduced.tsan.out+0xdd40f) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+    #2 handle_non_switch_argument /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12449:13 (reduced.tsan.out+0xea114) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+    #3 decode_switches /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:12711:7 (reduced.tsan.out+0xdccbb) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+    #4 main /cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/./make-3.79.c.reduced.c:11298:3 (reduced.tsan.out+0xdb15e) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+    #5 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #6 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 _start <null> (reduced.tsan.out+0x23464) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV (/cold/deb-rob/fuzzing-deb-with-sanitizers/cov/make-3.79-argv-fuzz/bins/reduced.tsan.out+0xbb0e8) (BuildId: f8d9274f185f95c3080d3ba853a2c6c8fb78bfff) in __tsan_read1
+==2910911==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 110: 2910910 Aborted                 timeout -k 0.5 0.5 ${bin} < $input

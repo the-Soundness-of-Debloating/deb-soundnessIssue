@@ -1,0 +1,38 @@
+tsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.tsan.out
+ThreadSanitizer:DEADLYSIGNAL
+==2268097==ERROR: ThreadSanitizer: SEGV on unknown address 0x555cc4dff000 (pc 0x555cc39ea3fb bp 0x7ffed33c18e0 sp 0x7ffed33c1880 T2268097)
+==2268097==The signal is caused by a READ memory access.
+    #0 updcrc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:35 (reduced.tsan.out+0xd13fb) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #1 file_read /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6478:9 (reduced.tsan.out+0xcd9ec) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #2 lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:572:13 (reduced.tsan.out+0xce271) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #3 zip /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3 (reduced.tsan.out+0xd1c6b) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #4 treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7491:16 (reduced.tsan.out+0xd2888) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #5 main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7 (reduced.tsan.out+0xd24a4) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+    #6 <null> <null> (libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 __libc_start_main <null> (libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 _start <null> (reduced.tsan.out+0x21364) (BuildId: 84b9d4ca0717303fab1886b9653bd48703f68a94)
+
+ThreadSanitizer can not provide additional info.
+SUMMARY: ThreadSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:35 in updcrc
+==2268097==ABORTING
+timeout: the monitored command dumped core
+./verify.sh: line 154: 2268095 Aborted                 timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.tsan.out < /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/input/radamsa_fuzzed/input_0_fuzzed/input_0_312
+lsan:
+++ timeout -k 0.5 0.5 /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out
+LeakSanitizer:DEADLYSIGNAL
+==3988475==ERROR: LeakSanitizer: SEGV on unknown address 0x55980bc9a000 (pc 0x55980b2d2ab1 bp 0x7ffff74d6eb0 sp 0x7ffff74d6eb0 T0)
+==3988475==The signal is caused by a READ memory access.
+    #0 0x55980b2d2ab1 in updcrc /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:35
+    #1 0x55980b2d0df9 in file_read /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6478:9
+    #2 0x55980b2d123a in lm_init /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:572:13
+    #3 0x55980b2d2f76 in zip /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:6304:3
+    #4 0x55980b2d35a3 in treat_file /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7491:16
+    #5 0x55980b2d33ac in main /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:7069:7
+    #6 0x7fc29ae5cd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #7 0x7fc29ae5ce3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 203de0ae33b53fee1578b117cb4123e85d0534f0)
+    #8 0x55980b2a3424 in _start (/cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/bins/reduced.lsan.out+0x5424) (BuildId: 8d041e66b3ece08eedda1b33002b9afe05d1b1bd)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /cold/deb-rob/fuzzing-deb-with-sanitizers/blade/gzip-1.3-argv-fuzz/./gzip-1.3.c.reduced.c:5474:35 in updcrc
+==3988475==ABORTING
